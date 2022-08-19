@@ -1,3 +1,5 @@
+# EnzymeML
+
 ### EnzymeMLDocument
 
 - __name__
@@ -89,7 +91,7 @@
     - Description: Name of the used vessel.
     - Template_alias: Name
 - __volume__
-    - Type: [PositiveFloat](#PositiveFloat)
+    - Type: posfloat
     - Description: Volumetric value of the vessel.
     - Template_alias: Volume value
 - __unit__
@@ -387,7 +389,7 @@
     - Type: string
     - Description: Internal identifier to either a protein or reactant defined in the EnzymeMLDocument.
 - __stoichiometry__
-    - Type: [PositiveFloat](#PositiveFloat)
+    - Type: posfloat
     - Description: Positive float number representing the associated stoichiometry.
 - __constant__
     - Type: bool
