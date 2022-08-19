@@ -60,6 +60,8 @@
     - Type: string
     - Description: None
 
+## General information
+
 ### Creator
 
 - __given_name__
@@ -75,6 +77,8 @@
     - Type: string
     - Description: Unique identifier of the protein.
     - Regex: a[\d]+
+
+## Species
 
 ### Vessel
 
@@ -265,6 +269,8 @@
     - Type: string
     - Description: Unique identifier of the CHEBI database. Use this identifier to initialize the object from the CHEBI database.
 
+## Experiment related
+
 ### EnzymeReaction
 
 - __name__
@@ -326,6 +332,23 @@
     - Description: List of modifiers (Proteins, snhibitors, stimulators) containing ReactionElement objects.
     - Template_alias: Modifiers
 
+### ReactionElement
+
+- __species_id__
+    - Type: string
+    - Description: Internal identifier to either a protein or reactant defined in the EnzymeMLDocument.
+- __stoichiometry__
+    - Type: posfloat
+    - Description: Positive float number representing the associated stoichiometry.
+- __constant__
+    - Type: bool
+    - Description: Whether or not the concentration of this species remains constant.
+- __ontology__
+    - Type: [SBOTerm](#SBOTerm)
+    - Description: Ontology defining the role of the given species.
+
+## Modelling
+
 ### KineticModel
 
 - __name__
@@ -375,20 +398,7 @@
     - Type: [SBOTerm](#SBOTerm)
     - Description: Type of the estimated parameter.
 
-### ReactionElement
-
-- __species_id__
-    - Type: string
-    - Description: Internal identifier to either a protein or reactant defined in the EnzymeMLDocument.
-- __stoichiometry__
-    - Type: posfloat
-    - Description: Positive float number representing the associated stoichiometry.
-- __constant__
-    - Type: bool
-    - Description: Whether or not the concentration of this species remains constant.
-- __ontology__
-    - Type: [SBOTerm](#SBOTerm)
-    - Description: Ontology defining the role of the given species.
+## Time course data handling
 
 ### Measurement
 
@@ -491,6 +501,8 @@
 - __creator_id__
     - Type: string
     - Description: Unique identifier of the author.
+
+## Miscellaneous
 
 ### File
 
