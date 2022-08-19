@@ -500,7 +500,7 @@
 
 ## Ontologies
 
-### SBOTerm [_Enum_]
+#### SBOTerm
 
 - __BIOCHEMICAL_REACTION__: SBO:0000176
 - __ACID_BASE_REACTION__: SBO:0000208
@@ -534,7 +534,7 @@
 - __K_M__: SBO:0000027
 - __V_MAX__: SBO:0000186
 
-### DataTypes [_Enum_]
+#### DataTypes
 
 - __CONCENTRATION__: conc
 - __ABSORPTION__: abs
