@@ -1,6 +1,10 @@
 # EnzymeML
 
+EnzymeML is an XML-based data exchange format that supports the comprehensive documentation of enzymatic data by describing reaction conditions, time courses of substrate and product concentrations, the kinetic model, and the estimated kinetic constants. EnzymeML is based on the Systems Biology Markup Language, which was extended by implementing the STRENDA Guidelines. An EnzymeML document serves as a container to transfer data between experimental platforms, modeling tools, and databases. EnzymeML supports the scientific community by introducing a standardized data exchange format to make enzymatic data findable, accessible, interoperable, and reusable according to the FAIR data principles.
+
 ### EnzymeMLDocument
+
+This is the root object that composes all objects found in an EnzymeML document. It also includes general metadata such as the name of the document, when it was created/modified and references to publications, databases and arbitrary links to the web.
 
 - __name__
     - Type: string
@@ -64,6 +68,8 @@
 
 ### Creator
 
+The creator object contains all information about authors that contributed to the resulting document.
+
 - __given_name__
     - Type: string
     - Description: Given name of the author or contributor.
@@ -81,6 +87,8 @@
 ## Species
 
 ### Vessel
+
+This object describes vessels in which the experiment has been carried out. These can include any type of vessel used in biocatalytic experiments.
 
 - __name__
     - Type: string
@@ -112,47 +120,48 @@
     - Type: string
     - Description: Unique identifier of the author.
 
-### Protein
+### AbstractSpecies
+
+This object is used to inherit basic attributes common to all species used in the data model.
 
 - __name__
     - Type: string
-    - Description: Name of the protein
-    - Template_alias: Name
+    - Description: None
 - __meta_id__
     - Type: string
-    - Description: Unique meta identifier of the protein.
+    - Description: None
 - __id__
     - Type: string
-    - Description: Unique identifier of the protein.
-    - Regex: p[\d]+
-    - Template_alias: ID
+    - Description: None
 - __vessel_id__
     - Type: string
-    - Description: Identifier of the vessel in which the protein was stored.
-    - Regex: v[\d.]+
-    - Template_alias: Vessel
+    - Description: None
 - __init_conc__
     - Type: float
-    - Description: Initial concentration of the protein.
-- __constant*__
+    - Description: None
+- __constant__
     - Type: bool
-    - Description: Whether the proteins concentration remains constant or not.
-    - Template_alias: Constant
-- __boundary*__
+    - Description: None
+- __boundary__
     - Type: bool
-    - Description: Whether the protein is under any boundary conditions (SBML Technicality, better leave it to default)
+    - Description: None
 - __unit__
     - Type: string
-    - Description: Unit of the proteins intial concentration.
-- __ontology*__
+    - Description: None
+- __ontology__
     - Type: [SBOTerm](#SBOTerm)
-    - Description: Ontology describing the characteristic of the protein.
+    - Description: None
 - __uri__
     - Type: string
-    - Description: URI of the protein.
+    - Description: None
 - __creator_id__
     - Type: string
-    - Description: Unique identifier of the author.
+    - Description: None
+
+### Protein [_AbstractSpecies_]
+
+This objects describes the proteins that were used or produced in the course of the experiment.
+
 - __sequence__
     - Type: string
     - Description: Amino acid sequence of the protein
@@ -174,89 +183,20 @@
     - Description: Unique identifier referencing a protein entry at UniProt. Use this identifier to initialize the object from the UniProt database.
     - Template_alias: UniProt ID
 
-### Complex
+### Complex [_AbstractSpecies_]
 
-- __name__
-    - Type: string
-    - Description: Name of the complex
-- __meta_id__
-    - Type: string
-    - Description: Unique meta identifier of the protein.
-- __id__
-    - Type: string
-    - Description: Unique identifier of the protein.
-    - Regex: c[\d]+
-- __vessel_id__
-    - Type: string
-    - Description: Identifier of the vessel in which the protein was stored.
-    - Regex: v[\d]+
-- __init_conc__
-    - Type: float
-    - Description: Initial concentration of the protein.
-    - Inclusiveminimum: 0.0
-- __constant*__
-    - Type: bool
-    - Description: Whether the proteins concentration remains constant or not.
-- __boundary*__
-    - Type: bool
-    - Description: Whether the protein is under any boundary conditions (SBML Technicality, better leave it to default)
-- __unit__
-    - Type: string
-    - Description: Unit of the proteins intial concentration.
-- __ontology*__
-    - Type: [SBOTerm](#SBOTerm)
-    - Description: Ontology describing the characteristic of the protein.
-- __uri__
-    - Type: string
-    - Description: URI of the protein.
-- __creator_id__
-    - Type: string
-    - Description: Unique identifier of the author.
+This object describes complexes made of reactants and/or proteins that were used or produced in the course of the experiment.
+
 - __participants__
     - Type: string
     - Multiple: True
     - Description: Array of IDs the complex contains
+    - Regex: [s|p][\d]+
 
-### Reactant
+### Reactant [_AbstractSpecies_]
 
-- __name__
-    - Type: string
-    - Description: Name of the reactant.
-    - Template_alias: Name
-- __meta_id__
-    - Type: string
-    - Description: Unique meta identifier of the protein.
-- __id__
-    - Type: string
-    - Description: Unique identifier of the protein.
-    - Regex: s[\d]+
-    - Template_alias: ID
-- __vessel_id__
-    - Type: string
-    - Description: Identifier of the vessel in which the reactant was stored.
-    - Template_alias: Vessel
-- __init_conc__
-    - Type: float
-    - Description: Initial concentration of the reactant.
-- __constant*__
-    - Type: bool
-    - Description: Whether the reactants concentration remains constant or not.
-    - Template_alias: Constant
-- __boundary*__
-    - Type: bool
-    - Description: Whether the reactant is under any boundary conditions (SBML Technicality, better leave it to default)
-- __unit__
-    - Type: string
-    - Description: Unit of the reactant intial concentration.
-- __ontology*__
-    - Type: [SBOTerm](#SBOTerm)
-    - Description: Ontology describing the characteristic of the reactant.
-- __uri__
-    - Type: string
-    - Description: URI of the protein.
-- __creator_id__
-    - Type: string
-    - Description: Unique identifier of the author.
+This objects describes the reactants that were used or produced in the course of the experiment.
+
 - __smiles__
     - Type: string
     - Description: Simplified Molecular Input Line Entry System (SMILES) encoding of the reactant.
@@ -269,9 +209,11 @@
     - Type: string
     - Description: Unique identifier of the CHEBI database. Use this identifier to initialize the object from the CHEBI database.
 
-## Experiment related
+## Reaction
 
 ### EnzymeReaction
+
+This object describes a chemical or enzymatic reaction that was investigated in the course of the experiment. All species used within this object need to be part of the data model.
 
 - __name__
     - Type: string
@@ -334,6 +276,8 @@
 
 ### ReactionElement
 
+This object is part of the EnzymeReaction object and describes either an educt, product or modifier. The latter includes buffers, counter-ions as well as proteins/enzymes.
+
 - __species_id__
     - Type: string
     - Description: Internal identifier to either a protein or reactant defined in the EnzymeMLDocument.
@@ -351,6 +295,8 @@
 
 ### KineticModel
 
+This object describes a kinetic model that was derived from the experiment.
+
 - __name__
     - Type: string
     - Description: Name of the kinetic law.
@@ -366,6 +312,8 @@
     - Description: Type of the estimated parameter.
 
 ### KineticParameter
+
+This object describes the parameters of the kinetic model and can include all estimated values.
 
 - __name__
     - Type: string
@@ -401,6 +349,8 @@
 ## Time course data handling
 
 ### Measurement
+
+This object describes the result of a measurement, which includes time course data of any type defined in DataTypes. It includes initial concentrations of all species used in a single measurement.
 
 - __name__
     - Type: string
@@ -442,6 +392,8 @@
 
 ### MeasurementData
 
+This object describes a single entity of a measurement, which corresponds to one species. It also holds replicates which contain time course data.
+
 - __init_conc__
     - Type: float
     - Description: Initial concentration of the measurement data.
@@ -463,6 +415,8 @@
     - Description: A list of replicate objects holding raw data of the measurement.
 
 ### Replicate
+
+This object contains the measured time course data as well as metadata to the replicate itself.
 
 - __id__
     - Type: string
@@ -506,6 +460,8 @@
 
 ### File
 
+This objects contains a files that has been attached to the document.
+
 - __name*__
     - Type: string
     - Description: Name of the file
@@ -519,6 +475,8 @@
 ## Ontologies
 
 #### SBOTerm
+
+These are a small fraction of the SBOTerms defined for the SBML markup language.
 
 ```python
 BIOCHEMICAL_REACTION = "SBO:0000176"
@@ -555,6 +513,8 @@ V_MAX = "SBO:0000186"
 ```
 
 #### DataTypes
+
+These values are used to determine the type of time course data.
 
 ```python
 CONCENTRATION = "conc"
