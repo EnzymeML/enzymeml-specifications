@@ -5,14 +5,6 @@
 - __name__
     - Type: string
     - Description: Title of the EnzymeML Document.
-- __level*__
-    - Type: int
-    - Description: SBML evel of the EnzymeML XML.
-    - Inclusiveminimum: 1
-    - Inclusivemaximum: 3
-- __version*__
-    - Type: int
-    - Description: SBML version of the EnzymeML XML.
 - __pubmedid__
     - Type: string
     - Description: Pubmed ID reference.
@@ -23,31 +15,31 @@
     - Type: string
     - Description: Digital Object Identifier of the referenced publication or the EnzymeML document.
 - __created__
-    - Type: string
+    - Type: datetime
     - Description: Date the EnzymeML document was created.
 - __modified__
-    - Type: string
+    - Type: datetime
     - Description: Date the EnzymeML document was modified.
 - __creators__
     - Type: [Creator](#Creator)
     - Multiple: True
-    - Description: Dictionary mapping from creator IDs to creator describing objects.
+    - Description: Contains all authors that are part of the experiment.
 - __vessels__
     - Type: [Vessel](#Vessel)
     - Multiple: True
-    - Description: Dictionary mapping from vessel IDs to vessel describing objects.
+    - Description: Contains all vessels that are part of the experiment.
 - __proteins__
     - Type: [Protein](#Protein)
     - Multiple: True
-    - Description: Dictionary mapping from protein IDs to protein describing objects.
+    - Description: Contains all proteins that are part of the experiment.
 - __complexes__
     - Type: [Complex](#Complex)
     - Multiple: True
-    - Description: Dictionary mapping from complex IDs to complex describing objects.
+    - Description: Contains all complexes that are part of the experiment.
 - __reactants__
     - Type: [Reactant](#Reactant)
     - Multiple: True
-    - Description: Dictionary mapping from reactant IDs to reactant describing objects.
+    - Description: Contains all reactants that are part of the experiment.
 - __reactions__
     - Type: [EnzymeReaction](#EnzymeReaction)
     - Multiple: True
@@ -55,11 +47,11 @@
 - __measurements__
     - Type: [Measurement](#Measurement)
     - Multiple: True
-    - Description: Dictionary mapping from measurement IDs to measurement describing objects.
+    - Description: Contains measurements that describe outcomes of an experiment.
 - __files__
-    - Type: [dict](#dict)
+    - Type: [File](#File)
     - Multiple: True
-    - Description: Dictionary mapping from protein IDs to protein describing objects.
+    - Description: Contains files attached to the data model.
 - __global_parameters__
     - Type: [KineticParameter](#KineticParameter)
     - Multiple: True
@@ -499,6 +491,18 @@
 - __creator_id__
     - Type: string
     - Description: Unique identifier of the author.
+
+### File
+
+- __name*__
+    - Type: string
+    - Description: Name of the file
+- __content*__
+    - Type: bytes
+    - Description: Contents of the file
+- __filetype__
+    - Type: string
+    - Description: Type of the file such as .xml, .json and so on
 
 ## Ontologies
 
