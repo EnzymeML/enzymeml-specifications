@@ -58,5 +58,5 @@ class Protein(AbstractSpecies):
         default="git://github.com/EnzymeML/enzymeml-specifications.git"
     )
     __commit__: Optional[str] = PrivateAttr(
-        default="0a477aff983a6c599d5807335a62ad8cbbd1ffff"
+        default="c6342efd3f53ff26cc9c7320fd85c39df74d3d4d"
     )
