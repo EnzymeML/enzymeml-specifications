@@ -1,0 +1,438 @@
+{
+  "docstring": "EnzymeML is an XML-based data exchange format that supports the comprehensive documentation of enzymatic data by describing reaction conditions, time courses of substrate and product concentrations, the kinetic model, and the estimated kinetic constants. EnzymeML is based on the Systems Biology Markup Language, which was extended by implementing the STRENDA Guidelines. An EnzymeML document serves as a container to transfer data between experimental platforms, modeling tools, and databases. EnzymeML supports the scientific community by introducing a standardized data exchange format to make enzymatic data findable, accessible, interoperable, and reusable according to the FAIR data principles.",
+  "enums": [
+    "SBOTerm",
+    "DataTypes"
+  ],
+  "EnzymeMLDocument": {
+    "attributes": {
+      "name": {
+        "description": "Title of the EnzymeML Document."
+      },
+      "pubmedid": {
+        "description": "Pubmed ID reference."
+      },
+      "url": {
+        "description": "Arbitrary type of URL that is related to the EnzymeML document."
+      },
+      "doi": {
+        "description": "Digital Object Identifier of the referenced publication or the EnzymeML document."
+      },
+      "created": {
+        "description": "Date the EnzymeML document was created."
+      },
+      "modified": {
+        "description": "Date the EnzymeML document was modified."
+      },
+      "creators": {
+        "multiple": "True",
+        "description": "Contains all authors that are part of the experiment."
+      },
+      "vessels": {
+        "multiple": "True",
+        "description": "Contains all vessels that are part of the experiment."
+      },
+      "proteins": {
+        "multiple": "True",
+        "description": "Contains all proteins that are part of the experiment."
+      },
+      "complexes": {
+        "multiple": "True",
+        "description": "Contains all complexes that are part of the experiment."
+      },
+      "reactants": {
+        "multiple": "True",
+        "description": "Contains all reactants that are part of the experiment."
+      },
+      "reactions": {
+        "multiple": "True",
+        "description": "Dictionary mapping from reaction IDs to reaction describing objects."
+      },
+      "measurements": {
+        "multiple": "True",
+        "description": "Contains measurements that describe outcomes of an experiment."
+      },
+      "files": {
+        "multiple": "True",
+        "description": "Contains files attached to the data model."
+      },
+      "global_parameters": {
+        "multiple": "True",
+        "description": "Dictionary mapping from parameter IDs to global kinetic parameter describing objects."
+      }
+    },
+    "docstring": "This is the root object that composes all objects found in an EnzymeML document. It also includes general metadata such as the name of the document, when it was created/modified and references to publications, databases and arbitrary links to the web.\n"
+  },
+  "Creator": {
+    "attributes": {
+      "given_name": {
+        "description": "Given name of the author or contributor."
+      },
+      "family_name": {
+        "description": "Family name of the author or contributor."
+      },
+      "mail": {
+        "description": "Email address of the author or contributor."
+      }
+    },
+    "docstring": "The creator object contains all information about authors that contributed to the resulting document.\n"
+  },
+  "Vessel": {
+    "attributes": {
+      "name": {
+        "description": "Name of the used vessel.",
+        "template_alias": "Name"
+      },
+      "volume": {
+        "description": "Volumetric value of the vessel.",
+        "template_alias": "Volume value"
+      },
+      "unit": {
+        "description": "Volumetric unit of the vessel.",
+        "template_alias": "Volume unit"
+      },
+      "constant": {
+        "description": "Whether the volume of the vessel is constant or not.",
+        "default": "True"
+      },
+      "uri": {
+        "description": "URI of the vessel."
+      },
+      "creator_id": {
+        "description": "Unique identifier of the author."
+      }
+    },
+    "docstring": "This object describes vessels in which the experiment has been carried out. These can include any type of vessel used in biocatalytic experiments.\n"
+  },
+  "AbstractSpecies": {
+    "attributes": {
+      "name": {
+        "description": "None"
+      },
+      "vessel_id": {
+        "description": "None"
+      },
+      "init_conc": {
+        "description": "None"
+      },
+      "constant": {
+        "description": "None"
+      },
+      "unit": {
+        "description": "None"
+      },
+      "uri": {
+        "description": "None"
+      },
+      "creator_id": {
+        "description": "None"
+      }
+    },
+    "docstring": "This object is used to inherit basic attributes common to all species used in the data model.\n"
+  },
+  "Protein": {
+    "attributes": {
+      "sequence": {
+        "description": "Amino acid sequence of the protein",
+        "template_alias": "Sequence"
+      },
+      "ecnumber": {
+        "description": "EC number of the protein.",
+        "regex": "(\\d+.)(\\d+.)(\\d+.)(\\d+)",
+        "template_alias": "EC Number"
+      },
+      "organism": {
+        "description": "Organism the protein was expressed in.",
+        "template_alias": "Source organism"
+      },
+      "organism_tax_id": {
+        "description": "Taxonomy identifier of the expression host."
+      },
+      "uniprotid": {
+        "description": "Unique identifier referencing a protein entry at UniProt. Use this identifier to initialize the object from the UniProt database.",
+        "template_alias": "UniProt ID"
+      },
+      "ontology": {
+        "description": "None",
+        "default": "SBOTerm.CATALYST"
+      }
+    },
+    "docstring": "This objects describes the proteins that were used or produced in the course of the experiment.\n"
+  },
+  "Complex": {
+    "attributes": {
+      "participants": {
+        "multiple": "True",
+        "description": "Array of IDs the complex contains",
+        "regex": "[s|p][\\d]+"
+      },
+      "ontology": {
+        "description": "None",
+        "default": "SBOTerm.MACROMOLECULAR_COMPLEX"
+      }
+    },
+    "docstring": "This object describes complexes made of reactants and/or proteins that were used or produced in the course of the experiment.\n"
+  },
+  "Reactant": {
+    "attributes": {
+      "smiles": {
+        "description": "Simplified Molecular Input Line Entry System (SMILES) encoding of the reactant.",
+        "template_alias": "SMILES"
+      },
+      "inchi": {
+        "description": "International Chemical Identifier (InChI) encoding of the reactant.",
+        "template_alias": "InCHI"
+      },
+      "chebi_id": {
+        "description": "Unique identifier of the CHEBI database. Use this identifier to initialize the object from the CHEBI database."
+      },
+      "ontology": {
+        "description": "None",
+        "default": "SBOTerm.SMALL_MOLECULE"
+      }
+    },
+    "docstring": "This objects describes the reactants that were used or produced in the course of the experiment.\n"
+  },
+  "Reaction": {
+    "attributes": {
+      "name": {
+        "description": "Name of the reaction.",
+        "template_alias": "Name"
+      },
+      "reversible": {
+        "description": "Whether the reaction is reversible or irreversible",
+        "default": "False",
+        "template_alias": "Reversible"
+      },
+      "temperature": {
+        "description": "Numeric value of the temperature of the reaction.",
+        "template_alias": "Temperature value"
+      },
+      "temperature_unit": {
+        "description": "Unit of the temperature of the reaction.",
+        "regex": "kelvin|Kelvin|k|K|celsius|Celsius|C|c",
+        "template_alias": "Temperature unit"
+      },
+      "ph": {
+        "description": "PH value of the reaction.",
+        "template_alias": "pH value",
+        "inclusiveminimum": "0",
+        "inclusivemaximum": "14"
+      },
+      "ontology": {
+        "default": "SBOTerm.BIOCHEMICAL_REACTION",
+        "description": "Ontology defining the role of the given species."
+      },
+      "uri": {
+        "description": "URI of the reaction."
+      },
+      "creator_id": {
+        "description": "Unique identifier of the author."
+      },
+      "model": {
+        "description": "Kinetic model decribing the reaction."
+      },
+      "educts": {
+        "multiple": "True",
+        "description": "List of educts containing ReactionElement objects.",
+        "template_alias": "Educts"
+      },
+      "products": {
+        "multiple": "True",
+        "description": "List of products containing ReactionElement objects.",
+        "template_alias": "Products"
+      },
+      "modifiers": {
+        "multiple": "True",
+        "description": "List of modifiers (Proteins, snhibitors, stimulators) containing ReactionElement objects.",
+        "template_alias": "Modifiers"
+      }
+    },
+    "docstring": "This object describes a chemical or enzymatic reaction that was investigated in the course of the experiment. All species used within this object need to be part of the data model.\n"
+  },
+  "ReactionElement": {
+    "attributes": {
+      "species_id": {
+        "description": "Internal identifier to either a protein or reactant defined in the EnzymeMLDocument."
+      },
+      "stoichiometry": {
+        "description": "Positive float number representing the associated stoichiometry."
+      },
+      "constant": {
+        "description": "Whether or not the concentration of this species remains constant.",
+        "default": "False"
+      },
+      "ontology": {
+        "description": "Ontology defining the role of the given species."
+      }
+    },
+    "docstring": "This object is part of the Reaction object and describes either an educt, product or modifier. The latter includes buffers, counter-ions as well as proteins/enzymes.\n"
+  },
+  "KineticModel": {
+    "attributes": {
+      "name": {
+        "description": "Name of the kinetic law."
+      },
+      "equation": {
+        "description": "Equation for the kinetic law."
+      },
+      "parameters": {
+        "multiple": "True",
+        "description": "List of estimated parameters."
+      },
+      "ontology": {
+        "description": "Type of the estimated parameter."
+      }
+    },
+    "docstring": "This object describes a kinetic model that was derived from the experiment.\n"
+  },
+  "KineticParameter": {
+    "attributes": {
+      "name": {
+        "description": "Name of the estimated parameter."
+      },
+      "value": {
+        "description": "Numerical value of the estimated parameter."
+      },
+      "unit": {
+        "description": "Unit of the estimated parameter."
+      },
+      "initial_value": {
+        "description": "Initial value that was used for the parameter estimation."
+      },
+      "upper": {
+        "description": "Upper bound of the estimated parameter."
+      },
+      "lower": {
+        "description": "Lower bound of the estimated parameter."
+      },
+      "is_global": {
+        "description": "Specifies if this parameter is a global parameter.",
+        "default": "False"
+      },
+      "stdev": {
+        "description": "Standard deviation of the estimated parameter."
+      },
+      "constant": {
+        "description": "Specifies if this parameter is constant",
+        "default": "False"
+      },
+      "ontology": {
+        "description": "Type of the estimated parameter."
+      }
+    },
+    "docstring": "This object describes the parameters of the kinetic model and can include all estimated values.\n"
+  },
+  "Measurement": {
+    "attributes": {
+      "name": {
+        "description": "Name of the measurement"
+      },
+      "temperature": {
+        "description": "Numeric value of the temperature of the reaction.",
+        "template_alias": "Temperature value"
+      },
+      "temperature_unit": {
+        "description": "Unit of the temperature of the reaction.",
+        "regex": "kelvin|Kelvin|k|K|celsius|Celsius|C|c"
+      },
+      "ph": {
+        "description": "PH value of the reaction.",
+        "inclusiveminimum": "0",
+        "inclusivemaximum": "14"
+      },
+      "species": {
+        "multiple": "True",
+        "description": "Species of the measurement."
+      },
+      "global_time": {
+        "multiple": "True",
+        "description": "Global time of the measurement all replicates agree on."
+      },
+      "global_time_unit": {
+        "description": "Unit of the global time."
+      },
+      "uri": {
+        "description": "URI of the reaction."
+      },
+      "creator_id": {
+        "description": "Unique identifier of the author."
+      }
+    },
+    "docstring": "This object describes the result of a measurement, which includes time course data of any type defined in DataTypes. It includes initial concentrations of all species used in a single measurement.\n"
+  },
+  "MeasurementData": {
+    "attributes": {
+      "init_conc": {
+        "description": "Initial concentration of the measurement data."
+      },
+      "unit": {
+        "description": "The unit of the measurement data."
+      },
+      "measurement_id": {
+        "description": "Unique measurement identifier this dataset belongs to."
+      },
+      "species_id": {
+        "description": "The identifier for the described reactant."
+      },
+      "replicates": {
+        "multiple": "True",
+        "description": "A list of replicate objects holding raw data of the measurement."
+      }
+    },
+    "docstring": "This object describes a single entity of a measurement, which corresponds to one species. It also holds replicates which contain time course data.\n"
+  },
+  "Replicate": {
+    "attributes": {
+      "species_id": {
+        "description": "Unique identifier of the species that has been measured."
+      },
+      "measurement_id": {
+        "description": "Unique identifier of the measurement that the replicate is part of."
+      },
+      "data_type": {
+        "description": "Type of data that was measured (e.g. concentration)",
+        "default": "DataTypes.CONCENTRATION"
+      },
+      "data_unit": {
+        "description": "SI unit of the data that was measured."
+      },
+      "time_unit": {
+        "description": "Time unit of the replicate."
+      },
+      "time": {
+        "multiple": "True",
+        "description": "Time steps of the replicate."
+      },
+      "data": {
+        "multiple": "True",
+        "description": "Data that was measured."
+      },
+      "is_calculated": {
+        "description": "Whether or not the data has been generated by simulation.",
+        "default": "False"
+      },
+      "uri": {
+        "description": "URI of the protein."
+      },
+      "creator_id": {
+        "description": "Unique identifier of the author."
+      }
+    },
+    "docstring": "This object contains the measured time course data as well as metadata to the replicate itself.\n"
+  },
+  "File": {
+    "attributes": {
+      "name": {
+        "description": "Name of the file"
+      },
+      "content": {
+        "description": "Contents of the file"
+      },
+      "filetype": {
+        "description": "Type of the file such as .xml, .json and so on"
+      }
+    },
+    "docstring": "This objects contains a files that has been attached to the document."
+  }
+}
