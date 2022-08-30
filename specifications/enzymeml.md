@@ -125,6 +125,9 @@ This object is used to inherit basic attributes common to all species used in th
 - __unit__
     - Type: string
     - Description: None
+- __absorption__
+    - Type: https://github.com/FAIRChemistry/datamodel_calibration.git@Calibration
+    - Description: Describes standard curves and absorption models
 - __uri__
     - Type: string
     - Description: None
