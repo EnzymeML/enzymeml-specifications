@@ -1,13 +1,11 @@
 import sdRDM
 
 from typing import Optional
+from typing import List
 from pydantic import PrivateAttr
+from pydantic import Field
 from sdRDM.base.listplus import ListPlus
 from sdRDM.base.utils import forge_signature, IDGenerator
-
-from pydantic import Field
-from typing import List
-from typing import Optional
 
 from .measurementdata import MeasurementData
 from .replicate import Replicate
@@ -15,17 +13,15 @@ from .replicate import Replicate
 
 @forge_signature
 class Measurement(sdRDM.DataModel):
-
-    """This object describes the result of a measurement, which includes time course data of any type defined in DataTypes. It includes initial concentrations of all species used in a single measurement."""
+    """This object describes the result of a measurement, which includes time course data of any type defined in DataTypes. It includes initial concentrations of all species used in a single measurement.
+    """
 
     id: str = Field(
         description="Unique identifier of the given object.",
         default_factory=IDGenerator("measurementINDEX"),
     )
-    name: str = Field(
-        ...,
-        description="Name of the measurement",
-    )
+
+    name: str = Field(..., description="Name of the measurement")
 
     temperature: float = Field(
         ...,
@@ -46,14 +42,10 @@ class Measurement(sdRDM.DataModel):
         inclusivemaximum=14,
     )
 
-    global_time_unit: str = Field(
-        ...,
-        description="Unit of the global time.",
-    )
+    global_time_unit: str = Field(..., description="Unit of the global time.")
 
     species: List[MeasurementData] = Field(
-        description="Species of the measurement.",
-        default_factory=ListPlus,
+        description="Species of the measurement.", default_factory=ListPlus
     )
 
     global_time: List[float] = Field(
@@ -61,19 +53,16 @@ class Measurement(sdRDM.DataModel):
         default_factory=ListPlus,
     )
 
-    uri: Optional[str] = Field(
-        description="URI of the reaction.",
-        default=None,
-    )
+    uri: Optional[str] = Field(description="URI of the reaction.", default=None)
 
     creator_id: Optional[str] = Field(
-        description="Unique identifier of the author.",
-        default=None,
+        description="Unique identifier of the author.", default=None
     )
 
     __repo__: Optional[str] = PrivateAttr(
         default="git://github.com/EnzymeML/enzymeml-specifications.git"
     )
+
     __commit__: Optional[str] = PrivateAttr(
         default="c6342efd3f53ff26cc9c7320fd85c39df74d3d4d"
     )
@@ -90,13 +79,22 @@ class Measurement(sdRDM.DataModel):
         Adds an instance of 'MeasurementData' to the attribute 'species'.
 
         Args:
+
+
             init_conc (float): Initial concentration of the measurement data.
+
+
             unit (str): The unit of the measurement data.
+
+
             measurement_id (str): Unique measurement identifier this dataset belongs to.
+
+
             species_id (Optional[str]): The identifier for the described reactant. Defaults to None
+
+
             replicates (List[Replicate]): A list of replicate objects holding raw data of the measurement.
         """
-
         species = [
             MeasurementData(
                 init_conc=init_conc,
@@ -106,5 +104,4 @@ class Measurement(sdRDM.DataModel):
                 replicates=replicates,
             )
         ]
-
         self.species = self.species + species

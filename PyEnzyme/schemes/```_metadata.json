@@ -4,6 +4,9 @@
     "SBOTerm",
     "DataTypes"
   ],
+  "external": {
+    "Calibration": "https://github.com/FAIRChemistry/datamodel_calibration.git"
+  },
   "EnzymeMLDocument": {
     "attributes": {
       "name": {
@@ -120,6 +123,9 @@
       },
       "unit": {
         "description": "None"
+      },
+      "absorption": {
+        "description": "Describes standard curves and absorption models"
       },
       "uri": {
         "description": "None"
