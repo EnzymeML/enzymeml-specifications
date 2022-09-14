@@ -117,7 +117,13 @@ class EnzymeMLDocument(sdRDM.DataModel):
         default="c6342efd3f53ff26cc9c7320fd85c39df74d3d4d"
     )
 
-    def add_to_creators(self, given_name: str, family_name: str, mail: str) -> None:
+    def add_to_creators(
+        self,
+        given_name: str,
+        family_name: str,
+        mail: str,
+        affiliation: Optional[str] = None,
+    ) -> None:
         """
         Adds an instance of 'Creator' to the attribute 'creators'.
 
@@ -131,8 +137,18 @@ class EnzymeMLDocument(sdRDM.DataModel):
 
 
             mail (str): Email address of the author or contributor.
+
+
+            affiliation (Optional[str]): From where the author is. Defaults to None
         """
-        creators = [Creator(given_name=given_name, family_name=family_name, mail=mail)]
+        creators = [
+            Creator(
+                given_name=given_name,
+                family_name=family_name,
+                mail=mail,
+                affiliation=affiliation,
+            )
+        ]
         self.creators = self.creators + creators
 
     def add_to_vessels(

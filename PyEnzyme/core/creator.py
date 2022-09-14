@@ -25,6 +25,10 @@ class Creator(sdRDM.DataModel):
 
     mail: str = Field(..., description="Email address of the author or contributor.")
 
+    affiliation: Optional[str] = Field(
+        description="From where the author is", default=None
+    )
+
     __repo__: Optional[str] = PrivateAttr(
         default="git://github.com/EnzymeML/enzymeml-specifications.git"
     )

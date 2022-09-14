@@ -72,6 +72,9 @@
       "family_name": {
         "description": "Family name of the author or contributor."
       },
+      "affiliation": {
+        "description": "From where the author is"
+      },
       "mail": {
         "description": "Email address of the author or contributor."
       }
