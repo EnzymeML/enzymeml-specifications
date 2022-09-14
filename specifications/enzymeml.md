@@ -73,6 +73,9 @@ The creator object contains all information about authors that contributed to th
 - __family_name*__
     - Type: string
     - Description: Family name of the author or contributor.
+- __affiliation__
+    - Type: string
+    - Description: From where the author is
 - __mail*__
     - Type: string
     - Description: Email address of the author or contributor.
