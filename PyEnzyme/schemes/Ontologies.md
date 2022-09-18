@@ -12,6 +12,7 @@ classDiagram
     EnzymeMLDocument *-- Measurement
     EnzymeMLDocument *-- File
     EnzymeMLDocument *-- KineticParameter
+    AbstractSpecies *-- Vessel
     Protein *-- SBOTerm
     Complex *-- SBOTerm
     Reactant *-- SBOTerm
@@ -20,12 +21,16 @@ classDiagram
     Reaction *-- ReactionElement
     Reaction *-- ReactionElement
     Reaction *-- ReactionElement
+    ReactionElement *-- AbstractSpecies
     ReactionElement *-- SBOTerm
     KineticModel *-- KineticParameter
     KineticModel *-- SBOTerm
     KineticParameter *-- SBOTerm
     Measurement *-- MeasurementData
+    MeasurementData *-- Measurement
+    MeasurementData *-- AbstractSpecies
     MeasurementData *-- Replicate
+    Replicate *-- AbstractSpecies
     Replicate *-- DataTypes
     
     class EnzymeMLDocument {
@@ -63,7 +68,7 @@ classDiagram
     
     class AbstractSpecies {
         +string name*
-        +string vessel_id*
+        +@Vessel.id vessel_id*
         +float init_conc
         +bool constant*
         +string unit
@@ -95,9 +100,9 @@ classDiagram
     class Reaction {
         +string name*
         +bool reversible*
-        +float temperature*
-        +string temperature_unit*
-        +float ph*
+        +float temperature
+        +string temperature_unit
+        +float ph
         +SBOTerm ontology*
         +string uri
         +string creator_id
@@ -108,7 +113,7 @@ classDiagram
     }
     
     class ReactionElement {
-        +string species_id*
+        +@AbstractSpecies.id species_id*
         +posfloat stoichiometry*
         +bool constant*
         +SBOTerm ontology
@@ -136,9 +141,9 @@ classDiagram
     
     class Measurement {
         +string name*
-        +float temperature*
-        +string temperature_unit*
-        +float ph*
+        +float temperature
+        +string temperature_unit
+        +float ph
         +MeasurementData[0..*] species
         +float[0..*] global_time*
         +string global_time_unit*
@@ -149,13 +154,13 @@ classDiagram
     class MeasurementData {
         +float init_conc*
         +string unit*
-        +string measurement_id*
-        +string species_id
+        +@Measurement.id measurement_id*
+        +@AbstractSpecies.id species_id
         +Replicate[0..*] replicates
     }
     
     class Replicate {
-        +string species_id*
+        +@AbstractSpecies.id species_id*
         +string measurement_id*
         +DataTypes data_type*
         +string data_unit*

@@ -3,8 +3,10 @@ import sdRDM
 from typing import Optional
 from typing import List
 from typing import Optional, Union
+from typing import Union
 from pydantic import PrivateAttr
 from pydantic import Field
+from pydantic import validator
 from sdRDM.base.listplus import ListPlus
 from sdRDM.base.utils import forge_signature, IDGenerator
 
@@ -51,7 +53,7 @@ class MeasurementData(sdRDM.DataModel):
 
     def add_to_replicates(
         self,
-        species_id: str,
+        species_id: Union[str, "AbstractSpecies"],
         measurement_id: str,
         data_unit: str,
         time_unit: str,
@@ -68,7 +70,7 @@ class MeasurementData(sdRDM.DataModel):
         Args:
 
 
-            species_id (str): Unique identifier of the species that has been measured.
+            species_id (Union[str, 'AbstractSpecies']): Unique identifier of the species that has been measured.
 
 
             measurement_id (str): Unique identifier of the measurement that the replicate is part of.
@@ -112,3 +114,32 @@ class MeasurementData(sdRDM.DataModel):
             )
         ]
         self.replicates = self.replicates + replicates
+
+    @validator("measurement_id", pre=True)
+    def get_measurement_id_reference(cls, value):
+        """Extracts the ID from a given object to create a reference"""
+        from .measurement import Measurement
+
+        if not isinstance(value, (Measurement, str)):
+            raise TypeError(
+                f"Expected 'Measurement' or 'str' got '{type(value).__name__}' instead."
+            )
+        elif isinstance(value, Measurement):
+            return value.id
+        elif isinstance(value, str):
+            return value
+
+    @validator("species_id", pre=True)
+    def get_species_id_reference(cls, value):
+        """Extracts the ID from a given object to create a reference"""
+        from .abstractspecies import AbstractSpecies
+
+        if not isinstance(value, (AbstractSpecies, str)):
+            raise TypeError(
+                f"Expected 'AbstractSpecies' or 'str' got '{type(value).__name__}'"
+                " instead."
+            )
+        elif isinstance(value, AbstractSpecies):
+            return value.id
+        elif isinstance(value, str):
+            return value

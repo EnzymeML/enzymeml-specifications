@@ -164,8 +164,7 @@
     "attributes": {
       "participants": {
         "multiple": "True",
-        "description": "Array of IDs the complex contains",
-        "regex": "[s|p][\\d]+"
+        "description": "Array of IDs the complex contains"
       },
       "ontology": {
         "description": "None",

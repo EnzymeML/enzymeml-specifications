@@ -3,8 +3,10 @@ import sdRDM
 from typing import Optional
 from typing import List
 from typing import Optional, Union
+from typing import Union
 from pydantic import PrivateAttr
 from pydantic import Field
+from pydantic import validator
 from sdRDM.base.listplus import ListPlus
 from sdRDM.base.utils import forge_signature, IDGenerator
 
@@ -72,9 +74,9 @@ class Measurement(sdRDM.DataModel):
         self,
         init_conc: float,
         unit: str,
-        measurement_id: str,
+        measurement_id: Union[str, "Measurement"],
         replicates: List[Replicate],
-        species_id: Optional[str] = None,
+        species_id: Union[str, "AbstractSpecies", None] = None,
     ) -> None:
         """
         Adds an instance of 'MeasurementData' to the attribute 'species'.
@@ -88,13 +90,13 @@ class Measurement(sdRDM.DataModel):
             unit (str): The unit of the measurement data.
 
 
-            measurement_id (str): Unique measurement identifier this dataset belongs to.
+            measurement_id (Union[str, 'Measurement']): Unique measurement identifier this dataset belongs to.
 
 
             replicates (List[Replicate]): A list of replicate objects holding raw data of the measurement.
 
 
-            species_id (Optional[str]): The identifier for the described reactant. Defaults to None
+            species_id (Union[str, 'AbstractSpecies', None]): The identifier for the described reactant. Defaults to None
         """
         species = [
             MeasurementData(

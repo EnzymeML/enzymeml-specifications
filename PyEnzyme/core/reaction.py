@@ -3,8 +3,10 @@ import sdRDM
 from typing import Optional
 from typing import List
 from typing import Optional, Union
+from typing import Union
 from pydantic import PrivateAttr
 from pydantic import Field
+from pydantic import validator
 from sdRDM.base.listplus import ListPlus
 from sdRDM.base.utils import forge_signature, IDGenerator
 from pydantic.types import PositiveFloat
@@ -99,7 +101,7 @@ class Reaction(sdRDM.DataModel):
 
     def add_to_educts(
         self,
-        species_id: str,
+        species_id: Union[str, "AbstractSpecies"],
         stoichiometry: PositiveFloat,
         constant: bool = False,
         ontology: Optional[SBOTerm] = None,
@@ -110,7 +112,7 @@ class Reaction(sdRDM.DataModel):
         Args:
 
 
-            species_id (str): Internal identifier to either a protein or reactant defined in the EnzymeMLDocument.
+            species_id (Union[str, 'AbstractSpecies']): Internal identifier to either a protein or reactant defined in the EnzymeMLDocument.
 
 
             stoichiometry (PositiveFloat): Positive float number representing the associated stoichiometry.
@@ -133,7 +135,7 @@ class Reaction(sdRDM.DataModel):
 
     def add_to_products(
         self,
-        species_id: str,
+        species_id: Union[str, "AbstractSpecies"],
         stoichiometry: PositiveFloat,
         constant: bool = False,
         ontology: Optional[SBOTerm] = None,
@@ -144,7 +146,7 @@ class Reaction(sdRDM.DataModel):
         Args:
 
 
-            species_id (str): Internal identifier to either a protein or reactant defined in the EnzymeMLDocument.
+            species_id (Union[str, 'AbstractSpecies']): Internal identifier to either a protein or reactant defined in the EnzymeMLDocument.
 
 
             stoichiometry (PositiveFloat): Positive float number representing the associated stoichiometry.
@@ -167,7 +169,7 @@ class Reaction(sdRDM.DataModel):
 
     def add_to_modifiers(
         self,
-        species_id: str,
+        species_id: Union[str, "AbstractSpecies"],
         stoichiometry: PositiveFloat,
         constant: bool = False,
         ontology: Optional[SBOTerm] = None,
@@ -178,7 +180,7 @@ class Reaction(sdRDM.DataModel):
         Args:
 
 
-            species_id (str): Internal identifier to either a protein or reactant defined in the EnzymeMLDocument.
+            species_id (Union[str, 'AbstractSpecies']): Internal identifier to either a protein or reactant defined in the EnzymeMLDocument.
 
 
             stoichiometry (PositiveFloat): Positive float number representing the associated stoichiometry.

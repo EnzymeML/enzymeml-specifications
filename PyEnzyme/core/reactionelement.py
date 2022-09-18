@@ -2,8 +2,10 @@ import sdRDM
 
 from typing import Optional
 from typing import Optional, Union
+from typing import Union
 from pydantic import PrivateAttr
 from pydantic import Field
+from pydantic import validator
 from sdRDM.base.listplus import ListPlus
 from sdRDM.base.utils import forge_signature, IDGenerator
 from pydantic.types import PositiveFloat
@@ -52,3 +54,18 @@ class ReactionElement(sdRDM.DataModel):
     __commit__: Optional[str] = PrivateAttr(
         default="c6342efd3f53ff26cc9c7320fd85c39df74d3d4d"
     )
+
+    @validator("species_id", pre=True)
+    def get_species_id_reference(cls, value):
+        """Extracts the ID from a given object to create a reference"""
+        from .abstractspecies import AbstractSpecies
+
+        if not isinstance(value, (AbstractSpecies, str)):
+            raise TypeError(
+                f"Expected 'AbstractSpecies' or 'str' got '{type(value).__name__}'"
+                " instead."
+            )
+        elif isinstance(value, AbstractSpecies):
+            return value.id
+        elif isinstance(value, str):
+            return value
