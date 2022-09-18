@@ -2,6 +2,7 @@ import sdRDM
 
 from typing import Optional
 from typing import List
+from typing import Optional, Union
 from pydantic import PrivateAttr
 from pydantic import Field
 from sdRDM.base.listplus import ListPlus
@@ -72,8 +73,8 @@ class Measurement(sdRDM.DataModel):
         init_conc: float,
         unit: str,
         measurement_id: str,
+        replicates: List[Replicate],
         species_id: Optional[str] = None,
-        replicates: List[Replicate] = ListPlus(),
     ) -> None:
         """
         Adds an instance of 'MeasurementData' to the attribute 'species'.
@@ -90,18 +91,18 @@ class Measurement(sdRDM.DataModel):
             measurement_id (str): Unique measurement identifier this dataset belongs to.
 
 
-            species_id (Optional[str]): The identifier for the described reactant. Defaults to None
-
-
             replicates (List[Replicate]): A list of replicate objects holding raw data of the measurement.
+
+
+            species_id (Optional[str]): The identifier for the described reactant. Defaults to None
         """
         species = [
             MeasurementData(
                 init_conc=init_conc,
                 unit=unit,
                 measurement_id=measurement_id,
-                species_id=species_id,
                 replicates=replicates,
+                species_id=species_id,
             )
         ]
         self.species = self.species + species

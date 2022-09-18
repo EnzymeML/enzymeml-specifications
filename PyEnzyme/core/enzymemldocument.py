@@ -2,6 +2,7 @@ import sdRDM
 
 from typing import Optional
 from typing import List
+from typing import Optional, Union
 from pydantic import PrivateAttr
 from pydantic import Field
 from sdRDM.base.listplus import ListPlus
@@ -263,11 +264,11 @@ class EnzymeMLDocument(sdRDM.DataModel):
         name: str,
         vessel_id: str,
         constant: bool,
+        participants: List[str],
         init_conc: Optional[float] = None,
         unit: Optional[str] = None,
         uri: Optional[str] = None,
         creator_id: Optional[str] = None,
-        participants: List[str] = ListPlus(),
         ontology: SBOTerm = SBOTerm.MACROMOLECULAR_COMPLEX,
     ) -> None:
         """
@@ -285,6 +286,9 @@ class EnzymeMLDocument(sdRDM.DataModel):
             constant (bool): None.
 
 
+            participants (List[str]): Array of IDs the complex contains.
+
+
             init_conc (Optional[float]): None. Defaults to None
 
 
@@ -297,9 +301,6 @@ class EnzymeMLDocument(sdRDM.DataModel):
             creator_id (Optional[str]): None. Defaults to None
 
 
-            participants (List[str]): Array of IDs the complex contains.
-
-
             ontology (SBOTerm): None. Defaults to SBOTerm.MACROMOLECULAR_COMPLEX
         """
         complexes = [
@@ -307,11 +308,11 @@ class EnzymeMLDocument(sdRDM.DataModel):
                 name=name,
                 vessel_id=vessel_id,
                 constant=constant,
+                participants=participants,
                 init_conc=init_conc,
                 unit=unit,
                 uri=uri,
                 creator_id=creator_id,
-                participants=participants,
                 ontology=ontology,
             )
         ]
@@ -392,14 +393,14 @@ class EnzymeMLDocument(sdRDM.DataModel):
         temperature: float,
         temperature_unit: str,
         ph: float,
+        educts: List[ReactionElement],
+        products: List[ReactionElement],
+        modifiers: List[ReactionElement],
         reversible: bool = False,
         ontology: SBOTerm = SBOTerm.BIOCHEMICAL_REACTION,
         uri: Optional[str] = None,
         creator_id: Optional[str] = None,
         model: Optional[KineticModel] = None,
-        educts: List[ReactionElement] = ListPlus(),
-        products: List[ReactionElement] = ListPlus(),
-        modifiers: List[ReactionElement] = ListPlus(),
     ) -> None:
         """
         Adds an instance of 'Reaction' to the attribute 'reactions'.
@@ -419,6 +420,15 @@ class EnzymeMLDocument(sdRDM.DataModel):
             ph (float): PH value of the reaction.
 
 
+            educts (List[ReactionElement]): List of educts containing ReactionElement objects.
+
+
+            products (List[ReactionElement]): List of products containing ReactionElement objects.
+
+
+            modifiers (List[ReactionElement]): List of modifiers (Proteins, snhibitors, stimulators) containing ReactionElement objects.
+
+
             reversible (bool): Whether the reaction is reversible or irreversible. Defaults to False
 
 
@@ -432,15 +442,6 @@ class EnzymeMLDocument(sdRDM.DataModel):
 
 
             model (Optional[KineticModel]): Kinetic model decribing the reaction. Defaults to None
-
-
-            educts (List[ReactionElement]): List of educts containing ReactionElement objects.
-
-
-            products (List[ReactionElement]): List of products containing ReactionElement objects.
-
-
-            modifiers (List[ReactionElement]): List of modifiers (Proteins, snhibitors, stimulators) containing ReactionElement objects.
         """
         reactions = [
             Reaction(
@@ -448,14 +449,14 @@ class EnzymeMLDocument(sdRDM.DataModel):
                 temperature=temperature,
                 temperature_unit=temperature_unit,
                 ph=ph,
+                educts=educts,
+                products=products,
+                modifiers=modifiers,
                 reversible=reversible,
                 ontology=ontology,
                 uri=uri,
                 creator_id=creator_id,
                 model=model,
-                educts=educts,
-                products=products,
-                modifiers=modifiers,
             )
         ]
         self.reactions = self.reactions + reactions
@@ -466,9 +467,9 @@ class EnzymeMLDocument(sdRDM.DataModel):
         temperature: float,
         temperature_unit: str,
         ph: float,
+        species: List[MeasurementData],
+        global_time: List[float],
         global_time_unit: str,
-        species: List[MeasurementData] = ListPlus(),
-        global_time: List[float] = ListPlus(),
         uri: Optional[str] = None,
         creator_id: Optional[str] = None,
     ) -> None:
@@ -490,13 +491,13 @@ class EnzymeMLDocument(sdRDM.DataModel):
             ph (float): PH value of the reaction.
 
 
-            global_time_unit (str): Unit of the global time.
-
-
             species (List[MeasurementData]): Species of the measurement.
 
 
             global_time (List[float]): Global time of the measurement all replicates agree on.
+
+
+            global_time_unit (str): Unit of the global time.
 
 
             uri (Optional[str]): URI of the reaction. Defaults to None
@@ -510,9 +511,9 @@ class EnzymeMLDocument(sdRDM.DataModel):
                 temperature=temperature,
                 temperature_unit=temperature_unit,
                 ph=ph,
-                global_time_unit=global_time_unit,
                 species=species,
                 global_time=global_time,
+                global_time_unit=global_time_unit,
                 uri=uri,
                 creator_id=creator_id,
             )

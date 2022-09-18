@@ -2,6 +2,7 @@ import sdRDM
 
 from typing import Optional
 from typing import List
+from typing import Optional, Union
 from pydantic import PrivateAttr
 from pydantic import Field
 from sdRDM.base.listplus import ListPlus
