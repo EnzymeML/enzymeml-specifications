@@ -114,7 +114,7 @@ This object is used to inherit basic attributes common to all species used in th
     - Type: string
     - Description: None
 - __vessel_id*__
-    - Type: string
+    - Type: @Vessel.id
     - Description: None
 - __init_conc__
     - Type: float
@@ -169,7 +169,6 @@ This object describes complexes made of reactants and/or proteins that were used
     - Type: string
     - Multiple: True
     - Description: Array of IDs the complex contains
-    - Regex: [s|p][\d]+
 - __ontology*__
     - Type: [SBOTerm](#SBOTerm)
     - Description: None
@@ -210,16 +209,16 @@ This object describes a chemical or enzymatic reaction that was investigated in 
     - Description: Whether the reaction is reversible or irreversible
     - Default: False
     - Template_alias: Reversible
-- __temperature*__
+- __temperature__
     - Type: float
     - Description: Numeric value of the temperature of the reaction.
     - Template_alias: Temperature value
-- __temperature_unit*__
+- __temperature_unit__
     - Type: string
     - Description: Unit of the temperature of the reaction.
     - Regex: kelvin|Kelvin|k|K|celsius|Celsius|C|c
     - Template_alias: Temperature unit
-- __ph*__
+- __ph__
     - Type: float
     - Description: PH value of the reaction.
     - Template_alias: pH value
@@ -259,7 +258,7 @@ This object describes a chemical or enzymatic reaction that was investigated in 
 This object is part of the Reaction object and describes either an educt, product or modifier. The latter includes buffers, counter-ions as well as proteins/enzymes.
 
 - __species_id*__
-    - Type: string
+    - Type: @AbstractSpecies.id
     - Description: Internal identifier to either a protein or reactant defined in the EnzymeMLDocument.
 - __stoichiometry*__
     - Type: posfloat
@@ -338,15 +337,15 @@ This object describes the result of a measurement, which includes time course da
 - __name*__
     - Type: string
     - Description: Name of the measurement
-- __temperature*__
+- __temperature__
     - Type: float
     - Description: Numeric value of the temperature of the reaction.
     - Template_alias: Temperature value
-- __temperature_unit*__
+- __temperature_unit__
     - Type: string
     - Description: Unit of the temperature of the reaction.
     - Regex: kelvin|Kelvin|k|K|celsius|Celsius|C|c
-- __ph*__
+- __ph__
     - Type: float
     - Description: PH value of the reaction.
     - Inclusiveminimum: 0
@@ -380,10 +379,10 @@ This object describes a single entity of a measurement, which corresponds to one
     - Type: string
     - Description: The unit of the measurement data.
 - __measurement_id*__
-    - Type: string
+    - Type: @Measurement.id
     - Description: Unique measurement identifier this dataset belongs to.
 - __species_id__
-    - Type: string
+    - Type: @AbstractSpecies.id
     - Description: The identifier for the described reactant.
 - __replicates__
     - Type: [Replicate](#Replicate)
@@ -395,7 +394,7 @@ This object describes a single entity of a measurement, which corresponds to one
 This object contains the measured time course data as well as metadata to the replicate itself.
 
 - __species_id*__
-    - Type: string
+    - Type: @AbstractSpecies.id
     - Description: Unique identifier of the species that has been measured.
 - __measurement_id*__
     - Type: string
