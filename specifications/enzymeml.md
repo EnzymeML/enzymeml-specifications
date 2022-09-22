@@ -210,16 +210,16 @@ This object describes a chemical or enzymatic reaction that was investigated in 
     - Description: Whether the reaction is reversible or irreversible
     - Default: False
     - Template_alias: Reversible
-- __temperature*__
+- __temperature__
     - Type: float
     - Description: Numeric value of the temperature of the reaction.
     - Template_alias: Temperature value
-- __temperature_unit*__
+- __temperature_unit__
     - Type: string
     - Description: Unit of the temperature of the reaction.
     - Regex: kelvin|Kelvin|k|K|celsius|Celsius|C|c
     - Template_alias: Temperature unit
-- __ph*__
+- __ph__
     - Type: float
     - Description: PH value of the reaction.
     - Template_alias: pH value
