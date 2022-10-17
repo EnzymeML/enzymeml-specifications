@@ -75,4 +75,3 @@ constant = "SBML.model.reactions.products.constant"
 ["reactions.modifiers"]
 id = "SBML.model.reactions.modifiers.id"
 species_id = "SBML.model.reactions.modifiers.species"
-constant = "SBML.model.reactions.modifiers.constant"
