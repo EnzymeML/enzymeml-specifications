@@ -103,11 +103,15 @@ class Reaction(sdRDM.DataModel):
         stoichiometry: PositiveFloat,
         constant: bool = False,
         ontology: Optional[SBOTerm] = None,
+        id: Optional[str] = None,
     ) -> None:
         """
         Adds an instance of 'ReactionElement' to the attribute 'educts'.
 
         Args:
+
+
+            id (str): Unique identifier of the 'ReactionElement' object. Defaults to 'None'.
 
 
             species_id (str): Internal identifier to either a protein or reactant defined in the EnzymeMLDocument.
@@ -121,14 +125,16 @@ class Reaction(sdRDM.DataModel):
 
             ontology (Optional[SBOTerm]): Ontology defining the role of the given species. Defaults to None
         """
-        educts = [
-            ReactionElement(
-                species_id=species_id,
-                stoichiometry=stoichiometry,
-                constant=constant,
-                ontology=ontology,
-            )
-        ]
+
+        params = {
+            "species_id": species_id,
+            "stoichiometry": stoichiometry,
+            "constant": constant,
+            "ontology": ontology,
+        }
+        if id is not None:
+            params["id"] = id
+        educts = [ReactionElement(**params)]
         self.educts = self.educts + educts
 
     def add_to_products(
@@ -137,11 +143,15 @@ class Reaction(sdRDM.DataModel):
         stoichiometry: PositiveFloat,
         constant: bool = False,
         ontology: Optional[SBOTerm] = None,
+        id: Optional[str] = None,
     ) -> None:
         """
         Adds an instance of 'ReactionElement' to the attribute 'products'.
 
         Args:
+
+
+            id (str): Unique identifier of the 'ReactionElement' object. Defaults to 'None'.
 
 
             species_id (str): Internal identifier to either a protein or reactant defined in the EnzymeMLDocument.
@@ -155,14 +165,16 @@ class Reaction(sdRDM.DataModel):
 
             ontology (Optional[SBOTerm]): Ontology defining the role of the given species. Defaults to None
         """
-        products = [
-            ReactionElement(
-                species_id=species_id,
-                stoichiometry=stoichiometry,
-                constant=constant,
-                ontology=ontology,
-            )
-        ]
+
+        params = {
+            "species_id": species_id,
+            "stoichiometry": stoichiometry,
+            "constant": constant,
+            "ontology": ontology,
+        }
+        if id is not None:
+            params["id"] = id
+        products = [ReactionElement(**params)]
         self.products = self.products + products
 
     def add_to_modifiers(
@@ -171,11 +183,15 @@ class Reaction(sdRDM.DataModel):
         stoichiometry: PositiveFloat,
         constant: bool = False,
         ontology: Optional[SBOTerm] = None,
+        id: Optional[str] = None,
     ) -> None:
         """
         Adds an instance of 'ReactionElement' to the attribute 'modifiers'.
 
         Args:
+
+
+            id (str): Unique identifier of the 'ReactionElement' object. Defaults to 'None'.
 
 
             species_id (str): Internal identifier to either a protein or reactant defined in the EnzymeMLDocument.
@@ -189,12 +205,14 @@ class Reaction(sdRDM.DataModel):
 
             ontology (Optional[SBOTerm]): Ontology defining the role of the given species. Defaults to None
         """
-        modifiers = [
-            ReactionElement(
-                species_id=species_id,
-                stoichiometry=stoichiometry,
-                constant=constant,
-                ontology=ontology,
-            )
-        ]
+
+        params = {
+            "species_id": species_id,
+            "stoichiometry": stoichiometry,
+            "constant": constant,
+            "ontology": ontology,
+        }
+        if id is not None:
+            params["id"] = id
+        modifiers = [ReactionElement(**params)]
         self.modifiers = self.modifiers + modifiers

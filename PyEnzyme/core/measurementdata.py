@@ -61,11 +61,15 @@ class MeasurementData(sdRDM.DataModel):
         is_calculated: bool = False,
         uri: Optional[str] = None,
         creator_id: Optional[str] = None,
+        id: Optional[str] = None,
     ) -> None:
         """
         Adds an instance of 'Replicate' to the attribute 'replicates'.
 
         Args:
+
+
+            id (str): Unique identifier of the 'Replicate' object. Defaults to 'None'.
 
 
             species_id (str): Unique identifier of the species that has been measured.
@@ -97,18 +101,20 @@ class MeasurementData(sdRDM.DataModel):
 
             creator_id (Optional[str]): Unique identifier of the author. Defaults to None
         """
-        replicates = [
-            Replicate(
-                species_id=species_id,
-                measurement_id=measurement_id,
-                data_unit=data_unit,
-                time_unit=time_unit,
-                time=time,
-                data=data,
-                data_type=data_type,
-                is_calculated=is_calculated,
-                uri=uri,
-                creator_id=creator_id,
-            )
-        ]
+
+        params = {
+            "species_id": species_id,
+            "measurement_id": measurement_id,
+            "data_unit": data_unit,
+            "time_unit": time_unit,
+            "time": time,
+            "data": data,
+            "data_type": data_type,
+            "is_calculated": is_calculated,
+            "uri": uri,
+            "creator_id": creator_id,
+        }
+        if id is not None:
+            params["id"] = id
+        replicates = [Replicate(**params)]
         self.replicates = self.replicates + replicates
