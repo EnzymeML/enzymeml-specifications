@@ -53,11 +53,15 @@ class KineticModel(sdRDM.DataModel):
         stdev: Optional[float] = None,
         constant: bool = False,
         ontology: Optional[SBOTerm] = None,
+        id: Optional[str] = None,
     ) -> None:
         """
         Adds an instance of 'KineticParameter' to the attribute 'parameters'.
 
         Args:
+
+
+            id (str): Unique identifier of the 'KineticParameter' object. Defaults to 'None'.
 
 
             name (str): Name of the estimated parameter.
@@ -89,18 +93,20 @@ class KineticModel(sdRDM.DataModel):
 
             ontology (Optional[SBOTerm]): Type of the estimated parameter. Defaults to None
         """
-        parameters = [
-            KineticParameter(
-                name=name,
-                value=value,
-                unit=unit,
-                initial_value=initial_value,
-                upper=upper,
-                lower=lower,
-                is_global=is_global,
-                stdev=stdev,
-                constant=constant,
-                ontology=ontology,
-            )
-        ]
+
+        params = {
+            "name": name,
+            "value": value,
+            "unit": unit,
+            "initial_value": initial_value,
+            "upper": upper,
+            "lower": lower,
+            "is_global": is_global,
+            "stdev": stdev,
+            "constant": constant,
+            "ontology": ontology,
+        }
+        if id is not None:
+            params["id"] = id
+        parameters = [KineticParameter(**params)]
         self.parameters = self.parameters + parameters

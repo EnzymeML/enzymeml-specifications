@@ -18,6 +18,9 @@ This is the root object that composes all objects found in an EnzymeML document.
 - __doi__
     - Type: string
     - Description: Digital Object Identifier of the referenced publication or the EnzymeML document.
+- __database_name__
+    - Type: string
+    - Description: This is a database address   
 - __created__
     - Type: datetime
     - Description: Date the EnzymeML document was created.

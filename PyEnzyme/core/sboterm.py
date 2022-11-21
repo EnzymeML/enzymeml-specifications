@@ -32,3 +32,4 @@ class SBOTerm(Enum):
     MICHAELIS_MENTEN = "SBO:0000028"
     K_CAT = "SBO:0000025"
     K_M = "SBO:0000027"
+    V_MAX = "SBO:0000186"

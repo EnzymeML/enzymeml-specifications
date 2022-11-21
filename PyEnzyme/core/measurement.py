@@ -75,11 +75,15 @@ class Measurement(sdRDM.DataModel):
         measurement_id: str,
         replicates: List[Replicate],
         species_id: Optional[str] = None,
+        id: Optional[str] = None,
     ) -> None:
         """
         Adds an instance of 'MeasurementData' to the attribute 'species'.
 
         Args:
+
+
+            id (str): Unique identifier of the 'MeasurementData' object. Defaults to 'None'.
 
 
             init_conc (float): Initial concentration of the measurement data.
@@ -96,13 +100,15 @@ class Measurement(sdRDM.DataModel):
 
             species_id (Optional[str]): The identifier for the described reactant. Defaults to None
         """
-        species = [
-            MeasurementData(
-                init_conc=init_conc,
-                unit=unit,
-                measurement_id=measurement_id,
-                replicates=replicates,
-                species_id=species_id,
-            )
-        ]
+
+        params = {
+            "init_conc": init_conc,
+            "unit": unit,
+            "measurement_id": measurement_id,
+            "replicates": replicates,
+            "species_id": species_id,
+        }
+        if id is not None:
+            params["id"] = id
+        species = [MeasurementData(**params)]
         self.species = self.species + species
