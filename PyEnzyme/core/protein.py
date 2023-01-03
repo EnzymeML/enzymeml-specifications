@@ -4,17 +4,14 @@ from pydantic import PrivateAttr
 from pydantic import Field
 from sdRDM.base.listplus import ListPlus
 from sdRDM.base.utils import forge_signature, IDGenerator
+from .abstractspecies import AbstractSpecies
+from .sboterm import SBOTerm
 
 
 @forge_signature
 class Protein(AbstractSpecies):
     """This objects describes the proteins that were used or produced in the course of the experiment.
     """
-
-    id: str = Field(
-        description="Unique identifier of the given object.",
-        default_factory=IDGenerator("proteinINDEX"),
-    )
 
     sequence: str = Field(
         ..., description="Amino acid sequence of the protein", template_alias="Sequence"
@@ -48,10 +45,16 @@ class Protein(AbstractSpecies):
 
     ontology: SBOTerm = Field(description="None", default=SBOTerm.CATALYST)
 
+    id: str = Field(
+        description="Unique identifier of the given object.",
+        default_factory=IDGenerator("proteinINDEX"),
+        xml="@id",
+    )
+
     __repo__: Optional[str] = PrivateAttr(
         default="git://github.com/EnzymeML/enzymeml-specifications.git"
     )
 
     __commit__: Optional[str] = PrivateAttr(
-        default="c6342efd3f53ff26cc9c7320fd85c39df74d3d4d"
+        default="1bdd251254e451397d8f5c4a4d821cd7562579a0"
     )

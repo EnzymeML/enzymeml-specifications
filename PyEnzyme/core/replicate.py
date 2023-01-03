@@ -7,17 +7,13 @@ from pydantic import PrivateAttr
 from pydantic import Field
 from sdRDM.base.listplus import ListPlus
 from sdRDM.base.utils import forge_signature, IDGenerator
+from .datatypes import DataTypes
 
 
 @forge_signature
 class Replicate(sdRDM.DataModel):
     """This object contains the measured time course data as well as metadata to the replicate itself.
     """
-
-    id: str = Field(
-        description="Unique identifier of the given object.",
-        default_factory=IDGenerator("replicateINDEX"),
-    )
 
     species_id: str = Field(
         ..., description="Unique identifier of the species that has been measured."
@@ -58,10 +54,16 @@ class Replicate(sdRDM.DataModel):
         description="Unique identifier of the author.", default=None
     )
 
+    id: str = Field(
+        description="Unique identifier of the given object.",
+        default_factory=IDGenerator("replicateINDEX"),
+        xml="@id",
+    )
+
     __repo__: Optional[str] = PrivateAttr(
         default="git://github.com/EnzymeML/enzymeml-specifications.git"
     )
 
     __commit__: Optional[str] = PrivateAttr(
-        default="c6342efd3f53ff26cc9c7320fd85c39df74d3d4d"
+        default="1bdd251254e451397d8f5c4a4d821cd7562579a0"
     )

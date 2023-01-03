@@ -7,7 +7,6 @@ from pydantic import PrivateAttr
 from pydantic import Field
 from sdRDM.base.listplus import ListPlus
 from sdRDM.base.utils import forge_signature, IDGenerator
-
 from .kineticparameter import KineticParameter
 from .sboterm import SBOTerm
 
@@ -15,11 +14,6 @@ from .sboterm import SBOTerm
 @forge_signature
 class KineticModel(sdRDM.DataModel):
     """This object describes a kinetic model that was derived from the experiment."""
-
-    id: str = Field(
-        description="Unique identifier of the given object.",
-        default_factory=IDGenerator("kineticmodelINDEX"),
-    )
 
     name: str = Field(..., description="Name of the kinetic law.")
 
@@ -33,12 +27,18 @@ class KineticModel(sdRDM.DataModel):
         description="Type of the estimated parameter.", default=None
     )
 
+    id: str = Field(
+        description="Unique identifier of the given object.",
+        default_factory=IDGenerator("kineticmodelINDEX"),
+        xml="@id",
+    )
+
     __repo__: Optional[str] = PrivateAttr(
         default="git://github.com/EnzymeML/enzymeml-specifications.git"
     )
 
     __commit__: Optional[str] = PrivateAttr(
-        default="c6342efd3f53ff26cc9c7320fd85c39df74d3d4d"
+        default="1bdd251254e451397d8f5c4a4d821cd7562579a0"
     )
 
     def add_to_parameters(
@@ -53,11 +53,15 @@ class KineticModel(sdRDM.DataModel):
         stdev: Optional[float] = None,
         constant: bool = False,
         ontology: Optional[SBOTerm] = None,
+        id: Optional[str] = None,
     ) -> None:
         """
         Adds an instance of 'KineticParameter' to the attribute 'parameters'.
 
         Args:
+
+
+            id (str): Unique identifier of the 'KineticParameter' object. Defaults to 'None'.
 
 
             name (str): Name of the estimated parameter.
@@ -89,18 +93,20 @@ class KineticModel(sdRDM.DataModel):
 
             ontology (Optional[SBOTerm]): Type of the estimated parameter. Defaults to None
         """
-        parameters = [
-            KineticParameter(
-                name=name,
-                value=value,
-                unit=unit,
-                initial_value=initial_value,
-                upper=upper,
-                lower=lower,
-                is_global=is_global,
-                stdev=stdev,
-                constant=constant,
-                ontology=ontology,
-            )
-        ]
+
+        params = {
+            "name": name,
+            "value": value,
+            "unit": unit,
+            "initial_value": initial_value,
+            "upper": upper,
+            "lower": lower,
+            "is_global": is_global,
+            "stdev": stdev,
+            "constant": constant,
+            "ontology": ontology,
+        }
+        if id is not None:
+            params["id"] = id
+        parameters = [KineticParameter(**params)]
         self.parameters = self.parameters + parameters

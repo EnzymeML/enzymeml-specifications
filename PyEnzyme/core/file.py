@@ -12,11 +12,6 @@ from sdRDM.base.utils import forge_signature, IDGenerator
 class File(sdRDM.DataModel):
     """This objects contains a files that has been attached to the document."""
 
-    id: str = Field(
-        description="Unique identifier of the given object.",
-        default_factory=IDGenerator("fileINDEX"),
-    )
-
     name: str = Field(..., description="Name of the file")
 
     content: bytes = Field(..., description="Contents of the file")
@@ -25,10 +20,16 @@ class File(sdRDM.DataModel):
         ..., description="Type of the file such as .xml, .json and so on"
     )
 
+    id: str = Field(
+        description="Unique identifier of the given object.",
+        default_factory=IDGenerator("fileINDEX"),
+        xml="@id",
+    )
+
     __repo__: Optional[str] = PrivateAttr(
         default="git://github.com/EnzymeML/enzymeml-specifications.git"
     )
 
     __commit__: Optional[str] = PrivateAttr(
-        default="c6342efd3f53ff26cc9c7320fd85c39df74d3d4d"
+        default="1bdd251254e451397d8f5c4a4d821cd7562579a0"
     )

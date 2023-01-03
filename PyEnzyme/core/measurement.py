@@ -7,7 +7,6 @@ from pydantic import PrivateAttr
 from pydantic import Field
 from sdRDM.base.listplus import ListPlus
 from sdRDM.base.utils import forge_signature, IDGenerator
-
 from .measurementdata import MeasurementData
 from .replicate import Replicate
 
@@ -16,11 +15,6 @@ from .replicate import Replicate
 class Measurement(sdRDM.DataModel):
     """This object describes the result of a measurement, which includes time course data of any type defined in DataTypes. It includes initial concentrations of all species used in a single measurement.
     """
-
-    id: str = Field(
-        description="Unique identifier of the given object.",
-        default_factory=IDGenerator("measurementINDEX"),
-    )
 
     name: str = Field(..., description="Name of the measurement")
 
@@ -60,12 +54,18 @@ class Measurement(sdRDM.DataModel):
         description="Unique identifier of the author.", default=None
     )
 
+    id: str = Field(
+        description="Unique identifier of the given object.",
+        default_factory=IDGenerator("measurementINDEX"),
+        xml="@id",
+    )
+
     __repo__: Optional[str] = PrivateAttr(
         default="git://github.com/EnzymeML/enzymeml-specifications.git"
     )
 
     __commit__: Optional[str] = PrivateAttr(
-        default="c6342efd3f53ff26cc9c7320fd85c39df74d3d4d"
+        default="1bdd251254e451397d8f5c4a4d821cd7562579a0"
     )
 
     def add_to_species(
@@ -75,11 +75,15 @@ class Measurement(sdRDM.DataModel):
         measurement_id: str,
         replicates: List[Replicate],
         species_id: Optional[str] = None,
+        id: Optional[str] = None,
     ) -> None:
         """
         Adds an instance of 'MeasurementData' to the attribute 'species'.
 
         Args:
+
+
+            id (str): Unique identifier of the 'MeasurementData' object. Defaults to 'None'.
 
 
             init_conc (float): Initial concentration of the measurement data.
@@ -96,13 +100,15 @@ class Measurement(sdRDM.DataModel):
 
             species_id (Optional[str]): The identifier for the described reactant. Defaults to None
         """
-        species = [
-            MeasurementData(
-                init_conc=init_conc,
-                unit=unit,
-                measurement_id=measurement_id,
-                replicates=replicates,
-                species_id=species_id,
-            )
-        ]
+
+        params = {
+            "init_conc": init_conc,
+            "unit": unit,
+            "measurement_id": measurement_id,
+            "replicates": replicates,
+            "species_id": species_id,
+        }
+        if id is not None:
+            params["id"] = id
+        species = [MeasurementData(**params)]
         self.species = self.species + species

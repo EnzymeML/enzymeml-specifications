@@ -7,7 +7,6 @@ from pydantic import Field
 from sdRDM.base.listplus import ListPlus
 from sdRDM.base.utils import forge_signature, IDGenerator
 from pydantic.types import PositiveFloat
-
 from .sboterm import SBOTerm
 
 
@@ -15,11 +14,6 @@ from .sboterm import SBOTerm
 class ReactionElement(sdRDM.DataModel):
     """This object is part of the Reaction object and describes either an educt, product or modifier. The latter includes buffers, counter-ions as well as proteins/enzymes.
     """
-
-    id: str = Field(
-        description="Unique identifier of the given object.",
-        default_factory=IDGenerator("reactionelementINDEX"),
-    )
 
     species_id: str = Field(
         ...,
@@ -45,10 +39,16 @@ class ReactionElement(sdRDM.DataModel):
         description="Ontology defining the role of the given species.", default=None
     )
 
+    id: str = Field(
+        description="Unique identifier of the given object.",
+        default_factory=IDGenerator("reactionelementINDEX"),
+        xml="@id",
+    )
+
     __repo__: Optional[str] = PrivateAttr(
         default="git://github.com/EnzymeML/enzymeml-specifications.git"
     )
 
     __commit__: Optional[str] = PrivateAttr(
-        default="c6342efd3f53ff26cc9c7320fd85c39df74d3d4d"
+        default="1bdd251254e451397d8f5c4a4d821cd7562579a0"
     )
