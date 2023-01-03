@@ -96,7 +96,7 @@ This object describes vessels in which the experiment has been carried out. Thes
     - Description: Volumetric unit of the vessel.
     - Template_alias: Volume unit
 - __constant*__
-    - Type: bool
+    - Type: StrictBool
     - Description: Whether the volume of the vessel is constant or not.
     - Default: True
 - __uri__
@@ -120,7 +120,7 @@ This object is used to inherit basic attributes common to all species used in th
     - Type: float
     - Description: None
 - __constant*__
-    - Type: bool
+    - Type: StrictBool
     - Description: None
 - __unit__
     - Type: string
