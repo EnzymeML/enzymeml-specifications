@@ -264,6 +264,7 @@ This object is part of the Reaction object and describes either an educt, produc
 - __stoichiometry*__
     - Type: posfloat
     - Description: Positive float number representing the associated stoichiometry.
+    - Default: 1.0
 - __constant*__
     - Type: bool
     - Description: Whether or not the concentration of this species remains constant.
