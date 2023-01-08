@@ -258,7 +258,8 @@
         "description": "Internal identifier to either a protein or reactant defined in the EnzymeMLDocument."
       },
       "stoichiometry": {
-        "description": "Positive float number representing the associated stoichiometry."
+        "description": "Positive float number representing the associated stoichiometry.",
+        "default": "1.0"
       },
       "constant": {
         "description": "Whether or not the concentration of this species remains constant.",

@@ -23,11 +23,6 @@ class ReactionElement(sdRDM.DataModel):
         ),
     )
 
-    stoichiometry: PositiveFloat = Field(
-        ...,
-        description="Positive float number representing the associated stoichiometry.",
-    )
-
     constant: bool = Field(
         description=(
             "Whether or not the concentration of this species remains constant."
@@ -45,10 +40,15 @@ class ReactionElement(sdRDM.DataModel):
         xml="@id",
     )
 
+    stoichiometry: PositiveFloat = Field(
+        description="Positive float number representing the associated stoichiometry.",
+        default="1.0",
+    )
+
     __repo__: Optional[str] = PrivateAttr(
         default="git://github.com/EnzymeML/enzymeml-specifications.git"
     )
 
     __commit__: Optional[str] = PrivateAttr(
-        default="1bdd251254e451397d8f5c4a4d821cd7562579a0"
+        default="82e00b7446c13ed5ba6c191d79f2622cc9226be7"
     )

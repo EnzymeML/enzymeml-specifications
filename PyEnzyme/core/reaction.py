@@ -94,13 +94,13 @@ class Reaction(sdRDM.DataModel):
     )
 
     __commit__: Optional[str] = PrivateAttr(
-        default="1bdd251254e451397d8f5c4a4d821cd7562579a0"
+        default="82e00b7446c13ed5ba6c191d79f2622cc9226be7"
     )
 
     def add_to_educts(
         self,
         species_id: str,
-        stoichiometry: PositiveFloat,
+        stoichiometry: PositiveFloat = "1.0",
         constant: bool = False,
         ontology: Optional[SBOTerm] = None,
         id: Optional[str] = None,
@@ -117,7 +117,7 @@ class Reaction(sdRDM.DataModel):
             species_id (str): Internal identifier to either a protein or reactant defined in the EnzymeMLDocument.
 
 
-            stoichiometry (PositiveFloat): Positive float number representing the associated stoichiometry.
+            stoichiometry (PositiveFloat): Positive float number representing the associated stoichiometry. Defaults to "1.0"
 
 
             constant (bool): Whether or not the concentration of this species remains constant. Defaults to False
@@ -140,7 +140,7 @@ class Reaction(sdRDM.DataModel):
     def add_to_products(
         self,
         species_id: str,
-        stoichiometry: PositiveFloat,
+        stoichiometry: PositiveFloat = "1.0",
         constant: bool = False,
         ontology: Optional[SBOTerm] = None,
         id: Optional[str] = None,
@@ -157,7 +157,7 @@ class Reaction(sdRDM.DataModel):
             species_id (str): Internal identifier to either a protein or reactant defined in the EnzymeMLDocument.
 
 
-            stoichiometry (PositiveFloat): Positive float number representing the associated stoichiometry.
+            stoichiometry (PositiveFloat): Positive float number representing the associated stoichiometry. Defaults to "1.0"
 
 
             constant (bool): Whether or not the concentration of this species remains constant. Defaults to False
@@ -180,7 +180,7 @@ class Reaction(sdRDM.DataModel):
     def add_to_modifiers(
         self,
         species_id: str,
-        stoichiometry: PositiveFloat,
+        stoichiometry: PositiveFloat = "1.0",
         constant: bool = False,
         ontology: Optional[SBOTerm] = None,
         id: Optional[str] = None,
@@ -197,7 +197,7 @@ class Reaction(sdRDM.DataModel):
             species_id (str): Internal identifier to either a protein or reactant defined in the EnzymeMLDocument.
 
 
-            stoichiometry (PositiveFloat): Positive float number representing the associated stoichiometry.
+            stoichiometry (PositiveFloat): Positive float number representing the associated stoichiometry. Defaults to "1.0"
 
 
             constant (bool): Whether or not the concentration of this species remains constant. Defaults to False
