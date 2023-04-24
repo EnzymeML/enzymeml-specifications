@@ -1,62 +1,64 @@
 # EnzymeML
 
+## Objects
+
 EnzymeML is an XML-based data exchange format that supports the comprehensive documentation of enzymatic data by describing reaction conditions, time courses of substrate and product concentrations, the kinetic model, and the estimated kinetic constants. EnzymeML is based on the Systems Biology Markup Language, which was extended by implementing the STRENDA Guidelines. An EnzymeML document serves as a container to transfer data between experimental platforms, modeling tools, and databases. EnzymeML supports the scientific community by introducing a standardized data exchange format to make enzymatic data findable, accessible, interoperable, and reusable according to the FAIR data principles.
 
 ### EnzymeMLDocument
 
 This is the root object that composes all objects found in an EnzymeML document. It also includes general metadata such as the name of the document, when it was created/modified and references to publications, databases and arbitrary links to the web.
 
-- __name*__
+- __name__
     - Type: string
     - Description: Title of the EnzymeML Document.
-- __pubmedid__
+- pubmedid
     - Type: string
     - Description: Pubmed ID reference.
-- __url__
+- url
     - Type: string
     - Description: Arbitrary type of URL that is related to the EnzymeML document.
-- __doi__
+- doi
     - Type: string
     - Description: Digital Object Identifier of the referenced publication or the EnzymeML document.
-- __created__
+- created
     - Type: datetime
     - Description: Date the EnzymeML document was created.
-- __modified__
+- modified
     - Type: datetime
     - Description: Date the EnzymeML document was modified.
-- __creators__
+- creators
     - Type: [Creator](#Creator)
     - Multiple: True
     - Description: Contains all authors that are part of the experiment.
-- __vessels__
+- vessels
     - Type: [Vessel](#Vessel)
     - Multiple: True
     - Description: Contains all vessels that are part of the experiment.
-- __proteins__
+- proteins
     - Type: [Protein](#Protein)
     - Multiple: True
     - Description: Contains all proteins that are part of the experiment.
-- __complexes__
+- complexes
     - Type: [Complex](#Complex)
     - Multiple: True
     - Description: Contains all complexes that are part of the experiment.
-- __reactants__
+- reactants
     - Type: [Reactant](#Reactant)
     - Multiple: True
     - Description: Contains all reactants that are part of the experiment.
-- __reactions__
+- reactions
     - Type: [Reaction](#Reaction)
     - Multiple: True
     - Description: Dictionary mapping from reaction IDs to reaction describing objects.
-- __measurements__
+- measurements
     - Type: [Measurement](#Measurement)
     - Multiple: True
     - Description: Contains measurements that describe outcomes of an experiment.
-- __files__
+- files
     - Type: [File](#File)
     - Multiple: True
     - Description: Contains files attached to the data model.
-- __global_parameters__
+- global_parameters
     - Type: [KineticParameter](#KineticParameter)
     - Multiple: True
     - Description: Dictionary mapping from parameter IDs to global kinetic parameter describing objects.
@@ -67,13 +69,13 @@ This is the root object that composes all objects found in an EnzymeML document.
 
 The creator object contains all information about authors that contributed to the resulting document.
 
-- __given_name*__
+- __given_name__
     - Type: string
     - Description: Given name of the author or contributor.
-- __family_name*__
+- __family_name__
     - Type: string
     - Description: Family name of the author or contributor.
-- __mail*__
+- __mail__
     - Type: string
     - Description: Email address of the author or contributor.
 
@@ -83,26 +85,26 @@ The creator object contains all information about authors that contributed to th
 
 This object describes vessels in which the experiment has been carried out. These can include any type of vessel used in biocatalytic experiments.
 
-- __name*__
+- __name__
     - Type: string
     - Description: Name of the used vessel.
     - Template_alias: Name
-- __volume*__
+- __volume__
     - Type: posfloat
     - Description: Volumetric value of the vessel.
     - Template_alias: Volume value
-- __unit*__
+- __unit__
     - Type: string
     - Description: Volumetric unit of the vessel.
     - Template_alias: Volume unit
-- __constant*__
+- __constant__
     - Type: StrictBool
     - Description: Whether the volume of the vessel is constant or not.
     - Default: True
-- __uri__
+- uri
     - Type: string
     - Description: URI of the vessel.
-- __creator_id__
+- creator_id
     - Type: string
     - Description: Unique identifier of the author.
 
@@ -110,25 +112,25 @@ This object describes vessels in which the experiment has been carried out. Thes
 
 This object is used to inherit basic attributes common to all species used in the data model.
 
-- __name*__
+- __name__
     - Type: string
     - Description: None
-- __vessel_id*__
+- __vessel_id__
     - Type: string
     - Description: None
-- __init_conc__
+- init_conc
     - Type: float
     - Description: None
-- __constant*__
+- __constant__
     - Type: StrictBool
     - Description: None
-- __unit__
+- unit
     - Type: string
     - Description: None
-- __uri__
+- uri
     - Type: string
     - Description: None
-- __creator_id__
+- creator_id
     - Type: string
     - Description: None
 
@@ -136,27 +138,27 @@ This object is used to inherit basic attributes common to all species used in th
 
 This objects describes the proteins that were used or produced in the course of the experiment.
 
-- __sequence*__
+- __sequence__
     - Type: string
     - Description: Amino acid sequence of the protein
     - Template_alias: Sequence
-- __ecnumber__
+- ecnumber
     - Type: string
     - Description: EC number of the protein.
     - Regex: (\d+.)(\d+.)(\d+.)(\d+)
     - Template_alias: EC Number
-- __organism__
+- organism
     - Type: string
     - Description: Organism the protein was expressed in.
     - Template_alias: Source organism
-- __organism_tax_id__
+- organism_tax_id
     - Type: string
     - Description: Taxonomy identifier of the expression host.
-- __uniprotid__
+- uniprotid
     - Type: string
     - Description: Unique identifier referencing a protein entry at UniProt. Use this identifier to initialize the object from the UniProt database.
     - Template_alias: UniProt ID
-- __ontology*__
+- __ontology__
     - Type: [SBOTerm](#SBOTerm)
     - Description: None
     - Default: SBOTerm.CATALYST
@@ -165,12 +167,12 @@ This objects describes the proteins that were used or produced in the course of 
 
 This object describes complexes made of reactants and/or proteins that were used or produced in the course of the experiment.
 
-- __participants__
+- participants
     - Type: string
     - Multiple: True
     - Description: Array of IDs the complex contains
     - Regex: [s|p][\d]+
-- __ontology*__
+- __ontology__
     - Type: [SBOTerm](#SBOTerm)
     - Description: None
     - Default: SBOTerm.MACROMOLECULAR_COMPLEX
@@ -179,18 +181,18 @@ This object describes complexes made of reactants and/or proteins that were used
 
 This objects describes the reactants that were used or produced in the course of the experiment.
 
-- __smiles__
+- smiles
     - Type: string
     - Description: Simplified Molecular Input Line Entry System (SMILES) encoding of the reactant.
     - Template_alias: SMILES
-- __inchi__
+- inchi
     - Type: string
     - Description: International Chemical Identifier (InChI) encoding of the reactant.
     - Template_alias: InCHI
-- __chebi_id__
+- chebi_id
     - Type: string
     - Description: Unique identifier of the CHEBI database. Use this identifier to initialize the object from the CHEBI database.
-- __ontology*__
+- __ontology__
     - Type: [SBOTerm](#SBOTerm)
     - Description: None
     - Default: SBOTerm.SMALL_MOLECULE
@@ -201,54 +203,54 @@ This objects describes the reactants that were used or produced in the course of
 
 This object describes a chemical or enzymatic reaction that was investigated in the course of the experiment. All species used within this object need to be part of the data model.
 
-- __name*__
+- __name__
     - Type: string
     - Description: Name of the reaction.
     - Template_alias: Name
-- __reversible*__
+- __reversible__
     - Type: bool
     - Description: Whether the reaction is reversible or irreversible
     - Default: False
     - Template_alias: Reversible
-- __temperature__
+- temperature
     - Type: float
     - Description: Numeric value of the temperature of the reaction.
     - Template_alias: Temperature value
-- __temperature_unit__
+- temperature_unit
     - Type: string
     - Description: Unit of the temperature of the reaction.
     - Regex: kelvin|Kelvin|k|K|celsius|Celsius|C|c
     - Template_alias: Temperature unit
-- __ph__
+- ph
     - Type: float
     - Description: PH value of the reaction.
     - Template_alias: pH value
     - Inclusiveminimum: 0
     - Inclusivemaximum: 14
-- __ontology*__
+- __ontology__
     - Type: [SBOTerm](#SBOTerm)
     - Default: SBOTerm.BIOCHEMICAL_REACTION
     - Description: Ontology defining the role of the given species.
-- __uri__
+- uri
     - Type: string
     - Description: URI of the reaction.
-- __creator_id__
+- creator_id
     - Type: string
     - Description: Unique identifier of the author.
-- __model__
+- model
     - Type: [KineticModel](#KineticModel)
     - Description: Kinetic model decribing the reaction.
-- __educts__
+- educts
     - Type: [ReactionElement](#ReactionElement)
     - Multiple: True
     - Description: List of educts containing ReactionElement objects.
     - Template_alias: Educts
-- __products__
+- products
     - Type: [ReactionElement](#ReactionElement)
     - Multiple: True
     - Description: List of products containing ReactionElement objects.
     - Template_alias: Products
-- __modifiers__
+- modifiers
     - Type: [ReactionElement](#ReactionElement)
     - Multiple: True
     - Description: List of modifiers (Proteins, snhibitors, stimulators) containing ReactionElement objects.
@@ -258,18 +260,18 @@ This object describes a chemical or enzymatic reaction that was investigated in 
 
 This object is part of the Reaction object and describes either an educt, product or modifier. The latter includes buffers, counter-ions as well as proteins/enzymes.
 
-- __species_id*__
+- __species_id__
     - Type: string
     - Description: Internal identifier to either a protein or reactant defined in the EnzymeMLDocument.
-- __stoichiometry*__
+- __stoichiometry__
     - Type: posfloat
     - Description: Positive float number representing the associated stoichiometry.
     - Default: 1.0
-- __constant*__
+- __constant__
     - Type: bool
     - Description: Whether or not the concentration of this species remains constant.
     - Default: False
-- __ontology__
+- ontology
     - Type: [SBOTerm](#SBOTerm)
     - Description: Ontology defining the role of the given species.
 
@@ -279,17 +281,17 @@ This object is part of the Reaction object and describes either an educt, produc
 
 This object describes a kinetic model that was derived from the experiment.
 
-- __name*__
+- __name__
     - Type: string
     - Description: Name of the kinetic law.
-- __equation*__
+- __equation__
     - Type: string
     - Description: Equation for the kinetic law.
-- __parameters__
+- parameters
     - Type: [KineticParameter](#KineticParameter)
     - Multiple: True
     - Description: List of estimated parameters.
-- __ontology__
+- ontology
     - Type: [SBOTerm](#SBOTerm)
     - Description: Type of the estimated parameter.
 
@@ -297,36 +299,36 @@ This object describes a kinetic model that was derived from the experiment.
 
 This object describes the parameters of the kinetic model and can include all estimated values.
 
-- __name*__
+- __name__
     - Type: string
     - Description: Name of the estimated parameter.
-- __value*__
+- __value__
     - Type: float
     - Description: Numerical value of the estimated parameter.
-- __unit*__
+- __unit__
     - Type: string
     - Description: Unit of the estimated parameter.
-- __initial_value__
+- initial_value
     - Type: float
     - Description: Initial value that was used for the parameter estimation.
-- __upper__
+- upper
     - Type: float
     - Description: Upper bound of the estimated parameter.
-- __lower__
+- lower
     - Type: float
     - Description: Lower bound of the estimated parameter.
-- __is_global*__
+- __is_global__
     - Type: bool
     - Description: Specifies if this parameter is a global parameter.
     - Default: False
-- __stdev__
+- stdev
     - Type: float
     - Description: Standard deviation of the estimated parameter.
-- __constant*__
+- __constant__
     - Type: bool
     - Description: Specifies if this parameter is constant
     - Default: False
-- __ontology__
+- ontology
     - Type: [SBOTerm](#SBOTerm)
     - Description: Type of the estimated parameter.
 
@@ -336,37 +338,37 @@ This object describes the parameters of the kinetic model and can include all es
 
 This object describes the result of a measurement, which includes time course data of any type defined in DataTypes. It includes initial concentrations of all species used in a single measurement.
 
-- __name*__
+- __name__
     - Type: string
     - Description: Name of the measurement
-- __temperature*__
+- __temperature__
     - Type: float
     - Description: Numeric value of the temperature of the reaction.
     - Template_alias: Temperature value
-- __temperature_unit*__
+- __temperature_unit__
     - Type: string
     - Description: Unit of the temperature of the reaction.
     - Regex: kelvin|Kelvin|k|K|celsius|Celsius|C|c
-- __ph*__
+- __ph__
     - Type: float
     - Description: PH value of the reaction.
     - Inclusiveminimum: 0
     - Inclusivemaximum: 14
-- __species__
+- species
     - Type: [MeasurementData](#MeasurementData)
     - Multiple: True
     - Description: Species of the measurement.
-- __global_time*__
+- __global_time__
     - Type: float
     - Multiple: True
     - Description: Global time of the measurement all replicates agree on.
-- __global_time_unit*__
+- __global_time_unit__
     - Type: string
     - Description: Unit of the global time.
-- __uri__
+- uri
     - Type: string
     - Description: URI of the reaction.
-- __creator_id__
+- creator_id
     - Type: string
     - Description: Unique identifier of the author.
 
@@ -374,19 +376,19 @@ This object describes the result of a measurement, which includes time course da
 
 This object describes a single entity of a measurement, which corresponds to one species. It also holds replicates which contain time course data.
 
-- __init_conc*__
+- __init_conc__
     - Type: float
     - Description: Initial concentration of the measurement data.
-- __unit*__
+- __unit__
     - Type: string
     - Description: The unit of the measurement data.
-- __measurement_id*__
+- __measurement_id__
     - Type: string
     - Description: Unique measurement identifier this dataset belongs to.
-- __species_id__
+- species_id
     - Type: string
     - Description: The identifier for the described reactant.
-- __replicates__
+- replicates
     - Type: [Replicate](#Replicate)
     - Multiple: True
     - Description: A list of replicate objects holding raw data of the measurement.
@@ -395,38 +397,38 @@ This object describes a single entity of a measurement, which corresponds to one
 
 This object contains the measured time course data as well as metadata to the replicate itself.
 
-- __species_id*__
+- __species_id__
     - Type: string
     - Description: Unique identifier of the species that has been measured.
-- __measurement_id*__
+- __measurement_id__
     - Type: string
     - Description: Unique identifier of the measurement that the replicate is part of.
-- __data_type*__
+- __data_type__
     - Type: [DataTypes](#DataTypes)
     - Description: Type of data that was measured (e.g. concentration)
     - Default: DataTypes.CONCENTRATION
-- __data_unit*__
+- __data_unit__
     - Type: string
     - Description: SI unit of the data that was measured.
-- __time_unit*__
+- __time_unit__
     - Type: string
     - Description: Time unit of the replicate.
-- __time*__
+- __time__
     - Type: float
     - Multiple: True
     - Description: Time steps of the replicate.
-- __data*__
+- __data__
     - Type: float
     - Multiple: True
     - Description: Data that was measured.
-- __is_calculated*__
+- __is_calculated__
     - Type: bool
     - Description: Whether or not the data has been generated by simulation.
     - Default: False
-- __uri__
+- uri
     - Type: string
     - Description: URI of the protein.
-- __creator_id__
+- creator_id
     - Type: string
     - Description: Unique identifier of the author.
 
@@ -436,19 +438,19 @@ This object contains the measured time course data as well as metadata to the re
 
 This objects contains a files that has been attached to the document.
 
-- __name*__
+- __name__
     - Type: string
     - Description: Name of the file
-- __content*__
+- __content__
     - Type: bytes
     - Description: Contents of the file
-- __filetype*__
+- __filetype__
     - Type: string
     - Description: Type of the file such as .xml, .json and so on
 
-## Ontologies
+## Enumerations
 
-#### SBOTerm
+### SBOTerm
 
 These are a small fraction of the SBOTerms defined for the SBML markup language.
 
@@ -486,7 +488,7 @@ K_M = "SBO:0000027"
 V_MAX = "SBO:0000186"
 ```
 
-#### DataTypes
+### DataTypes
 
 These values are used to determine the type of time course data.
 
