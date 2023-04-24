@@ -1,19 +1,24 @@
 import sdRDM
 
 from typing import Optional
-from typing import Optional, Union
-from pydantic import PrivateAttr
-from pydantic import Field
-from sdRDM.base.listplus import ListPlus
+from pydantic import Field, PrivateAttr
 from sdRDM.base.utils import forge_signature, IDGenerator
+
 from pydantic.types import PositiveFloat
+
 from .sboterm import SBOTerm
 
 
 @forge_signature
 class ReactionElement(sdRDM.DataModel):
-    """This object is part of the Reaction object and describes either an educt, product or modifier. The latter includes buffers, counter-ions as well as proteins/enzymes.
-    """
+
+    """This object is part of the Reaction object and describes either an educt, product or modifier. The latter includes buffers, counter-ions as well as proteins/enzymes."""
+
+    id: str = Field(
+        description="Unique identifier of the given object.",
+        default_factory=IDGenerator("reactionelementINDEX"),
+        xml="@id",
+    )
 
     species_id: str = Field(
         ...,
@@ -21,6 +26,11 @@ class ReactionElement(sdRDM.DataModel):
             "Internal identifier to either a protein or reactant defined in the"
             " EnzymeMLDocument."
         ),
+    )
+
+    stoichiometry: PositiveFloat = Field(
+        description="Positive float number representing the associated stoichiometry.",
+        default=1.0,
     )
 
     constant: bool = Field(
@@ -31,24 +41,13 @@ class ReactionElement(sdRDM.DataModel):
     )
 
     ontology: Optional[SBOTerm] = Field(
-        description="Ontology defining the role of the given species.", default=None
-    )
-
-    id: str = Field(
-        description="Unique identifier of the given object.",
-        default_factory=IDGenerator("reactionelementINDEX"),
-        xml="@id",
-    )
-
-    stoichiometry: PositiveFloat = Field(
-        description="Positive float number representing the associated stoichiometry.",
-        default="1.0",
+        default=None,
+        description="Ontology defining the role of the given species.",
     )
 
     __repo__: Optional[str] = PrivateAttr(
-        default="git://github.com/EnzymeML/enzymeml-specifications.git"
+        default="https://github.com/EnzymeML/enzymeml-specifications.git"
     )
-
     __commit__: Optional[str] = PrivateAttr(
-        default="82e00b7446c13ed5ba6c191d79f2622cc9226be7"
+        default="feacdf68c751bf9cdc0c1594f449551c7b70bfdf"
     )

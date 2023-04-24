@@ -1,25 +1,14 @@
 import sdRDM
 
 from typing import Optional
-from typing import Optional, Union
-from pydantic import PrivateAttr
-from pydantic import Field
-from sdRDM.base.listplus import ListPlus
+from pydantic import Field, PrivateAttr
 from sdRDM.base.utils import forge_signature, IDGenerator
 
 
 @forge_signature
 class Creator(sdRDM.DataModel):
-    """The creator object contains all information about authors that contributed to the resulting document.
-    """
 
-    given_name: str = Field(..., description="Given name of the author or contributor.")
-
-    family_name: str = Field(
-        ..., description="Family name of the author or contributor."
-    )
-
-    mail: str = Field(..., description="Email address of the author or contributor.")
+    """The creator object contains all information about authors that contributed to the resulting document."""
 
     id: str = Field(
         description="Unique identifier of the given object.",
@@ -27,10 +16,24 @@ class Creator(sdRDM.DataModel):
         xml="@id",
     )
 
-    __repo__: Optional[str] = PrivateAttr(
-        default="git://github.com/EnzymeML/enzymeml-specifications.git"
+    given_name: str = Field(
+        ...,
+        description="Given name of the author or contributor.",
     )
 
+    family_name: str = Field(
+        ...,
+        description="Family name of the author or contributor.",
+    )
+
+    mail: str = Field(
+        ...,
+        description="Email address of the author or contributor.",
+    )
+
+    __repo__: Optional[str] = PrivateAttr(
+        default="https://github.com/EnzymeML/enzymeml-specifications.git"
+    )
     __commit__: Optional[str] = PrivateAttr(
-        default="82e00b7446c13ed5ba6c191d79f2622cc9226be7"
+        default="feacdf68c751bf9cdc0c1594f449551c7b70bfdf"
     )

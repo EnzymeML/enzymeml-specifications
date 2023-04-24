@@ -1,30 +1,16 @@
 import sdRDM
 
 from typing import Optional
-from typing import Optional, Union
-from pydantic import PrivateAttr
-from pydantic import Field
-from sdRDM.base.listplus import ListPlus
+from pydantic import Field, PrivateAttr
 from sdRDM.base.utils import forge_signature, IDGenerator
+
 from pydantic.types import StrictBool
 
 
 @forge_signature
 class AbstractSpecies(sdRDM.DataModel):
-    """This object is used to inherit basic attributes common to all species used in the data model.
-    """
 
-    name: str = Field(..., description="None")
-
-    vessel_id: str = Field(..., description="None")
-
-    init_conc: Optional[float] = Field(description="None", default=None)
-
-    unit: Optional[str] = Field(description="None", default=None)
-
-    uri: Optional[str] = Field(description="None", default=None)
-
-    creator_id: Optional[str] = Field(description="None", default=None)
+    """This object is used to inherit basic attributes common to all species used in the data model."""
 
     id: str = Field(
         description="Unique identifier of the given object.",
@@ -32,12 +18,44 @@ class AbstractSpecies(sdRDM.DataModel):
         xml="@id",
     )
 
-    constant: StrictBool = Field(..., description="None")
-
-    __repo__: Optional[str] = PrivateAttr(
-        default="git://github.com/EnzymeML/enzymeml-specifications.git"
+    name: str = Field(
+        ...,
+        description="None",
     )
 
+    vessel_id: str = Field(
+        ...,
+        description="None",
+    )
+
+    init_conc: Optional[float] = Field(
+        default=None,
+        description="None",
+    )
+
+    constant: StrictBool = Field(
+        ...,
+        description="None",
+    )
+
+    unit: Optional[str] = Field(
+        default=None,
+        description="None",
+    )
+
+    uri: Optional[str] = Field(
+        default=None,
+        description="None",
+    )
+
+    creator_id: Optional[str] = Field(
+        default=None,
+        description="None",
+    )
+
+    __repo__: Optional[str] = PrivateAttr(
+        default="https://github.com/EnzymeML/enzymeml-specifications.git"
+    )
     __commit__: Optional[str] = PrivateAttr(
-        default="82e00b7446c13ed5ba6c191d79f2622cc9226be7"
+        default="feacdf68c751bf9cdc0c1594f449551c7b70bfdf"
     )

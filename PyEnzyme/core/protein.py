@@ -1,49 +1,17 @@
+
 from typing import Optional
-from typing import Optional, Union
-from pydantic import PrivateAttr
-from pydantic import Field
-from sdRDM.base.listplus import ListPlus
+from pydantic import Field, PrivateAttr
 from sdRDM.base.utils import forge_signature, IDGenerator
-from .abstractspecies import AbstractSpecies
+
+
 from .sboterm import SBOTerm
+from .abstractspecies import AbstractSpecies
 
 
 @forge_signature
 class Protein(AbstractSpecies):
-    """This objects describes the proteins that were used or produced in the course of the experiment.
-    """
 
-    sequence: str = Field(
-        ..., description="Amino acid sequence of the protein", template_alias="Sequence"
-    )
-
-    ecnumber: Optional[str] = Field(
-        description="EC number of the protein.",
-        regex="(\\d+.)(\\d+.)(\\d+.)(\\d+)",
-        template_alias="EC Number",
-        default=None,
-    )
-
-    organism: Optional[str] = Field(
-        description="Organism the protein was expressed in.",
-        template_alias="Source organism",
-        default=None,
-    )
-
-    organism_tax_id: Optional[str] = Field(
-        description="Taxonomy identifier of the expression host.", default=None
-    )
-
-    uniprotid: Optional[str] = Field(
-        description=(
-            "Unique identifier referencing a protein entry at UniProt. Use this"
-            " identifier to initialize the object from the UniProt database."
-        ),
-        template_alias="UniProt ID",
-        default=None,
-    )
-
-    ontology: SBOTerm = Field(description="None", default=SBOTerm.CATALYST)
+    """This objects describes the proteins that were used or produced in the course of the experiment."""
 
     id: str = Field(
         description="Unique identifier of the given object.",
@@ -51,10 +19,47 @@ class Protein(AbstractSpecies):
         xml="@id",
     )
 
-    __repo__: Optional[str] = PrivateAttr(
-        default="git://github.com/EnzymeML/enzymeml-specifications.git"
+    sequence: str = Field(
+        ...,
+        description="Amino acid sequence of the protein",
+        template_alias="Sequence",
     )
 
+    ecnumber: Optional[str] = Field(
+        default=None,
+        description="EC number of the protein.",
+        regex="(\d+.)(\d+.)(\d+.)(\d+)",
+        template_alias="EC Number",
+    )
+
+    organism: Optional[str] = Field(
+        default=None,
+        description="Organism the protein was expressed in.",
+        template_alias="Source organism",
+    )
+
+    organism_tax_id: Optional[str] = Field(
+        default=None,
+        description="Taxonomy identifier of the expression host.",
+    )
+
+    uniprotid: Optional[str] = Field(
+        default=None,
+        description=(
+            "Unique identifier referencing a protein entry at UniProt. Use this"
+            " identifier to initialize the object from the UniProt database."
+        ),
+        template_alias="UniProt ID",
+    )
+
+    ontology: SBOTerm = Field(
+        description="None",
+        default=SBOTerm.CATALYST,
+    )
+
+    __repo__: Optional[str] = PrivateAttr(
+        default="https://github.com/EnzymeML/enzymeml-specifications.git"
+    )
     __commit__: Optional[str] = PrivateAttr(
-        default="82e00b7446c13ed5ba6c191d79f2622cc9226be7"
+        default="feacdf68c751bf9cdc0c1594f449551c7b70bfdf"
     )
