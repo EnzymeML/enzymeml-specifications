@@ -5,8 +5,8 @@ from sdRDM.base.listplus import ListPlus
 from sdRDM.base.utils import forge_signature, IDGenerator
 
 
-from .sboterm import SBOTerm
 from .abstractspecies import AbstractSpecies
+from .sboterm import SBOTerm
 
 
 @forge_signature
@@ -36,5 +36,5 @@ class Complex(AbstractSpecies):
         default="https://github.com/EnzymeML/enzymeml-specifications.git"
     )
     __commit__: Optional[str] = PrivateAttr(
-        default="feacdf68c751bf9cdc0c1594f449551c7b70bfdf"
+        default="f3502066a5b52b5dbe2cf1464b7f855e9ce80c2d"
     )
