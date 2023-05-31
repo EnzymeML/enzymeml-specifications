@@ -35,5 +35,5 @@ class File(sdRDM.DataModel):
         default="https://github.com/EnzymeML/enzymeml-specifications.git"
     )
     __commit__: Optional[str] = PrivateAttr(
-        default="880cff909f356ede1f4ed33ecfb9df11edd470a8"
+        default="0c4e3383699eaeb49bf59ab366e5a77d8e20e074"
     )
