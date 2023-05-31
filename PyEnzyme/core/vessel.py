@@ -1,22 +1,27 @@
 import sdRDM
 
 from typing import Optional
-from typing import Optional, Union
-from pydantic import PrivateAttr
-from pydantic import Field
-from sdRDM.base.listplus import ListPlus
+from pydantic import Field, PrivateAttr
 from sdRDM.base.utils import forge_signature, IDGenerator
+
 from pydantic.types import PositiveFloat
-from pydantic.types import StrictBool
 
 
 @forge_signature
 class Vessel(sdRDM.DataModel):
-    """This object describes vessels in which the experiment has been carried out. These can include any type of vessel used in biocatalytic experiments.
-    """
+
+    """This object describes vessels in which the experiment has been carried out. These can include any type of vessel used in biocatalytic experiments."""
+
+    id: Optional[str] = Field(
+        description="Unique identifier of the given object.",
+        default_factory=IDGenerator("vesselINDEX"),
+        xml="@id",
+    )
 
     name: str = Field(
-        ..., description="Name of the used vessel.", template_alias="Name"
+        ...,
+        description="Name of the used vessel.",
+        template_alias="Name",
     )
 
     volume: PositiveFloat = Field(
@@ -26,29 +31,29 @@ class Vessel(sdRDM.DataModel):
     )
 
     unit: str = Field(
-        ..., description="Volumetric unit of the vessel.", template_alias="Volume unit"
+        ...,
+        description="Volumetric unit of the vessel.",
+        template_alias="Volume unit",
     )
 
-    uri: Optional[str] = Field(description="URI of the vessel.", default=None)
+    constant: bool = Field(
+        description="Whether the volume of the vessel is constant or not.",
+        default=True,
+    )
+
+    uri: Optional[str] = Field(
+        default=None,
+        description="URI of the vessel.",
+    )
 
     creator_id: Optional[str] = Field(
-        description="Unique identifier of the author.", default=None
-    )
-
-    id: str = Field(
-        description="Unique identifier of the given object.",
-        default_factory=IDGenerator("vesselINDEX"),
-        xml="@id",
-    )
-
-    constant: StrictBool = Field(
-        description="Whether the volume of the vessel is constant or not.", default=True
+        default=None,
+        description="Unique identifier of the author.",
     )
 
     __repo__: Optional[str] = PrivateAttr(
-        default="git://github.com/EnzymeML/enzymeml-specifications.git"
+        default="https://github.com/EnzymeML/enzymeml-specifications.git"
     )
-
     __commit__: Optional[str] = PrivateAttr(
-        default="82e00b7446c13ed5ba6c191d79f2622cc9226be7"
+        default="880cff909f356ede1f4ed33ecfb9df11edd470a8"
     )

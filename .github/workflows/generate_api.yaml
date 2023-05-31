@@ -17,7 +17,7 @@ jobs:
           python-version: 3.9
           
       - name: Install sdRDM
-        run: python3 -m pip install git+https://github.com/JR-1991/software-driven-rdm.git
+        run: python3 -m pip install git+https://github.com/JR-1991/software-driven-rdm.git@markdown-parser-refactor
         
       - name: Generate API
         env:

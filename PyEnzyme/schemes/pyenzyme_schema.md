@@ -9,20 +9,20 @@ classDiagram
     EnzymeMLDocument *-- Complex
     EnzymeMLDocument *-- Reactant
     EnzymeMLDocument *-- Reaction
+    EnzymeMLDocument *-- KineticParameter
     EnzymeMLDocument *-- Measurement
     EnzymeMLDocument *-- File
-    EnzymeMLDocument *-- KineticParameter
+    AbstractSpecies *-- Vessel
     Protein *-- SBOTerm
     Complex *-- SBOTerm
     Reactant *-- SBOTerm
     Reaction *-- SBOTerm
+    Reaction *-- ReactionElement
     Reaction *-- KineticModel
-    Reaction *-- ReactionElement
-    Reaction *-- ReactionElement
-    Reaction *-- ReactionElement
     ReactionElement *-- SBOTerm
-    KineticModel *-- KineticParameter
+    ReactionElement *-- AbstractSpecies
     KineticModel *-- SBOTerm
+    KineticModel *-- KineticParameter
     KineticParameter *-- SBOTerm
     Measurement *-- MeasurementData
     MeasurementData *-- Replicate
@@ -56,14 +56,14 @@ classDiagram
         +string name*
         +posfloat volume*
         +string unit*
-        +StrictBool constant*
+        +bool constant*
         +string uri
         +string creator_id
     }
     
     class AbstractSpecies {
         +string name*
-        +string vessel_id*
+        +Vessel vessel_id*
         +float init_conc
         +StrictBool constant*
         +string unit
@@ -108,7 +108,7 @@ classDiagram
     }
     
     class ReactionElement {
-        +string species_id*
+        +AbstractSpecies species_id*
         +posfloat stoichiometry*
         +bool constant*
         +SBOTerm ontology
@@ -141,7 +141,7 @@ classDiagram
         +float ph*
         +MeasurementData[0..*] species
         +float[0..*] global_time*
-        +string global_time_unit*
+        +str global_time_unit*
         +string uri
         +string creator_id
     }
@@ -175,82 +175,47 @@ classDiagram
     
     class SBOTerm {
         << Enumeration >>
-        +BIOCHEMICAL_REACTION = "SBO:0000176"
-        +ACID_BASE_REACTION = "SBO:0000208"
-        +CONFORMATIONAL_TRANSITION = "SBO:0000181"
-        +CONVERSION = "SBO:0000182"
-        +DEGRADATION = "SBO:0000179"
-        +DISSOCIATION = "SBO:0000180"
-        +IONISATION = "SBO:0000209"
-        +ISOMERISATION = "SBO:0000377"
-        +NON_COVALENT_BINDING = "SBO:0000177"
-        +REDOX_REACTION = "SBO:0000200"
-        +SPONTANEOUS_REACTION = "SBO:0000672"
-        +PROTEIN = "SBO:0000252"
-        +GENE = "SBO:0000251"
-        +SMALL_MOLECULE = "SBO:0000247"
-        +ION = "SBO:0000327"
-        +RADICAL = "SBO:0000328"
-        +INTERACTOR = "SBO:0000336"
-        +SUBSTRATE = "SBO:0000015"
-        +PRODUCT = "SBO:0000011"
-        +CATALYST = "SBO:0000013"
-        +INHIBITOR = "SBO:0000020"
-        +ESSENTIAL_ACTIVATOR = "SBO:0000461"
-        +NON_ESSENTIAL_ACTIVATOR = "SBO:0000462"
-        +POTENTIATOR = "SBO:0000021"
-        +MACROMOLECULAR_COMPLEX = "SBO:0000296"
-        +PROTEIN_COMPLEX = "SBO:0000297"
-        +DIMER = "SBO:0000607"
-        +MICHAELIS_MENTEN = "SBO:0000028"
-        +K_CAT = "SBO:0000025"
-        +K_M = "SBO:0000027"
-        +V_MAX = "SBO:0000186"
-    }
-    
-    class SBOTerm {
-        << Enumeration >>
-        +BIOCHEMICAL_REACTION = "SBO:0000176"
-        +ACID_BASE_REACTION = "SBO:0000208"
-        +CONFORMATIONAL_TRANSITION = "SBO:0000181"
-        +CONVERSION = "SBO:0000182"
-        +DEGRADATION = "SBO:0000179"
-        +DISSOCIATION = "SBO:0000180"
-        +IONISATION = "SBO:0000209"
-        +ISOMERISATION = "SBO:0000377"
-        +NON_COVALENT_BINDING = "SBO:0000177"
-        +REDOX_REACTION = "SBO:0000200"
-        +SPONTANEOUS_REACTION = "SBO:0000672"
-        +PROTEIN = "SBO:0000252"
-        +GENE = "SBO:0000251"
-        +SMALL_MOLECULE = "SBO:0000247"
-        +ION = "SBO:0000327"
-        +RADICAL = "SBO:0000328"
-        +INTERACTOR = "SBO:0000336"
-        +SUBSTRATE = "SBO:0000015"
-        +PRODUCT = "SBO:0000011"
-        +CATALYST = "SBO:0000013"
-        +INHIBITOR = "SBO:0000020"
-        +ESSENTIAL_ACTIVATOR = "SBO:0000461"
-        +NON_ESSENTIAL_ACTIVATOR = "SBO:0000462"
-        +POTENTIATOR = "SBO:0000021"
-        +MACROMOLECULAR_COMPLEX = "SBO:0000296"
-        +PROTEIN_COMPLEX = "SBO:0000297"
-        +DIMER = "SBO:0000607"
-        +MICHAELIS_MENTEN = "SBO:0000028"
-        +K_CAT = "SBO:0000025"
-        +K_M = "SBO:0000027"
-        +V_MAX = "SBO:0000186"
+        +BIOCHEMICAL_REACTION
+        +ACID_BASE_REACTION
+        +CONFORMATIONAL_TRANSITION
+        +CONVERSION
+        +DEGRADATION
+        +DISSOCIATION
+        +IONISATION
+        +ISOMERISATION
+        +NON_COVALENT_BINDING
+        +REDOX_REACTION
+        +SPONTANEOUS_REACTION
+        +PROTEIN
+        +GENE
+        +SMALL_MOLECULE
+        +ION
+        +RADICAL
+        +INTERACTOR
+        +SUBSTRATE
+        +PRODUCT
+        +CATALYST
+        +INHIBITOR
+        +ESSENTIAL_ACTIVATOR
+        +NON_ESSENTIAL_ACTIVATOR
+        +POTENTIATOR
+        +MACROMOLECULAR_COMPLEX
+        +PROTEIN_COMPLEX
+        +DIMER
+        +MICHAELIS_MENTEN
+        +K_CAT
+        +K_M
+        +V_MAX
     }
     
     class DataTypes {
         << Enumeration >>
-        +CONCENTRATION = "conc"
-        +ABSORPTION = "abs"
-        +FEED = "feed"
-        +BIOMASS = "biomass"
-        +CONVERSION = "conversion"
-        +PEAK_AREA = "peak-area"
+        +CONCENTRATION
+        +ABSORPTION
+        +FEED
+        +BIOMASS
+        +CONVERSION
+        +PEAK_AREA
     }
     
 ```

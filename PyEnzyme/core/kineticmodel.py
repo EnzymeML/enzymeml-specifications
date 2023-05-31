@@ -1,44 +1,52 @@
 import sdRDM
 
-from typing import Optional
-from typing import List
-from typing import Optional, Union
-from pydantic import PrivateAttr
-from pydantic import Field
+from typing import List, Optional
+from pydantic import Field, PrivateAttr
 from sdRDM.base.listplus import ListPlus
 from sdRDM.base.utils import forge_signature, IDGenerator
-from .kineticparameter import KineticParameter
+
+
 from .sboterm import SBOTerm
+from .kineticparameter import KineticParameter
 
 
 @forge_signature
 class KineticModel(sdRDM.DataModel):
+
     """This object describes a kinetic model that was derived from the experiment."""
 
-    name: str = Field(..., description="Name of the kinetic law.")
-
-    equation: str = Field(..., description="Equation for the kinetic law.")
-
-    parameters: List[KineticParameter] = Field(
-        description="List of estimated parameters.", default_factory=ListPlus
-    )
-
-    ontology: Optional[SBOTerm] = Field(
-        description="Type of the estimated parameter.", default=None
-    )
-
-    id: str = Field(
+    id: Optional[str] = Field(
         description="Unique identifier of the given object.",
         default_factory=IDGenerator("kineticmodelINDEX"),
         xml="@id",
     )
 
-    __repo__: Optional[str] = PrivateAttr(
-        default="git://github.com/EnzymeML/enzymeml-specifications.git"
+    name: str = Field(
+        ...,
+        description="Name of the kinetic law.",
     )
 
+    equation: str = Field(
+        ...,
+        description="Equation for the kinetic law.",
+    )
+
+    parameters: List[KineticParameter] = Field(
+        default_factory=ListPlus,
+        multiple=True,
+        description="List of estimated parameters.",
+    )
+
+    ontology: Optional[SBOTerm] = Field(
+        default=None,
+        description="Type of the estimated parameter.",
+    )
+
+    __repo__: Optional[str] = PrivateAttr(
+        default="https://github.com/EnzymeML/enzymeml-specifications.git"
+    )
     __commit__: Optional[str] = PrivateAttr(
-        default="82e00b7446c13ed5ba6c191d79f2622cc9226be7"
+        default="880cff909f356ede1f4ed33ecfb9df11edd470a8"
     )
 
     def add_to_parameters(
@@ -56,42 +64,20 @@ class KineticModel(sdRDM.DataModel):
         id: Optional[str] = None,
     ) -> None:
         """
-        Adds an instance of 'KineticParameter' to the attribute 'parameters'.
+        This method adds an object of type 'KineticParameter' to attribute parameters
 
         Args:
-
-
             id (str): Unique identifier of the 'KineticParameter' object. Defaults to 'None'.
-
-
-            name (str): Name of the estimated parameter.
-
-
-            value (float): Numerical value of the estimated parameter.
-
-
-            unit (str): Unit of the estimated parameter.
-
-
-            initial_value (Optional[float]): Initial value that was used for the parameter estimation. Defaults to None
-
-
-            upper (Optional[float]): Upper bound of the estimated parameter. Defaults to None
-
-
-            lower (Optional[float]): Lower bound of the estimated parameter. Defaults to None
-
-
-            is_global (bool): Specifies if this parameter is a global parameter. Defaults to False
-
-
-            stdev (Optional[float]): Standard deviation of the estimated parameter. Defaults to None
-
-
-            constant (bool): Specifies if this parameter is constant. Defaults to False
-
-
-            ontology (Optional[SBOTerm]): Type of the estimated parameter. Defaults to None
+            name (): Name of the estimated parameter..
+            value (): Numerical value of the estimated parameter..
+            unit (): Unit of the estimated parameter..
+            initial_value (): Initial value that was used for the parameter estimation.. Defaults to None
+            upper (): Upper bound of the estimated parameter.. Defaults to None
+            lower (): Lower bound of the estimated parameter.. Defaults to None
+            is_global (): Specifies if this parameter is a global parameter.. Defaults to False
+            stdev (): Standard deviation of the estimated parameter.. Defaults to None
+            constant (): Specifies if this parameter is constant. Defaults to False
+            ontology (): Type of the estimated parameter.. Defaults to None
         """
 
         params = {
@@ -106,7 +92,8 @@ class KineticModel(sdRDM.DataModel):
             "constant": constant,
             "ontology": ontology,
         }
+
         if id is not None:
             params["id"] = id
-        parameters = [KineticParameter(**params)]
-        self.parameters = self.parameters + parameters
+
+        self.parameters.append(KineticParameter(**params))

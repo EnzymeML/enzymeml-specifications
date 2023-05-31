@@ -1,22 +1,28 @@
 import sdRDM
 
-from typing import Optional
-from typing import List
-from typing import Optional, Union
-from pydantic import PrivateAttr
-from pydantic import Field
+from typing import List, Optional
+from pydantic import Field, PrivateAttr
 from sdRDM.base.listplus import ListPlus
 from sdRDM.base.utils import forge_signature, IDGenerator
+
+
 from .datatypes import DataTypes
 
 
 @forge_signature
 class Replicate(sdRDM.DataModel):
-    """This object contains the measured time course data as well as metadata to the replicate itself.
-    """
+
+    """This object contains the measured time course data as well as metadata to the replicate itself."""
+
+    id: Optional[str] = Field(
+        description="Unique identifier of the given object.",
+        default_factory=IDGenerator("replicateINDEX"),
+        xml="@id",
+    )
 
     species_id: str = Field(
-        ..., description="Unique identifier of the species that has been measured."
+        ...,
+        description="Unique identifier of the species that has been measured.",
     )
 
     measurement_id: str = Field(
@@ -26,21 +32,31 @@ class Replicate(sdRDM.DataModel):
         ),
     )
 
-    data_unit: str = Field(..., description="SI unit of the data that was measured.")
-
-    time_unit: str = Field(..., description="Time unit of the replicate.")
-
     data_type: DataTypes = Field(
         description="Type of data that was measured (e.g. concentration)",
         default=DataTypes.CONCENTRATION,
     )
 
+    data_unit: str = Field(
+        ...,
+        description="SI unit of the data that was measured.",
+    )
+
+    time_unit: str = Field(
+        ...,
+        description="Time unit of the replicate.",
+    )
+
     time: List[float] = Field(
-        description="Time steps of the replicate.", default_factory=ListPlus
+        multiple=True,
+        description="Time steps of the replicate.",
+        default_factory=ListPlus,
     )
 
     data: List[float] = Field(
-        description="Data that was measured.", default_factory=ListPlus
+        multiple=True,
+        description="Data that was measured.",
+        default_factory=ListPlus,
     )
 
     is_calculated: bool = Field(
@@ -48,22 +64,19 @@ class Replicate(sdRDM.DataModel):
         default=False,
     )
 
-    uri: Optional[str] = Field(description="URI of the protein.", default=None)
-
-    creator_id: Optional[str] = Field(
-        description="Unique identifier of the author.", default=None
+    uri: Optional[str] = Field(
+        default=None,
+        description="URI of the protein.",
     )
 
-    id: str = Field(
-        description="Unique identifier of the given object.",
-        default_factory=IDGenerator("replicateINDEX"),
-        xml="@id",
+    creator_id: Optional[str] = Field(
+        default=None,
+        description="Unique identifier of the author.",
     )
 
     __repo__: Optional[str] = PrivateAttr(
-        default="git://github.com/EnzymeML/enzymeml-specifications.git"
+        default="https://github.com/EnzymeML/enzymeml-specifications.git"
     )
-
     __commit__: Optional[str] = PrivateAttr(
-        default="82e00b7446c13ed5ba6c191d79f2622cc9226be7"
+        default="880cff909f356ede1f4ed33ecfb9df11edd470a8"
     )

@@ -1,55 +1,57 @@
+
 from typing import Optional
-from typing import Optional, Union
-from pydantic import PrivateAttr
-from pydantic import Field
-from sdRDM.base.listplus import ListPlus
+from pydantic import Field, PrivateAttr
 from sdRDM.base.utils import forge_signature, IDGenerator
-from .abstractspecies import AbstractSpecies
+
+
 from .sboterm import SBOTerm
+from .abstractspecies import AbstractSpecies
 
 
 @forge_signature
 class Reactant(AbstractSpecies):
-    """This objects describes the reactants that were used or produced in the course of the experiment.
-    """
 
-    smiles: Optional[str] = Field(
-        description=(
-            "Simplified Molecular Input Line Entry System (SMILES) encoding of the"
-            " reactant."
-        ),
-        template_alias="SMILES",
-        default=None,
-    )
+    """This objects describes the reactants that were used or produced in the course of the experiment."""
 
-    inchi: Optional[str] = Field(
-        description=(
-            "International Chemical Identifier (InChI) encoding of the reactant."
-        ),
-        template_alias="InCHI",
-        default=None,
-    )
-
-    chebi_id: Optional[str] = Field(
-        description=(
-            "Unique identifier of the CHEBI database. Use this identifier to initialize"
-            " the object from the CHEBI database."
-        ),
-        default=None,
-    )
-
-    ontology: SBOTerm = Field(description="None", default=SBOTerm.SMALL_MOLECULE)
-
-    id: str = Field(
+    id: Optional[str] = Field(
         description="Unique identifier of the given object.",
         default_factory=IDGenerator("reactantINDEX"),
         xml="@id",
     )
 
-    __repo__: Optional[str] = PrivateAttr(
-        default="git://github.com/EnzymeML/enzymeml-specifications.git"
+    smiles: Optional[str] = Field(
+        default=None,
+        description=(
+            "Simplified Molecular Input Line Entry System (SMILES) encoding of the"
+            " reactant."
+        ),
+        template_alias="SMILES",
     )
 
+    inchi: Optional[str] = Field(
+        default=None,
+        description=(
+            "International Chemical Identifier (InChI) encoding of the reactant."
+        ),
+        template_alias="InCHI",
+    )
+
+    chebi_id: Optional[str] = Field(
+        default=None,
+        description=(
+            "Unique identifier of the CHEBI database. Use this identifier to initialize"
+            " the object from the CHEBI database."
+        ),
+    )
+
+    ontology: SBOTerm = Field(
+        description="None",
+        default=SBOTerm.SMALL_MOLECULE,
+    )
+
+    __repo__: Optional[str] = PrivateAttr(
+        default="https://github.com/EnzymeML/enzymeml-specifications.git"
+    )
     __commit__: Optional[str] = PrivateAttr(
-        default="82e00b7446c13ed5ba6c191d79f2622cc9226be7"
+        default="880cff909f356ede1f4ed33ecfb9df11edd470a8"
     )

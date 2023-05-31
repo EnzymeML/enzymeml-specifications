@@ -1,39 +1,40 @@
-from typing import Optional
-from typing import List
-from typing import Optional, Union
-from pydantic import PrivateAttr
-from pydantic import Field
+
+from typing import List, Optional
+from pydantic import Field, PrivateAttr
 from sdRDM.base.listplus import ListPlus
 from sdRDM.base.utils import forge_signature, IDGenerator
-from .abstractspecies import AbstractSpecies
+
+
 from .sboterm import SBOTerm
+from .abstractspecies import AbstractSpecies
 
 
 @forge_signature
 class Complex(AbstractSpecies):
-    """This object describes complexes made of reactants and/or proteins that were used or produced in the course of the experiment.
-    """
 
-    participants: List[str] = Field(
-        description="Array of IDs the complex contains",
-        regex="[s|p][\\d]+",
-        default_factory=ListPlus,
-    )
+    """This object describes complexes made of reactants and/or proteins that were used or produced in the course of the experiment."""
 
-    ontology: SBOTerm = Field(
-        description="None", default=SBOTerm.MACROMOLECULAR_COMPLEX
-    )
-
-    id: str = Field(
+    id: Optional[str] = Field(
         description="Unique identifier of the given object.",
         default_factory=IDGenerator("complexINDEX"),
         xml="@id",
     )
 
-    __repo__: Optional[str] = PrivateAttr(
-        default="git://github.com/EnzymeML/enzymeml-specifications.git"
+    participants: List[str] = Field(
+        default_factory=ListPlus,
+        multiple=True,
+        description="Array of IDs the complex contains",
+        regex="[s|p][\d]+",
     )
 
+    ontology: SBOTerm = Field(
+        description="None",
+        default=SBOTerm.MACROMOLECULAR_COMPLEX,
+    )
+
+    __repo__: Optional[str] = PrivateAttr(
+        default="https://github.com/EnzymeML/enzymeml-specifications.git"
+    )
     __commit__: Optional[str] = PrivateAttr(
-        default="82e00b7446c13ed5ba6c191d79f2622cc9226be7"
+        default="880cff909f356ede1f4ed33ecfb9df11edd470a8"
     )
