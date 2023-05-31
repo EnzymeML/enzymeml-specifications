@@ -13,7 +13,7 @@ class KineticParameter(sdRDM.DataModel):
 
     """This object describes the parameters of the kinetic model and can include all estimated values."""
 
-    id: str = Field(
+    id: Optional[str] = Field(
         description="Unique identifier of the given object.",
         default_factory=IDGenerator("kineticparameterINDEX"),
         xml="@id",
@@ -73,5 +73,5 @@ class KineticParameter(sdRDM.DataModel):
         default="https://github.com/EnzymeML/enzymeml-specifications.git"
     )
     __commit__: Optional[str] = PrivateAttr(
-        default="f3502066a5b52b5dbe2cf1464b7f855e9ce80c2d"
+        default="62a3ba5ee3cff873871ac4789816d7d2c7778a3d"
     )

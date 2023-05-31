@@ -10,7 +10,7 @@ class File(sdRDM.DataModel):
 
     """This objects contains a files that has been attached to the document."""
 
-    id: str = Field(
+    id: Optional[str] = Field(
         description="Unique identifier of the given object.",
         default_factory=IDGenerator("fileINDEX"),
         xml="@id",
@@ -35,5 +35,5 @@ class File(sdRDM.DataModel):
         default="https://github.com/EnzymeML/enzymeml-specifications.git"
     )
     __commit__: Optional[str] = PrivateAttr(
-        default="f3502066a5b52b5dbe2cf1464b7f855e9ce80c2d"
+        default="62a3ba5ee3cff873871ac4789816d7d2c7778a3d"
     )

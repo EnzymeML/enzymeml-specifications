@@ -4,7 +4,6 @@ from typing import Optional
 from pydantic import Field, PrivateAttr
 from sdRDM.base.utils import forge_signature, IDGenerator
 
-from pydantic.types import StrictBool
 from pydantic.types import PositiveFloat
 
 
@@ -13,7 +12,7 @@ class Vessel(sdRDM.DataModel):
 
     """This object describes vessels in which the experiment has been carried out. These can include any type of vessel used in biocatalytic experiments."""
 
-    id: str = Field(
+    id: Optional[str] = Field(
         description="Unique identifier of the given object.",
         default_factory=IDGenerator("vesselINDEX"),
         xml="@id",
@@ -37,7 +36,7 @@ class Vessel(sdRDM.DataModel):
         template_alias="Volume unit",
     )
 
-    constant: StrictBool = Field(
+    constant: bool = Field(
         description="Whether the volume of the vessel is constant or not.",
         default=True,
     )
@@ -56,5 +55,5 @@ class Vessel(sdRDM.DataModel):
         default="https://github.com/EnzymeML/enzymeml-specifications.git"
     )
     __commit__: Optional[str] = PrivateAttr(
-        default="f3502066a5b52b5dbe2cf1464b7f855e9ce80c2d"
+        default="62a3ba5ee3cff873871ac4789816d7d2c7778a3d"
     )

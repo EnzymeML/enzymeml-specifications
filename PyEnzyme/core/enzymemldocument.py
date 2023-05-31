@@ -5,23 +5,22 @@ from pydantic import Field, PrivateAttr
 from sdRDM.base.listplus import ListPlus
 from sdRDM.base.utils import forge_signature, IDGenerator
 
-from pydantic.types import PositiveFloat
-from pydantic.types import StrictBool
 from datetime import datetime
+from pydantic.types import PositiveFloat
 
-from .measurement import Measurement
-from .measurementdata import MeasurementData
-from .vessel import Vessel
 from .creator import Creator
-from .reactionelement import ReactionElement
-from .protein import Protein
-from .reactant import Reactant
 from .kineticparameter import KineticParameter
-from .sboterm import SBOTerm
-from .file import File
+from .protein import Protein
 from .kineticmodel import KineticModel
-from .reaction import Reaction
+from .reactionelement import ReactionElement
+from .measurement import Measurement
+from .reactant import Reactant
+from .vessel import Vessel
 from .complex import Complex
+from .sboterm import SBOTerm
+from .reaction import Reaction
+from .measurementdata import MeasurementData
+from .file import File
 
 
 @forge_signature
@@ -29,7 +28,7 @@ class EnzymeMLDocument(sdRDM.DataModel):
 
     """This is the root object that composes all objects found in an EnzymeML document. It also includes general metadata such as the name of the document, when it was created/modified and references to publications, databases and arbitrary links to the web."""
 
-    id: str = Field(
+    id: Optional[str] = Field(
         description="Unique identifier of the given object.",
         default_factory=IDGenerator("enzymemldocumentINDEX"),
         xml="@id",
@@ -131,7 +130,7 @@ class EnzymeMLDocument(sdRDM.DataModel):
         default="https://github.com/EnzymeML/enzymeml-specifications.git"
     )
     __commit__: Optional[str] = PrivateAttr(
-        default="f3502066a5b52b5dbe2cf1464b7f855e9ce80c2d"
+        default="62a3ba5ee3cff873871ac4789816d7d2c7778a3d"
     )
 
     def add_to_creators(
@@ -163,7 +162,7 @@ class EnzymeMLDocument(sdRDM.DataModel):
         name: str,
         volume: PositiveFloat,
         unit: str,
-        constant: StrictBool = True,
+        constant: bool = True,
         uri: Optional[str] = None,
         creator_id: Optional[str] = None,
         id: Optional[str] = None,
