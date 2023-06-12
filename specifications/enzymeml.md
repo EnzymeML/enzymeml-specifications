@@ -128,7 +128,7 @@ This object is used to inherit basic attributes common to all species used in th
   - Type: string
   - Description: None
 - absorption
-  - Type: https://github.com/FAIRChemistry/CaliPytion.git
+  - Type: https://github.com/FAIRChemistry/CaliPytion.git@Calibration
   - Description: Describes photometric calibration standards and absorption spectra of species
 - uri
   - Type: string
