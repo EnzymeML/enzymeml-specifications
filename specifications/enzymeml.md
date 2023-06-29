@@ -98,7 +98,7 @@ This object describes vessels in which the experiment has been carried out. Thes
   - Description: Volumetric unit of the vessel.
   - Template_alias: Volume unit
 - __constant__
-  - Type: bool
+  - Type: StrictBool
   - Description: Whether the volume of the vessel is constant or not.
   - Default: True
 - uri
@@ -364,7 +364,7 @@ This object describes the result of a measurement, which includes time course da
   - Multiple: True
   - Description: Global time of the measurement all replicates agree on.
 - __global_time_unit__
-  - Type: str
+  - Type: string
   - Description: Unit of the global time.
 - uri
   - Type: string
