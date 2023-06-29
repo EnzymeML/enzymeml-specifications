@@ -5,6 +5,7 @@ from pydantic import Field, PrivateAttr
 from sdRDM.base.utils import forge_signature, IDGenerator
 
 from pydantic.types import PositiveFloat
+from pydantic.types import StrictBool
 
 
 @forge_signature
@@ -36,7 +37,7 @@ class Vessel(sdRDM.DataModel):
         template_alias="Volume unit",
     )
 
-    constant: bool = Field(
+    constant: StrictBool = Field(
         description="Whether the volume of the vessel is constant or not.",
         default=True,
     )
@@ -55,5 +56,5 @@ class Vessel(sdRDM.DataModel):
         default="https://github.com/EnzymeML/enzymeml-specifications.git"
     )
     __commit__: Optional[str] = PrivateAttr(
-        default="130e3bd37f6a1016661f53e5bf7948047722483f"
+        default="bcaaf37fefad3380af950dd3636c20eaba48b925"
     )

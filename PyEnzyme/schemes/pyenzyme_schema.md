@@ -56,7 +56,7 @@ classDiagram
         +string name*
         +posfloat volume*
         +string unit*
-        +bool constant*
+        +StrictBool constant*
         +string uri
         +string creator_id
     }
@@ -141,7 +141,7 @@ classDiagram
         +float ph*
         +MeasurementData[0..*] species
         +float[0..*] global_time*
-        +str global_time_unit*
+        +string global_time_unit*
         +string uri
         +string creator_id
     }
