@@ -6,8 +6,8 @@ from sdRDM.base.listplus import ListPlus
 from sdRDM.base.utils import forge_signature, IDGenerator
 
 
-from .replicate import Replicate
 from .datatypes import DataTypes
+from .replicate import Replicate
 
 
 @forge_signature
@@ -15,7 +15,7 @@ class MeasurementData(sdRDM.DataModel):
 
     """This object describes a single entity of a measurement, which corresponds to one species. It also holds replicates which contain time course data."""
 
-    id: str = Field(
+    id: Optional[str] = Field(
         description="Unique identifier of the given object.",
         default_factory=IDGenerator("measurementdataINDEX"),
         xml="@id",
@@ -51,7 +51,7 @@ class MeasurementData(sdRDM.DataModel):
         default="https://github.com/EnzymeML/enzymeml-specifications.git"
     )
     __commit__: Optional[str] = PrivateAttr(
-        default="f3502066a5b52b5dbe2cf1464b7f855e9ce80c2d"
+        default="130e3bd37f6a1016661f53e5bf7948047722483f"
     )
 
     def add_to_replicates(

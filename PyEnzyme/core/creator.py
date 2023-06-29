@@ -10,7 +10,7 @@ class Creator(sdRDM.DataModel):
 
     """The creator object contains all information about authors that contributed to the resulting document."""
 
-    id: str = Field(
+    id: Optional[str] = Field(
         description="Unique identifier of the given object.",
         default_factory=IDGenerator("creatorINDEX"),
         xml="@id",
@@ -35,5 +35,5 @@ class Creator(sdRDM.DataModel):
         default="https://github.com/EnzymeML/enzymeml-specifications.git"
     )
     __commit__: Optional[str] = PrivateAttr(
-        default="f3502066a5b52b5dbe2cf1464b7f855e9ce80c2d"
+        default="130e3bd37f6a1016661f53e5bf7948047722483f"
     )

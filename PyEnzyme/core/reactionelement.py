@@ -14,7 +14,7 @@ class ReactionElement(sdRDM.DataModel):
 
     """This object is part of the Reaction object and describes either an educt, product or modifier. The latter includes buffers, counter-ions as well as proteins/enzymes."""
 
-    id: str = Field(
+    id: Optional[str] = Field(
         description="Unique identifier of the given object.",
         default_factory=IDGenerator("reactionelementINDEX"),
         xml="@id",
@@ -49,5 +49,5 @@ class ReactionElement(sdRDM.DataModel):
         default="https://github.com/EnzymeML/enzymeml-specifications.git"
     )
     __commit__: Optional[str] = PrivateAttr(
-        default="f3502066a5b52b5dbe2cf1464b7f855e9ce80c2d"
+        default="130e3bd37f6a1016661f53e5bf7948047722483f"
     )

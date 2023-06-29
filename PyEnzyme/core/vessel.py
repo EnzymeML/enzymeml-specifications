@@ -13,7 +13,7 @@ class Vessel(sdRDM.DataModel):
 
     """This object describes vessels in which the experiment has been carried out. These can include any type of vessel used in biocatalytic experiments."""
 
-    id: str = Field(
+    id: Optional[str] = Field(
         description="Unique identifier of the given object.",
         default_factory=IDGenerator("vesselINDEX"),
         xml="@id",
@@ -56,5 +56,5 @@ class Vessel(sdRDM.DataModel):
         default="https://github.com/EnzymeML/enzymeml-specifications.git"
     )
     __commit__: Optional[str] = PrivateAttr(
-        default="f3502066a5b52b5dbe2cf1464b7f855e9ce80c2d"
+        default="130e3bd37f6a1016661f53e5bf7948047722483f"
     )

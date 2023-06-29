@@ -7,8 +7,8 @@ from sdRDM.base.utils import forge_signature, IDGenerator
 
 from pydantic.types import PositiveFloat
 
-from .reactionelement import ReactionElement
 from .kineticmodel import KineticModel
+from .reactionelement import ReactionElement
 from .sboterm import SBOTerm
 
 
@@ -17,7 +17,7 @@ class Reaction(sdRDM.DataModel):
 
     """This object describes a chemical or enzymatic reaction that was investigated in the course of the experiment. All species used within this object need to be part of the data model."""
 
-    id: str = Field(
+    id: Optional[str] = Field(
         description="Unique identifier of the given object.",
         default_factory=IDGenerator("reactionINDEX"),
         xml="@id",
@@ -104,7 +104,7 @@ class Reaction(sdRDM.DataModel):
         default="https://github.com/EnzymeML/enzymeml-specifications.git"
     )
     __commit__: Optional[str] = PrivateAttr(
-        default="f3502066a5b52b5dbe2cf1464b7f855e9ce80c2d"
+        default="130e3bd37f6a1016661f53e5bf7948047722483f"
     )
 
     def add_to_educts(

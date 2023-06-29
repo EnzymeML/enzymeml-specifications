@@ -13,7 +13,7 @@ class Reactant(AbstractSpecies):
 
     """This objects describes the reactants that were used or produced in the course of the experiment."""
 
-    id: str = Field(
+    id: Optional[str] = Field(
         description="Unique identifier of the given object.",
         default_factory=IDGenerator("reactantINDEX"),
         xml="@id",
@@ -53,5 +53,5 @@ class Reactant(AbstractSpecies):
         default="https://github.com/EnzymeML/enzymeml-specifications.git"
     )
     __commit__: Optional[str] = PrivateAttr(
-        default="f3502066a5b52b5dbe2cf1464b7f855e9ce80c2d"
+        default="130e3bd37f6a1016661f53e5bf7948047722483f"
     )
