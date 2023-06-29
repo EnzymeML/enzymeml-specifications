@@ -6,21 +6,22 @@ from sdRDM.base.listplus import ListPlus
 from sdRDM.base.utils import forge_signature, IDGenerator
 
 from pydantic.types import PositiveFloat
+from pydantic.types import StrictBool
 from datetime import datetime
 
 from .creator import Creator
-from .vessel import Vessel
-from .kineticparameter import KineticParameter
-from .reactionelement import ReactionElement
-from .measurementdata import MeasurementData
-from .reaction import Reaction
-from .reactant import Reactant
-from .sboterm import SBOTerm
-from .kineticmodel import KineticModel
+from .measurement import Measurement
 from .protein import Protein
 from .complex import Complex
-from .measurement import Measurement
+from .reaction import Reaction
+from .reactant import Reactant
 from .file import File
+from .measurementdata import MeasurementData
+from .reactionelement import ReactionElement
+from .sboterm import SBOTerm
+from .kineticmodel import KineticModel
+from .vessel import Vessel
+from .kineticparameter import KineticParameter
 
 
 @forge_signature
@@ -130,7 +131,7 @@ class EnzymeMLDocument(sdRDM.DataModel):
         default="https://github.com/EnzymeML/enzymeml-specifications.git"
     )
     __commit__: Optional[str] = PrivateAttr(
-        default="130e3bd37f6a1016661f53e5bf7948047722483f"
+        default="5085d3a9efecedd825137bd44160dbb8cb8970cd"
     )
 
     def add_to_creators(
@@ -162,7 +163,7 @@ class EnzymeMLDocument(sdRDM.DataModel):
         name: str,
         volume: PositiveFloat,
         unit: str,
-        constant: bool = True,
+        constant: StrictBool = True,
         uri: Optional[str] = None,
         creator_id: Optional[str] = None,
         id: Optional[str] = None,
