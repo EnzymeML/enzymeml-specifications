@@ -10,6 +10,9 @@ from pydantic.types import PositiveFloat
 from .kineticmodel import KineticModel
 from .reactionelement import ReactionElement
 from .sboterm import SBOTerm
+from .abstractspecies import AbstractSpecies
+from .kineticmodel import KineticModel
+from .reactionelement import ReactionElement
 
 
 @forge_signature
@@ -109,7 +112,7 @@ class Reaction(sdRDM.DataModel):
 
     def add_to_educts(
         self,
-        species_id: str,
+        species_id: AbstractSpecies,
         stoichiometry: PositiveFloat = 1.0,
         constant: bool = False,
         ontology: Optional[SBOTerm] = None,
@@ -140,7 +143,7 @@ class Reaction(sdRDM.DataModel):
 
     def add_to_products(
         self,
-        species_id: str,
+        species_id: AbstractSpecies,
         stoichiometry: PositiveFloat = 1.0,
         constant: bool = False,
         ontology: Optional[SBOTerm] = None,
@@ -171,7 +174,7 @@ class Reaction(sdRDM.DataModel):
 
     def add_to_modifiers(
         self,
-        species_id: str,
+        species_id: AbstractSpecies,
         stoichiometry: PositiveFloat = 1.0,
         constant: bool = False,
         ontology: Optional[SBOTerm] = None,

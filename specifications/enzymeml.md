@@ -116,7 +116,7 @@ This object is used to inherit basic attributes common to all species used in th
   - Type: string
   - Description: None
 - __vessel_id__
-  - Type: string
+  - Type: @Vessel.id
   - Description: None
 - init_conc
   - Type: float
@@ -197,7 +197,7 @@ This objects describes the reactants that were used or produced in the course of
   - Description: None
   - Default: SBOTerm.SMALL_MOLECULE
 
-## Reaction
+## EnzymeReaction
 
 ### Reaction
 
@@ -261,8 +261,9 @@ This object describes a chemical or enzymatic reaction that was investigated in 
 This object is part of the Reaction object and describes either an educt, product or modifier. The latter includes buffers, counter-ions as well as proteins/enzymes.
 
 - __species_id__
-  - Type: string
+  - Type: @AbstractSpecies.id
   - Description: Internal identifier to either a protein or reactant defined in the EnzymeMLDocument.
+  - References: EnzymeMLDocument.reactants.id
 - __stoichiometry__
   - Type: posfloat
   - Description: Positive float number representing the associated stoichiometry.

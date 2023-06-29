@@ -12,6 +12,7 @@ classDiagram
     EnzymeMLDocument *-- KineticParameter
     EnzymeMLDocument *-- Measurement
     EnzymeMLDocument *-- File
+    AbstractSpecies *-- Vessel
     Protein *-- SBOTerm
     Complex *-- SBOTerm
     Reactant *-- SBOTerm
@@ -19,6 +20,7 @@ classDiagram
     Reaction *-- ReactionElement
     Reaction *-- KineticModel
     ReactionElement *-- SBOTerm
+    ReactionElement *-- AbstractSpecies
     KineticModel *-- SBOTerm
     KineticModel *-- KineticParameter
     KineticParameter *-- SBOTerm
@@ -54,14 +56,14 @@ classDiagram
         +string name*
         +posfloat volume*
         +string unit*
-        +StrictBool constant*
+        +bool constant*
         +string uri
         +string creator_id
     }
     
     class AbstractSpecies {
         +string name*
-        +string vessel_id*
+        +Vessel vessel_id*
         +float init_conc
         +StrictBool constant*
         +string unit
@@ -106,7 +108,7 @@ classDiagram
     }
     
     class ReactionElement {
-        +string species_id*
+        +AbstractSpecies species_id*
         +posfloat stoichiometry*
         +bool constant*
         +SBOTerm ontology
@@ -139,7 +141,7 @@ classDiagram
         +float ph*
         +MeasurementData[0..*] species
         +float[0..*] global_time*
-        +string global_time_unit*
+        +str global_time_unit*
         +string uri
         +string creator_id
     }

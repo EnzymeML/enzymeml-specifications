@@ -4,7 +4,6 @@ from typing import Optional
 from pydantic import Field, PrivateAttr
 from sdRDM.base.utils import forge_signature, IDGenerator
 
-from pydantic.types import StrictBool
 from pydantic.types import PositiveFloat
 
 
@@ -37,7 +36,7 @@ class Vessel(sdRDM.DataModel):
         template_alias="Volume unit",
     )
 
-    constant: StrictBool = Field(
+    constant: bool = Field(
         description="Whether the volume of the vessel is constant or not.",
         default=True,
     )

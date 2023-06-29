@@ -6,7 +6,6 @@ from sdRDM.base.listplus import ListPlus
 from sdRDM.base.utils import forge_signature, IDGenerator
 
 from pydantic.types import PositiveFloat
-from pydantic.types import StrictBool
 from datetime import datetime
 
 from .creator import Creator
@@ -163,7 +162,7 @@ class EnzymeMLDocument(sdRDM.DataModel):
         name: str,
         volume: PositiveFloat,
         unit: str,
-        constant: StrictBool = True,
+        constant: bool = True,
         uri: Optional[str] = None,
         creator_id: Optional[str] = None,
         id: Optional[str] = None,
