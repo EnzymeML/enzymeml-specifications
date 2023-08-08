@@ -384,7 +384,7 @@ This object describes a single entity of a measurement, which corresponds to one
   - Type: string
   - Description: The unit of the measurement data.
 - __measurement_id__
-  - Type: @Measurement.id
+  - Type: string
   - Description: Unique measurement identifier this dataset belongs to.
 - species_id
   - Type: @AbstractSpecies.id
