@@ -399,7 +399,7 @@ This object describes a single entity of a measurement, which corresponds to one
 This object contains the measured time course data as well as metadata to the replicate itself.
 
 - __species_id__
-  - Type: string
+  - Type: @AbstractSpecies.id
   - Description: Unique identifier of the species that has been measured.
 - __measurement_id__
   - Type: string
