@@ -387,7 +387,7 @@ This object describes a single entity of a measurement, which corresponds to one
   - Type: string
   - Description: Unique measurement identifier this dataset belongs to.
 - species_id
-  - Type: string
+  - Type: @AbstractSpecies.id
   - Description: The identifier for the described reactant.
 - replicates
   - Type: [Replicate](#replicate)
