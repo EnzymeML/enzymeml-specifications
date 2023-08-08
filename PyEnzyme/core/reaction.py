@@ -7,10 +7,10 @@ from sdRDM.base.utils import forge_signature, IDGenerator
 
 from pydantic.types import PositiveFloat
 
-from .kineticmodel import KineticModel
+from .sboterm import SBOTerm
 from .abstractspecies import AbstractSpecies
 from .reactionelement import ReactionElement
-from .sboterm import SBOTerm
+from .kineticmodel import KineticModel
 
 
 @forge_signature
@@ -104,7 +104,7 @@ class Reaction(sdRDM.DataModel):
         default="https://github.com/EnzymeML/enzymeml-specifications.git"
     )
     __commit__: Optional[str] = PrivateAttr(
-        default="c40640dbee9b1bb8af7aa7b815d29cefd92fa956"
+        default="2df473809eff599cdb7b5db2e5d4014cfbdb3766"
     )
 
     def add_to_educts(

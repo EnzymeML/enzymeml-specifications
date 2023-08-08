@@ -27,6 +27,7 @@ classDiagram
     Measurement *-- MeasurementData
     MeasurementData *-- Replicate
     Replicate *-- DataTypes
+    Replicate *-- AbstractSpecies
     
     class EnzymeMLDocument {
         +string name*
@@ -155,7 +156,7 @@ classDiagram
     }
     
     class Replicate {
-        +string species_id*
+        +AbstractSpecies species_id*
         +string measurement_id*
         +DataTypes data_type*
         +string data_unit*
