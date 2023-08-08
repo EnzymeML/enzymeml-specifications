@@ -25,6 +25,7 @@ classDiagram
     KineticModel *-- KineticParameter
     KineticParameter *-- SBOTerm
     Measurement *-- MeasurementData
+    MeasurementData *-- AbstractSpecies
     MeasurementData *-- Replicate
     Replicate *-- DataTypes
     Replicate *-- AbstractSpecies
@@ -151,7 +152,7 @@ classDiagram
         +float init_conc*
         +string unit*
         +string measurement_id*
-        +string species_id
+        +AbstractSpecies species_id
         +Replicate[0..*] replicates
     }
     

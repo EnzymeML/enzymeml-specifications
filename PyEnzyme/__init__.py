@@ -1,3 +1,3 @@
 
 __URL__ = "https://github.com/EnzymeML/enzymeml-specifications.git"
-__COMMIT__ = "2df473809eff599cdb7b5db2e5d4014cfbdb3766"
+__COMMIT__ = "44abf3cafa2d6746504a4da52781d60238a4c744"

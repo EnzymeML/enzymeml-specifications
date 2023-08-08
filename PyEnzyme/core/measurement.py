@@ -7,6 +7,7 @@ from sdRDM.base.utils import forge_signature, IDGenerator
 
 
 from .measurementdata import MeasurementData
+from .abstractspecies import AbstractSpecies
 from .replicate import Replicate
 
 
@@ -75,7 +76,7 @@ class Measurement(sdRDM.DataModel):
         default="https://github.com/EnzymeML/enzymeml-specifications.git"
     )
     __commit__: Optional[str] = PrivateAttr(
-        default="2df473809eff599cdb7b5db2e5d4014cfbdb3766"
+        default="44abf3cafa2d6746504a4da52781d60238a4c744"
     )
 
     def add_to_species(
@@ -83,7 +84,7 @@ class Measurement(sdRDM.DataModel):
         init_conc: float,
         unit: str,
         measurement_id: str,
-        species_id: Optional[str] = None,
+        species_id: Optional[AbstractSpecies] = None,
         replicates: List[Replicate] = ListPlus(),
         id: Optional[str] = None,
     ) -> None:
