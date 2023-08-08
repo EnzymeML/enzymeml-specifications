@@ -384,10 +384,10 @@ This object describes a single entity of a measurement, which corresponds to one
   - Type: string
   - Description: The unit of the measurement data.
 - __measurement_id__
-  - Type: string
+  - Type: @Measurement.id
   - Description: Unique measurement identifier this dataset belongs to.
 - species_id
-  - Type: string
+  - Type: @AbstractSpecies.id
   - Description: The identifier for the described reactant.
 - replicates
   - Type: [Replicate](#replicate)
@@ -399,10 +399,10 @@ This object describes a single entity of a measurement, which corresponds to one
 This object contains the measured time course data as well as metadata to the replicate itself.
 
 - __species_id__
-  - Type: string
+  - Type: @AbstractSpecies.id
   - Description: Unique identifier of the species that has been measured.
 - __measurement_id__
-  - Type: string
+  - Type: @Measurement.id
   - Description: Unique identifier of the measurement that the replicate is part of.
 - __data_type__
   - Type: [DataTypes](#datatypes)
