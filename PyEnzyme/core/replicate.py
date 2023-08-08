@@ -11,7 +11,6 @@ from .datatypes import DataTypes
 
 @forge_signature
 class Replicate(sdRDM.DataModel):
-
     """This object contains the measured time course data as well as metadata to the replicate itself."""
 
     id: Optional[str] = Field(
@@ -78,5 +77,5 @@ class Replicate(sdRDM.DataModel):
         default="https://github.com/EnzymeML/enzymeml-specifications.git"
     )
     __commit__: Optional[str] = PrivateAttr(
-        default="5085d3a9efecedd825137bd44160dbb8cb8970cd"
+        default="c40640dbee9b1bb8af7aa7b815d29cefd92fa956"
     )

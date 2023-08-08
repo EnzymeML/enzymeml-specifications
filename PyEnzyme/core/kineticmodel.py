@@ -6,13 +6,12 @@ from sdRDM.base.listplus import ListPlus
 from sdRDM.base.utils import forge_signature, IDGenerator
 
 
-from .sboterm import SBOTerm
 from .kineticparameter import KineticParameter
+from .sboterm import SBOTerm
 
 
 @forge_signature
 class KineticModel(sdRDM.DataModel):
-
     """This object describes a kinetic model that was derived from the experiment."""
 
     id: Optional[str] = Field(
@@ -46,7 +45,7 @@ class KineticModel(sdRDM.DataModel):
         default="https://github.com/EnzymeML/enzymeml-specifications.git"
     )
     __commit__: Optional[str] = PrivateAttr(
-        default="5085d3a9efecedd825137bd44160dbb8cb8970cd"
+        default="c40640dbee9b1bb8af7aa7b815d29cefd92fa956"
     )
 
     def add_to_parameters(

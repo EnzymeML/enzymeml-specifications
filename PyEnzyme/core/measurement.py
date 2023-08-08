@@ -12,7 +12,6 @@ from .replicate import Replicate
 
 @forge_signature
 class Measurement(sdRDM.DataModel):
-
     """This object describes the result of a measurement, which includes time course data of any type defined in DataTypes. It includes initial concentrations of all species used in a single measurement."""
 
     id: Optional[str] = Field(
@@ -76,7 +75,7 @@ class Measurement(sdRDM.DataModel):
         default="https://github.com/EnzymeML/enzymeml-specifications.git"
     )
     __commit__: Optional[str] = PrivateAttr(
-        default="5085d3a9efecedd825137bd44160dbb8cb8970cd"
+        default="c40640dbee9b1bb8af7aa7b815d29cefd92fa956"
     )
 
     def add_to_species(

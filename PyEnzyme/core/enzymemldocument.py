@@ -5,28 +5,27 @@ from pydantic import Field, PrivateAttr
 from sdRDM.base.listplus import ListPlus
 from sdRDM.base.utils import forge_signature, IDGenerator
 
+from datetime import datetime
 from pydantic.types import PositiveFloat
 from pydantic.types import StrictBool
-from datetime import datetime
 
+from .kineticmodel import KineticModel
 from .creator import Creator
-from .measurement import Measurement
+from .vessel import Vessel
+from .file import File
+from .measurementdata import MeasurementData
 from .protein import Protein
 from .complex import Complex
 from .reaction import Reaction
-from .reactant import Reactant
-from .file import File
-from .measurementdata import MeasurementData
 from .reactionelement import ReactionElement
-from .sboterm import SBOTerm
-from .kineticmodel import KineticModel
-from .vessel import Vessel
+from .measurement import Measurement
 from .kineticparameter import KineticParameter
+from .sboterm import SBOTerm
+from .reactant import Reactant
 
 
 @forge_signature
 class EnzymeMLDocument(sdRDM.DataModel):
-
     """This is the root object that composes all objects found in an EnzymeML document. It also includes general metadata such as the name of the document, when it was created/modified and references to publications, databases and arbitrary links to the web."""
 
     id: Optional[str] = Field(
@@ -131,7 +130,7 @@ class EnzymeMLDocument(sdRDM.DataModel):
         default="https://github.com/EnzymeML/enzymeml-specifications.git"
     )
     __commit__: Optional[str] = PrivateAttr(
-        default="5085d3a9efecedd825137bd44160dbb8cb8970cd"
+        default="c40640dbee9b1bb8af7aa7b815d29cefd92fa956"
     )
 
     def add_to_creators(

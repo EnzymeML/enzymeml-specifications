@@ -7,7 +7,6 @@ from sdRDM.base.utils import forge_signature, IDGenerator
 
 @forge_signature
 class Creator(sdRDM.DataModel):
-
     """The creator object contains all information about authors that contributed to the resulting document."""
 
     id: Optional[str] = Field(
@@ -35,5 +34,5 @@ class Creator(sdRDM.DataModel):
         default="https://github.com/EnzymeML/enzymeml-specifications.git"
     )
     __commit__: Optional[str] = PrivateAttr(
-        default="5085d3a9efecedd825137bd44160dbb8cb8970cd"
+        default="c40640dbee9b1bb8af7aa7b815d29cefd92fa956"
     )
