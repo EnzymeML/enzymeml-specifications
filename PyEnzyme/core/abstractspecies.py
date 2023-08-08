@@ -11,7 +11,6 @@ from .vessel import Vessel
 
 @forge_signature
 class AbstractSpecies(sdRDM.DataModel):
-
     """This object is used to inherit basic attributes common to all species used in the data model."""
 
     id: Optional[str] = Field(
@@ -60,7 +59,7 @@ class AbstractSpecies(sdRDM.DataModel):
         default="https://github.com/EnzymeML/enzymeml-specifications.git"
     )
     __commit__: Optional[str] = PrivateAttr(
-        default="5085d3a9efecedd825137bd44160dbb8cb8970cd"
+        default="c40640dbee9b1bb8af7aa7b815d29cefd92fa956"
     )
 
     @validator("vessel_id")
