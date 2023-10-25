@@ -6,8 +6,8 @@ from sdRDM.base.listplus import ListPlus
 from sdRDM.base.utils import forge_signature, IDGenerator
 
 
-from .datatypes import DataTypes
 from .abstractspecies import AbstractSpecies
+from .datatypes import DataTypes
 
 
 @forge_signature
@@ -79,7 +79,7 @@ class Replicate(sdRDM.DataModel):
         default="https://github.com/EnzymeML/enzymeml-specifications.git"
     )
     __commit__: Optional[str] = PrivateAttr(
-        default="44abf3cafa2d6746504a4da52781d60238a4c744"
+        default="be5b096d8b21ddf8fc513e3e62f1d3ebcdfa4187"
     )
 
     @validator("species_id")

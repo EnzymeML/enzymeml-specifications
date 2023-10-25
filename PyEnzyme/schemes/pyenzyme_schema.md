@@ -58,7 +58,7 @@ classDiagram
         +string name*
         +posfloat volume*
         +string unit*
-        +StrictBool constant*
+        +boolean constant*
         +string uri
         +string creator_id
     }
@@ -67,7 +67,7 @@ classDiagram
         +string name*
         +Vessel vessel_id*
         +float init_conc
-        +StrictBool constant*
+        +boolean constant*
         +string unit
         +string uri
         +string creator_id
