@@ -2,6 +2,8 @@
 from typing import Optional
 from pydantic import Field, PrivateAttr
 from sdRDM.base.utils import forge_signature, IDGenerator
+
+
 from .sboterm import SBOTerm
 from .abstractspecies import AbstractSpecies
 
@@ -25,7 +27,7 @@ class Protein(AbstractSpecies):
     ecnumber: Optional[str] = Field(
         default=None,
         description="EC number of the protein.",
-        regex="(\\d+.)(\\d+.)(\\d+.)(\\d+)",
+        regex="(\d+.)(\d+.)(\d+.)(\d+)",
         template_alias="EC Number",
     )
 
@@ -53,6 +55,7 @@ class Protein(AbstractSpecies):
         description="None",
         default=SBOTerm.CATALYST,
     )
+
     __repo__: Optional[str] = PrivateAttr(
         default="https://github.com/EnzymeML/enzymeml-specifications.git"
     )

@@ -3,6 +3,8 @@ from typing import List, Optional
 from pydantic import Field, PrivateAttr
 from sdRDM.base.listplus import ListPlus
 from sdRDM.base.utils import forge_signature, IDGenerator
+
+
 from .sboterm import SBOTerm
 from .abstractspecies import AbstractSpecies
 
@@ -21,13 +23,14 @@ class Complex(AbstractSpecies):
         default_factory=ListPlus,
         multiple=True,
         description="Array of IDs the complex contains",
-        regex="[s|p][\\d]+",
+        regex="[s|p][\d]+",
     )
 
     ontology: SBOTerm = Field(
         description="None",
         default=SBOTerm.MACROMOLECULAR_COMPLEX,
     )
+
     __repo__: Optional[str] = PrivateAttr(
         default="https://github.com/EnzymeML/enzymeml-specifications.git"
     )

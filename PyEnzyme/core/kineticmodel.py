@@ -4,8 +4,10 @@ from typing import List, Optional
 from pydantic import Field, PrivateAttr
 from sdRDM.base.listplus import ListPlus
 from sdRDM.base.utils import forge_signature, IDGenerator
-from .sboterm import SBOTerm
+
+
 from .kineticparameter import KineticParameter
+from .sboterm import SBOTerm
 
 
 @forge_signature
@@ -45,6 +47,13 @@ class KineticModel(sdRDM.DataModel):
         default="50253f9a1c0d24ac18da78642bf549337c0a3218"
     )
 
+    __repo__: Optional[str] = PrivateAttr(
+        default="https://github.com/EnzymeML/enzymeml-specifications.git"
+    )
+    __commit__: Optional[str] = PrivateAttr(
+        default="ae9d6e7f791e602185e5b15643d4271c2b722265"
+    )
+
     def add_to_parameters(
         self,
         name: str,
@@ -75,6 +84,7 @@ class KineticModel(sdRDM.DataModel):
             constant (): Specifies if this parameter is constant. Defaults to False
             ontology (): Type of the estimated parameter.. Defaults to None
         """
+
         params = {
             "name": name,
             "value": value,
@@ -87,7 +97,8 @@ class KineticModel(sdRDM.DataModel):
             "constant": constant,
             "ontology": ontology,
         }
+
         if id is not None:
             params["id"] = id
+
         self.parameters.append(KineticParameter(**params))
-        return self.parameters[-1]

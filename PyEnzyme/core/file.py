@@ -29,6 +29,7 @@ class File(sdRDM.DataModel):
         ...,
         description="Type of the file such as .xml, .json and so on",
     )
+
     __repo__: Optional[str] = PrivateAttr(
         default="https://github.com/EnzymeML/enzymeml-specifications.git"
     )
