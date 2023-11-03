@@ -54,5 +54,5 @@ class Vessel(sdRDM.DataModel):
         default="https://github.com/EnzymeML/enzymeml-specifications.git"
     )
     __commit__: Optional[str] = PrivateAttr(
-        default="ae9d6e7f791e602185e5b15643d4271c2b722265"
+        default="50253f9a1c0d24ac18da78642bf549337c0a3218"
     )
