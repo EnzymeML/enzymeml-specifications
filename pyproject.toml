@@ -1,0 +1,23 @@
+[tool.poetry]
+name = "PyEnzyme"
+version = "0.1.0"
+description = "EnzymeML data model and tools"
+authors = ["haeussma <83341109+haeussma@users.noreply.github.com>"]
+license = "MIT License"
+readme = "README.md"
+packages = [
+    { include = "PyEnzyme/core" },
+    { include = "PyEnzyme/ioutils" },
+]
+
+
+[tool.poetry.dependencies]
+python = ">=3.11,<3.13"
+pandas = "^2.1.2"
+sdrdm = {git = "https://github.com/JR-1991/software-driven-rdm.git", branch = "linking-refactor"}
+openpyxl = "^3.1.2"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
