@@ -1,14 +1,12 @@
 import sdRDM
 
 from typing import Optional, Union, List
-from pydantic import PrivateAttr, Field, validator
+from pydantic import Field, validator
 from sdRDM.base.listplus import ListPlus
 from sdRDM.base.utils import forge_signature, IDGenerator
-
-
-from .replicate import Replicate
-from .abstractspecies import AbstractSpecies
 from .datatypes import DataTypes
+from .abstractspecies import AbstractSpecies
+from .replicate import Replicate
 
 
 @forge_signature
@@ -48,13 +46,6 @@ class MeasurementData(sdRDM.DataModel):
         description="A list of replicate objects holding raw data of the measurement.",
     )
 
-    __repo__: Optional[str] = PrivateAttr(
-        default="https://github.com/EnzymeML/enzymeml-specifications.git"
-    )
-    __commit__: Optional[str] = PrivateAttr(
-        default="be5b096d8b21ddf8fc513e3e62f1d3ebcdfa4187"
-    )
-
     def add_to_replicates(
         self,
         species_id: AbstractSpecies,
@@ -85,7 +76,6 @@ class MeasurementData(sdRDM.DataModel):
             uri (): URI of the protein.. Defaults to None
             creator_id (): Unique identifier of the author.. Defaults to None
         """
-
         params = {
             "species_id": species_id,
             "measurement_id": measurement_id,
@@ -98,11 +88,61 @@ class MeasurementData(sdRDM.DataModel):
             "uri": uri,
             "creator_id": creator_id,
         }
-
         if id is not None:
             params["id"] = id
-
         self.replicates.append(Replicate(**params))
+        return self.replicates[-1]
+
+    @validator("species_id")
+    def get_species_id_reference(cls, value):
+        """Extracts the ID from a given object to create a reference"""
+        from .abstractspecies import AbstractSpecies
+
+        if isinstance(value, AbstractSpecies):
+            return value.id
+        elif isinstance(value, str):
+            return value
+        elif value is None:
+            return value
+        else:
+            raise TypeError(
+                f"Expected types [AbstractSpecies, str] got '{type(value).__name__}'"
+                " instead."
+            )
+
+    @validator("species_id")
+    def get_species_id_reference(cls, value):
+        """Extracts the ID from a given object to create a reference"""
+        from .abstractspecies import AbstractSpecies
+
+        if isinstance(value, AbstractSpecies):
+            return value.id
+        elif isinstance(value, str):
+            return value
+        elif value is None:
+            return value
+        else:
+            raise TypeError(
+                f"Expected types [AbstractSpecies, str] got '{type(value).__name__}'"
+                " instead."
+            )
+
+    @validator("species_id")
+    def get_species_id_reference(cls, value):
+        """Extracts the ID from a given object to create a reference"""
+        from .abstractspecies import AbstractSpecies
+
+        if isinstance(value, AbstractSpecies):
+            return value.id
+        elif isinstance(value, str):
+            return value
+        elif value is None:
+            return value
+        else:
+            raise TypeError(
+                f"Expected types [AbstractSpecies, str] got '{type(value).__name__}'"
+                " instead."
+            )
 
     @validator("species_id")
     def get_species_id_reference(cls, value):

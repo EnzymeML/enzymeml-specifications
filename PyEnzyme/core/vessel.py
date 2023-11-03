@@ -1,9 +1,8 @@
 import sdRDM
 
 from typing import Optional
-from pydantic import Field, PrivateAttr
+from pydantic import Field
 from sdRDM.base.utils import forge_signature, IDGenerator
-
 from pydantic.types import PositiveFloat
 
 
@@ -48,11 +47,4 @@ class Vessel(sdRDM.DataModel):
     creator_id: Optional[str] = Field(
         default=None,
         description="Unique identifier of the author.",
-    )
-
-    __repo__: Optional[str] = PrivateAttr(
-        default="https://github.com/EnzymeML/enzymeml-specifications.git"
-    )
-    __commit__: Optional[str] = PrivateAttr(
-        default="be5b096d8b21ddf8fc513e3e62f1d3ebcdfa4187"
     )

@@ -1,9 +1,7 @@
 
 from typing import Optional
-from pydantic import Field, PrivateAttr
+from pydantic import Field
 from sdRDM.base.utils import forge_signature, IDGenerator
-
-
 from .sboterm import SBOTerm
 from .abstractspecies import AbstractSpecies
 
@@ -46,11 +44,4 @@ class Reactant(AbstractSpecies):
     ontology: SBOTerm = Field(
         description="None",
         default=SBOTerm.SMALL_MOLECULE,
-    )
-
-    __repo__: Optional[str] = PrivateAttr(
-        default="https://github.com/EnzymeML/enzymeml-specifications.git"
-    )
-    __commit__: Optional[str] = PrivateAttr(
-        default="be5b096d8b21ddf8fc513e3e62f1d3ebcdfa4187"
     )

@@ -8,3 +8,5 @@ class DataTypes(Enum):
     BIOMASS = "biomass"
     CONVERSION = "conversion"
     PEAK_AREA = "peak-area"
+    FLUORESCENCE = "fluorescence"
+    LUMINESCENCE = "luminescence"

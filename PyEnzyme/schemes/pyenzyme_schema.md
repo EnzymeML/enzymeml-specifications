@@ -218,6 +218,8 @@ classDiagram
         +BIOMASS
         +CONVERSION
         +PEAK_AREA
+        +FLUORESCENCE
+        +LUMINESCENCE
     }
     
 ```

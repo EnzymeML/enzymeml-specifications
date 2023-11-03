@@ -115,6 +115,7 @@ This object is used to inherit basic attributes common to all species used in th
 - __name__
   - Type: string
   - Description: None
+  - Template_alias: Name
 - __vessel_id__
   - Type: @Vessel.id
   - Description: None
@@ -124,6 +125,7 @@ This object is used to inherit basic attributes common to all species used in th
 - __constant__
   - Type: boolean
   - Description: None
+  - Template_alias: Constant
 - unit
   - Type: string
   - Description: None
@@ -500,4 +502,6 @@ FEED = "feed"
 BIOMASS = "biomass"
 CONVERSION = "conversion"
 PEAK_AREA = "peak-area"
+FLUORESCENCE = "fluorescence"
+LUMINESCENCE = "luminescence"
 ```
