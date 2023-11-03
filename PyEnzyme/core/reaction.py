@@ -1,13 +1,13 @@
 import sdRDM
 
 from typing import List, Optional
-from pydantic import Field
+from pydantic import Field, PrivateAttr
 from sdRDM.base.listplus import ListPlus
 from sdRDM.base.utils import forge_signature, IDGenerator
 from pydantic.types import PositiveFloat
 from .sboterm import SBOTerm
-from .reactionelement import ReactionElement
 from .abstractspecies import AbstractSpecies
+from .reactionelement import ReactionElement
 from .kineticmodel import KineticModel
 
 
@@ -96,6 +96,12 @@ class Reaction(sdRDM.DataModel):
             " ReactionElement objects."
         ),
         template_alias="Modifiers",
+    )
+    __repo__: Optional[str] = PrivateAttr(
+        default="https://github.com/EnzymeML/enzymeml-specifications.git"
+    )
+    __commit__: Optional[str] = PrivateAttr(
+        default="50253f9a1c0d24ac18da78642bf549337c0a3218"
     )
 
     def add_to_educts(

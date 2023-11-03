@@ -1,24 +1,24 @@
 import sdRDM
 
 from typing import List, Optional
-from pydantic import Field
+from pydantic import Field, PrivateAttr
 from sdRDM.base.listplus import ListPlus
 from sdRDM.base.utils import forge_signature, IDGenerator
 from datetime import datetime as Datetime
 from pydantic.types import PositiveFloat
-from .creator import Creator
-from .reactant import Reactant
 from .protein import Protein
-from .kineticmodel import KineticModel
-from .kineticparameter import KineticParameter
-from .complex import Complex
-from .measurementdata import MeasurementData
-from .reactionelement import ReactionElement
-from .file import File
-from .vessel import Vessel
-from .reaction import Reaction
-from .sboterm import SBOTerm
 from .measurement import Measurement
+from .reactant import Reactant
+from .creator import Creator
+from .vessel import Vessel
+from .file import File
+from .complex import Complex
+from .kineticmodel import KineticModel
+from .reaction import Reaction
+from .measurementdata import MeasurementData
+from .sboterm import SBOTerm
+from .kineticparameter import KineticParameter
+from .reactionelement import ReactionElement
 from ..ioutils.mtp_template_reader import read_96well_template
 
 
@@ -122,6 +122,12 @@ class EnzymeMLDocument(sdRDM.DataModel):
             "Dictionary mapping from parameter IDs to global kinetic parameter"
             " describing objects."
         ),
+    )
+    __repo__: Optional[str] = PrivateAttr(
+        default="https://github.com/EnzymeML/enzymeml-specifications.git"
+    )
+    __commit__: Optional[str] = PrivateAttr(
+        default="50253f9a1c0d24ac18da78642bf549337c0a3218"
     )
 
     def add_to_creators(

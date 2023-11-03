@@ -1,12 +1,12 @@
 import sdRDM
 
 from typing import List, Optional
-from pydantic import Field
+from pydantic import Field, PrivateAttr
 from sdRDM.base.listplus import ListPlus
 from sdRDM.base.utils import forge_signature, IDGenerator
-from .measurementdata import MeasurementData
 from .abstractspecies import AbstractSpecies
 from .replicate import Replicate
+from .measurementdata import MeasurementData
 
 
 @forge_signature
@@ -68,6 +68,12 @@ class Measurement(sdRDM.DataModel):
     creator_id: Optional[str] = Field(
         default=None,
         description="Unique identifier of the author.",
+    )
+    __repo__: Optional[str] = PrivateAttr(
+        default="https://github.com/EnzymeML/enzymeml-specifications.git"
+    )
+    __commit__: Optional[str] = PrivateAttr(
+        default="50253f9a1c0d24ac18da78642bf549337c0a3218"
     )
 
     def add_to_species(
