@@ -1,7 +1,7 @@
 import sdRDM
 
 from typing import Optional
-from pydantic import Field, PrivateAttr
+from pydantic import Field
 from sdRDM.base.utils import forge_signature, IDGenerator
 
 
@@ -28,11 +28,4 @@ class Creator(sdRDM.DataModel):
     mail: str = Field(
         ...,
         description="Email address of the author or contributor.",
-    )
-
-    __repo__: Optional[str] = PrivateAttr(
-        default="https://github.com/EnzymeML/enzymeml-specifications.git"
-    )
-    __commit__: Optional[str] = PrivateAttr(
-        default="50253f9a1c0d24ac18da78642bf549337c0a3218"
     )

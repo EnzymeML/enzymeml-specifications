@@ -61,6 +61,7 @@ def read_96well_template(cls, path: str):
     proteins = pd.read_excel(path, sheet_name="Proteins", skiprows=2)
     instances = get_instances(proteins, Protein, enzmldoc)
     for instance in instances:
+        print(instance)
         protein = Protein(**instance | {"vessel_id": vessel.id})
         enzmldoc.proteins.append(protein)
 
