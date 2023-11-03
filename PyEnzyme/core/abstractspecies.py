@@ -1,8 +1,10 @@
 import sdRDM
 
 from typing import Optional, Union
-from pydantic import Field, validator
+from pydantic import PrivateAttr, Field, validator
 from sdRDM.base.utils import forge_signature, IDGenerator
+
+
 from .vessel import Vessel
 
 
@@ -54,47 +56,12 @@ class AbstractSpecies(sdRDM.DataModel):
         description="None",
     )
 
-    @validator("vessel_id")
-    def get_vessel_id_reference(cls, value):
-        """Extracts the ID from a given object to create a reference"""
-        from .vessel import Vessel
-
-        if isinstance(value, Vessel):
-            return value.id
-        elif isinstance(value, str):
-            return value
-        else:
-            raise TypeError(
-                f"Expected types [Vessel, str] got '{type(value).__name__}' instead."
-            )
-
-    @validator("vessel_id")
-    def get_vessel_id_reference(cls, value):
-        """Extracts the ID from a given object to create a reference"""
-        from .vessel import Vessel
-
-        if isinstance(value, Vessel):
-            return value.id
-        elif isinstance(value, str):
-            return value
-        else:
-            raise TypeError(
-                f"Expected types [Vessel, str] got '{type(value).__name__}' instead."
-            )
-
-    @validator("vessel_id")
-    def get_vessel_id_reference(cls, value):
-        """Extracts the ID from a given object to create a reference"""
-        from .vessel import Vessel
-
-        if isinstance(value, Vessel):
-            return value.id
-        elif isinstance(value, str):
-            return value
-        else:
-            raise TypeError(
-                f"Expected types [Vessel, str] got '{type(value).__name__}' instead."
-            )
+    __repo__: Optional[str] = PrivateAttr(
+        default="https://github.com/EnzymeML/enzymeml-specifications.git"
+    )
+    __commit__: Optional[str] = PrivateAttr(
+        default="ae9d6e7f791e602185e5b15643d4271c2b722265"
+    )
 
     @validator("vessel_id")
     def get_vessel_id_reference(cls, value):

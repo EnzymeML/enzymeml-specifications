@@ -17,6 +17,7 @@ from .sboterm import SBOTerm
 from .datatypes import DataTypes
 
 __doc__ = ""
+
 __all__ = [
     "EnzymeMLDocument",
     "Creator",
