@@ -6,9 +6,9 @@ from sdRDM.base.listplus import ListPlus
 from sdRDM.base.utils import forge_signature, IDGenerator
 from pydantic.types import PositiveFloat
 from .abstractspecies import AbstractSpecies
+from .kineticmodel import KineticModel
 from .reactionelement import ReactionElement
 from .sboterm import SBOTerm
-from .kineticmodel import KineticModel
 
 
 @forge_signature
@@ -92,7 +92,7 @@ class Reaction(sdRDM.DataModel):
         default_factory=ListPlus,
         multiple=True,
         description=(
-            "List of modifiers (Proteins, snhibitors, stimulators) containing"
+            "List of modifiers (proteins, inhibitors, stimulators) containing"
             " ReactionElement objects."
         ),
         template_alias="Modifiers",

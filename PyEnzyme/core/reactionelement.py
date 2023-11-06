@@ -25,7 +25,6 @@ class ReactionElement(sdRDM.DataModel):
             "Internal identifier to either a protein or reactant defined in the"
             " EnzymeMLDocument."
         ),
-        references="EnzymeMLDocument.reactants.id",
     )
 
     stoichiometry: PositiveFloat = Field(
@@ -44,6 +43,36 @@ class ReactionElement(sdRDM.DataModel):
         default=None,
         description="Ontology defining the role of the given species.",
     )
+
+    @validator("species_id")
+    def get_species_id_reference(cls, value):
+        """Extracts the ID from a given object to create a reference"""
+        from .abstractspecies import AbstractSpecies
+
+        if isinstance(value, AbstractSpecies):
+            return value.id
+        elif isinstance(value, str):
+            return value
+        else:
+            raise TypeError(
+                f"Expected types [AbstractSpecies, str] got '{type(value).__name__}'"
+                " instead."
+            )
+
+    @validator("species_id")
+    def get_species_id_reference(cls, value):
+        """Extracts the ID from a given object to create a reference"""
+        from .abstractspecies import AbstractSpecies
+
+        if isinstance(value, AbstractSpecies):
+            return value.id
+        elif isinstance(value, str):
+            return value
+        else:
+            raise TypeError(
+                f"Expected types [AbstractSpecies, str] got '{type(value).__name__}'"
+                " instead."
+            )
 
     @validator("species_id")
     def get_species_id_reference(cls, value):

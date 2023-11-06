@@ -1,11 +1,12 @@
 import numpy as np
 import pandas as pd
-import re
+import warnings
 
 from typing import Any, Dict, List, OrderedDict, Tuple
-from math import isnan
+from math import e, isnan
+from PyEnzyme.core.abstractspecies import AbstractSpecies
+from PyEnzyme.core.sboterm import SBOTerm
 
-from PyEnzyme.core.creator import Creator
 from PyEnzyme.core.vessel import Vessel
 from PyEnzyme.core.protein import Protein
 from PyEnzyme.core.reactant import Reactant
@@ -14,6 +15,10 @@ from PyEnzyme.core.replicate import Replicate
 from PyEnzyme.core.datatypes import DataTypes
 from PyEnzyme.core.reaction import Reaction
 from PyEnzyme.core.datatypes import DataTypes
+from PyEnzyme.core.reaction import Reaction
+
+
+warnings.simplefilter(action="ignore", category=UserWarning)
 
 
 def read_96well_template(cls, path: str):
@@ -49,29 +54,25 @@ def read_96well_template(cls, path: str):
     ).dropna()
 
     vessel_info = vessel_info.to_dict(orient="records")[0]
-    vessel = Vessel(
+    vessel = enzmldoc.add_to_vessels(
         id=vessel_info["ID"],
         name=vessel_info["Name"],
         volume=vessel_info["Volume value"],
         unit=vessel_info["Volume unit"],
     )
-    enzmldoc.vessels.append(vessel)
 
     # Proteins
     proteins = pd.read_excel(path, sheet_name="Proteins", skiprows=2)
     instances = get_instances(proteins, Protein, enzmldoc)
     for instance in instances:
-        print(instance)
-        protein = Protein(**instance | {"vessel_id": vessel.id})
-        enzmldoc.proteins.append(protein)
+        protein = enzmldoc.add_to_proteins(**instance | {"vessel_id": vessel.id})
 
     # Reactants
     reactants = pd.read_excel(path, sheet_name="Chemicals", skiprows=2, usecols="A:E")
     instances = get_instances(reactants, Reactant, enzmldoc)
 
     for instance in instances:
-        reactant = Reactant(**instance | {"vessel_id": vessel.id})
-        enzmldoc.reactants.append(reactant)
+        reactant = enzmldoc.add_to_reactants(**instance | {"vessel_id": vessel.id})
 
     # Reactions
     reactions = pd.read_excel(path, sheet_name="Reactions", skiprows=2, usecols="A:J")
@@ -86,65 +87,74 @@ def read_96well_template(cls, path: str):
 
     # Replace merged modifiers with modifier tag
     reactions.Modifiers = nu_mods
+    # Replace merged modifiers with modifier tag
 
     instances = get_instances(reactions, Reaction, enzmldoc)
 
-    for instance in instances:
+    for i, instance in enumerate(instances):
         # Get Educts, Products and Modifiers to add to the reaction
-        educts = parse_reaction_element(instance.get("educts"))
-        products = parse_reaction_element(instance.get("products"))
-        modifiers = parse_reaction_element(instance.get("modifiers"))
+        educts = parse_reaction_element_ids(instance, "educts", enzmldoc.reactants)
+        products = parse_reaction_element_ids(instance, "products", enzmldoc.reactants)
+        protein_modifiers = parse_reaction_element_ids(
+            instance, "modifiers", enzmldoc.proteins
+        )
+        modifiers = parse_reaction_element_ids(
+            instance, "modifiers", enzmldoc.reactants
+        )
 
         instance.pop("educts")
         instance.pop("products")
         instance.pop("modifiers")
 
-        # Instantiate Reaction
-        print(educts)
-        reaction = Reaction(**instance)
+        reaction = enzmldoc.add_to_reactions(**instance)
+        for educt in educts:
+            reaction.add_to_educts(educt, ontology=SBOTerm.SUBSTRATE)
+        for product in products:
+            reaction.add_to_products(product, ontology=SBOTerm.PRODUCT)
+        for modifier in modifiers:
+            reaction.add_to_modifiers(modifier)
+        for protein_modifier in protein_modifiers:
+            reaction.add_to_modifiers(protein_modifier, ontology=SBOTerm.CATALYST)
 
-        add_instances(reaction.addModifier, modifiers, enzmldoc)
-        add_instances(reaction.addEduct, educts, enzmldoc)
-        add_instances(reaction.addProduct, products, enzmldoc)
-
-        enzmldoc.addReaction(reaction)
+        enzmldoc.reactions.append(reaction)
 
     # Set initial conditions of measurements
     measurement_conditions = get_measurement_conditions(path)
+    ph_dict = extract_initial_conditions(path, "pH")
 
     enzmldoc = generate_measurements(
         path=path,
         enzmldoc=enzmldoc,
-        temperature=measurement_conditions["Temperature"],
-        temperature_unit=measurement_conditions["Temperature unit"],
+        ph_dict=ph_dict,
+        measurement_conditions=measurement_conditions,
     )
-
-    ph_dict = extract_initial_conditions(path, "pH")
 
     for measurement in enzmldoc.measurements:
         # Add pH
-        measurement.ph = ph_dict[measurement.name]
+        # measurement.ph = ph_dict[measurement.name]
 
         # get initial concentrations of reactants
-        for reactant_id in enzmldoc.reactant_dict:
-            reactant_name = enzmldoc.getReactant(reactant_id).name
-            unit = get_species_unit(path, reactant_name)
-            init_concs = extract_initial_conditions(path, reactant_name)
+        for reactant in enzmldoc.reactants:
+            unit = get_species_unit(path, reactant.name)
+            init_concs = extract_initial_conditions(path, reactant.name)
 
-            measurement.addData(
+            measurement.add_to_species(
                 init_conc=init_concs[measurement.name],
                 unit=unit,
-                reactant_id=reactant_id,
+                species_id=reactant.id,
+                measurement_id=measurement.id,
             )
 
         # get initial concentrations of proteins
-        for protein_id in enzmldoc.protein_dict:
-            protein_name = enzmldoc.getProtein(protein_id).name
-            unit = get_species_unit(path, protein_name)
-            init_concs = extract_initial_conditions(path, protein_name)
+        for protein in enzmldoc.proteins:
+            unit = get_species_unit(path, protein.name)
+            init_concs = extract_initial_conditions(path, protein.name)
 
-            measurement.addData(
-                init_conc=init_concs[measurement.name], unit=unit, protein_id=protein_id
+            measurement.add_to_species(
+                init_conc=init_concs[measurement.name],
+                unit=unit,
+                species_id=protein.id,
+                measurement_id=measurement.id,
             )
 
     # Add measurement data
@@ -172,28 +182,43 @@ def read_96well_template(cls, path: str):
 
     time, data_dict = get_timecourse_data(path)
 
-    for measurement in enzmldoc.measurement_dict.values():
-        measurement.addReplicates(
-            Replicate(
-                id=measurement.name,
-                species_id=measured_reactant_id,
-                time_unit=measurement_conditions["Time unit"],
-                time=time,
-                data=data_dict[measurement.name],
-                is_calculated=False,
-                data_type=type_mapping[measurement_conditions["Data type"]],
-                data_unit="dimensionless",
-            ),
-            enzmldoc,
-        )
+    for meas_id, measurement in enumerate(enzmldoc.measurements):
+        for spec_id, species in enumerate(measurement.species):
+            if species.species_id == measured_reactant_id:
+                species.add_to_replicates(
+                    id=measurement.name,
+                    species_id=species.species_id,
+                    time_unit=measurement_conditions["Time unit"],
+                    time=time,
+                    data=data_dict[measurement.name],
+                    is_calculated=False,
+                    data_type=type_mapping[measurement_conditions["Data type"]],
+                    data_unit="dimensionless",
+                    measurement_id=measurement.id,
+                )
+
     return enzmldoc
 
 
-def parse_reaction_element(elements):
-    if repr(elements) == "nan":
-        return []
+def parse_reaction_element_ids(
+    instance: Reaction,
+    target: str,
+    species_list: List[AbstractSpecies],
+):
+    # Parse element names
+    if "|" in instance[target]:
+        elements = instance[target].split("|")
+    else:
+        elements = [instance[target]]
 
-    return elements
+    # Get species ids or each name
+    species_ids = []
+    for element in elements:
+        for species in species_list:
+            if element.strip() == species.name:
+                species_ids.append(species.id)
+
+    return species_ids
 
 
 def validate_plate_layout_homogeneity(path: str, enzmldoc):
@@ -227,7 +252,7 @@ def merge_protein_modifier(protein, modifier):
     modifier = repr(modifier).split(",")
     entities = proteins + modifier
 
-    return ",".join(
+    return "|".join(
         [entity.replace("'", "").strip() for entity in entities if entity != "nan"]
     )
 
@@ -265,6 +290,7 @@ def extract_initial_conditions(path: str, sheet_name: str) -> OrderedDict[str, f
 
 def get_instances(sheet: pd.DataFrame, obj, enzmldoc) -> list:
     mapping = get_template_map(obj)
+
     instances = extract_values(sheet, mapping)
 
     return [clean_instance(instance, enzmldoc) for instance in instances]
@@ -364,7 +390,10 @@ def get_species_unit(path: str, sheet_name: str) -> str:
 
 
 def generate_measurements(
-    path: str, enzmldoc, temperature: float, temperature_unit: str
+    path: str,
+    enzmldoc,
+    ph_dict: dict,
+    measurement_conditions: dict,
 ):
     """Generates a measurement for each well position in the template."""
 
@@ -374,12 +403,12 @@ def generate_measurements(
 
     well_positions = extract_initial_conditions(path, reactant_name).keys()
     for well in well_positions:
-        enzmldoc.addMeasurement(
-            Measurement(
-                name=well,
-                temperature=temperature,
-                temperature_unit=temperature_unit,
-            )
+        enzmldoc.add_to_measurements(
+            name=well,
+            temperature=enzmldoc.reactions[0].temperature,
+            temperature_unit=enzmldoc.reactions[0].temperature_unit,
+            ph=ph_dict[well],
+            global_time_unit=measurement_conditions["Time unit"],
         )
 
     return enzmldoc
@@ -387,17 +416,5 @@ def generate_measurements(
 
 def get_measurement_conditions(path: str) -> Dict[str, Any]:
     return pd.read_excel(
-        path, skiprows=2, sheet_name="Data", nrows=1, usecols="A:E"
+        path, skiprows=2, sheet_name="Data", nrows=1, usecols="A:C"
     ).to_dict(orient="records")[0]
-
-
-def add_instances(fun, elements, enzmldoc) -> None:
-    all_species = {**enzmldoc.protein_dict, **enzmldoc.reactant_dict}
-    for id, species in all_species.items():
-        if species.name in elements:
-            fun(
-                species_id=id,
-                stoichiometry=1.0,
-                constant=False,
-                enzmldoc=enzmldoc,
-            )

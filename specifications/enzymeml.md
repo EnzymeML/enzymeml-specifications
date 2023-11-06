@@ -255,7 +255,7 @@ This object describes a chemical or enzymatic reaction that was investigated in 
 - modifiers
   - Type: [ReactionElement](#reactionelement)
   - Multiple: True
-  - Description: List of modifiers (Proteins, snhibitors, stimulators) containing ReactionElement objects.
+  - Description: List of modifiers (proteins, inhibitors, stimulators) containing ReactionElement objects.
   - Template_alias: Modifiers
 
 ### ReactionElement
@@ -265,7 +265,6 @@ This object is part of the Reaction object and describes either an educt, produc
 - __species_id__
   - Type: @AbstractSpecies.id
   - Description: Internal identifier to either a protein or reactant defined in the EnzymeMLDocument.
-  - References: EnzymeMLDocument.reactants.id
 - __stoichiometry__
   - Type: posfloat
   - Description: Positive float number representing the associated stoichiometry.

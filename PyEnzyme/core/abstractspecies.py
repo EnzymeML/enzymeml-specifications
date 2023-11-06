@@ -82,6 +82,34 @@ class AbstractSpecies(sdRDM.DataModel):
                 f"Expected types [Vessel, str] got '{type(value).__name__}' instead."
             )
 
+    @validator("vessel_id")
+    def get_vessel_id_reference(cls, value):
+        """Extracts the ID from a given object to create a reference"""
+        from .vessel import Vessel
+
+        if isinstance(value, Vessel):
+            return value.id
+        elif isinstance(value, str):
+            return value
+        else:
+            raise TypeError(
+                f"Expected types [Vessel, str] got '{type(value).__name__}' instead."
+            )
+
+    @validator("vessel_id")
+    def get_vessel_id_reference(cls, value):
+        """Extracts the ID from a given object to create a reference"""
+        from .vessel import Vessel
+
+        if isinstance(value, Vessel):
+            return value.id
+        elif isinstance(value, str):
+            return value
+        else:
+            raise TypeError(
+                f"Expected types [Vessel, str] got '{type(value).__name__}' instead."
+            )
+
     __repo__: Optional[str] = PrivateAttr(
         default="https://github.com/EnzymeML/enzymeml-specifications.git"
     )

@@ -6,21 +6,20 @@ from sdRDM.base.listplus import ListPlus
 from sdRDM.base.utils import forge_signature, IDGenerator
 from datetime import datetime as Datetime
 from pydantic.types import PositiveFloat
-
 from PyEnzyme.ioutils.mtp_template_reader import read_96well_template
-from .kineticparameter import KineticParameter
-from .kineticmodel import KineticModel
-from .creator import Creator
-from .reactant import Reactant
-from .vessel import Vessel
-from .measurementdata import MeasurementData
-from .sboterm import SBOTerm
-from .reactionelement import ReactionElement
-from .complex import Complex
-from .protein import Protein
 from .measurement import Measurement
-from .file import File
+from .reactant import Reactant
+from .kineticparameter import KineticParameter
+from .creator import Creator
+from .kineticmodel import KineticModel
+from .protein import Protein
+from .complex import Complex
 from .reaction import Reaction
+from .sboterm import SBOTerm
+from .file import File
+from .measurementdata import MeasurementData
+from .vessel import Vessel
+from .reactionelement import ReactionElement
 
 
 @forge_signature
@@ -360,7 +359,7 @@ class EnzymeMLDocument(sdRDM.DataModel):
             model (): Kinetic model decribing the reaction.. Defaults to None
             educts (): List of educts containing ReactionElement objects.. Defaults to ListPlus()
             products (): List of products containing ReactionElement objects.. Defaults to ListPlus()
-            modifiers (): List of modifiers (Proteins, snhibitors, stimulators) containing ReactionElement objects.. Defaults to ListPlus()
+            modifiers (): List of modifiers (proteins, inhibitors, stimulators) containing ReactionElement objects.. Defaults to ListPlus()
         """
         params = {
             "name": name,
@@ -492,4 +491,4 @@ class EnzymeMLDocument(sdRDM.DataModel):
 
     @classmethod
     def from_mtp_template(cls, path: str):
-        read_96well_template(cls, path)
+        return read_96well_template(cls, path)
