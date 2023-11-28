@@ -171,7 +171,6 @@ This object describes complexes made of reactants and/or proteins that were used
   - Type: string
   - Multiple: True
   - Description: Array of IDs the complex contains
-  - Pattern: [s|p][\d]+
 - __ontology__
   - Type: [SBOTerm](#sboterm)
   - Description: None
