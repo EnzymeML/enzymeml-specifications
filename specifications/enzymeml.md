@@ -145,7 +145,7 @@ This objects describes the proteins that were used or produced in the course of 
 - ecnumber
   - Type: string
   - Description: EC number of the protein.
-  - Regex: (\d+.)(\d+.)(\d+.)(\d+)
+  - Pattern: (\d+.)(\d+.)(\d+.)(\d+)
   - Template_alias: EC Number
 - organism
   - Type: string
@@ -171,7 +171,7 @@ This object describes complexes made of reactants and/or proteins that were used
   - Type: string
   - Multiple: True
   - Description: Array of IDs the complex contains
-  - Regex: [s|p][\d]+
+  - Pattern: [s|p][\d]+
 - __ontology__
   - Type: [SBOTerm](#sboterm)
   - Description: None
@@ -219,7 +219,7 @@ This object describes a chemical or enzymatic reaction that was investigated in 
 - temperature_unit
   - Type: string
   - Description: Unit of the temperature of the reaction.
-  - Regex: kelvin|Kelvin|k|K|celsius|Celsius|C|c
+  - Pattern: kelvin|Kelvin|k|K|celsius|Celsius|C|c
   - Template_alias: Temperature unit
 - ph
   - Type: float
@@ -349,7 +349,7 @@ This object describes the result of a measurement, which includes time course da
 - __temperature_unit__
   - Type: string
   - Description: Unit of the temperature of the reaction.
-  - Regex: kelvin|Kelvin|k|K|celsius|Celsius|C|c
+  - Pattern: kelvin|Kelvin|k|K|celsius|Celsius|C|c
 - __ph__
   - Type: float
   - Description: PH value of the reaction.
