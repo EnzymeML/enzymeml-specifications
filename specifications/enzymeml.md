@@ -161,7 +161,7 @@ This objects describes the proteins that were used or produced in the course of 
 - __ontology__
   - Type: [SBOTerm](#sboterm)
   - Description: None
-  - Default: SBOTerm.CATALYST
+  - Default: SBOTerm.PROTEIN
 
 ### Complex [_AbstractSpecies_]
 
