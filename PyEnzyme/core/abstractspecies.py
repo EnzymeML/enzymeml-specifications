@@ -3,8 +3,6 @@ import sdRDM
 from typing import Optional, Union
 from pydantic import PrivateAttr, Field, validator
 from sdRDM.base.utils import forge_signature, IDGenerator
-
-
 from .vessel import Vessel
 
 
@@ -53,13 +51,26 @@ class AbstractSpecies(sdRDM.DataModel):
         default=None,
         description="None",
     )
-
     __repo__: Optional[str] = PrivateAttr(
-        default="https://github.com/EnzymeML/enzymeml-specifications.git"
+        default="https://github.com/EnzymeML/enzymeml-specifications"
     )
     __commit__: Optional[str] = PrivateAttr(
-        default="be5b096d8b21ddf8fc513e3e62f1d3ebcdfa4187"
+        default="7d41b44d1c5104e3654c144843fefd748efe40e0"
     )
+
+    @validator("vessel_id")
+    def get_vessel_id_reference(cls, value):
+        """Extracts the ID from a given object to create a reference"""
+        from .vessel import Vessel
+
+        if isinstance(value, Vessel):
+            return value.id
+        elif isinstance(value, str):
+            return value
+        else:
+            raise TypeError(
+                f"Expected types [Vessel, str] got '{type(value).__name__}' instead."
+            )
 
     @validator("vessel_id")
     def get_vessel_id_reference(cls, value):

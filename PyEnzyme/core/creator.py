@@ -29,10 +29,9 @@ class Creator(sdRDM.DataModel):
         ...,
         description="Email address of the author or contributor.",
     )
-
     __repo__: Optional[str] = PrivateAttr(
-        default="https://github.com/EnzymeML/enzymeml-specifications.git"
+        default="https://github.com/EnzymeML/enzymeml-specifications"
     )
     __commit__: Optional[str] = PrivateAttr(
-        default="be5b096d8b21ddf8fc513e3e62f1d3ebcdfa4187"
+        default="7d41b44d1c5104e3654c144843fefd748efe40e0"
     )

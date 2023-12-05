@@ -4,11 +4,9 @@ from typing import List, Optional
 from pydantic import Field, PrivateAttr
 from sdRDM.base.listplus import ListPlus
 from sdRDM.base.utils import forge_signature, IDGenerator
-
-
-from .replicate import Replicate
-from .measurementdata import MeasurementData
 from .abstractspecies import AbstractSpecies
+from .measurementdata import MeasurementData
+from .replicate import Replicate
 
 
 @forge_signature
@@ -35,7 +33,7 @@ class Measurement(sdRDM.DataModel):
     temperature_unit: str = Field(
         ...,
         description="Unit of the temperature of the reaction.",
-        regex="kelvin|Kelvin|k|K|celsius|Celsius|C|c",
+        pattern="kelvin|Kelvin|k|K|celsius|Celsius|C|c",
     )
 
     ph: float = Field(
@@ -71,12 +69,11 @@ class Measurement(sdRDM.DataModel):
         default=None,
         description="Unique identifier of the author.",
     )
-
     __repo__: Optional[str] = PrivateAttr(
-        default="https://github.com/EnzymeML/enzymeml-specifications.git"
+        default="https://github.com/EnzymeML/enzymeml-specifications"
     )
     __commit__: Optional[str] = PrivateAttr(
-        default="be5b096d8b21ddf8fc513e3e62f1d3ebcdfa4187"
+        default="7d41b44d1c5104e3654c144843fefd748efe40e0"
     )
 
     def add_to_species(
@@ -99,7 +96,6 @@ class Measurement(sdRDM.DataModel):
             species_id (): The identifier for the described reactant.. Defaults to None
             replicates (): A list of replicate objects holding raw data of the measurement.. Defaults to ListPlus()
         """
-
         params = {
             "init_conc": init_conc,
             "unit": unit,
@@ -107,8 +103,7 @@ class Measurement(sdRDM.DataModel):
             "species_id": species_id,
             "replicates": replicates,
         }
-
         if id is not None:
             params["id"] = id
-
         self.species.append(MeasurementData(**params))
+        return self.species[-1]
