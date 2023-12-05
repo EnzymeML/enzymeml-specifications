@@ -1,38 +1,15 @@
-name: Generate API
+name: Generate ER Diagram
 
-on: push
+on: [push]
 
 jobs:
-  generate-api:
+  generate:
     runs-on: ubuntu-latest
-    env:
-      LIB_NAME: ${{ secrets.LIB_NAME }}
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-        
-      - name: Setup Python
-        uses: actions/setup-python@v2
-        with:
-          python-version: 3.9
-          
-      - name: Install sdRDM
-        run: python3 -m pip install git+https://github.com/JR-1991/software-driven-rdm.git@markdown-parser-refactor
-        
-      - name: Generate API
-        env:
-          URL: ${{github.repositoryUrl}}
-          COMMIT: ${{github.sha}}
-        run: sdrdm generate --path ./specifications/ --out . --name "$LIB_NAME" --url "$URL" --commit "$COMMIT"
-
-      - name: Push source code
-        run: |
-          if [[ `git status --porcelain` ]]; then
-            git add "$LIB_NAME"
-            git config --global user.name 'sdRDM Bot'
-            git config --global user.email 'sdRDM@bot.com'
-            git commit -am "API update"
-            git push
-          else
-            echo "Nothing changed!"
-          fi
+    - uses: actions/checkout@v2
+    - name: Generate sdRDM library
+      uses: JR-1991/generate-sdrdm-api@v1
+      with:
+        library_name: "PyEnzyme"
+        schema_path: "./specifications/enzymeml.md"
+        schema: "true"
