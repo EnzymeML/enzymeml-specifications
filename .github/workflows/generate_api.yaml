@@ -1,4 +1,4 @@
-name: Generate ER Diagram
+name: Generate Library
 
 on: [push]
 
