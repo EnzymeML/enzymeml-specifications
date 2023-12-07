@@ -5,8 +5,8 @@ from pydantic import PrivateAttr, Field, validator
 from sdRDM.base.listplus import ListPlus
 from sdRDM.base.utils import forge_signature, IDGenerator
 from .abstractspecies import AbstractSpecies
-from .replicate import Replicate
 from .datatypes import DataTypes
+from .replicate import Replicate
 
 
 @forge_signature
@@ -49,7 +49,7 @@ class MeasurementData(sdRDM.DataModel):
         default="https://github.com/EnzymeML/enzymeml-specifications"
     )
     __commit__: Optional[str] = PrivateAttr(
-        default="7d41b44d1c5104e3654c144843fefd748efe40e0"
+        default="8246809f84df365e1152d10d4e0335e1c0db90b7"
     )
 
     def add_to_replicates(
@@ -98,6 +98,23 @@ class MeasurementData(sdRDM.DataModel):
             params["id"] = id
         self.replicates.append(Replicate(**params))
         return self.replicates[-1]
+
+    @validator("species_id")
+    def get_species_id_reference(cls, value):
+        """Extracts the ID from a given object to create a reference"""
+        from .abstractspecies import AbstractSpecies
+
+        if isinstance(value, AbstractSpecies):
+            return value.id
+        elif isinstance(value, str):
+            return value
+        elif value is None:
+            return value
+        else:
+            raise TypeError(
+                f"Expected types [AbstractSpecies, str] got '{type(value).__name__}'"
+                " instead."
+            )
 
     @validator("species_id")
     def get_species_id_reference(cls, value):
