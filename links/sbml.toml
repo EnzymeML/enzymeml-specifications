@@ -7,14 +7,14 @@ SBML = "https://github.com/JR-1991/sbml-specifications.git@Refactored-version"
 id = "SBML/model/id"
 name = "SBML/model/name"
 
-[vessels]
+["EnzymeMLDocument/vessels"]
 id = "SBML/model/compartments/id"
 name = "SBML/model/compartments/name"
 volume = "SBML/model/compartments/size"
 unit = "SBML/model/compartments/units"
 constant = "SBML/model/compartments/constant"
 
-[proteins]
+["EnzymeMLDocument/proteins"]
 id = "SBML/model/species/id"
 name = "SBML/model/species/name"
 vessel_id = "SBML/model/species/compartment"
@@ -22,7 +22,7 @@ constant = "SBML/model/species/constant"
 init_conc = "SBML/model/species/initial_concentration"
 unit = "SBML/model/species/substance_units"
 
-[complexes]
+["EnzymeMLDocument/complexes"]
 id = "SBML/model/species/id"
 name = "SBML/model/species/name"
 vessel_id = "SBML/model/species/compartment"
@@ -30,7 +30,7 @@ constant = "SBML/model/species/constant"
 init_conc = "SBML/model/species/initial_concentration"
 unit = "SBML/model/species/substance_units"
 
-[reactants]
+["EnzymeMLDocument/reactants"]
 id = "SBML/model/species/id"
 name = "SBML/model/species/name"
 vessel_id = "SBML/model/species/compartment"
@@ -38,40 +38,40 @@ constant = "SBML/model/species/constant"
 init_conc = "SBML/model/species/initial_concentration"
 unit = "SBML/model/species/substance_units"
 
-[reactions]
+["EnzymeMLDocument/reactions"]
 id = "SBML/model/reactions/id"
 name = "SBML/model/reactions/name"
 reversible = "SBML/model/reactions/reversible"
 
-[global_parameters]
+["EnzymeMLDocument/parameters"]
 id = "SBML/model/parameters/id"
 name = "SBML/model/parameters/name"
 value = "SBML/model/parameters/value"
 unit = "SBML/model/parameters/units"
 
-["reactions/model"]
+["EnzymeMLDocument/reactions/model"]
 id = "SBML/model/reactions/kinetic_law/id"
 name = "SBML/model/reactions/kinetic_law/name"
 equation = "SBML/model/reactions/kinetic_law/math"
 
-["reactions/model/parameters"]
+["EnzymeMLDocument/reactions/model/parameters"]
 id = "SBML/model/reactions/kinetic_law/local_parameters/id"
 name = "SBML/model/reactions/kinetic_law/local_parameters/name"
 value = "SBML/model/reactions/kinetic_law/local_parameters/value"
 unit = "SBML/model/reactions/kinetic_law/local_parameters/units"
 
-["reactions/educts"]
+["EnzymeMLDocument/reactions/educts"]
 id = "SBML/model/reactions/reactants/id"
 species_id = "SBML/model/reactions/reactants/species"
 stoichiometry = "SBML/model/reactions/reactants/stoichiometry"
 constant = "SBML/model/reactions/reactants/constant"
 
-["reactions/products"]
+["EnzymeMLDocument/reactions/products"]
 id = "SBML/model/reactions/products/id"
 species_id = "SBML/model/reactions/products/species"
 stoichiometry = "SBML/model/reactions/products/stoichiometry"
 constant = "SBML/model/reactions/products/constant"
 
-["reactions/modifiers"]
+["EnzymeMLDocument/reactions/modifiers"]
 id = "SBML/model/reactions/modifiers/id"
 species_id = "SBML/model/reactions/modifiers/species"

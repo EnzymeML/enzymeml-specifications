@@ -1,0 +1,7 @@
+name: "EnzymeML Links"
+module: "links"
+links:
+  - name: "sbml"
+    template: "sbml.toml"
+    script: "sbml.py"
+    function: "link"
