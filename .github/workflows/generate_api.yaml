@@ -13,3 +13,4 @@ jobs:
         library_name: "PyEnzyme"
         schema_path: "./specifications/enzymeml.md"
         schema: "true"
+        branch: "pydantic-v2-migration"
