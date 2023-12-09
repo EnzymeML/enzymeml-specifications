@@ -4,11 +4,9 @@ from typing import Optional, Union, List
 from pydantic import PrivateAttr, Field, field_validator
 from sdRDM.base.listplus import ListPlus
 from sdRDM.base.utils import forge_signature, IDGenerator
-
-
-from .replicate import Replicate
 from .datatypes import DataTypes
 from .abstractspecies import AbstractSpecies
+from .replicate import Replicate
 
 
 @forge_signature
@@ -47,12 +45,11 @@ class MeasurementData(sdRDM.DataModel):
         multiple=True,
         description="A list of replicate objects holding raw data of the measurement.",
     )
-
     _repo: Optional[str] = PrivateAttr(
         default="https://github.com/EnzymeML/enzymeml-specifications"
     )
     _commit: Optional[str] = PrivateAttr(
-        default="e30035f54df9387024ec6f7436acbbb9d12f139c"
+        default="a86bf684eb4446bf5b16de07c99dc8e257b5d400"
     )
 
     def add_to_replicates(
@@ -85,7 +82,6 @@ class MeasurementData(sdRDM.DataModel):
             uri (): URI of the protein.. Defaults to None
             creator_id (): Unique identifier of the author.. Defaults to None
         """
-
         params = {
             "species_id": species_id,
             "measurement_id": measurement_id,
@@ -98,13 +94,27 @@ class MeasurementData(sdRDM.DataModel):
             "uri": uri,
             "creator_id": creator_id,
         }
-
         if id is not None:
             params["id"] = id
-
         self.replicates.append(Replicate(**params))
-
         return self.replicates[-1]
+
+    @field_validator("species_id")
+    def get_species_id_reference(cls, value):
+        """Extracts the ID from a given object to create a reference"""
+        from .abstractspecies import AbstractSpecies
+
+        if isinstance(value, AbstractSpecies):
+            return value.id
+        elif isinstance(value, str):
+            return value
+        elif value is None:
+            return value
+        else:
+            raise TypeError(
+                f"Expected types [AbstractSpecies, str] got '{type(value).__name__}'"
+                " instead."
+            )
 
     @field_validator("species_id")
     def get_species_id_reference(cls, value):

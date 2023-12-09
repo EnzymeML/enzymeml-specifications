@@ -1,26 +1,23 @@
 import sdRDM
 
 from typing import List, Optional
-from pydantic import Field, PrivateAttr
+from pydantic import Field, PositiveFloat, PrivateAttr
 from sdRDM.base.listplus import ListPlus
 from sdRDM.base.utils import forge_signature, IDGenerator
-
-from pydantic import PositiveFloat
 from datetime import datetime as Datetime
-
-from .reactant import Reactant
-from .file import File
-from .kineticparameter import KineticParameter
+from .kineticmodel import KineticModel
 from .reactionelement import ReactionElement
 from .sboterm import SBOTerm
-from .reaction import Reaction
-from .creator import Creator
+from .reactant import Reactant
+from .file import File
 from .vessel import Vessel
-from .protein import Protein
+from .creator import Creator
+from .reaction import Reaction
 from .complex import Complex
-from .kineticmodel import KineticModel
-from .measurementdata import MeasurementData
 from .measurement import Measurement
+from .kineticparameter import KineticParameter
+from .protein import Protein
+from .measurementdata import MeasurementData
 
 
 @forge_signature
@@ -124,12 +121,11 @@ class EnzymeMLDocument(sdRDM.DataModel):
             " describing objects."
         ),
     )
-
     _repo: Optional[str] = PrivateAttr(
         default="https://github.com/EnzymeML/enzymeml-specifications"
     )
     _commit: Optional[str] = PrivateAttr(
-        default="e30035f54df9387024ec6f7436acbbb9d12f139c"
+        default="a86bf684eb4446bf5b16de07c99dc8e257b5d400"
     )
 
     def add_to_creators(
@@ -144,18 +140,10 @@ class EnzymeMLDocument(sdRDM.DataModel):
             family_name (): Family name of the author or contributor..
             mail (): Email address of the author or contributor..
         """
-
-        params = {
-            "given_name": given_name,
-            "family_name": family_name,
-            "mail": mail,
-        }
-
+        params = {"given_name": given_name, "family_name": family_name, "mail": mail}
         if id is not None:
             params["id"] = id
-
         self.creators.append(Creator(**params))
-
         return self.creators[-1]
 
     def add_to_vessels(
@@ -180,7 +168,6 @@ class EnzymeMLDocument(sdRDM.DataModel):
             uri (): URI of the vessel.. Defaults to None
             creator_id (): Unique identifier of the author.. Defaults to None
         """
-
         params = {
             "name": name,
             "volume": volume,
@@ -189,12 +176,9 @@ class EnzymeMLDocument(sdRDM.DataModel):
             "uri": uri,
             "creator_id": creator_id,
         }
-
         if id is not None:
             params["id"] = id
-
         self.vessels.append(Vessel(**params))
-
         return self.vessels[-1]
 
     def add_to_proteins(
@@ -233,7 +217,6 @@ class EnzymeMLDocument(sdRDM.DataModel):
             uri (): None. Defaults to None
             creator_id (): None. Defaults to None
         """
-
         params = {
             "sequence": sequence,
             "name": name,
@@ -249,12 +232,9 @@ class EnzymeMLDocument(sdRDM.DataModel):
             "uri": uri,
             "creator_id": creator_id,
         }
-
         if id is not None:
             params["id"] = id
-
         self.proteins.append(Protein(**params))
-
         return self.proteins[-1]
 
     def add_to_complexes(
@@ -285,7 +265,6 @@ class EnzymeMLDocument(sdRDM.DataModel):
             uri (): None. Defaults to None
             creator_id (): None. Defaults to None
         """
-
         params = {
             "name": name,
             "vessel_id": vessel_id,
@@ -297,12 +276,9 @@ class EnzymeMLDocument(sdRDM.DataModel):
             "uri": uri,
             "creator_id": creator_id,
         }
-
         if id is not None:
             params["id"] = id
-
         self.complexes.append(Complex(**params))
-
         return self.complexes[-1]
 
     def add_to_reactants(
@@ -337,7 +313,6 @@ class EnzymeMLDocument(sdRDM.DataModel):
             uri (): None. Defaults to None
             creator_id (): None. Defaults to None
         """
-
         params = {
             "name": name,
             "vessel_id": vessel_id,
@@ -351,12 +326,9 @@ class EnzymeMLDocument(sdRDM.DataModel):
             "uri": uri,
             "creator_id": creator_id,
         }
-
         if id is not None:
             params["id"] = id
-
         self.reactants.append(Reactant(**params))
-
         return self.reactants[-1]
 
     def add_to_reactions(
@@ -393,7 +365,6 @@ class EnzymeMLDocument(sdRDM.DataModel):
             products (): List of products containing ReactionElement objects.. Defaults to ListPlus()
             modifiers (): List of modifiers (Proteins, snhibitors, stimulators) containing ReactionElement objects.. Defaults to ListPlus()
         """
-
         params = {
             "name": name,
             "reversible": reversible,
@@ -408,12 +379,9 @@ class EnzymeMLDocument(sdRDM.DataModel):
             "products": products,
             "modifiers": modifiers,
         }
-
         if id is not None:
             params["id"] = id
-
         self.reactions.append(Reaction(**params))
-
         return self.reactions[-1]
 
     def add_to_measurements(
@@ -444,7 +412,6 @@ class EnzymeMLDocument(sdRDM.DataModel):
             uri (): URI of the reaction.. Defaults to None
             creator_id (): Unique identifier of the author.. Defaults to None
         """
-
         params = {
             "name": name,
             "temperature": temperature,
@@ -456,12 +423,9 @@ class EnzymeMLDocument(sdRDM.DataModel):
             "uri": uri,
             "creator_id": creator_id,
         }
-
         if id is not None:
             params["id"] = id
-
         self.measurements.append(Measurement(**params))
-
         return self.measurements[-1]
 
     def add_to_files(
@@ -476,18 +440,10 @@ class EnzymeMLDocument(sdRDM.DataModel):
             content (): Contents of the file.
             filetype (): Type of the file such as .xml, .json and so on.
         """
-
-        params = {
-            "name": name,
-            "content": content,
-            "filetype": filetype,
-        }
-
+        params = {"name": name, "content": content, "filetype": filetype}
         if id is not None:
             params["id"] = id
-
         self.files.append(File(**params))
-
         return self.files[-1]
 
     def add_to_global_parameters(
@@ -520,7 +476,6 @@ class EnzymeMLDocument(sdRDM.DataModel):
             constant (): Specifies if this parameter is constant. Defaults to False
             ontology (): Type of the estimated parameter.. Defaults to None
         """
-
         params = {
             "name": name,
             "value": value,
@@ -533,10 +488,7 @@ class EnzymeMLDocument(sdRDM.DataModel):
             "constant": constant,
             "ontology": ontology,
         }
-
         if id is not None:
             params["id"] = id
-
         self.global_parameters.append(KineticParameter(**params))
-
         return self.global_parameters[-1]

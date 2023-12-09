@@ -1,11 +1,8 @@
 import sdRDM
 
 from typing import Optional, Union
-from pydantic import PrivateAttr, Field, field_validator
+from pydantic import PrivateAttr, Field, field_validator, PositiveFloat
 from sdRDM.base.utils import forge_signature, IDGenerator
-
-from pydantic import PositiveFloat
-
 from .sboterm import SBOTerm
 from .abstractspecies import AbstractSpecies
 
@@ -46,13 +43,27 @@ class ReactionElement(sdRDM.DataModel):
         default=None,
         description="Ontology defining the role of the given species.",
     )
-
     _repo: Optional[str] = PrivateAttr(
         default="https://github.com/EnzymeML/enzymeml-specifications"
     )
     _commit: Optional[str] = PrivateAttr(
-        default="e30035f54df9387024ec6f7436acbbb9d12f139c"
+        default="a86bf684eb4446bf5b16de07c99dc8e257b5d400"
     )
+
+    @field_validator("species_id")
+    def get_species_id_reference(cls, value):
+        """Extracts the ID from a given object to create a reference"""
+        from .abstractspecies import AbstractSpecies
+
+        if isinstance(value, AbstractSpecies):
+            return value.id
+        elif isinstance(value, str):
+            return value
+        else:
+            raise TypeError(
+                f"Expected types [AbstractSpecies, str] got '{type(value).__name__}'"
+                " instead."
+            )
 
     @field_validator("species_id")
     def get_species_id_reference(cls, value):

@@ -1,15 +1,12 @@
 import sdRDM
 
 from typing import List, Optional
-from pydantic import Field, PrivateAttr
+from pydantic import Field, PositiveFloat, PrivateAttr
 from sdRDM.base.listplus import ListPlus
 from sdRDM.base.utils import forge_signature, IDGenerator
-
-from pydantic import PositiveFloat
-
 from .kineticmodel import KineticModel
-from .reactionelement import ReactionElement
 from .sboterm import SBOTerm
+from .reactionelement import ReactionElement
 from .abstractspecies import AbstractSpecies
 
 
@@ -99,12 +96,11 @@ class Reaction(sdRDM.DataModel):
         ),
         template_alias="Modifiers",
     )
-
     _repo: Optional[str] = PrivateAttr(
         default="https://github.com/EnzymeML/enzymeml-specifications"
     )
     _commit: Optional[str] = PrivateAttr(
-        default="e30035f54df9387024ec6f7436acbbb9d12f139c"
+        default="a86bf684eb4446bf5b16de07c99dc8e257b5d400"
     )
 
     def add_to_educts(
@@ -125,19 +121,15 @@ class Reaction(sdRDM.DataModel):
             constant (): Whether or not the concentration of this species remains constant.. Defaults to False
             ontology (): Ontology defining the role of the given species.. Defaults to None
         """
-
         params = {
             "species_id": species_id,
             "stoichiometry": stoichiometry,
             "constant": constant,
             "ontology": ontology,
         }
-
         if id is not None:
             params["id"] = id
-
         self.educts.append(ReactionElement(**params))
-
         return self.educts[-1]
 
     def add_to_products(
@@ -158,19 +150,15 @@ class Reaction(sdRDM.DataModel):
             constant (): Whether or not the concentration of this species remains constant.. Defaults to False
             ontology (): Ontology defining the role of the given species.. Defaults to None
         """
-
         params = {
             "species_id": species_id,
             "stoichiometry": stoichiometry,
             "constant": constant,
             "ontology": ontology,
         }
-
         if id is not None:
             params["id"] = id
-
         self.products.append(ReactionElement(**params))
-
         return self.products[-1]
 
     def add_to_modifiers(
@@ -191,17 +179,13 @@ class Reaction(sdRDM.DataModel):
             constant (): Whether or not the concentration of this species remains constant.. Defaults to False
             ontology (): Ontology defining the role of the given species.. Defaults to None
         """
-
         params = {
             "species_id": species_id,
             "stoichiometry": stoichiometry,
             "constant": constant,
             "ontology": ontology,
         }
-
         if id is not None:
             params["id"] = id
-
         self.modifiers.append(ReactionElement(**params))
-
         return self.modifiers[-1]
