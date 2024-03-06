@@ -27,41 +27,41 @@ This is the root object that composes all objects found in an EnzymeML document.
   - Type: datetime
   - Description: Date the EnzymeML document was modified.
 - creators
-  - Type: [Creator](#creator)
+  - Type: Creator
   - Multiple: True
   - Description: Contains all authors that are part of the experiment.
 - vessels
-  - Type: [Vessel](#vessel)
+  - Type: Vessel
   - Multiple: True
   - Description: Contains all vessels that are part of the experiment.
 - proteins
-  - Type: [Protein](#Protein)
+  - Type: Protein
   - Multiple: True
   - Description: Contains all proteins that are part of the experiment.
 - complexes
-  - Type: [Complex](#Complex)
+  - Type: Complex
   - Multiple: True
   - Description: Contains all complexes that are part of the experiment.
 - reactants
-  - Type: [Reactant](#Reactant)
+  - Type: Reactant
   - Multiple: True
   - Description: Contains all reactants that are part of the experiment.
 - reactions
-  - Type: [Reaction](#reaction)
+  - Type: Reaction
   - Multiple: True
-  - Description: Dictionary mapping from reaction IDs to reaction describing objects.
+  - Description: Dictionary mapping from reaction IDs to reaction-describing objects.
 - measurements
-  - Type: [Measurement](#measurement)
+  - Type: Measurement
   - Multiple: True
   - Description: Contains measurements that describe outcomes of an experiment.
 - files
-  - Type: [File](#file)
+  - Type: File
   - Multiple: True
   - Description: Contains files attached to the data model.
 - global_parameters
-  - Type: [KineticParameter](#kineticparameter)
+  - Type: KineticParameter
   - Multiple: True
-  - Description: Dictionary mapping from parameter IDs to global kinetic parameter describing objects.
+  - Description: Dictionary mapping from parameter IDs to global kinetic parameters describing objects.
 
 ## General information
 
@@ -116,7 +116,7 @@ This object is used to inherit basic attributes common to all species used in th
   - Type: string
   - Description: None
 - __vessel_id__
-  - Type: @Vessel.id
+  - Type: string
   - Description: None
 - init_conc
   - Type: float
@@ -159,7 +159,7 @@ This objects describes the proteins that were used or produced in the course of 
   - Description: Unique identifier referencing a protein entry at UniProt. Use this identifier to initialize the object from the UniProt database.
   - Template_alias: UniProt ID
 - __ontology__
-  - Type: [SBOTerm](#sboterm)
+  - Type: SBOTerm
   - Description: None
   - Default: SBOTerm.PROTEIN
 
@@ -172,13 +172,13 @@ This object describes complexes made of reactants and/or proteins that were used
   - Multiple: True
   - Description: Array of IDs the complex contains
 - __ontology__
-  - Type: [SBOTerm](#sboterm)
+  - Type: SBOTerm
   - Description: None
   - Default: SBOTerm.MACROMOLECULAR_COMPLEX
 
 ### Reactant [_AbstractSpecies_]
 
-This objects describes the reactants that were used or produced in the course of the experiment.
+This object describes the reactants that were used or produced in the course of the experiment.
 
 - smiles
   - Type: string
@@ -192,8 +192,8 @@ This objects describes the reactants that were used or produced in the course of
   - Type: string
   - Description: Unique identifier of the CHEBI database. Use this identifier to initialize the object from the CHEBI database.
 - __ontology__
-  - Type: [SBOTerm](#sboterm)
-  - Description: None
+  - Type: SBOTerm
+  - Description: SBO term defining the role of the given species in the reaction.
   - Default: SBOTerm.SMALL_MOLECULE
 
 ## EnzymeReaction
@@ -227,7 +227,7 @@ This object describes a chemical or enzymatic reaction that was investigated in 
   - Inclusiveminimum: 0
   - Inclusivemaximum: 14
 - __ontology__
-  - Type: [SBOTerm](#sboterm)
+  - Type: SBOTerm
   - Default: SBOTerm.BIOCHEMICAL_REACTION
   - Description: Ontology defining the role of the given species.
 - uri
@@ -237,30 +237,30 @@ This object describes a chemical or enzymatic reaction that was investigated in 
   - Type: string
   - Description: Unique identifier of the author.
 - model
-  - Type: [KineticModel](#kineticmodel)
-  - Description: Kinetic model decribing the reaction.
+  - Type: KineticModel
+  - Description: Kinetic model describing the reaction.
 - educts
-  - Type: [ReactionElement](#reactionelement)
+  - Type: ReactionElement
   - Multiple: True
   - Description: List of educts containing ReactionElement objects.
   - Template_alias: Educts
 - products
-  - Type: [ReactionElement](#reactionelement)
+  - Type: ReactionElement
   - Multiple: True
   - Description: List of products containing ReactionElement objects.
   - Template_alias: Products
 - modifiers
-  - Type: [ReactionElement](#reactionelement)
+  - Type: ReactionElement
   - Multiple: True
-  - Description: List of modifiers (Proteins, snhibitors, stimulators) containing ReactionElement objects.
+  - Description: List of modifiers (proteins, inhibitors, stimulators) containing ReactionElement objects.
   - Template_alias: Modifiers
 
 ### ReactionElement
 
-This object is part of the Reaction object and describes either an educt, product or modifier. The latter includes buffers, counter-ions as well as proteins/enzymes.
+This object is part of the Reaction object and describes either an educt, product, or modifier. The latter includes buffers, counter-ions as well as proteins/enzymes.
 
 - __species_id__
-  - Type: @AbstractSpecies.id
+  - Type: string
   - Description: Internal identifier to either a protein or reactant defined in the EnzymeMLDocument.
   - References: EnzymeMLDocument.reactants.id
 - __stoichiometry__
@@ -272,7 +272,7 @@ This object is part of the Reaction object and describes either an educt, produc
   - Description: Whether or not the concentration of this species remains constant.
   - Default: False
 - ontology
-  - Type: [SBOTerm](#sboterm)
+  - Type: SBOTerm
   - Description: Ontology defining the role of the given species.
 
 ## Modelling
@@ -288,11 +288,11 @@ This object describes a kinetic model that was derived from the experiment.
   - Type: string
   - Description: Equation for the kinetic law.
 - parameters
-  - Type: [KineticParameter](#kineticparameter)
+  - Type: KineticParameter
   - Multiple: True
   - Description: List of estimated parameters.
 - ontology
-  - Type: [SBOTerm](#sboterm)
+  - Type: SBOTerm
   - Description: Type of the estimated parameter.
 
 ### KineticParameter
@@ -319,7 +319,7 @@ This object describes the parameters of the kinetic model and can include all es
   - Description: Lower bound of the estimated parameter.
 - __is_global__
   - Type: bool
-  - Description: Specifies if this parameter is a global parameter.
+  - Description: Specifies if this parameter is global for the entire EnzymeMLDocument.
   - Default: False
 - stdev
   - Type: float
@@ -329,7 +329,7 @@ This object describes the parameters of the kinetic model and can include all es
   - Description: Specifies if this parameter is constant
   - Default: False
 - ontology
-  - Type: [SBOTerm](#sboterm)
+  - Type: SBOTerm
   - Description: Type of the estimated parameter.
 
 ## Time course data handling
@@ -355,7 +355,7 @@ This object describes the result of a measurement, which includes time course da
   - Inclusiveminimum: 0
   - Inclusivemaximum: 14
 - species
-  - Type: [MeasurementData](#measurementdata)
+  - Type: MeasurementData
   - Multiple: True
   - Description: Species of the measurement.
 - __global_time__
@@ -374,22 +374,22 @@ This object describes the result of a measurement, which includes time course da
 
 ### MeasurementData
 
-This object describes a single entity of a measurement, which corresponds to one species. It also holds replicates which contain time course data.
+This object describes a single entity of a measurement, which corresponds to one species. It also holds replicates that contain time course data.
 
 - __init_conc__
   - Type: float
   - Description: Initial concentration of the measurement data.
 - __unit__
   - Type: string
-  - Description: The unit of the measurement data.
+  - Description: The unit of measurement data.
 - __measurement_id__
   - Type: string
   - Description: Unique measurement identifier this dataset belongs to.
 - species_id
-  - Type: @AbstractSpecies.id
+  - Type: string
   - Description: The identifier for the described reactant.
 - replicates
-  - Type: [Replicate](#replicate)
+  - Type: Replicate
   - Multiple: True
   - Description: A list of replicate objects holding raw data of the measurement.
 
@@ -404,7 +404,7 @@ This object contains the measured time course data as well as metadata to the re
   - Type: string
   - Description: Unique identifier of the measurement that the replicate is part of.
 - __data_type__
-  - Type: [DataTypes](#datatypes)
+  - Type: DataTypes
   - Description: Type of data that was measured (e.g. concentration)
   - Default: DataTypes.CONCENTRATION
 - __data_unit__
@@ -436,7 +436,7 @@ This object contains the measured time course data as well as metadata to the re
 
 ### File
 
-This objects contains a files that has been attached to the document.
+This object contains files that have been attached to the document.
 
 - __name__
   - Type: string
@@ -446,7 +446,7 @@ This objects contains a files that has been attached to the document.
   - Description: Contents of the file
 - __filetype__
   - Type: string
-  - Description: Type of the file such as .xml, .json and so on
+  - Description: Type of the file such as .xml, .json, and so on
 
 ## Enumerations
 
