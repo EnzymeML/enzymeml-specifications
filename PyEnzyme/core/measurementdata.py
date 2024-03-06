@@ -1,54 +1,73 @@
 import sdRDM
 
 from typing import List, Optional
-from pydantic import PrivateAttr, Field, validator
+from pydantic import PrivateAttr, validator
+from uuid import uuid4
+from pydantic_xml import attr, element, wrapped
 from sdRDM.base.listplus import ListPlus
-from sdRDM.base.utils import forge_signature, IDGenerator
-from .abstractspecies import AbstractSpecies
+from sdRDM.base.utils import forge_signature
 from .datatypes import DataTypes
 from .replicate import Replicate
+from .abstractspecies import AbstractSpecies
 
 
 @forge_signature
-class MeasurementData(sdRDM.DataModel):
+class MeasurementData(
+    sdRDM.DataModel,
+    nsmap={
+        "": "https://github.com/EnzymeML/enzymeml-specifications@142ca246cf92944bcbc11fbda9892f64bff77e8b#MeasurementData"
+    },
+):
     """This object describes a single entity of a measurement, which corresponds to one species. It also holds replicates that contain time course data."""
 
-    id: Optional[str] = Field(
+    id: Optional[str] = attr(
+        name="id",
         description="Unique identifier of the given object.",
-        default_factory=IDGenerator("measurementdataINDEX"),
+        default_factory=lambda: str(uuid4()),
         xml="@id",
     )
 
-    init_conc: float = Field(
-        ...,
+    init_conc: float = element(
         description="Initial concentration of the measurement data.",
+        tag="init_conc",
+        json_schema_extra=dict(),
     )
 
-    unit: str = Field(
-        ...,
+    unit: str = element(
         description="The unit of measurement data.",
+        tag="unit",
+        json_schema_extra=dict(),
     )
 
-    measurement_id: str = Field(
-        ...,
+    measurement_id: str = element(
         description="Unique measurement identifier this dataset belongs to.",
+        tag="measurement_id",
+        json_schema_extra=dict(),
     )
 
-    species_id: Optional[str] = Field(
-        default=None,
+    species_id: Optional[str] = element(
         description="The identifier for the described reactant.",
+        default=None,
+        tag="species_id",
+        json_schema_extra=dict(),
     )
 
-    replicates: List[Replicate] = Field(
-        default_factory=ListPlus,
-        multiple=True,
-        description="A list of replicate objects holding raw data of the measurement.",
+    replicates: List[Replicate] = wrapped(
+        "replicates",
+        element(
+            description=(
+                "A list of replicate objects holding raw data of the measurement."
+            ),
+            default_factory=ListPlus,
+            tag="Replicate",
+            json_schema_extra=dict(multiple=True),
+        ),
     )
-    __repo__: Optional[str] = PrivateAttr(
+    _repo: Optional[str] = PrivateAttr(
         default="https://github.com/EnzymeML/enzymeml-specifications"
     )
-    __commit__: Optional[str] = PrivateAttr(
-        default="45c5aa64db4e885152a7e877878a25f1baeb20da"
+    _commit: Optional[str] = PrivateAttr(
+        default="142ca246cf92944bcbc11fbda9892f64bff77e8b"
     )
 
     def add_to_replicates(
@@ -64,7 +83,7 @@ class MeasurementData(sdRDM.DataModel):
         uri: Optional[str] = None,
         creator_id: Optional[str] = None,
         id: Optional[str] = None,
-    ) -> None:
+    ) -> Replicate:
         """
         This method adds an object of type 'Replicate' to attribute replicates
 

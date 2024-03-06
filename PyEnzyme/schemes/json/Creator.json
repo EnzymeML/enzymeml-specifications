@@ -1,0 +1,39 @@
+{
+  "description": "The creator object contains all information about authors that contributed to the resulting document.",
+  "properties": {
+    "id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "Unique identifier of the given object.",
+      "title": "Id"
+    },
+    "given_name": {
+      "description": "Given name of the author or contributor.",
+      "title": "Given Name",
+      "type": "string"
+    },
+    "family_name": {
+      "description": "Family name of the author or contributor.",
+      "title": "Family Name",
+      "type": "string"
+    },
+    "mail": {
+      "description": "Email address of the author or contributor.",
+      "title": "Mail",
+      "type": "string"
+    }
+  },
+  "required": [
+    "given_name",
+    "family_name",
+    "mail"
+  ],
+  "title": "Creator",
+  "type": "object"
+}

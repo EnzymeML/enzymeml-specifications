@@ -1,0 +1,91 @@
+{
+  "description": "This object is used to inherit basic attributes common to all species used in the data model.",
+  "properties": {
+    "id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "Unique identifier of the given object.",
+      "title": "Id"
+    },
+    "name": {
+      "description": "None",
+      "title": "Name",
+      "type": "string"
+    },
+    "vessel_id": {
+      "description": "None",
+      "title": "Vessel Id",
+      "type": "string"
+    },
+    "init_conc": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "None",
+      "title": "Init Conc"
+    },
+    "constant": {
+      "description": "None",
+      "title": "Constant",
+      "type": "boolean"
+    },
+    "unit": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "None",
+      "title": "Unit"
+    },
+    "uri": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "None",
+      "title": "Uri"
+    },
+    "creator_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "None",
+      "title": "Creator Id"
+    }
+  },
+  "required": [
+    "name",
+    "vessel_id",
+    "constant"
+  ],
+  "title": "AbstractSpecies",
+  "type": "object"
+}

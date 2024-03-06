@@ -1,45 +1,67 @@
 
 from typing import Optional
-from pydantic import Field, PrivateAttr
-from sdRDM.base.utils import forge_signature, IDGenerator
-from .abstractspecies import AbstractSpecies
+from pydantic import PrivateAttr
+from uuid import uuid4
+from pydantic_xml import attr, element
+from sdRDM.base.utils import forge_signature
 from .sboterm import SBOTerm
+from .abstractspecies import AbstractSpecies
 
 
 @forge_signature
-class Reactant(AbstractSpecies):
+class Reactant(
+    AbstractSpecies,
+    nsmap={
+        "": "https://github.com/EnzymeML/enzymeml-specifications@142ca246cf92944bcbc11fbda9892f64bff77e8b#Reactant"
+    },
+):
     """This object describes the reactants that were used or produced in the course of the experiment."""
 
-    id: Optional[str] = Field(
+    id: Optional[str] = attr(
+        name="id",
         description="Unique identifier of the given object.",
-        default_factory=IDGenerator("reactantINDEX"),
+        default_factory=lambda: str(uuid4()),
         xml="@id",
     )
 
-    smiles: Optional[str] = Field(
+    smiles: Optional[str] = element(
+        description=(
+            "Simplified Molecular Input Line Entry System (SMILES) encoding of the"
+            " reactant."
+        ),
         default=None,
-        description="Simplified Molecular Input Line Entry System (SMILES) encoding of the reactant.",
-        template_alias="SMILES",
+        tag="smiles",
+        json_schema_extra=dict(template_alias="SMILES"),
     )
 
-    inchi: Optional[str] = Field(
+    inchi: Optional[str] = element(
+        description=(
+            "International Chemical Identifier (InChI) encoding of the reactant."
+        ),
         default=None,
-        description="International Chemical Identifier (InChI) encoding of the reactant.",
-        template_alias="InCHI",
+        tag="inchi",
+        json_schema_extra=dict(template_alias="InCHI"),
     )
 
-    chebi_id: Optional[str] = Field(
+    chebi_id: Optional[str] = element(
+        description=(
+            "Unique identifier of the CHEBI database. Use this identifier to initialize"
+            " the object from the CHEBI database."
+        ),
         default=None,
-        description="Unique identifier of the CHEBI database. Use this identifier to initialize the object from the CHEBI database.",
+        tag="chebi_id",
+        json_schema_extra=dict(),
     )
 
-    ontology: SBOTerm = Field(
+    ontology: SBOTerm = element(
         description="SBO term defining the role of the given species in the reaction.",
         default=SBOTerm.SMALL_MOLECULE,
+        tag="ontology",
+        json_schema_extra=dict(),
     )
-    __repo__: Optional[str] = PrivateAttr(
+    _repo: Optional[str] = PrivateAttr(
         default="https://github.com/EnzymeML/enzymeml-specifications"
     )
-    __commit__: Optional[str] = PrivateAttr(
-        default="45c5aa64db4e885152a7e877878a25f1baeb20da"
+    _commit: Optional[str] = PrivateAttr(
+        default="142ca246cf92944bcbc11fbda9892f64bff77e8b"
     )

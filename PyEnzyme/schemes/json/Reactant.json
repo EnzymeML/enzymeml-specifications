@@ -1,0 +1,180 @@
+{
+  "$defs": {
+    "SBOTerm": {
+      "enum": [
+        "SBO:0000176",
+        "SBO:0000208",
+        "SBO:0000181",
+        "SBO:0000182",
+        "SBO:0000179",
+        "SBO:0000180",
+        "SBO:0000209",
+        "SBO:0000377",
+        "SBO:0000177",
+        "SBO:0000200",
+        "SBO:0000672",
+        "SBO:0000252",
+        "SBO:0000251",
+        "SBO:0000247",
+        "SBO:0000327",
+        "SBO:0000328",
+        "SBO:0000336",
+        "SBO:0000015",
+        "SBO:0000011",
+        "SBO:0000013",
+        "SBO:0000020",
+        "SBO:0000461",
+        "SBO:0000462",
+        "SBO:0000021",
+        "SBO:0000296",
+        "SBO:0000297",
+        "SBO:0000607",
+        "SBO:0000028",
+        "SBO:0000025",
+        "SBO:0000027",
+        "SBO:0000186"
+      ],
+      "title": "SBOTerm",
+      "type": "string"
+    }
+  },
+  "description": "This object describes the reactants that were used or produced in the course of the experiment.",
+  "properties": {
+    "id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "Unique identifier of the given object.",
+      "title": "Id"
+    },
+    "name": {
+      "description": "None",
+      "title": "Name",
+      "type": "string"
+    },
+    "vessel_id": {
+      "description": "None",
+      "title": "Vessel Id",
+      "type": "string"
+    },
+    "init_conc": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "None",
+      "title": "Init Conc"
+    },
+    "constant": {
+      "description": "None",
+      "title": "Constant",
+      "type": "boolean"
+    },
+    "unit": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "None",
+      "title": "Unit"
+    },
+    "uri": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "None",
+      "title": "Uri"
+    },
+    "creator_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "None",
+      "title": "Creator Id"
+    },
+    "smiles": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Simplified Molecular Input Line Entry System (SMILES) encoding of the reactant.",
+      "template_alias": "SMILES",
+      "title": "Smiles"
+    },
+    "inchi": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "International Chemical Identifier (InChI) encoding of the reactant.",
+      "template_alias": "InCHI",
+      "title": "Inchi"
+    },
+    "chebi_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Unique identifier of the CHEBI database. Use this identifier to initialize the object from the CHEBI database.",
+      "title": "Chebi Id"
+    },
+    "ontology": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/SBOTerm"
+        }
+      ],
+      "default": "SBO:0000247",
+      "description": "SBO term defining the role of the given species in the reaction."
+    }
+  },
+  "required": [
+    "name",
+    "vessel_id",
+    "constant"
+  ],
+  "title": "Reactant",
+  "type": "object"
+}

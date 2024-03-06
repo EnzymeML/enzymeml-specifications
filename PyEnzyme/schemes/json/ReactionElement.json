@@ -1,0 +1,92 @@
+{
+  "$defs": {
+    "SBOTerm": {
+      "enum": [
+        "SBO:0000176",
+        "SBO:0000208",
+        "SBO:0000181",
+        "SBO:0000182",
+        "SBO:0000179",
+        "SBO:0000180",
+        "SBO:0000209",
+        "SBO:0000377",
+        "SBO:0000177",
+        "SBO:0000200",
+        "SBO:0000672",
+        "SBO:0000252",
+        "SBO:0000251",
+        "SBO:0000247",
+        "SBO:0000327",
+        "SBO:0000328",
+        "SBO:0000336",
+        "SBO:0000015",
+        "SBO:0000011",
+        "SBO:0000013",
+        "SBO:0000020",
+        "SBO:0000461",
+        "SBO:0000462",
+        "SBO:0000021",
+        "SBO:0000296",
+        "SBO:0000297",
+        "SBO:0000607",
+        "SBO:0000028",
+        "SBO:0000025",
+        "SBO:0000027",
+        "SBO:0000186"
+      ],
+      "title": "SBOTerm",
+      "type": "string"
+    }
+  },
+  "description": "This object is part of the Reaction object and describes either an educt, product, or modifier. The latter includes buffers, counter-ions as well as proteins/enzymes.",
+  "properties": {
+    "id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "Unique identifier of the given object.",
+      "title": "Id"
+    },
+    "species_id": {
+      "description": "Internal identifier to either a protein or reactant defined in the EnzymeMLDocument.",
+      "references": "EnzymeMLDocument.reactants.id",
+      "title": "Species Id",
+      "type": "string"
+    },
+    "stoichiometry": {
+      "default": 1.0,
+      "description": "Positive float number representing the associated stoichiometry.",
+      "exclusiveMinimum": 0.0,
+      "title": "Stoichiometry",
+      "type": "number"
+    },
+    "constant": {
+      "default": false,
+      "description": "Whether or not the concentration of this species remains constant.",
+      "title": "Constant",
+      "type": "boolean"
+    },
+    "ontology": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/SBOTerm"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Ontology defining the role of the given species."
+    }
+  },
+  "required": [
+    "species_id"
+  ],
+  "title": "ReactionElement",
+  "type": "object"
+}

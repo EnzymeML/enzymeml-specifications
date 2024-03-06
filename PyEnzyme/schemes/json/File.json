@@ -1,0 +1,40 @@
+{
+  "description": "This object contains files that have been attached to the document.",
+  "properties": {
+    "id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "Unique identifier of the given object.",
+      "title": "Id"
+    },
+    "name": {
+      "description": "Name of the file",
+      "title": "Name",
+      "type": "string"
+    },
+    "content": {
+      "description": "Contents of the file",
+      "format": "binary",
+      "title": "Content",
+      "type": "string"
+    },
+    "filetype": {
+      "description": "Type of the file such as .xml, .json, and so on",
+      "title": "Filetype",
+      "type": "string"
+    }
+  },
+  "required": [
+    "name",
+    "content",
+    "filetype"
+  ],
+  "title": "File",
+  "type": "object"
+}

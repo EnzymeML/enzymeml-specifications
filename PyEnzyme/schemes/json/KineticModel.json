@@ -1,0 +1,208 @@
+{
+  "$defs": {
+    "KineticParameter": {
+      "description": "This object describes the parameters of the kinetic model and can include all estimated values.",
+      "properties": {
+        "id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Unique identifier of the given object.",
+          "title": "Id"
+        },
+        "name": {
+          "description": "Name of the estimated parameter.",
+          "title": "Name",
+          "type": "string"
+        },
+        "value": {
+          "description": "Numerical value of the estimated parameter.",
+          "title": "Value",
+          "type": "number"
+        },
+        "unit": {
+          "description": "Unit of the estimated parameter.",
+          "title": "Unit",
+          "type": "string"
+        },
+        "initial_value": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Initial value that was used for the parameter estimation.",
+          "title": "Initial Value"
+        },
+        "upper": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Upper bound of the estimated parameter.",
+          "title": "Upper"
+        },
+        "lower": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Lower bound of the estimated parameter.",
+          "title": "Lower"
+        },
+        "is_global": {
+          "default": false,
+          "description": "Specifies if this parameter is global for the entire EnzymeMLDocument.",
+          "title": "Is Global",
+          "type": "boolean"
+        },
+        "stdev": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Standard deviation of the estimated parameter.",
+          "title": "Stdev"
+        },
+        "constant": {
+          "default": false,
+          "description": "Specifies if this parameter is constant",
+          "title": "Constant",
+          "type": "boolean"
+        },
+        "ontology": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/SBOTerm"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Type of the estimated parameter."
+        }
+      },
+      "required": [
+        "name",
+        "value",
+        "unit"
+      ],
+      "title": "KineticParameter",
+      "type": "object"
+    },
+    "SBOTerm": {
+      "enum": [
+        "SBO:0000176",
+        "SBO:0000208",
+        "SBO:0000181",
+        "SBO:0000182",
+        "SBO:0000179",
+        "SBO:0000180",
+        "SBO:0000209",
+        "SBO:0000377",
+        "SBO:0000177",
+        "SBO:0000200",
+        "SBO:0000672",
+        "SBO:0000252",
+        "SBO:0000251",
+        "SBO:0000247",
+        "SBO:0000327",
+        "SBO:0000328",
+        "SBO:0000336",
+        "SBO:0000015",
+        "SBO:0000011",
+        "SBO:0000013",
+        "SBO:0000020",
+        "SBO:0000461",
+        "SBO:0000462",
+        "SBO:0000021",
+        "SBO:0000296",
+        "SBO:0000297",
+        "SBO:0000607",
+        "SBO:0000028",
+        "SBO:0000025",
+        "SBO:0000027",
+        "SBO:0000186"
+      ],
+      "title": "SBOTerm",
+      "type": "string"
+    }
+  },
+  "description": "This object describes a kinetic model that was derived from the experiment.",
+  "properties": {
+    "id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "Unique identifier of the given object.",
+      "title": "Id"
+    },
+    "name": {
+      "description": "Name of the kinetic law.",
+      "title": "Name",
+      "type": "string"
+    },
+    "equation": {
+      "description": "Equation for the kinetic law.",
+      "title": "Equation",
+      "type": "string"
+    },
+    "parameters": {
+      "description": "List of estimated parameters.",
+      "items": {
+        "$ref": "#/$defs/KineticParameter"
+      },
+      "multiple": true,
+      "title": "Parameters",
+      "type": "array"
+    },
+    "ontology": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/SBOTerm"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Type of the estimated parameter."
+    }
+  },
+  "required": [
+    "name",
+    "equation"
+  ],
+  "title": "KineticModel",
+  "type": "object"
+}

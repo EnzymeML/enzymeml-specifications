@@ -1,103 +1,137 @@
 import sdRDM
 
 from typing import List, Optional
-from pydantic import Field, PrivateAttr
+from pydantic import PrivateAttr
+from uuid import uuid4
+from pydantic_xml import attr, element, wrapped
 from sdRDM.base.listplus import ListPlus
-from sdRDM.base.utils import forge_signature, IDGenerator
+from sdRDM.base.utils import forge_signature
 from pydantic.types import PositiveFloat
-from .kineticmodel import KineticModel
-from .reactionelement import ReactionElement
 from .sboterm import SBOTerm
+from .reactionelement import ReactionElement
+from .kineticmodel import KineticModel
 
 
 @forge_signature
-class Reaction(sdRDM.DataModel):
+class Reaction(
+    sdRDM.DataModel,
+    nsmap={
+        "": "https://github.com/EnzymeML/enzymeml-specifications@142ca246cf92944bcbc11fbda9892f64bff77e8b#Reaction"
+    },
+):
     """This object describes a chemical or enzymatic reaction that was investigated in the course of the experiment. All species used within this object need to be part of the data model."""
 
-    id: Optional[str] = Field(
+    id: Optional[str] = attr(
+        name="id",
         description="Unique identifier of the given object.",
-        default_factory=IDGenerator("reactionINDEX"),
+        default_factory=lambda: str(uuid4()),
         xml="@id",
     )
 
-    name: str = Field(
-        ...,
+    name: str = element(
         description="Name of the reaction.",
-        template_alias="Name",
+        tag="name",
+        json_schema_extra=dict(template_alias="Name"),
     )
 
-    reversible: bool = Field(
+    reversible: bool = element(
         description="Whether the reaction is reversible or irreversible",
         default=False,
-        template_alias="Reversible",
+        tag="reversible",
+        json_schema_extra=dict(template_alias="Reversible"),
     )
 
-    temperature: Optional[float] = Field(
-        default=None,
+    temperature: Optional[float] = element(
         description="Numeric value of the temperature of the reaction.",
-        template_alias="Temperature value",
+        default=None,
+        tag="temperature",
+        json_schema_extra=dict(template_alias="Temperature value"),
     )
 
-    temperature_unit: Optional[str] = Field(
-        default=None,
+    temperature_unit: Optional[str] = element(
         description="Unit of the temperature of the reaction.",
-        pattern="kelvin|Kelvin|k|K|celsius|Celsius|C|c",
-        template_alias="Temperature unit",
+        default=None,
+        tag="temperature_unit",
+        json_schema_extra=dict(
+            pattern="kelvin|Kelvin|k|K|celsius|Celsius|C|c",
+            template_alias="Temperature unit",
+        ),
     )
 
-    ph: Optional[float] = Field(
-        default=None,
+    ph: Optional[float] = element(
         description="PH value of the reaction.",
-        template_alias="pH value",
-        inclusiveminimum=0,
-        inclusivemaximum=14,
+        default=None,
+        tag="ph",
+        json_schema_extra=dict(
+            template_alias="pH value", inclusiveminimum=0, inclusivemaximum=14
+        ),
     )
 
-    ontology: SBOTerm = Field(
-        default=SBOTerm.BIOCHEMICAL_REACTION,
+    ontology: SBOTerm = element(
         description="Ontology defining the role of the given species.",
+        default=SBOTerm.BIOCHEMICAL_REACTION,
+        tag="ontology",
+        json_schema_extra=dict(),
     )
 
-    uri: Optional[str] = Field(
-        default=None,
+    uri: Optional[str] = element(
         description="URI of the reaction.",
+        default=None,
+        tag="uri",
+        json_schema_extra=dict(),
     )
 
-    creator_id: Optional[str] = Field(
-        default=None,
+    creator_id: Optional[str] = element(
         description="Unique identifier of the author.",
-    )
-
-    model: Optional[KineticModel] = Field(
         default=None,
+        tag="creator_id",
+        json_schema_extra=dict(),
+    )
+
+    model: Optional[KineticModel] = element(
         description="Kinetic model describing the reaction.",
+        default=None,
+        tag="model",
+        json_schema_extra=dict(),
     )
 
-    educts: List[ReactionElement] = Field(
-        default_factory=ListPlus,
-        multiple=True,
-        description="List of educts containing ReactionElement objects.",
-        template_alias="Educts",
+    educts: List[ReactionElement] = wrapped(
+        "educts",
+        element(
+            description="List of educts containing ReactionElement objects.",
+            default_factory=ListPlus,
+            tag="ReactionElement",
+            json_schema_extra=dict(multiple=True, template_alias="Educts"),
+        ),
     )
 
-    products: List[ReactionElement] = Field(
-        default_factory=ListPlus,
-        multiple=True,
-        description="List of products containing ReactionElement objects.",
-        template_alias="Products",
+    products: List[ReactionElement] = wrapped(
+        "products",
+        element(
+            description="List of products containing ReactionElement objects.",
+            default_factory=ListPlus,
+            tag="ReactionElement",
+            json_schema_extra=dict(multiple=True, template_alias="Products"),
+        ),
     )
 
-    modifiers: List[ReactionElement] = Field(
-        default_factory=ListPlus,
-        multiple=True,
-        description="List of modifiers (proteins, inhibitors, stimulators) containing ReactionElement objects.",
-        template_alias="Modifiers",
+    modifiers: List[ReactionElement] = wrapped(
+        "modifiers",
+        element(
+            description=(
+                "List of modifiers (proteins, inhibitors, stimulators) containing"
+                " ReactionElement objects."
+            ),
+            default_factory=ListPlus,
+            tag="ReactionElement",
+            json_schema_extra=dict(multiple=True, template_alias="Modifiers"),
+        ),
     )
-    __repo__: Optional[str] = PrivateAttr(
+    _repo: Optional[str] = PrivateAttr(
         default="https://github.com/EnzymeML/enzymeml-specifications"
     )
-    __commit__: Optional[str] = PrivateAttr(
-        default="45c5aa64db4e885152a7e877878a25f1baeb20da"
+    _commit: Optional[str] = PrivateAttr(
+        default="142ca246cf92944bcbc11fbda9892f64bff77e8b"
     )
 
     def add_to_educts(
@@ -107,7 +141,7 @@ class Reaction(sdRDM.DataModel):
         constant: bool = False,
         ontology: Optional[SBOTerm] = None,
         id: Optional[str] = None,
-    ) -> None:
+    ) -> ReactionElement:
         """
         This method adds an object of type 'ReactionElement' to attribute educts
 
@@ -136,7 +170,7 @@ class Reaction(sdRDM.DataModel):
         constant: bool = False,
         ontology: Optional[SBOTerm] = None,
         id: Optional[str] = None,
-    ) -> None:
+    ) -> ReactionElement:
         """
         This method adds an object of type 'ReactionElement' to attribute products
 
@@ -165,7 +199,7 @@ class Reaction(sdRDM.DataModel):
         constant: bool = False,
         ontology: Optional[SBOTerm] = None,
         id: Optional[str] = None,
-    ) -> None:
+    ) -> ReactionElement:
         """
         This method adds an object of type 'ReactionElement' to attribute modifiers
 

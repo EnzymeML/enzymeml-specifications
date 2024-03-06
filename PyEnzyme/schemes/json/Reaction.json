@@ -1,0 +1,418 @@
+{
+  "$defs": {
+    "KineticModel": {
+      "description": "This object describes a kinetic model that was derived from the experiment.",
+      "properties": {
+        "id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Unique identifier of the given object.",
+          "title": "Id"
+        },
+        "name": {
+          "description": "Name of the kinetic law.",
+          "title": "Name",
+          "type": "string"
+        },
+        "equation": {
+          "description": "Equation for the kinetic law.",
+          "title": "Equation",
+          "type": "string"
+        },
+        "parameters": {
+          "description": "List of estimated parameters.",
+          "items": {
+            "$ref": "#/$defs/KineticParameter"
+          },
+          "multiple": true,
+          "title": "Parameters",
+          "type": "array"
+        },
+        "ontology": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/SBOTerm"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Type of the estimated parameter."
+        }
+      },
+      "required": [
+        "name",
+        "equation"
+      ],
+      "title": "KineticModel",
+      "type": "object"
+    },
+    "KineticParameter": {
+      "description": "This object describes the parameters of the kinetic model and can include all estimated values.",
+      "properties": {
+        "id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Unique identifier of the given object.",
+          "title": "Id"
+        },
+        "name": {
+          "description": "Name of the estimated parameter.",
+          "title": "Name",
+          "type": "string"
+        },
+        "value": {
+          "description": "Numerical value of the estimated parameter.",
+          "title": "Value",
+          "type": "number"
+        },
+        "unit": {
+          "description": "Unit of the estimated parameter.",
+          "title": "Unit",
+          "type": "string"
+        },
+        "initial_value": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Initial value that was used for the parameter estimation.",
+          "title": "Initial Value"
+        },
+        "upper": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Upper bound of the estimated parameter.",
+          "title": "Upper"
+        },
+        "lower": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Lower bound of the estimated parameter.",
+          "title": "Lower"
+        },
+        "is_global": {
+          "default": false,
+          "description": "Specifies if this parameter is global for the entire EnzymeMLDocument.",
+          "title": "Is Global",
+          "type": "boolean"
+        },
+        "stdev": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Standard deviation of the estimated parameter.",
+          "title": "Stdev"
+        },
+        "constant": {
+          "default": false,
+          "description": "Specifies if this parameter is constant",
+          "title": "Constant",
+          "type": "boolean"
+        },
+        "ontology": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/SBOTerm"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Type of the estimated parameter."
+        }
+      },
+      "required": [
+        "name",
+        "value",
+        "unit"
+      ],
+      "title": "KineticParameter",
+      "type": "object"
+    },
+    "ReactionElement": {
+      "description": "This object is part of the Reaction object and describes either an educt, product, or modifier. The latter includes buffers, counter-ions as well as proteins/enzymes.",
+      "properties": {
+        "id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Unique identifier of the given object.",
+          "title": "Id"
+        },
+        "species_id": {
+          "description": "Internal identifier to either a protein or reactant defined in the EnzymeMLDocument.",
+          "references": "EnzymeMLDocument.reactants.id",
+          "title": "Species Id",
+          "type": "string"
+        },
+        "stoichiometry": {
+          "default": 1.0,
+          "description": "Positive float number representing the associated stoichiometry.",
+          "exclusiveMinimum": 0.0,
+          "title": "Stoichiometry",
+          "type": "number"
+        },
+        "constant": {
+          "default": false,
+          "description": "Whether or not the concentration of this species remains constant.",
+          "title": "Constant",
+          "type": "boolean"
+        },
+        "ontology": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/SBOTerm"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Ontology defining the role of the given species."
+        }
+      },
+      "required": [
+        "species_id"
+      ],
+      "title": "ReactionElement",
+      "type": "object"
+    },
+    "SBOTerm": {
+      "enum": [
+        "SBO:0000176",
+        "SBO:0000208",
+        "SBO:0000181",
+        "SBO:0000182",
+        "SBO:0000179",
+        "SBO:0000180",
+        "SBO:0000209",
+        "SBO:0000377",
+        "SBO:0000177",
+        "SBO:0000200",
+        "SBO:0000672",
+        "SBO:0000252",
+        "SBO:0000251",
+        "SBO:0000247",
+        "SBO:0000327",
+        "SBO:0000328",
+        "SBO:0000336",
+        "SBO:0000015",
+        "SBO:0000011",
+        "SBO:0000013",
+        "SBO:0000020",
+        "SBO:0000461",
+        "SBO:0000462",
+        "SBO:0000021",
+        "SBO:0000296",
+        "SBO:0000297",
+        "SBO:0000607",
+        "SBO:0000028",
+        "SBO:0000025",
+        "SBO:0000027",
+        "SBO:0000186"
+      ],
+      "title": "SBOTerm",
+      "type": "string"
+    }
+  },
+  "description": "This object describes a chemical or enzymatic reaction that was investigated in the course of the experiment. All species used within this object need to be part of the data model.",
+  "properties": {
+    "id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "Unique identifier of the given object.",
+      "title": "Id"
+    },
+    "name": {
+      "description": "Name of the reaction.",
+      "template_alias": "Name",
+      "title": "Name",
+      "type": "string"
+    },
+    "reversible": {
+      "default": false,
+      "description": "Whether the reaction is reversible or irreversible",
+      "template_alias": "Reversible",
+      "title": "Reversible",
+      "type": "boolean"
+    },
+    "temperature": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Numeric value of the temperature of the reaction.",
+      "template_alias": "Temperature value",
+      "title": "Temperature"
+    },
+    "temperature_unit": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Unit of the temperature of the reaction.",
+      "pattern": "kelvin|Kelvin|k|K|celsius|Celsius|C|c",
+      "template_alias": "Temperature unit",
+      "title": "Temperature Unit"
+    },
+    "ph": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "PH value of the reaction.",
+      "inclusivemaximum": 14,
+      "inclusiveminimum": 0,
+      "template_alias": "pH value",
+      "title": "Ph"
+    },
+    "ontology": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/SBOTerm"
+        }
+      ],
+      "default": "SBO:0000176",
+      "description": "Ontology defining the role of the given species."
+    },
+    "uri": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "URI of the reaction.",
+      "title": "Uri"
+    },
+    "creator_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Unique identifier of the author.",
+      "title": "Creator Id"
+    },
+    "model": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/KineticModel"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Kinetic model describing the reaction."
+    },
+    "educts": {
+      "description": "List of educts containing ReactionElement objects.",
+      "items": {
+        "$ref": "#/$defs/ReactionElement"
+      },
+      "multiple": true,
+      "template_alias": "Educts",
+      "title": "Educts",
+      "type": "array"
+    },
+    "products": {
+      "description": "List of products containing ReactionElement objects.",
+      "items": {
+        "$ref": "#/$defs/ReactionElement"
+      },
+      "multiple": true,
+      "template_alias": "Products",
+      "title": "Products",
+      "type": "array"
+    },
+    "modifiers": {
+      "description": "List of modifiers (proteins, inhibitors, stimulators) containing ReactionElement objects.",
+      "items": {
+        "$ref": "#/$defs/ReactionElement"
+      },
+      "multiple": true,
+      "template_alias": "Modifiers",
+      "title": "Modifiers",
+      "type": "array"
+    }
+  },
+  "required": [
+    "name"
+  ],
+  "title": "Reaction",
+  "type": "object"
+}

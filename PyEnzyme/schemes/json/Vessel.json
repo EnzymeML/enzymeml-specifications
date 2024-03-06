@@ -1,0 +1,75 @@
+{
+  "description": "This object describes vessels in which the experiment has been carried out. These can include any type of vessel used in biocatalytic experiments.",
+  "properties": {
+    "id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "Unique identifier of the given object.",
+      "title": "Id"
+    },
+    "name": {
+      "description": "Name of the used vessel.",
+      "template_alias": "Name",
+      "title": "Name",
+      "type": "string"
+    },
+    "volume": {
+      "description": "Volumetric value of the vessel.",
+      "exclusiveMinimum": 0.0,
+      "template_alias": "Volume value",
+      "title": "Volume",
+      "type": "number"
+    },
+    "unit": {
+      "description": "Volumetric unit of the vessel.",
+      "template_alias": "Volume unit",
+      "title": "Unit",
+      "type": "string"
+    },
+    "constant": {
+      "default": true,
+      "description": "Whether the volume of the vessel is constant or not.",
+      "title": "Constant",
+      "type": "boolean"
+    },
+    "uri": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "URI of the vessel.",
+      "title": "Uri"
+    },
+    "creator_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Unique identifier of the author.",
+      "title": "Creator Id"
+    }
+  },
+  "required": [
+    "name",
+    "volume",
+    "unit"
+  ],
+  "title": "Vessel",
+  "type": "object"
+}

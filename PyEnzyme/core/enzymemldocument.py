@@ -1,129 +1,194 @@
 import sdRDM
 
 from typing import List, Optional
-from pydantic import Field, PrivateAttr
+from pydantic import PrivateAttr
+from uuid import uuid4
+from pydantic_xml import attr, element, wrapped
 from sdRDM.base.listplus import ListPlus
-from sdRDM.base.utils import forge_signature, IDGenerator
+from sdRDM.base.utils import forge_signature
 from datetime import datetime as Datetime
 from pydantic.types import PositiveFloat
-from .creator import Creator
 from .kineticmodel import KineticModel
 from .complex import Complex
 from .reaction import Reaction
-from .file import File
-from .measurementdata import MeasurementData
-from .vessel import Vessel
-from .reactant import Reactant
-from .measurement import Measurement
-from .kineticparameter import KineticParameter
 from .protein import Protein
-from .reactionelement import ReactionElement
+from .kineticparameter import KineticParameter
 from .sboterm import SBOTerm
+from .reactionelement import ReactionElement
+from .vessel import Vessel
+from .file import File
+from .creator import Creator
+from .reactant import Reactant
+from .measurementdata import MeasurementData
+from .measurement import Measurement
 
 
 @forge_signature
-class EnzymeMLDocument(sdRDM.DataModel):
+class EnzymeMLDocument(
+    sdRDM.DataModel,
+    nsmap={
+        "": "https://github.com/EnzymeML/enzymeml-specifications@142ca246cf92944bcbc11fbda9892f64bff77e8b#EnzymeMLDocument"
+    },
+):
     """This is the root object that composes all objects found in an EnzymeML document. It also includes general metadata such as the name of the document, when it was created/modified and references to publications, databases and arbitrary links to the web."""
 
-    id: Optional[str] = Field(
+    id: Optional[str] = attr(
+        name="id",
         description="Unique identifier of the given object.",
-        default_factory=IDGenerator("enzymemldocumentINDEX"),
+        default_factory=lambda: str(uuid4()),
         xml="@id",
     )
 
-    name: str = Field(
-        ...,
+    name: str = element(
         description="Title of the EnzymeML Document.",
+        tag="name",
+        json_schema_extra=dict(),
     )
 
-    pubmedid: Optional[str] = Field(
-        default=None,
+    pubmedid: Optional[str] = element(
         description="Pubmed ID reference.",
+        default=None,
+        tag="pubmedid",
+        json_schema_extra=dict(),
     )
 
-    url: Optional[str] = Field(
-        default=None,
+    url: Optional[str] = element(
         description="Arbitrary type of URL that is related to the EnzymeML document.",
+        default=None,
+        tag="url",
+        json_schema_extra=dict(),
     )
 
-    doi: Optional[str] = Field(
+    doi: Optional[str] = element(
+        description=(
+            "Digital Object Identifier of the referenced publication or the EnzymeML"
+            " document."
+        ),
         default=None,
-        description="Digital Object Identifier of the referenced publication or the EnzymeML document.",
+        tag="doi",
+        json_schema_extra=dict(),
     )
 
-    created: Optional[Datetime] = Field(
-        default=None,
+    created: Optional[Datetime] = element(
         description="Date the EnzymeML document was created.",
-    )
-
-    modified: Optional[Datetime] = Field(
         default=None,
+        tag="created",
+        json_schema_extra=dict(),
+    )
+
+    modified: Optional[Datetime] = element(
         description="Date the EnzymeML document was modified.",
+        default=None,
+        tag="modified",
+        json_schema_extra=dict(),
     )
 
-    creators: List[Creator] = Field(
-        default_factory=ListPlus,
-        multiple=True,
-        description="Contains all authors that are part of the experiment.",
+    creators: List[Creator] = wrapped(
+        "creators",
+        element(
+            description="Contains all authors that are part of the experiment.",
+            default_factory=ListPlus,
+            tag="Creator",
+            json_schema_extra=dict(multiple=True),
+        ),
     )
 
-    vessels: List[Vessel] = Field(
-        default_factory=ListPlus,
-        multiple=True,
-        description="Contains all vessels that are part of the experiment.",
+    vessels: List[Vessel] = wrapped(
+        "vessels",
+        element(
+            description="Contains all vessels that are part of the experiment.",
+            default_factory=ListPlus,
+            tag="Vessel",
+            json_schema_extra=dict(multiple=True),
+        ),
     )
 
-    proteins: List[Protein] = Field(
-        default_factory=ListPlus,
-        multiple=True,
-        description="Contains all proteins that are part of the experiment.",
+    proteins: List[Protein] = wrapped(
+        "proteins",
+        element(
+            description="Contains all proteins that are part of the experiment.",
+            default_factory=ListPlus,
+            tag="Protein",
+            json_schema_extra=dict(multiple=True),
+        ),
     )
 
-    complexes: List[Complex] = Field(
-        default_factory=ListPlus,
-        multiple=True,
-        description="Contains all complexes that are part of the experiment.",
+    complexes: List[Complex] = wrapped(
+        "complexes",
+        element(
+            description="Contains all complexes that are part of the experiment.",
+            default_factory=ListPlus,
+            tag="Complex",
+            json_schema_extra=dict(multiple=True),
+        ),
     )
 
-    reactants: List[Reactant] = Field(
-        default_factory=ListPlus,
-        multiple=True,
-        description="Contains all reactants that are part of the experiment.",
+    reactants: List[Reactant] = wrapped(
+        "reactants",
+        element(
+            description="Contains all reactants that are part of the experiment.",
+            default_factory=ListPlus,
+            tag="Reactant",
+            json_schema_extra=dict(multiple=True),
+        ),
     )
 
-    reactions: List[Reaction] = Field(
-        default_factory=ListPlus,
-        multiple=True,
-        description="Dictionary mapping from reaction IDs to reaction-describing objects.",
+    reactions: List[Reaction] = wrapped(
+        "reactions",
+        element(
+            description=(
+                "Dictionary mapping from reaction IDs to reaction-describing objects."
+            ),
+            default_factory=ListPlus,
+            tag="Reaction",
+            json_schema_extra=dict(multiple=True),
+        ),
     )
 
-    measurements: List[Measurement] = Field(
-        default_factory=ListPlus,
-        multiple=True,
-        description="Contains measurements that describe outcomes of an experiment.",
+    measurements: List[Measurement] = wrapped(
+        "measurements",
+        element(
+            description=(
+                "Contains measurements that describe outcomes of an experiment."
+            ),
+            default_factory=ListPlus,
+            tag="Measurement",
+            json_schema_extra=dict(multiple=True),
+        ),
     )
 
-    files: List[File] = Field(
-        default_factory=ListPlus,
-        multiple=True,
-        description="Contains files attached to the data model.",
+    files: List[File] = wrapped(
+        "files",
+        element(
+            description="Contains files attached to the data model.",
+            default_factory=ListPlus,
+            tag="File",
+            json_schema_extra=dict(multiple=True),
+        ),
     )
 
-    global_parameters: List[KineticParameter] = Field(
-        default_factory=ListPlus,
-        multiple=True,
-        description="Dictionary mapping from parameter IDs to global kinetic parameters describing objects.",
+    global_parameters: List[KineticParameter] = wrapped(
+        "global_parameters",
+        element(
+            description=(
+                "Dictionary mapping from parameter IDs to global kinetic parameters"
+                " describing objects."
+            ),
+            default_factory=ListPlus,
+            tag="KineticParameter",
+            json_schema_extra=dict(multiple=True),
+        ),
     )
-    __repo__: Optional[str] = PrivateAttr(
+    _repo: Optional[str] = PrivateAttr(
         default="https://github.com/EnzymeML/enzymeml-specifications"
     )
-    __commit__: Optional[str] = PrivateAttr(
-        default="45c5aa64db4e885152a7e877878a25f1baeb20da"
+    _commit: Optional[str] = PrivateAttr(
+        default="142ca246cf92944bcbc11fbda9892f64bff77e8b"
     )
 
     def add_to_creators(
         self, given_name: str, family_name: str, mail: str, id: Optional[str] = None
-    ) -> None:
+    ) -> Creator:
         """
         This method adds an object of type 'Creator' to attribute creators
 
@@ -148,7 +213,7 @@ class EnzymeMLDocument(sdRDM.DataModel):
         uri: Optional[str] = None,
         creator_id: Optional[str] = None,
         id: Optional[str] = None,
-    ) -> None:
+    ) -> Vessel:
         """
         This method adds an object of type 'Vessel' to attribute vessels
 
@@ -190,7 +255,7 @@ class EnzymeMLDocument(sdRDM.DataModel):
         uri: Optional[str] = None,
         creator_id: Optional[str] = None,
         id: Optional[str] = None,
-    ) -> None:
+    ) -> Protein:
         """
         This method adds an object of type 'Protein' to attribute proteins
 
@@ -242,7 +307,7 @@ class EnzymeMLDocument(sdRDM.DataModel):
         uri: Optional[str] = None,
         creator_id: Optional[str] = None,
         id: Optional[str] = None,
-    ) -> None:
+    ) -> Complex:
         """
         This method adds an object of type 'Complex' to attribute complexes
 
@@ -288,7 +353,7 @@ class EnzymeMLDocument(sdRDM.DataModel):
         uri: Optional[str] = None,
         creator_id: Optional[str] = None,
         id: Optional[str] = None,
-    ) -> None:
+    ) -> Reactant:
         """
         This method adds an object of type 'Reactant' to attribute reactants
 
@@ -339,7 +404,7 @@ class EnzymeMLDocument(sdRDM.DataModel):
         products: List[ReactionElement] = ListPlus(),
         modifiers: List[ReactionElement] = ListPlus(),
         id: Optional[str] = None,
-    ) -> None:
+    ) -> Reaction:
         """
         This method adds an object of type 'Reaction' to attribute reactions
 
@@ -389,7 +454,7 @@ class EnzymeMLDocument(sdRDM.DataModel):
         uri: Optional[str] = None,
         creator_id: Optional[str] = None,
         id: Optional[str] = None,
-    ) -> None:
+    ) -> Measurement:
         """
         This method adds an object of type 'Measurement' to attribute measurements
 
@@ -423,7 +488,7 @@ class EnzymeMLDocument(sdRDM.DataModel):
 
     def add_to_files(
         self, name: str, content: bytes, filetype: str, id: Optional[str] = None
-    ) -> None:
+    ) -> File:
         """
         This method adds an object of type 'File' to attribute files
 
@@ -452,7 +517,7 @@ class EnzymeMLDocument(sdRDM.DataModel):
         constant: bool = False,
         ontology: Optional[SBOTerm] = None,
         id: Optional[str] = None,
-    ) -> None:
+    ) -> KineticParameter:
         """
         This method adds an object of type 'KineticParameter' to attribute global_parameters
 

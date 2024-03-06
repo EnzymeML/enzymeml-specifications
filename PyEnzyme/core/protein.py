@@ -1,58 +1,77 @@
 
 from typing import Optional
-from pydantic import Field, PrivateAttr
-from sdRDM.base.utils import forge_signature, IDGenerator
-from .abstractspecies import AbstractSpecies
+from pydantic import PrivateAttr
+from uuid import uuid4
+from pydantic_xml import attr, element
+from sdRDM.base.utils import forge_signature
 from .sboterm import SBOTerm
+from .abstractspecies import AbstractSpecies
 
 
 @forge_signature
-class Protein(AbstractSpecies):
+class Protein(
+    AbstractSpecies,
+    nsmap={
+        "": "https://github.com/EnzymeML/enzymeml-specifications@142ca246cf92944bcbc11fbda9892f64bff77e8b#Protein"
+    },
+):
     """This objects describes the proteins that were used or produced in the course of the experiment."""
 
-    id: Optional[str] = Field(
+    id: Optional[str] = attr(
+        name="id",
         description="Unique identifier of the given object.",
-        default_factory=IDGenerator("proteinINDEX"),
+        default_factory=lambda: str(uuid4()),
         xml="@id",
     )
 
-    sequence: str = Field(
-        ...,
+    sequence: str = element(
         description="Amino acid sequence of the protein",
-        template_alias="Sequence",
+        tag="sequence",
+        json_schema_extra=dict(template_alias="Sequence"),
     )
 
-    ecnumber: Optional[str] = Field(
-        default=None,
+    ecnumber: Optional[str] = element(
         description="EC number of the protein.",
-        pattern="(\\d+.)(\\d+.)(\\d+.)(\\d+)",
-        template_alias="EC Number",
+        default=None,
+        tag="ecnumber",
+        json_schema_extra=dict(
+            pattern="(\\d+.)(\\d+.)(\\d+.)(\\d+)", template_alias="EC Number"
+        ),
     )
 
-    organism: Optional[str] = Field(
-        default=None,
+    organism: Optional[str] = element(
         description="Organism the protein was expressed in.",
-        template_alias="Source organism",
+        default=None,
+        tag="organism",
+        json_schema_extra=dict(template_alias="Source organism"),
     )
 
-    organism_tax_id: Optional[str] = Field(
-        default=None,
+    organism_tax_id: Optional[str] = element(
         description="Taxonomy identifier of the expression host.",
-    )
-
-    uniprotid: Optional[str] = Field(
         default=None,
-        description="Unique identifier referencing a protein entry at UniProt. Use this identifier to initialize the object from the UniProt database.",
-        template_alias="UniProt ID",
+        tag="organism_tax_id",
+        json_schema_extra=dict(),
     )
 
-    ontology: SBOTerm = Field(
+    uniprotid: Optional[str] = element(
+        description=(
+            "Unique identifier referencing a protein entry at UniProt. Use this"
+            " identifier to initialize the object from the UniProt database."
+        ),
+        default=None,
+        tag="uniprotid",
+        json_schema_extra=dict(template_alias="UniProt ID"),
+    )
+
+    ontology: SBOTerm = element(
         description="None",
         default=SBOTerm.PROTEIN,
+        tag="ontology",
+        json_schema_extra=dict(),
     )
-    __repo__: Optional[str] = PrivateAttr(
+    _repo: Optional[str] = PrivateAttr(
         default="https://github.com/EnzymeML/enzymeml-specifications"
     )
-    __commit__: Optional[str] = PrivateAttr(
-        default="45c5aa64db4e885152a7e877878a25f1baeb20da"
+    _commit: Optional[str] = PrivateAttr(
+        default="142ca246cf92944bcbc11fbda9892f64bff77e8b"
     )
