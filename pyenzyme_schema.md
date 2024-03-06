@@ -12,7 +12,6 @@ classDiagram
     EnzymeMLDocument *-- KineticParameter
     EnzymeMLDocument *-- Measurement
     EnzymeMLDocument *-- File
-    AbstractSpecies *-- Vessel
     Protein *-- SBOTerm
     Complex *-- SBOTerm
     Reactant *-- SBOTerm
@@ -20,12 +19,10 @@ classDiagram
     Reaction *-- ReactionElement
     Reaction *-- KineticModel
     ReactionElement *-- SBOTerm
-    ReactionElement *-- AbstractSpecies
     KineticModel *-- SBOTerm
     KineticModel *-- KineticParameter
     KineticParameter *-- SBOTerm
     Measurement *-- MeasurementData
-    MeasurementData *-- AbstractSpecies
     MeasurementData *-- Replicate
     Replicate *-- DataTypes
     Replicate *-- AbstractSpecies
@@ -65,7 +62,7 @@ classDiagram
     
     class AbstractSpecies {
         +string name*
-        +Vessel vessel_id*
+        +string vessel_id*
         +float init_conc
         +boolean constant*
         +string unit
@@ -110,7 +107,7 @@ classDiagram
     }
     
     class ReactionElement {
-        +AbstractSpecies species_id*
+        +string species_id*
         +posfloat stoichiometry*
         +bool constant*
         +SBOTerm ontology
@@ -152,7 +149,7 @@ classDiagram
         +float init_conc*
         +string unit*
         +string measurement_id*
-        +AbstractSpecies species_id
+        +string species_id
         +Replicate[0..*] replicates
     }
     

@@ -1,6 +1,6 @@
 import sdRDM
 
-from typing import Optional, Union, List
+from typing import List, Optional
 from pydantic import PrivateAttr, Field, validator
 from sdRDM.base.listplus import ListPlus
 from sdRDM.base.utils import forge_signature, IDGenerator
@@ -11,7 +11,7 @@ from .replicate import Replicate
 
 @forge_signature
 class MeasurementData(sdRDM.DataModel):
-    """This object describes a single entity of a measurement, which corresponds to one species. It also holds replicates which contain time course data."""
+    """This object describes a single entity of a measurement, which corresponds to one species. It also holds replicates that contain time course data."""
 
     id: Optional[str] = Field(
         description="Unique identifier of the given object.",
@@ -26,7 +26,7 @@ class MeasurementData(sdRDM.DataModel):
 
     unit: str = Field(
         ...,
-        description="The unit of the measurement data.",
+        description="The unit of measurement data.",
     )
 
     measurement_id: str = Field(
@@ -34,9 +34,8 @@ class MeasurementData(sdRDM.DataModel):
         description="Unique measurement identifier this dataset belongs to.",
     )
 
-    species_id: Union[AbstractSpecies, str, None] = Field(
+    species_id: Optional[str] = Field(
         default=None,
-        reference="AbstractSpecies.id",
         description="The identifier for the described reactant.",
     )
 
@@ -49,7 +48,7 @@ class MeasurementData(sdRDM.DataModel):
         default="https://github.com/EnzymeML/enzymeml-specifications"
     )
     __commit__: Optional[str] = PrivateAttr(
-        default="8246809f84df365e1152d10d4e0335e1c0db90b7"
+        default="45c5aa64db4e885152a7e877878a25f1baeb20da"
     )
 
     def add_to_replicates(

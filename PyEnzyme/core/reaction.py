@@ -6,9 +6,8 @@ from sdRDM.base.listplus import ListPlus
 from sdRDM.base.utils import forge_signature, IDGenerator
 from pydantic.types import PositiveFloat
 from .kineticmodel import KineticModel
-from .sboterm import SBOTerm
-from .abstractspecies import AbstractSpecies
 from .reactionelement import ReactionElement
+from .sboterm import SBOTerm
 
 
 @forge_signature
@@ -71,7 +70,7 @@ class Reaction(sdRDM.DataModel):
 
     model: Optional[KineticModel] = Field(
         default=None,
-        description="Kinetic model decribing the reaction.",
+        description="Kinetic model describing the reaction.",
     )
 
     educts: List[ReactionElement] = Field(
@@ -91,22 +90,19 @@ class Reaction(sdRDM.DataModel):
     modifiers: List[ReactionElement] = Field(
         default_factory=ListPlus,
         multiple=True,
-        description=(
-            "List of modifiers (Proteins, snhibitors, stimulators) containing"
-            " ReactionElement objects."
-        ),
+        description="List of modifiers (proteins, inhibitors, stimulators) containing ReactionElement objects.",
         template_alias="Modifiers",
     )
     __repo__: Optional[str] = PrivateAttr(
         default="https://github.com/EnzymeML/enzymeml-specifications"
     )
     __commit__: Optional[str] = PrivateAttr(
-        default="8246809f84df365e1152d10d4e0335e1c0db90b7"
+        default="45c5aa64db4e885152a7e877878a25f1baeb20da"
     )
 
     def add_to_educts(
         self,
-        species_id: AbstractSpecies,
+        species_id: str,
         stoichiometry: PositiveFloat = 1.0,
         constant: bool = False,
         ontology: Optional[SBOTerm] = None,
@@ -135,7 +131,7 @@ class Reaction(sdRDM.DataModel):
 
     def add_to_products(
         self,
-        species_id: AbstractSpecies,
+        species_id: str,
         stoichiometry: PositiveFloat = 1.0,
         constant: bool = False,
         ontology: Optional[SBOTerm] = None,
@@ -164,7 +160,7 @@ class Reaction(sdRDM.DataModel):
 
     def add_to_modifiers(
         self,
-        species_id: AbstractSpecies,
+        species_id: str,
         stoichiometry: PositiveFloat = 1.0,
         constant: bool = False,
         ontology: Optional[SBOTerm] = None,

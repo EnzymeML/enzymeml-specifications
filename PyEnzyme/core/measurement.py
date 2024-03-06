@@ -4,7 +4,6 @@ from typing import List, Optional
 from pydantic import Field, PrivateAttr
 from sdRDM.base.listplus import ListPlus
 from sdRDM.base.utils import forge_signature, IDGenerator
-from .abstractspecies import AbstractSpecies
 from .measurementdata import MeasurementData
 from .replicate import Replicate
 
@@ -73,7 +72,7 @@ class Measurement(sdRDM.DataModel):
         default="https://github.com/EnzymeML/enzymeml-specifications"
     )
     __commit__: Optional[str] = PrivateAttr(
-        default="8246809f84df365e1152d10d4e0335e1c0db90b7"
+        default="45c5aa64db4e885152a7e877878a25f1baeb20da"
     )
 
     def add_to_species(
@@ -81,7 +80,7 @@ class Measurement(sdRDM.DataModel):
         init_conc: float,
         unit: str,
         measurement_id: str,
-        species_id: Optional[AbstractSpecies] = None,
+        species_id: Optional[str] = None,
         replicates: List[Replicate] = ListPlus(),
         id: Optional[str] = None,
     ) -> None:
@@ -91,7 +90,7 @@ class Measurement(sdRDM.DataModel):
         Args:
             id (str): Unique identifier of the 'MeasurementData' object. Defaults to 'None'.
             init_conc (): Initial concentration of the measurement data..
-            unit (): The unit of the measurement data..
+            unit (): The unit of measurement data..
             measurement_id (): Unique measurement identifier this dataset belongs to..
             species_id (): The identifier for the described reactant.. Defaults to None
             replicates (): A list of replicate objects holding raw data of the measurement.. Defaults to ListPlus()

@@ -7,7 +7,7 @@ from sdRDM.base.utils import forge_signature, IDGenerator
 
 @forge_signature
 class File(sdRDM.DataModel):
-    """This objects contains a files that has been attached to the document."""
+    """This object contains files that have been attached to the document."""
 
     id: Optional[str] = Field(
         description="Unique identifier of the given object.",
@@ -27,11 +27,11 @@ class File(sdRDM.DataModel):
 
     filetype: str = Field(
         ...,
-        description="Type of the file such as .xml, .json and so on",
+        description="Type of the file such as .xml, .json, and so on",
     )
     __repo__: Optional[str] = PrivateAttr(
         default="https://github.com/EnzymeML/enzymeml-specifications"
     )
     __commit__: Optional[str] = PrivateAttr(
-        default="8246809f84df365e1152d10d4e0335e1c0db90b7"
+        default="45c5aa64db4e885152a7e877878a25f1baeb20da"
     )
