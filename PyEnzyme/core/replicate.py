@@ -26,9 +26,7 @@ class Replicate(sdRDM.DataModel):
 
     measurement_id: str = Field(
         ...,
-        description=(
-            "Unique identifier of the measurement that the replicate is part of."
-        ),
+        description="Unique identifier of the measurement that the replicate is part of.",
     )
 
     data_type: DataTypes = Field(
@@ -76,8 +74,22 @@ class Replicate(sdRDM.DataModel):
         default="https://github.com/EnzymeML/enzymeml-specifications"
     )
     __commit__: Optional[str] = PrivateAttr(
-        default="8246809f84df365e1152d10d4e0335e1c0db90b7"
+        default="45c5aa64db4e885152a7e877878a25f1baeb20da"
     )
+
+    @validator("species_id")
+    def get_species_id_reference(cls, value):
+        """Extracts the ID from a given object to create a reference"""
+        from .abstractspecies import AbstractSpecies
+
+        if isinstance(value, AbstractSpecies):
+            return value.id
+        elif isinstance(value, str):
+            return value
+        else:
+            raise TypeError(
+                f"Expected types [AbstractSpecies, str] got '{type(value).__name__}' instead."
+            )
 
     @validator("species_id")
     def get_species_id_reference(cls, value):

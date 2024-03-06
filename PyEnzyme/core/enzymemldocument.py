@@ -6,19 +6,19 @@ from sdRDM.base.listplus import ListPlus
 from sdRDM.base.utils import forge_signature, IDGenerator
 from datetime import datetime as Datetime
 from pydantic.types import PositiveFloat
-from .reactionelement import ReactionElement
+from .creator import Creator
+from .kineticmodel import KineticModel
+from .complex import Complex
 from .reaction import Reaction
 from .file import File
-from .kineticmodel import KineticModel
 from .measurementdata import MeasurementData
-from .creator import Creator
-from .measurement import Measurement
-from .sboterm import SBOTerm
-from .kineticparameter import KineticParameter
 from .vessel import Vessel
-from .protein import Protein
-from .complex import Complex
 from .reactant import Reactant
+from .measurement import Measurement
+from .kineticparameter import KineticParameter
+from .protein import Protein
+from .reactionelement import ReactionElement
+from .sboterm import SBOTerm
 
 
 @forge_signature
@@ -48,10 +48,7 @@ class EnzymeMLDocument(sdRDM.DataModel):
 
     doi: Optional[str] = Field(
         default=None,
-        description=(
-            "Digital Object Identifier of the referenced publication or the EnzymeML"
-            " document."
-        ),
+        description="Digital Object Identifier of the referenced publication or the EnzymeML document.",
     )
 
     created: Optional[Datetime] = Field(
@@ -97,9 +94,7 @@ class EnzymeMLDocument(sdRDM.DataModel):
     reactions: List[Reaction] = Field(
         default_factory=ListPlus,
         multiple=True,
-        description=(
-            "Dictionary mapping from reaction IDs to reaction describing objects."
-        ),
+        description="Dictionary mapping from reaction IDs to reaction-describing objects.",
     )
 
     measurements: List[Measurement] = Field(
@@ -117,16 +112,13 @@ class EnzymeMLDocument(sdRDM.DataModel):
     global_parameters: List[KineticParameter] = Field(
         default_factory=ListPlus,
         multiple=True,
-        description=(
-            "Dictionary mapping from parameter IDs to global kinetic parameter"
-            " describing objects."
-        ),
+        description="Dictionary mapping from parameter IDs to global kinetic parameters describing objects.",
     )
     __repo__: Optional[str] = PrivateAttr(
         default="https://github.com/EnzymeML/enzymeml-specifications"
     )
     __commit__: Optional[str] = PrivateAttr(
-        default="8246809f84df365e1152d10d4e0335e1c0db90b7"
+        default="45c5aa64db4e885152a7e877878a25f1baeb20da"
     )
 
     def add_to_creators(
@@ -186,7 +178,7 @@ class EnzymeMLDocument(sdRDM.DataModel):
         self,
         sequence: str,
         name: str,
-        vessel_id: Vessel,
+        vessel_id: str,
         constant: bool,
         ecnumber: Optional[str] = None,
         organism: Optional[str] = None,
@@ -241,7 +233,7 @@ class EnzymeMLDocument(sdRDM.DataModel):
     def add_to_complexes(
         self,
         name: str,
-        vessel_id: Vessel,
+        vessel_id: str,
         constant: bool,
         participants: List[str] = ListPlus(),
         ontology: SBOTerm = SBOTerm.MACROMOLECULAR_COMPLEX,
@@ -285,7 +277,7 @@ class EnzymeMLDocument(sdRDM.DataModel):
     def add_to_reactants(
         self,
         name: str,
-        vessel_id: Vessel,
+        vessel_id: str,
         constant: bool,
         smiles: Optional[str] = None,
         inchi: Optional[str] = None,
@@ -308,7 +300,7 @@ class EnzymeMLDocument(sdRDM.DataModel):
             smiles (): Simplified Molecular Input Line Entry System (SMILES) encoding of the reactant.. Defaults to None
             inchi (): International Chemical Identifier (InChI) encoding of the reactant.. Defaults to None
             chebi_id (): Unique identifier of the CHEBI database. Use this identifier to initialize the object from the CHEBI database.. Defaults to None
-            ontology (): None. Defaults to SBOTerm.SMALL_MOLECULE
+            ontology (): SBO term defining the role of the given species in the reaction.. Defaults to SBOTerm.SMALL_MOLECULE
             init_conc (): None. Defaults to None
             unit (): None. Defaults to None
             uri (): None. Defaults to None
@@ -361,10 +353,10 @@ class EnzymeMLDocument(sdRDM.DataModel):
             ontology (): Ontology defining the role of the given species.. Defaults to SBOTerm.BIOCHEMICAL_REACTION
             uri (): URI of the reaction.. Defaults to None
             creator_id (): Unique identifier of the author.. Defaults to None
-            model (): Kinetic model decribing the reaction.. Defaults to None
+            model (): Kinetic model describing the reaction.. Defaults to None
             educts (): List of educts containing ReactionElement objects.. Defaults to ListPlus()
             products (): List of products containing ReactionElement objects.. Defaults to ListPlus()
-            modifiers (): List of modifiers (Proteins, snhibitors, stimulators) containing ReactionElement objects.. Defaults to ListPlus()
+            modifiers (): List of modifiers (proteins, inhibitors, stimulators) containing ReactionElement objects.. Defaults to ListPlus()
         """
         params = {
             "name": name,
@@ -439,7 +431,7 @@ class EnzymeMLDocument(sdRDM.DataModel):
             id (str): Unique identifier of the 'File' object. Defaults to 'None'.
             name (): Name of the file.
             content (): Contents of the file.
-            filetype (): Type of the file such as .xml, .json and so on.
+            filetype (): Type of the file such as .xml, .json, and so on.
         """
         params = {"name": name, "content": content, "filetype": filetype}
         if id is not None:
@@ -472,7 +464,7 @@ class EnzymeMLDocument(sdRDM.DataModel):
             initial_value (): Initial value that was used for the parameter estimation.. Defaults to None
             upper (): Upper bound of the estimated parameter.. Defaults to None
             lower (): Lower bound of the estimated parameter.. Defaults to None
-            is_global (): Specifies if this parameter is a global parameter.. Defaults to False
+            is_global (): Specifies if this parameter is global for the entire EnzymeMLDocument.. Defaults to False
             stdev (): Standard deviation of the estimated parameter.. Defaults to None
             constant (): Specifies if this parameter is constant. Defaults to False
             ontology (): Type of the estimated parameter.. Defaults to None

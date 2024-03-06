@@ -4,8 +4,8 @@ from typing import List, Optional
 from pydantic import Field, PrivateAttr
 from sdRDM.base.listplus import ListPlus
 from sdRDM.base.utils import forge_signature, IDGenerator
-from .sboterm import SBOTerm
 from .kineticparameter import KineticParameter
+from .sboterm import SBOTerm
 
 
 @forge_signature
@@ -42,7 +42,7 @@ class KineticModel(sdRDM.DataModel):
         default="https://github.com/EnzymeML/enzymeml-specifications"
     )
     __commit__: Optional[str] = PrivateAttr(
-        default="8246809f84df365e1152d10d4e0335e1c0db90b7"
+        default="45c5aa64db4e885152a7e877878a25f1baeb20da"
     )
 
     def add_to_parameters(
@@ -70,7 +70,7 @@ class KineticModel(sdRDM.DataModel):
             initial_value (): Initial value that was used for the parameter estimation.. Defaults to None
             upper (): Upper bound of the estimated parameter.. Defaults to None
             lower (): Lower bound of the estimated parameter.. Defaults to None
-            is_global (): Specifies if this parameter is a global parameter.. Defaults to False
+            is_global (): Specifies if this parameter is global for the entire EnzymeMLDocument.. Defaults to False
             stdev (): Standard deviation of the estimated parameter.. Defaults to None
             constant (): Specifies if this parameter is constant. Defaults to False
             ontology (): Type of the estimated parameter.. Defaults to None

@@ -1,16 +1,15 @@
 import sdRDM
 
-from typing import Optional, Union
+from typing import Optional
 from pydantic import PrivateAttr, Field, validator
 from sdRDM.base.utils import forge_signature, IDGenerator
 from pydantic.types import PositiveFloat
-from .abstractspecies import AbstractSpecies
 from .sboterm import SBOTerm
 
 
 @forge_signature
 class ReactionElement(sdRDM.DataModel):
-    """This object is part of the Reaction object and describes either an educt, product or modifier. The latter includes buffers, counter-ions as well as proteins/enzymes."""
+    """This object is part of the Reaction object and describes either an educt, product, or modifier. The latter includes buffers, counter-ions as well as proteins/enzymes."""
 
     id: Optional[str] = Field(
         description="Unique identifier of the given object.",
@@ -18,13 +17,9 @@ class ReactionElement(sdRDM.DataModel):
         xml="@id",
     )
 
-    species_id: Union[AbstractSpecies, str] = Field(
+    species_id: str = Field(
         ...,
-        reference="AbstractSpecies.id",
-        description=(
-            "Internal identifier to either a protein or reactant defined in the"
-            " EnzymeMLDocument."
-        ),
+        description="Internal identifier to either a protein or reactant defined in the EnzymeMLDocument.",
         references="EnzymeMLDocument.reactants.id",
     )
 
@@ -34,9 +29,7 @@ class ReactionElement(sdRDM.DataModel):
     )
 
     constant: bool = Field(
-        description=(
-            "Whether or not the concentration of this species remains constant."
-        ),
+        description="Whether or not the concentration of this species remains constant.",
         default=False,
     )
 
@@ -48,7 +41,7 @@ class ReactionElement(sdRDM.DataModel):
         default="https://github.com/EnzymeML/enzymeml-specifications"
     )
     __commit__: Optional[str] = PrivateAttr(
-        default="8246809f84df365e1152d10d4e0335e1c0db90b7"
+        default="45c5aa64db4e885152a7e877878a25f1baeb20da"
     )
 
     @validator("species_id")

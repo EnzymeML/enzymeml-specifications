@@ -2,8 +2,8 @@
 from typing import Optional
 from pydantic import Field, PrivateAttr
 from sdRDM.base.utils import forge_signature, IDGenerator
-from .sboterm import SBOTerm
 from .abstractspecies import AbstractSpecies
+from .sboterm import SBOTerm
 
 
 @forge_signature
@@ -42,10 +42,7 @@ class Protein(AbstractSpecies):
 
     uniprotid: Optional[str] = Field(
         default=None,
-        description=(
-            "Unique identifier referencing a protein entry at UniProt. Use this"
-            " identifier to initialize the object from the UniProt database."
-        ),
+        description="Unique identifier referencing a protein entry at UniProt. Use this identifier to initialize the object from the UniProt database.",
         template_alias="UniProt ID",
     )
 
@@ -57,5 +54,5 @@ class Protein(AbstractSpecies):
         default="https://github.com/EnzymeML/enzymeml-specifications"
     )
     __commit__: Optional[str] = PrivateAttr(
-        default="8246809f84df365e1152d10d4e0335e1c0db90b7"
+        default="45c5aa64db4e885152a7e877878a25f1baeb20da"
     )

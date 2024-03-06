@@ -1,9 +1,8 @@
 import sdRDM
 
-from typing import Optional, Union
+from typing import Optional
 from pydantic import PrivateAttr, Field, validator
 from sdRDM.base.utils import forge_signature, IDGenerator
-from .vessel import Vessel
 
 
 @forge_signature
@@ -21,9 +20,8 @@ class AbstractSpecies(sdRDM.DataModel):
         description="None",
     )
 
-    vessel_id: Union[Vessel, str] = Field(
+    vessel_id: str = Field(
         ...,
-        reference="Vessel.id",
         description="None",
     )
 
@@ -55,7 +53,7 @@ class AbstractSpecies(sdRDM.DataModel):
         default="https://github.com/EnzymeML/enzymeml-specifications"
     )
     __commit__: Optional[str] = PrivateAttr(
-        default="8246809f84df365e1152d10d4e0335e1c0db90b7"
+        default="45c5aa64db4e885152a7e877878a25f1baeb20da"
     )
 
     @validator("vessel_id")
