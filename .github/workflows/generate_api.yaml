@@ -8,7 +8,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Generate sdRDM library
-      uses: JR-1991/generate-sdrdm-api@v1
+      uses: JR-1991/generate-sdrdm-api@main
       with:
         library_name: "PyEnzyme"
         schema_path: "./specifications/enzymeml.md"
