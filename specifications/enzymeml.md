@@ -35,15 +35,15 @@ This is the root object that composes all objects found in an EnzymeML document.
   - Multiple: True
   - Description: Contains all vessels that are part of the experiment.
 - proteins
-  - Type: [Protein](#Protein)
+  - Type: [Protein](#protein-abstractspecies)
   - Multiple: True
   - Description: Contains all proteins that are part of the experiment.
 - complexes
-  - Type: [Complex](#Complex)
+  - Type: [Complex](#complex-abstractspecies)
   - Multiple: True
   - Description: Contains all complexes that are part of the experiment.
 - reactants
-  - Type: [Reactant](#Reactant)
+  - Type: [Reactant](#reactant-abstractspecies)
   - Multiple: True
   - Description: Contains all reactants that are part of the experiment.
 - reactions
@@ -116,7 +116,7 @@ This object is used to inherit basic attributes common to all species used in th
   - Type: string
   - Description: None
 - __vessel_id__
-  - Type: @Vessel.id
+  - Type: string
   - Description: None
 - init_conc
   - Type: float
@@ -260,7 +260,7 @@ This object describes a chemical or enzymatic reaction that was investigated in 
 This object is part of the Reaction object and describes either an educt, product or modifier. The latter includes buffers, counter-ions as well as proteins/enzymes.
 
 - __species_id__
-  - Type: @AbstractSpecies.id
+  - Type: string
   - Description: Internal identifier to either a protein or reactant defined in the EnzymeMLDocument.
   - References: EnzymeMLDocument.reactants.id
 - __stoichiometry__
@@ -386,7 +386,7 @@ This object describes a single entity of a measurement, which corresponds to one
   - Type: string
   - Description: Unique measurement identifier this dataset belongs to.
 - species_id
-  - Type: @AbstractSpecies.id
+  - Type: string
   - Description: The identifier for the described reactant.
 - replicates
   - Type: [Replicate](#replicate)
@@ -398,7 +398,7 @@ This object describes a single entity of a measurement, which corresponds to one
 This object contains the measured time course data as well as metadata to the replicate itself.
 
 - __species_id__
-  - Type: @AbstractSpecies.id
+  - Type: string
   - Description: Unique identifier of the species that has been measured.
 - __measurement_id__
   - Type: string
