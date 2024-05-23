@@ -1,12 +1,12 @@
 ---
 prefixes:
   - schema: "https://schema.org/"
-  - OBI: "http://purl.obolibrary.org/obo/"
+  - OBO: "http://purl.obolibrary.org/obo/"
 ---
 
 # EnzymeML
 
-EnzymeML is an XML-based data exchange format that supports the comprehensive documentation of enzymatic data by describing reaction conditions, time courses of substrate and product concentrations, the kinetic model, and the estimated kinetic constants. EnzymeML is based on the Systems Biology Markup Language, which was extended by implementing the STRENDA Guidelines. An EnzymeML document serves as a container to transfer data between experimental platforms, modeling tools, and databases. EnzymeML supports the scientific community by introducing a standardized data exchange format to make enzymatic data findable, accessible, interoperable, and reusable according to the FAIR data principles.
+EnzymeML is an data exchange format that supports the comprehensive documentation of enzymatic data by describing reaction conditions, time courses of substrate and product concentrations, the kinetic model, and the estimated kinetic constants. EnzymeML is based on the Systems Biology Markup Language, which was extended by implementing the STRENDA Guidelines. An EnzymeML document serves as a container to transfer data between experimental platforms, modeling tools, and databases. EnzymeML supports the scientific community by introducing a standardized data exchange format to make enzymatic data findable, accessible, interoperable, and reusable according to the FAIR data principles.
 
 ## Root objects
 
@@ -17,6 +17,7 @@ This is the root object that composes all objects found in an EnzymeML document.
 - __name__
   - Type: string
   - Description: Title of the EnzymeML Document.
+  - Term: schema:name
 - references
   - Type: [Reference](#reference)
   - Multiple: True
@@ -55,25 +56,26 @@ This is the root object that composes all objects found in an EnzymeML document.
   - Multiple: True
   - Description: Contains measurements that describe outcomes of an experiment.
 
-### Reference
+### Reference (schema:citation)
 
 This object contains references to publications, databases and arbitrary links to the web.
 
 - pubmedid
   - Type: Identifier
   - Description: Pubmed ID reference.
-  - Term: OBI:OBI_0001617
+  - Term: OBO:OBI_0001617
 - doi
   - Type: Identifier
   - Description: Digital Object Identifier of the referenced publication or the EnzymeML document.
-  - Term: OBI:OBI_0002110
+  - Term: OBO:OBI_0002110
 - url
   - Type: string
   - Description: Arbitrary type of URL that is related to the EnzymeML document.
+  - Term: schema:url
 
 ## General information
 
-### Creator (schema:Person)
+### Creator (schema:creator)
 
 The creator object contains all information about authors that contributed to the resulting document.
 
@@ -92,17 +94,19 @@ The creator object contains all information about authors that contributed to th
 
 ## Species
 
-### Vessel (OBI:OBI_0400081)
+### Vessel (OBO:OBI_0400081)
 
 This object describes vessels in which the experiment has been carried out. These can include any type of vessel used in biocatalytic experiments.
 
 - __name__
   - Type: string
   - Description: Name of the used vessel.
+  - Term: schema:name
 - __volume__
   - Type: float
   - Description: Volumetric value of the vessel.
   - Template_alias: Volume value
+  - Term: OBO:OBI_0002139
 - __unit__
   - Type: Unit
   - Description: Volumetric unit of the vessel.
@@ -112,6 +116,7 @@ This object describes vessels in which the experiment has been carried out. Thes
 - creator_id
   - Type: Identifier
   - Description: Unique identifier of the author.
+  - Term: schema:identifier
 
 ### AbstractSpecies
 
@@ -119,38 +124,48 @@ This object is used to inherit basic attributes common to all species used in th
 
 - __name__
   - Type: string
+  - Term: schema:name
 - __vessel_id__
   - Type: Identifier
+  - Term: schema:identifier
 - init_conc
   - Type: float
-- __constant__
-  - Type: boolean
+  - Description: Initial concentration of the species prior to the start of a potential reaction.
+  - Term: OBO:PATO_0000033
 - unit
   - Type: string
+  - Description: Unit of the intital concentration.
+  - Term: OBO:UO_0000051
+- __constant__
+  - Type: boolean
 - uri
   - Type: string
 - creator_id
   - Type: string
+  - Term: schema:identifier
 
-### Protein [_AbstractSpecies_]
+### Protein [_AbstractSpecies_] (schema:Protein)
 
-This objects describes the proteins that were used or produced in the course of the experiment.
+This objects describes the proteins that were used or formed over the course of the experiment.
 
 - __sequence__
   - Type: string
   - Description: Amino acid sequence of the protein
+  - Term: OBO:GSSO_007262
 - ecnumber
   - Type: string
   - Description: EC number of the protein.
 - organism
   - Type: string
   - Description: Organism the protein was expressed in.
+  - Term: OBO:OBI_0100026
 - organism_tax_id
   - Type: string
   - Description: Taxonomy identifier of the expression host.
 - uniprotid
   - Type: string
   - Description: Unique identifier referencing a protein entry at UniProt. Use this identifier to initialize the object from the UniProt database.
+  - Term: OBO:MI_1097
 
 
 ### Complex [_AbstractSpecies_]
@@ -254,7 +269,7 @@ This object describes the parameters of the kinetic model and can include all es
   - Type: float
   - Description: Numerical value of the estimated parameter.
 - __unit__
-  - Type: string
+  - Type: Unit
   - Description: Unit of the estimated parameter.
 - initial_value
   - Type: float
@@ -265,9 +280,9 @@ This object describes the parameters of the kinetic model and can include all es
 - lower
   - Type: float
   - Description: Lower bound of the estimated parameter.
-- stdev
+- stderr
   - Type: float
-  - Description: Standard deviation of the estimated parameter.
+  - Description: Standard error of the estimated parameter.
 - __constant__
   - Type: bool
   - Description: Specifies if this parameter is constant
@@ -305,7 +320,7 @@ This object describes a single entity of a measurement, which corresponds to one
   - Type: float
   - Description: Initial concentration of the measurement data.
 - __unit__
-  - Type: string
+  - Type: Unit
   - Description: The unit of the measurement data.
 - __measurement_id__
   - Type: Identifier
