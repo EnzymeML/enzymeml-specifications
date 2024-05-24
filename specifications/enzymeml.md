@@ -20,7 +20,6 @@ This is the root object that composes all objects found in an EnzymeML document.
   - Term: schema:name
 - references
   - Type: Identifier[]
-  - Multiple: True
   - Description: Contains references to publications, databases and arbitrary links to the web.
 - created
   - Type: datetime
@@ -32,34 +31,28 @@ This is the root object that composes all objects found in an EnzymeML document.
   - Type: Creator[]
   - Description: Contains all authors that are part of the experiment.
 - vessels
-  - Type: [Vessel](#vessel)
-  - Multiple: True
+  - Type: Vessel[]
   - Description: Contains all vessels that are part of the experiment.
 - proteins
-  - Type: [Protein](#Protein)
-  - Multiple: True
+  - Type: Protein[]
   - Description: Contains all proteins that are part of the experiment.
 - complexes
-  - Type: [Complex](#Complex)
-  - Multiple: True
+  - Type: Complex[]
   - Description: Contains all complexes that are part of the experiment.
 - reactants
-  - Type: [Reactant](#Reactant)
-  - Multiple: True
+  - Type: Reactant[]
   - Description: Contains all reactants that are part of the experiment.
 - reactions
-  - Type: [Reaction](#Reaction)
-  - Multiple: True
+  - Type: Reaction[]
   - Description: Dictionary mapping from reaction IDs to reaction describing objects.
 - conditions
   - Type: ReactionConditions
   - Description: Conditions under which the reaction was carried out.
 - measurements
-  - Type: [Measurement](#measurement)
-  - Multiple: True
+  - Type: Measurement[]
   - Description: Contains measurements that describe outcomes of an experiment.
 - kinetic_model
-  - Type: [KineticModel](#kineticmodel)
+  - Type: KineticModel
   - Description: Contains the kinetic model of the experiment.
 
 ## General information
@@ -147,7 +140,7 @@ This object describes complexes made of reactants and/or proteins that were used
   - Type: Identifier[]
   - Description: Array of IDs the complex contains
 
-### Reactant [_AbstractSpecies_]
+### Reactant
 
 This objects describes the reactants that were used or produced in the course of the experiment.
 
