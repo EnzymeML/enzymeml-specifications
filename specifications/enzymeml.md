@@ -1,7 +1,7 @@
 ---
 prefixes:
-  - schema: "https://schema.org/"
-  - OBO: "http://purl.obolibrary.org/obo/"
+  schema: "https://schema.org/"
+  OBO: "http://purl.obolibrary.org/obo/"
 ---
 
 # EnzymeML
