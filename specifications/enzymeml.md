@@ -274,6 +274,9 @@ This object describes the result of a measurement, which includes time course da
 - species
   - Type: MeasurementData[]
   - Description: Species of the measurement.
+- group_id
+  - Type: Identifier
+  - Description: User-defined group ID to signalize relationships between measurements.   
 
 ### MeasurementData
 
