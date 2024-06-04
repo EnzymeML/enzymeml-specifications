@@ -153,12 +153,12 @@ This objects describes the reactants that were used or produced in the course of
 - vessel_id
   - Type: Identifier
   - Term: schema:identifier
-- smiles
+- canonical_smiles
   - Type: string
-  - Description: Simplified Molecular Input Line Entry System (SMILES) encoding of the reactant.
-- inchi
+  - Description: Canonical Simplified Molecular-Input Line-Entry System (SMILES) encoding of the reactant.
+- inchikey
   - Type: string
-  - Description: International Chemical Identifier (InChI) encoding of the reactant.
+  - Description: Hashed International Chemical Identifier (InChIKey) encoding of the reactant.
 - references
   - Type: Identifier[]
   - Description: Array of references to publications, database entries etc. that describe the reactant.
