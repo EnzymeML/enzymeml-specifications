@@ -1,0 +1,80 @@
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX md: <http://mdmodel.net/>
+PREFIX OBO: <http://purl.obolibrary.org/obo/>
+PREFIX schema: <https://schema.org/>
+
+md:EnzymeMLDocument {
+    schema:name xsd:string {
+        shex:annotation [
+            shex:label "name"
+        ]
+    };
+}
+md:Creator {
+    schema:givenName xsd:string {
+        shex:annotation [
+            shex:label "given_name"
+        ]
+    };
+    schema:familyName xsd:string {
+        shex:annotation [
+            shex:label "family_name"
+        ]
+    };
+    schema:email xsd:string {
+        shex:annotation [
+            shex:label "mail"
+        ]
+    };
+}
+md:Vessel {
+    schema:name xsd:string {
+        shex:annotation [
+            shex:label "name"
+        ]
+    };
+    OBO:OBI_0002139 xsd:double {
+        shex:annotation [
+            shex:label "volume"
+        ]
+    };
+    schema:identifier xsd:string? {
+        shex:annotation [
+            shex:label "creator_id"
+        ]
+    };
+}
+md:Protein {
+    schema:name xsd:string {
+        shex:annotation [
+            shex:label "name"
+        ]
+    };
+    OBO:GSSO_007262 xsd:string {
+        shex:annotation [
+            shex:label "sequence"
+        ]
+    };
+    schema:identifier xsd:string? {
+        shex:annotation [
+            shex:label "vessel_id"
+        ]
+    };
+    OBO:OBI_0100026 xsd:string? {
+        shex:annotation [
+            shex:label "organism"
+        ]
+    };
+}
+md:Reactant {
+    schema:name xsd:string {
+        shex:annotation [
+            shex:label "name"
+        ]
+    };
+    schema:identifier xsd:string? {
+        shex:annotation [
+            shex:label "vessel_id"
+        ]
+    };
+}

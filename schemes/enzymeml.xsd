@@ -1,0 +1,819 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+    <!-- Roots -->
+    <xs:element name="EnzymeMLDocument" type="EnzymeMLDocumentType"/>
+    <xs:element name="Creator" type="CreatorType"/>
+    <xs:element name="Vessel" type="VesselType"/>
+    <xs:element name="Protein" type="ProteinType"/>
+    <xs:element name="Complex" type="ComplexType"/>
+    <xs:element name="Reactant" type="ReactantType"/>
+    <xs:element name="Reaction" type="ReactionType"/>
+    <xs:element name="ReactionSpecies" type="ReactionSpeciesType"/>
+    <xs:element name="ReactionConditions" type="ReactionConditionsType"/>
+    <xs:element name="KineticModel" type="KineticModelType"/>
+    <xs:element name="RateLaw" type="RateLawType"/>
+    <xs:element name="KineticParameter" type="KineticParameterType"/>
+    <xs:element name="Measurement" type="MeasurementType"/>
+    <xs:element name="MeasurementData" type="MeasurementDataType"/>
+    <xs:element name="Equation" type="EquationType"/>
+    <xs:element name="EqVariable" type="EqVariableType"/>
+    <xs:element name="EqParameter" type="EqParameterType"/>
+    <xs:element name="UnitDefinition" type="UnitDefinitionType"/>
+    <xs:element name="BaseUnit" type="BaseUnitType"/>
+
+    <!-- EnzymeMLDocument Definition -->
+    <xs:complexType name="EnzymeMLDocumentType">
+        <xs:sequence>
+            <xs:element name="name" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>
+                        Title of the EnzymeML Document.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="references" type="xs:string"  maxOccurs="unbounded">
+                <xs:annotation>
+                    <xs:documentation>
+                        Contains references to publications, databases and arbitrary links to the web.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="created" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>
+                        Date the EnzymeML document was created.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="modified" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>
+                        Date the EnzymeML document was modified.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="creators">
+                <xs:annotation>
+                    <xs:documentation>
+                        Contains all authors that are part of the experiment.
+                    </xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="Creator" type="CreatorType" maxOccurs="unbounded"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="vessels">
+                <xs:annotation>
+                    <xs:documentation>
+                        Contains all vessels that are part of the experiment.
+                    </xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="Vessel" type="VesselType" maxOccurs="unbounded"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="proteins">
+                <xs:annotation>
+                    <xs:documentation>
+                        Contains all proteins that are part of the experiment.
+                    </xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="Protein" type="ProteinType" maxOccurs="unbounded"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="complexes">
+                <xs:annotation>
+                    <xs:documentation>
+                        Contains all complexes that are part of the experiment.
+                    </xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="Complex" type="ComplexType" maxOccurs="unbounded"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="reactants">
+                <xs:annotation>
+                    <xs:documentation>
+                        Contains all reactants that are part of the experiment.
+                    </xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="Reactant" type="ReactantType" maxOccurs="unbounded"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="reactions">
+                <xs:annotation>
+                    <xs:documentation>
+                        Dictionary mapping from reaction IDs to reaction describing objects.
+                    </xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="Reaction" type="ReactionType" maxOccurs="unbounded"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="conditions" type="ReactionConditionsType">
+                <xs:annotation>
+                    <xs:documentation>
+                        Conditions under which the reaction was carried out.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="measurements">
+                <xs:annotation>
+                    <xs:documentation>
+                        Contains measurements that describe outcomes of an experiment.
+                    </xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="Measurement" type="MeasurementType" maxOccurs="unbounded"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="kinetic_model" type="KineticModelType">
+                <xs:annotation>
+                    <xs:documentation>
+                        Contains the kinetic model of the experiment.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+
+    <!-- Creator Definition -->
+    <xs:complexType name="CreatorType">
+        <xs:sequence>
+            <xs:element name="given_name" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>
+                        Given name of the author or contributor.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="family_name" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>
+                        Family name of the author or contributor.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="mail" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>
+                        Email address of the author or contributor.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+
+    <!-- Vessel Definition -->
+    <xs:complexType name="VesselType">
+        <xs:sequence>
+            <xs:element name="name" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>
+                        Name of the used vessel.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="volume" type="xs:float">
+                <xs:annotation>
+                    <xs:documentation>
+                        Volumetric value of the vessel.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="unit" type="UnitDefinitionType">
+                <xs:annotation>
+                    <xs:documentation>
+                        Volumetric unit of the vessel.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="constant" type="xs:boolean">
+                <xs:annotation>
+                    <xs:documentation>
+                        Whether the volume of the vessel is constant or not.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="creator_id" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>
+                        Unique identifier of the author.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+
+    <!-- Protein Definition -->
+    <xs:complexType name="ProteinType">
+        <xs:sequence>
+            <xs:element name="name" type="xs:string"/>
+            <xs:element name="sequence" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>
+                        Amino acid sequence of the protein
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="constant" type="xs:boolean" default="false"/>
+            <xs:element name="vessel_id" type="xs:string"/>
+            <xs:element name="ecnumber" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>
+                        EC number of the protein.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="organism" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>
+                        Organism the protein was expressed in.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="organism_tax_id" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>
+                        Taxonomy identifier of the expression host.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="references" type="xs:string"  maxOccurs="unbounded">
+                <xs:annotation>
+                    <xs:documentation>
+                        Array of references to publications, database entries etc. that describe the protein.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+
+    <!-- Complex Definition -->
+    <xs:complexType name="ComplexType">
+        <xs:sequence>
+            <xs:element name="participants" type="xs:string"  maxOccurs="unbounded">
+                <xs:annotation>
+                    <xs:documentation>
+                        Array of IDs the complex contains
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+
+    <!-- Reactant Definition -->
+    <xs:complexType name="ReactantType">
+        <xs:sequence>
+            <xs:element name="name" type="xs:string"/>
+            <xs:element name="constant" type="xs:boolean" default="false"/>
+            <xs:element name="vessel_id" type="xs:string"/>
+            <xs:element name="canonical_smiles" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>
+                        Canonical Simplified Molecular-Input Line-Entry System (SMILES) encoding of the reactant.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="inchikey" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>
+                        Hashed International Chemical Identifier (InChIKey) encoding of the reactant.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="references" type="xs:string"  maxOccurs="unbounded">
+                <xs:annotation>
+                    <xs:documentation>
+                        Array of references to publications, database entries etc. that describe the reactant.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+
+    <!-- Reaction Definition -->
+    <xs:complexType name="ReactionType">
+        <xs:sequence>
+            <xs:element name="name" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>
+                        Name of the reaction.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="reversible" type="xs:boolean" default="false">
+                <xs:annotation>
+                    <xs:documentation>
+                        Whether the reaction is reversible or irreversible
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="species">
+                <xs:annotation>
+                    <xs:documentation>
+                        List of reaction elements that are part of the reaction.
+                    </xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="ReactionSpecies" type="ReactionSpeciesType" maxOccurs="unbounded"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="modifiers" type="xs:string"  maxOccurs="unbounded">
+                <xs:annotation>
+                    <xs:documentation>
+                        List of reaction elements that are not part of the reaction but influence it.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+
+    <!-- ReactionSpecies Definition -->
+    <xs:complexType name="ReactionSpeciesType">
+        <xs:sequence>
+            <xs:element name="species_id" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>
+                        Internal identifier to either a protein or reactant defined in the EnzymeMLDocument.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="stoichiometry" type="xs:float">
+                <xs:annotation>
+                    <xs:documentation>
+                        Float number representing the associated stoichiometry.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+
+    <!-- ReactionConditions Definition -->
+    <xs:complexType name="ReactionConditionsType">
+        <xs:sequence>
+            <xs:element name="temperature" type="xs:float">
+                <xs:annotation>
+                    <xs:documentation>
+                        Numeric value of the temperature of the reaction.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="temperature_unit" type="UnitDefinitionType">
+                <xs:annotation>
+                    <xs:documentation>
+                        Unit of the temperature of the reaction.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="ph" type="xs:float">
+                <xs:annotation>
+                    <xs:documentation>
+                        PH value of the reaction.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+
+    <!-- KineticModel Definition -->
+    <xs:complexType name="KineticModelType">
+        <xs:sequence>
+            <xs:element name="name" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>
+                        Name of the kinetic law.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="equations">
+                <xs:annotation>
+                    <xs:documentation>
+                        Equation for the kinetic law.
+                    </xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="RateLaw" type="RateLawType" maxOccurs="unbounded" minOccurs="1"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="parameters">
+                <xs:annotation>
+                    <xs:documentation>
+                        List of estimated parameters.
+                    </xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="KineticParameter" type="KineticParameterType" maxOccurs="unbounded"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+
+    <!-- RateLaw Definition -->
+    <xs:complexType name="RateLawType">
+        <xs:sequence>
+            <xs:element name="species_id" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>
+                        Internal identifier to a species defined in the EnzymeMLDocument.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="equation" type="EquationType">
+                <xs:annotation>
+                    <xs:documentation>
+                        Equation of the rate law.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+
+    <!-- KineticParameter Definition -->
+    <xs:complexType name="KineticParameterType">
+        <xs:sequence>
+            <xs:element name="name" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>
+                        Name of the estimated parameter.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="value" type="xs:float">
+                <xs:annotation>
+                    <xs:documentation>
+                        Numerical value of the estimated parameter.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="unit" type="UnitDefinitionType">
+                <xs:annotation>
+                    <xs:documentation>
+                        Unit of the estimated parameter.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="constant" type="xs:boolean">
+                <xs:annotation>
+                    <xs:documentation>
+                        Specifies if this parameter is constant
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="initial_value" type="xs:float">
+                <xs:annotation>
+                    <xs:documentation>
+                        Initial value that was used for the parameter estimation.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="upper" type="xs:float">
+                <xs:annotation>
+                    <xs:documentation>
+                        Upper bound of the estimated parameter.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="lower" type="xs:float">
+                <xs:annotation>
+                    <xs:documentation>
+                        Lower bound of the estimated parameter.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="stderr" type="xs:float">
+                <xs:annotation>
+                    <xs:documentation>
+                        Standard error of the estimated parameter.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+
+    <!-- Measurement Definition -->
+    <xs:complexType name="MeasurementType">
+        <xs:sequence>
+            <xs:element name="name" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>
+                        Name of the measurement
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="species">
+                <xs:annotation>
+                    <xs:documentation>
+                        Species of the measurement.
+                    </xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="MeasurementData" type="MeasurementDataType" maxOccurs="unbounded"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="group_id" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>
+                        User-defined group ID to signalize relationships between measurements.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+
+    <!-- MeasurementData Definition -->
+    <xs:complexType name="MeasurementDataType">
+        <xs:sequence>
+            <xs:element name="species_id" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>
+                        The identifier for the described reactant.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="init_conc" type="xs:float">
+                <xs:annotation>
+                    <xs:documentation>
+                        Initial concentration of the measurement data.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="data_type" type="DataTypesType">
+                <xs:annotation>
+                    <xs:documentation>
+                        Type of data that was measured (e.g. concentration)
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="data_unit" type="UnitDefinitionType">
+                <xs:annotation>
+                    <xs:documentation>
+                        SI unit of the data that was measured.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="time_unit" type="UnitDefinitionType">
+                <xs:annotation>
+                    <xs:documentation>
+                        Time unit of the replicate.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="time" type="xs:float"  maxOccurs="unbounded" minOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>
+                        Time steps of the replicate.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="data" type="xs:float"  maxOccurs="unbounded" minOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>
+                        Data that was measured.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="is_calculated" type="xs:boolean" default="false">
+                <xs:annotation>
+                    <xs:documentation>
+                        Whether or not the data has been generated by simulation.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+
+    <!-- Equation Definition -->
+    <xs:complexType name="EquationType">
+        <xs:sequence>
+            <xs:element name="equation" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>
+                        The equation that is used in the data model.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="variables">
+                <xs:annotation>
+                    <xs:documentation>
+                        List of variables that are used in the equation.
+                    </xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="EqVariable" type="EqVariableType" maxOccurs="unbounded"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="parameters">
+                <xs:annotation>
+                    <xs:documentation>
+                        List of parameters that are used in the equation.
+                    </xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="EqParameter" type="EqParameterType" maxOccurs="unbounded"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+        </xs:sequence>
+        <xs:attribute name="id" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>
+                    Unique identifier for the equation.
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+    </xs:complexType>
+
+    <!-- EqVariable Definition -->
+    <xs:complexType name="EqVariableType">
+        <xs:attribute name="id" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>
+                    Unique identifier for the variable.
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="name" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>
+                    Name of the variable.
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="symbol" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>
+                    Symbol of the variable.
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+    </xs:complexType>
+
+    <!-- EqParameter Definition -->
+    <xs:complexType name="EqParameterType">
+        <xs:attribute name="id" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>
+                    Unique identifier for the parameter.
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="name" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>
+                    Name of the parameter.
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="symbol" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>
+                    Symbol of the parameter.
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="value" type="xs:float">
+            <xs:annotation>
+                <xs:documentation>
+                    Value of the parameter.
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+    </xs:complexType>
+
+    <!-- UnitDefinition Definition -->
+    <xs:complexType name="UnitDefinitionType">
+        <xs:sequence>
+            <xs:element name="base_units">
+                <xs:annotation>
+                    <xs:documentation>
+                        Base units that define the unit.
+                    </xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="BaseUnit" type="BaseUnitType" maxOccurs="unbounded"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+        </xs:sequence>
+        <xs:attribute name="id" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>
+                    Unique identifier for the unit definition.
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+    </xs:complexType>
+
+    <!-- BaseUnit Definition -->
+    <xs:complexType name="BaseUnitType">
+        <xs:attribute name="kind" type="xs:UnitType"  use="required">
+            <xs:annotation>
+                <xs:documentation>
+                    Kind of the base unit (e.g., meter, kilogram, second).
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="exponent" type="xs:integer"  use="required">
+            <xs:annotation>
+                <xs:documentation>
+                    Exponent of the base unit in the unit definition.
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="multiplier" type="xs:float">
+            <xs:annotation>
+                <xs:documentation>
+                    Multiplier of the base unit in the unit definition.
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="scale" type="xs:float">
+            <xs:annotation>
+                <xs:documentation>
+                    Scale of the base unit in the unit definition.
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+    </xs:complexType>
+
+    <!-- Enum DataTypes Definition -->
+    <xs:simpleType name="DataTypesType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="abs"/>
+            <xs:enumeration value="biomass"/>
+            <xs:enumeration value="conc"/>
+            <xs:enumeration value="conversion"/>
+            <xs:enumeration value="feed"/>
+            <xs:enumeration value="peak-area"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <!-- Enum UnitType Definition -->
+    <xs:simpleType name="UnitTypeType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="ampere"/>
+            <xs:enumeration value="avogadro"/>
+            <xs:enumeration value="becquerel"/>
+            <xs:enumeration value="candela"/>
+            <xs:enumeration value="coulomb"/>
+            <xs:enumeration value="dimensionless"/>
+            <xs:enumeration value="farad"/>
+            <xs:enumeration value="gram"/>
+            <xs:enumeration value="gray"/>
+            <xs:enumeration value="henry"/>
+            <xs:enumeration value="hertz"/>
+            <xs:enumeration value="item"/>
+            <xs:enumeration value="joule"/>
+            <xs:enumeration value="katal"/>
+            <xs:enumeration value="kelvin"/>
+            <xs:enumeration value="kilogram"/>
+            <xs:enumeration value="litre"/>
+            <xs:enumeration value="lumen"/>
+            <xs:enumeration value="lux"/>
+            <xs:enumeration value="metre"/>
+            <xs:enumeration value="mole"/>
+            <xs:enumeration value="newton"/>
+            <xs:enumeration value="ohm"/>
+            <xs:enumeration value="pascal"/>
+            <xs:enumeration value="radian"/>
+            <xs:enumeration value="second"/>
+            <xs:enumeration value="siemens"/>
+            <xs:enumeration value="sievert"/>
+            <xs:enumeration value="steradian"/>
+            <xs:enumeration value="tesla"/>
+            <xs:enumeration value="volt"/>
+            <xs:enumeration value="watt"/>
+            <xs:enumeration value="weber"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+</xs:schema>

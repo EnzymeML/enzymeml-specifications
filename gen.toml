@@ -1,0 +1,12 @@
+[meta]
+name = "EnzymeML"
+description = "This is a code and schema generator for Strenda Biocatalysis."
+paths = ["specifications/enzymeml.md"]
+
+[generate]
+xml-schema = { out = "schemes/enzymeml.xsd" }
+shacl = { out = "schemes/enzymeml.ttl" }
+shex = { out = "schemes/enzymeml.shex" }
+json-schema = { out = "schemes/enzymeml.json", root = "EnzymeMLDocument" }
+python-dataclass = { out = "python/pyenzyme/models.py" }
+mk-docs = { out = "docs/model.md", nav = "false" }
