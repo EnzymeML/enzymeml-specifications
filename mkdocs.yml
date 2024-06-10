@@ -1,5 +1,5 @@
-site_name: MD-Models
-repo_url: https://github.com/JR-1991/md-models
+site_name: EnzymeML
+repo_url: https://github.com/EnzymeML/enzymeml-specifications
 edit_uri: edit/main/docs/
 theme:
   font:
