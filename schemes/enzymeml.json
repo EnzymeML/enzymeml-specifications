@@ -78,52 +78,6 @@
   },
   "description": "This is the root object that composes all objects found in an EnzymeML document. It also includes general metadata such as the name of the document, when it was created/modified and references to publications, databases and arbitrary links to the web.",
   "definitions": {
-    "Reaction": {
-      "title": "Reaction",
-      "type": "object",
-      "properties": {
-        "name": {
-          "title": "name",
-          "description": "Name of the reaction.",
-          "type": "string"
-        },
-        "reversible": {
-          "title": "reversible",
-          "description": "Whether the reaction is reversible or irreversible",
-          "type": "boolean"
-        },
-        "species": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/ReactionSpecies"
-          }
-        },
-        "modifiers": {
-          "title": "modifiers",
-          "description": "List of reaction elements that are not part of the reaction but influence it.",
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        }
-      },
-      "description": "This object describes a chemical or enzymatic reaction that was investigated in the course of the experiment. All species used within this object need to be part of the data model."
-    },
-    "Complex": {
-      "title": "Complex",
-      "type": "object",
-      "properties": {
-        "participants": {
-          "title": "participants",
-          "description": "Array of IDs the complex contains",
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        }
-      },
-      "description": "This object describes complexes made of reactants and/or proteins that were used or produced in the course of the experiment."
-    },
     "Creator": {
       "title": "Creator",
       "type": "object",
@@ -237,29 +191,24 @@
       "description": "This object describes vessels in which the experiment has been carried out. These can include any type of vessel used in biocatalytic experiments.",
       "term": "OBO:OBI_0400081"
     },
-    "KineticModel": {
-      "title": "KineticModel",
+    "ReactionConditions": {
+      "title": "ReactionConditions",
       "type": "object",
       "properties": {
-        "name": {
-          "title": "name",
-          "description": "Name of the kinetic law.",
-          "type": "string"
+        "temperature": {
+          "title": "temperature",
+          "description": "Numeric value of the temperature of the reaction.",
+          "type": "number"
         },
-        "equations": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/RateLaw"
-          }
+        "temperature_unit": {
+          "$ref": "#/definitions/UnitDefinition"
         },
-        "parameters": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/KineticParameter"
-          }
+        "ph": {
+          "title": "ph",
+          "description": "PH value of the reaction.",
+          "type": "number"
         }
-      },
-      "description": "This object describes a kinetic model that was derived from the experiment."
+      }
     },
     "Reactant": {
       "title": "Reactant",
@@ -300,6 +249,21 @@
       },
       "description": "This objects describes the reactants that were used or produced in the course of the experiment."
     },
+    "Complex": {
+      "title": "Complex",
+      "type": "object",
+      "properties": {
+        "participants": {
+          "title": "participants",
+          "description": "Array of IDs the complex contains",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "description": "This object describes complexes made of reactants and/or proteins that were used or produced in the course of the experiment."
+    },
     "Measurement": {
       "title": "Measurement",
       "type": "object",
@@ -323,24 +287,60 @@
       },
       "description": "This object describes the result of a measurement, which includes time course data of any type defined in DataTypes. It includes initial concentrations of all species used in a single measurement."
     },
-    "ReactionConditions": {
-      "title": "ReactionConditions",
+    "Reaction": {
+      "title": "Reaction",
       "type": "object",
       "properties": {
-        "temperature": {
-          "title": "temperature",
-          "description": "Numeric value of the temperature of the reaction.",
-          "type": "number"
+        "name": {
+          "title": "name",
+          "description": "Name of the reaction.",
+          "type": "string"
         },
-        "temperature_unit": {
-          "$ref": "#/definitions/UnitDefinition"
+        "reversible": {
+          "title": "reversible",
+          "description": "Whether the reaction is reversible or irreversible",
+          "type": "boolean"
         },
-        "ph": {
-          "title": "ph",
-          "description": "PH value of the reaction.",
-          "type": "number"
+        "species": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ReactionSpecies"
+          }
+        },
+        "modifiers": {
+          "title": "modifiers",
+          "description": "List of reaction elements that are not part of the reaction but influence it.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
         }
-      }
+      },
+      "description": "This object describes a chemical or enzymatic reaction that was investigated in the course of the experiment. All species used within this object need to be part of the data model."
+    },
+    "KineticModel": {
+      "title": "KineticModel",
+      "type": "object",
+      "properties": {
+        "name": {
+          "title": "name",
+          "description": "Name of the kinetic law.",
+          "type": "string"
+        },
+        "equations": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/RateLaw"
+          }
+        },
+        "parameters": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/KineticParameter"
+          }
+        }
+      },
+      "description": "This object describes a kinetic model that was derived from the experiment."
     }
   }
 }

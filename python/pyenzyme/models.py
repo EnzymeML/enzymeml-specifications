@@ -41,8 +41,8 @@ class EnzymeMLDocument:
         metadata=config(field_name="@context"),
         default_factory=lambda: {
             "md": "http://mdmodel.net/",
-            "schema": "https://schema.org/",
             "OBO": "http://purl.obolibrary.org/obo/",
+            "schema": "https://schema.org/",
             "name": "schema:name",
             "references": {
                 "@type": "@id",
@@ -198,8 +198,8 @@ class Creator:
         metadata=config(field_name="@context"),
         default_factory=lambda: {
             "md": "http://mdmodel.net/",
-            "schema": "https://schema.org/",
             "OBO": "http://purl.obolibrary.org/obo/",
+            "schema": "https://schema.org/",
             "given_name": "schema:givenName",
             "family_name": "schema:familyName",
             "mail": "schema:email",
@@ -229,8 +229,8 @@ class Vessel:
         metadata=config(field_name="@context"),
         default_factory=lambda: {
             "md": "http://mdmodel.net/",
-            "schema": "https://schema.org/",
             "OBO": "http://purl.obolibrary.org/obo/",
+            "schema": "https://schema.org/",
             "name": "schema:name",
             "volume": "OBO:OBI_0002139",
             "creator_id": {
@@ -266,8 +266,8 @@ class Protein:
         metadata=config(field_name="@context"),
         default_factory=lambda: {
             "md": "http://mdmodel.net/",
-            "schema": "https://schema.org/",
             "OBO": "http://purl.obolibrary.org/obo/",
+            "schema": "https://schema.org/",
             "name": "schema:name",
             "sequence": "OBO:GSSO_007262",
             "vessel_id": {
@@ -305,8 +305,8 @@ class Complex:
         metadata=config(field_name="@context"),
         default_factory=lambda: {
             "md": "http://mdmodel.net/",
-            "schema": "https://schema.org/",
             "OBO": "http://purl.obolibrary.org/obo/",
+            "schema": "https://schema.org/",
             "participants": {
                 "@type": "@id",
             },
@@ -339,8 +339,8 @@ class Reactant:
         metadata=config(field_name="@context"),
         default_factory=lambda: {
             "md": "http://mdmodel.net/",
-            "schema": "https://schema.org/",
             "OBO": "http://purl.obolibrary.org/obo/",
+            "schema": "https://schema.org/",
             "name": "schema:name",
             "vessel_id": {
                 "@id": "schema:identifier",
@@ -376,8 +376,8 @@ class Reaction:
         metadata=config(field_name="@context"),
         default_factory=lambda: {
             "md": "http://mdmodel.net/",
-            "schema": "https://schema.org/",
             "OBO": "http://purl.obolibrary.org/obo/",
+            "schema": "https://schema.org/",
             "modifiers": {
                 "@type": "@id",
             },
@@ -418,8 +418,8 @@ class ReactionSpecies:
         metadata=config(field_name="@context"),
         default_factory=lambda: {
             "md": "http://mdmodel.net/",
-            "schema": "https://schema.org/",
             "OBO": "http://purl.obolibrary.org/obo/",
+            "schema": "https://schema.org/",
             "species_id": {
                 "@type": "@id",
             },
@@ -449,8 +449,8 @@ class ReactionConditions:
         metadata=config(field_name="@context"),
         default_factory=lambda: {
             "md": "http://mdmodel.net/",
-            "schema": "https://schema.org/",
             "OBO": "http://purl.obolibrary.org/obo/",
+            "schema": "https://schema.org/",
         },
     )
 
@@ -477,8 +477,8 @@ class KineticModel:
         metadata=config(field_name="@context"),
         default_factory=lambda: {
             "md": "http://mdmodel.net/",
-            "schema": "https://schema.org/",
             "OBO": "http://purl.obolibrary.org/obo/",
+            "schema": "https://schema.org/",
         },
     )
 
@@ -543,8 +543,8 @@ class RateLaw:
         metadata=config(field_name="@context"),
         default_factory=lambda: {
             "md": "http://mdmodel.net/",
-            "schema": "https://schema.org/",
             "OBO": "http://purl.obolibrary.org/obo/",
+            "schema": "https://schema.org/",
             "species_id": {
                 "@type": "@id",
             },
@@ -579,8 +579,8 @@ class KineticParameter:
         metadata=config(field_name="@context"),
         default_factory=lambda: {
             "md": "http://mdmodel.net/",
-            "schema": "https://schema.org/",
             "OBO": "http://purl.obolibrary.org/obo/",
+            "schema": "https://schema.org/",
         },
     )
 
@@ -607,8 +607,8 @@ class Measurement:
         metadata=config(field_name="@context"),
         default_factory=lambda: {
             "md": "http://mdmodel.net/",
-            "schema": "https://schema.org/",
             "OBO": "http://purl.obolibrary.org/obo/",
+            "schema": "https://schema.org/",
             "group_id": {
                 "@type": "@id",
             },
@@ -670,8 +670,8 @@ class MeasurementData:
         metadata=config(field_name="@context"),
         default_factory=lambda: {
             "md": "http://mdmodel.net/",
-            "schema": "https://schema.org/",
             "OBO": "http://purl.obolibrary.org/obo/",
+            "schema": "https://schema.org/",
             "species_id": {
                 "@type": "@id",
             },
@@ -701,8 +701,8 @@ class Equation:
         metadata=config(field_name="@context"),
         default_factory=lambda: {
             "md": "http://mdmodel.net/",
-            "schema": "https://schema.org/",
             "OBO": "http://purl.obolibrary.org/obo/",
+            "schema": "https://schema.org/",
             "id": {
                 "@type": "@id",
             },
@@ -758,8 +758,8 @@ class EqVariable:
         metadata=config(field_name="@context"),
         default_factory=lambda: {
             "md": "http://mdmodel.net/",
-            "schema": "https://schema.org/",
             "OBO": "http://purl.obolibrary.org/obo/",
+            "schema": "https://schema.org/",
             "id": {
                 "@type": "@id",
             },
@@ -789,8 +789,8 @@ class EqParameter:
         metadata=config(field_name="@context"),
         default_factory=lambda: {
             "md": "http://mdmodel.net/",
-            "schema": "https://schema.org/",
             "OBO": "http://purl.obolibrary.org/obo/",
+            "schema": "https://schema.org/",
             "id": {
                 "@type": "@id",
             },
@@ -818,8 +818,8 @@ class UnitDefinition:
         metadata=config(field_name="@context"),
         default_factory=lambda: {
             "md": "http://mdmodel.net/",
-            "schema": "https://schema.org/",
             "OBO": "http://purl.obolibrary.org/obo/",
+            "schema": "https://schema.org/",
             "id": {
                 "@type": "@id",
             },
@@ -869,8 +869,8 @@ class BaseUnit:
         metadata=config(field_name="@context"),
         default_factory=lambda: {
             "md": "http://mdmodel.net/",
-            "schema": "https://schema.org/",
             "OBO": "http://purl.obolibrary.org/obo/",
+            "schema": "https://schema.org/",
         },
     )
 
