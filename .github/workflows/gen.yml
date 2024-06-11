@@ -4,6 +4,7 @@ on:
   push:
     paths:
       - "specifications/*.md"
+  workflow_dispatch:
 
 jobs:
   generate:
