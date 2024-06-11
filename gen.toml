@@ -10,3 +10,4 @@ shex = { out = "schemes/enzymeml.shex" }
 json-schema = { out = "schemes/enzymeml.json", root = "EnzymeMLDocument" }
 python-dataclass = { out = "python/pyenzyme/models.py" }
 mk-docs = { out = "docs/model.md", nav = "false" }
+typescript = { out = "typescript/src/index.ts" }
