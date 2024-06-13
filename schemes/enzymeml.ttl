@@ -1,8 +1,8 @@
 @prefix sh: <http://www.w3.org/ns/shacl#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 @prefix md: <http://mdmodel.net/> .
-@prefix schema: <https://schema.org/> .
 @prefix OBO: <http://purl.obolibrary.org/obo/> .
+@prefix schema: <https://schema.org/> .
 
 
 md:EnzymeMLDocumentShape
@@ -91,9 +91,9 @@ md:ProteinShape
         sh:maxCount 1 ;
     ];
 
-md:ReactantShape
+md:SmallMoleculeShape
     a sh:NodeShape ;
-    sh:targetClass md:Reactant ;
+    sh:targetClass md:SmallMolecule ;
 
     sh:property [
         sh:path schema:name ;

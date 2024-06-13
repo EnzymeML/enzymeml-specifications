@@ -7,13 +7,12 @@
     <xs:element name="Vessel" type="VesselType"/>
     <xs:element name="Protein" type="ProteinType"/>
     <xs:element name="Complex" type="ComplexType"/>
-    <xs:element name="Reactant" type="ReactantType"/>
+    <xs:element name="SmallMolecule" type="SmallMoleculeType"/>
     <xs:element name="Reaction" type="ReactionType"/>
-    <xs:element name="ReactionSpecies" type="ReactionSpeciesType"/>
+    <xs:element name="ReactionElement" type="ReactionElementType"/>
     <xs:element name="ReactionConditions" type="ReactionConditionsType"/>
-    <xs:element name="KineticModel" type="KineticModelType"/>
-    <xs:element name="RateLaw" type="RateLawType"/>
-    <xs:element name="KineticParameter" type="KineticParameterType"/>
+    <xs:element name="ODE" type="ODEType"/>
+    <xs:element name="Parameter" type="ParameterType"/>
     <xs:element name="Measurement" type="MeasurementType"/>
     <xs:element name="MeasurementData" type="MeasurementDataType"/>
     <xs:element name="Equation" type="EquationType"/>
@@ -101,7 +100,7 @@
                     </xs:sequence>
                 </xs:complexType>
             </xs:element>
-            <xs:element name="reactants">
+            <xs:element name="small_molecules">
                 <xs:annotation>
                     <xs:documentation>
                         Contains all reactants that are part of the experiment.
@@ -109,7 +108,7 @@
                 </xs:annotation>
                 <xs:complexType>
                     <xs:sequence>
-                        <xs:element name="Reactant" type="ReactantType" maxOccurs="unbounded"/>
+                        <xs:element name="SmallMolecule" type="SmallMoleculeType" maxOccurs="unbounded"/>
                     </xs:sequence>
                 </xs:complexType>
             </xs:element>
@@ -144,12 +143,29 @@
                     </xs:sequence>
                 </xs:complexType>
             </xs:element>
-            <xs:element name="kinetic_model" type="KineticModelType">
+            <xs:element name="equations">
                 <xs:annotation>
                     <xs:documentation>
-                        Contains the kinetic model of the experiment.
+                        Contains ordinary differential equations that describe the kinetic model.
                     </xs:documentation>
                 </xs:annotation>
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="ODE" type="ODEType" maxOccurs="unbounded"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="parameters">
+                <xs:annotation>
+                    <xs:documentation>
+                        Contains parameters that are part of the kinetic model.
+                    </xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="Parameter" type="ParameterType" maxOccurs="unbounded"/>
+                    </xs:sequence>
+                </xs:complexType>
             </xs:element>
         </xs:sequence>
     </xs:complexType>
@@ -279,8 +295,8 @@
         </xs:sequence>
     </xs:complexType>
 
-    <!-- Reactant Definition -->
-    <xs:complexType name="ReactantType">
+    <!-- SmallMolecule Definition -->
+    <xs:complexType name="SmallMoleculeType">
         <xs:sequence>
             <xs:element name="name" type="xs:string"/>
             <xs:element name="constant" type="xs:boolean" default="false"/>
@@ -326,6 +342,13 @@
                     </xs:documentation>
                 </xs:annotation>
             </xs:element>
+            <xs:element name="rate_law" type="EquationType">
+                <xs:annotation>
+                    <xs:documentation>
+                        Mathematical expression of the reaction.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
             <xs:element name="species">
                 <xs:annotation>
                     <xs:documentation>
@@ -334,7 +357,7 @@
                 </xs:annotation>
                 <xs:complexType>
                     <xs:sequence>
-                        <xs:element name="ReactionSpecies" type="ReactionSpeciesType" maxOccurs="unbounded"/>
+                        <xs:element name="ReactionElement" type="ReactionElementType" maxOccurs="unbounded"/>
                     </xs:sequence>
                 </xs:complexType>
             </xs:element>
@@ -348,8 +371,8 @@
         </xs:sequence>
     </xs:complexType>
 
-    <!-- ReactionSpecies Definition -->
-    <xs:complexType name="ReactionSpeciesType">
+    <!-- ReactionElement Definition -->
+    <xs:complexType name="ReactionElementType">
         <xs:sequence>
             <xs:element name="species_id" type="xs:string">
                 <xs:annotation>
@@ -395,45 +418,8 @@
         </xs:sequence>
     </xs:complexType>
 
-    <!-- KineticModel Definition -->
-    <xs:complexType name="KineticModelType">
-        <xs:sequence>
-            <xs:element name="name" type="xs:string">
-                <xs:annotation>
-                    <xs:documentation>
-                        Name of the kinetic law.
-                    </xs:documentation>
-                </xs:annotation>
-            </xs:element>
-            <xs:element name="equations">
-                <xs:annotation>
-                    <xs:documentation>
-                        Equation for the kinetic law.
-                    </xs:documentation>
-                </xs:annotation>
-                <xs:complexType>
-                    <xs:sequence>
-                        <xs:element name="RateLaw" type="RateLawType" maxOccurs="unbounded" minOccurs="1"/>
-                    </xs:sequence>
-                </xs:complexType>
-            </xs:element>
-            <xs:element name="parameters">
-                <xs:annotation>
-                    <xs:documentation>
-                        List of estimated parameters.
-                    </xs:documentation>
-                </xs:annotation>
-                <xs:complexType>
-                    <xs:sequence>
-                        <xs:element name="KineticParameter" type="KineticParameterType" maxOccurs="unbounded"/>
-                    </xs:sequence>
-                </xs:complexType>
-            </xs:element>
-        </xs:sequence>
-    </xs:complexType>
-
-    <!-- RateLaw Definition -->
-    <xs:complexType name="RateLawType">
+    <!-- ODE Definition -->
+    <xs:complexType name="ODEType">
         <xs:sequence>
             <xs:element name="species_id" type="xs:string">
                 <xs:annotation>
@@ -452,8 +438,8 @@
         </xs:sequence>
     </xs:complexType>
 
-    <!-- KineticParameter Definition -->
-    <xs:complexType name="KineticParameterType">
+    <!-- Parameter Definition -->
+    <xs:complexType name="ParameterType">
         <xs:sequence>
             <xs:element name="name" type="xs:string">
                 <xs:annotation>

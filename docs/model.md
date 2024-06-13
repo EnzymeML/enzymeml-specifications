@@ -15,13 +15,12 @@ This page provides comprehensive information about the structure and components 
         vessel(Vessel)
         protein(Protein)
         complex(Complex)
-        reactant(Reactant)
+        smallmolecule(SmallMolecule)
         reaction(Reaction)
-        reactionspecies(ReactionSpecies)
+        reactionelement(ReactionElement)
         reactionconditions(ReactionConditions)
-        kineticmodel(KineticModel)
-        ratelaw(RateLaw)
-        kineticparameter(KineticParameter)
+        ode(ODE)
+        parameter(Parameter)
         measurement(Measurement)
         measurementdata(MeasurementData)
         equation(Equation)
@@ -35,18 +34,18 @@ This page provides comprehensive information about the structure and components 
         enzymemldocument(EnzymeMLDocument) --> vessel(Vessel)
         enzymemldocument(EnzymeMLDocument) --> protein(Protein)
         enzymemldocument(EnzymeMLDocument) --> complex(Complex)
-        enzymemldocument(EnzymeMLDocument) --> reactant(Reactant)
+        enzymemldocument(EnzymeMLDocument) --> smallmolecule(SmallMolecule)
         enzymemldocument(EnzymeMLDocument) --> reaction(Reaction)
         enzymemldocument(EnzymeMLDocument) --> reactionconditions(ReactionConditions)
         enzymemldocument(EnzymeMLDocument) --> measurement(Measurement)
-        enzymemldocument(EnzymeMLDocument) --> kineticmodel(KineticModel)
+        enzymemldocument(EnzymeMLDocument) --> ode(ODE)
+        enzymemldocument(EnzymeMLDocument) --> parameter(Parameter)
         vessel(Vessel) --> unitdefinition(UnitDefinition)
-        reaction(Reaction) --> reactionspecies(ReactionSpecies)
+        reaction(Reaction) --> equation(Equation)
+        reaction(Reaction) --> reactionelement(ReactionElement)
         reactionconditions(ReactionConditions) --> unitdefinition(UnitDefinition)
-        kineticmodel(KineticModel) --> ratelaw(RateLaw)
-        kineticmodel(KineticModel) --> kineticparameter(KineticParameter)
-        ratelaw(RateLaw) --> equation(Equation)
-        kineticparameter(KineticParameter) --> unitdefinition(UnitDefinition)
+        ode(ODE) --> equation(Equation)
+        parameter(Parameter) --> unitdefinition(UnitDefinition)
         measurement(Measurement) --> measurementdata(MeasurementData)
         measurementdata(MeasurementData) --> datatypes(DataTypes)
         measurementdata(MeasurementData) --> unitdefinition(UnitDefinition)
@@ -61,13 +60,12 @@ This page provides comprehensive information about the structure and components 
         click vessel "#vessel" "Go to Vessel"
         click protein "#protein" "Go to Protein"
         click complex "#complex" "Go to Complex"
-        click reactant "#reactant" "Go to Reactant"
+        click smallmolecule "#smallmolecule" "Go to SmallMolecule"
         click reaction "#reaction" "Go to Reaction"
-        click reactionspecies "#reactionspecies" "Go to ReactionSpecies"
+        click reactionelement "#reactionelement" "Go to ReactionElement"
         click reactionconditions "#reactionconditions" "Go to ReactionConditions"
-        click kineticmodel "#kineticmodel" "Go to KineticModel"
-        click ratelaw "#ratelaw" "Go to RateLaw"
-        click kineticparameter "#kineticparameter" "Go to KineticParameter"
+        click ode "#ode" "Go to ODE"
+        click parameter "#parameter" "Go to Parameter"
         click measurement "#measurement" "Go to Measurement"
         click measurementdata "#measurementdata" "Go to MeasurementData"
         click equation "#equation" "Go to Equation"
@@ -81,8 +79,8 @@ This page provides comprehensive information about the structure and components 
 
 
 ## Ontologies
-- [OBO](http://purl.obolibrary.org/obo/)
 - [schema](https://schema.org/)
+- [OBO](http://purl.obolibrary.org/obo/)
 
 
 ## Types
@@ -131,7 +129,7 @@ __complexes__ [`list[Complex]`](#complex)
 - Contains all complexes that are part of the experiment.
 
 
-__reactants__ [`list[Reactant]`](#reactant)
+__small_molecules__ [`list[SmallMolecule]`](#smallmolecule)
 
 - Contains all reactants that are part of the experiment.
 
@@ -151,9 +149,14 @@ __measurements__ [`list[Measurement]`](#measurement)
 - Contains measurements that describe outcomes of an experiment.
 
 
-__kinetic_model__ [`KineticModel`](#kineticmodel)
+__equations__ [`list[ODE]`](#ode)
 
-- Contains the kinetic model of the experiment.
+- Contains ordinary differential equations that describe the kinetic model.
+
+
+__parameters__ [`list[Parameter]`](#parameter)
+
+- Contains parameters that are part of the kinetic model.
 
 
 ------
@@ -259,7 +262,7 @@ __participants__ `list[string]`
 
 ------
 
-### Reactant
+### SmallMolecule
 This objects describes the reactants that were used or produced in the course of the experiment.
 
 __name__* `string`
@@ -304,7 +307,12 @@ __reversible__* `boolean`
 
 - `Default`: false
 
-__species__ [`list[ReactionSpecies]`](#reactionspecies)
+__rate_law__ [`Equation`](#equation)
+
+- Mathematical expression of the reaction.
+
+
+__species__ [`list[ReactionElement]`](#reactionelement)
 
 - List of reaction elements that are part of the reaction.
 
@@ -316,7 +324,7 @@ __modifiers__ `list[string]`
 
 ------
 
-### ReactionSpecies
+### ReactionElement
 This object is part of the Reaction object and describes either an educt, product or modifier. The latter includes buffers, counter-ions as well as proteins/enzymes.
 
 __species_id__* `string`
@@ -351,27 +359,7 @@ __ph__ `float`
 
 ------
 
-### KineticModel
-This object describes a kinetic model that was derived from the experiment.
-
-__name__* `string`
-
-- Name of the kinetic law.
-
-
-__equations__* [`list[RateLaw]`](#ratelaw)
-
-- Equation for the kinetic law.
-
-
-__parameters__ [`list[KineticParameter]`](#kineticparameter)
-
-- List of estimated parameters.
-
-
-------
-
-### RateLaw
+### ODE
 This object describes an ordinary differential equation that is part of the kinetic model.
 
 __species_id__* `string`
@@ -386,7 +374,7 @@ __equation__* [`Equation`](#equation)
 
 ------
 
-### KineticParameter
+### Parameter
 This object describes the parameters of the kinetic model and can include all estimated values.
 
 __name__* `string`
