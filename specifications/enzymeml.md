@@ -51,9 +51,12 @@ This is the root object that composes all objects found in an EnzymeML document.
 - measurements
   - Type: Measurement[]
   - Description: Contains measurements that describe outcomes of an experiment.
-- kinetic_model
-  - Type: KineticModel
-  - Description: Contains the kinetic model of the experiment.
+- equations
+  - Type: ODE[]
+  - Description: Contains ordinary differential equations that describe the kinetic model.
+- parameters
+  - Type: Parameter[]
+  - Description: Contains parameters that are part of the kinetic model.
 
 ## General information
 
@@ -140,7 +143,7 @@ This object describes complexes made of reactants and/or proteins that were used
   - Type: Identifier[]
   - Description: Array of IDs the complex contains
 
-### Reactant
+### SmallMolecule
 
 This objects describes the reactants that were used or produced in the course of the experiment.
 
@@ -176,14 +179,17 @@ This object describes a chemical or enzymatic reaction that was investigated in 
   - Type: boolean
   - Description: Whether the reaction is reversible or irreversible
   - Default: False
+- rate_law
+  - Type: Equation
+  - Description: Mathematical expression of the reaction.
 - species
-  - Type: ReactionSpecies[]
+  - Type: ReactionElement[]
   - Description: List of reaction elements that are part of the reaction.
 - modifiers
   - Type: Identifier[]
   - Description: List of reaction elements that are not part of the reaction but influence it.
 
-### ReactionSpecies
+### ReactionElement
 
 This object is part of the Reaction object and describes either an educt, product or modifier. The latter includes buffers, counter-ions as well as proteins/enzymes.
 
@@ -208,21 +214,7 @@ This object is part of the Reaction object and describes either an educt, produc
 
 ## Modelling
 
-### KineticModel
-
-This object describes a kinetic model that was derived from the experiment.
-
-- __name__
-  - Type: string
-  - Description: Name of the kinetic law.
-- __equations__
-  - Type: RateLaw[]
-  - Description: Equation for the kinetic law.
-- parameters
-  - Type: KineticParameter[]
-  - Description: List of estimated parameters.
-
-### RateLaw
+### ODE
 
 This object describes an ordinary differential equation that is part of the kinetic model.
 
