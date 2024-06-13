@@ -39,8 +39,8 @@ This is the root object that composes all objects found in an EnzymeML document.
 - complexes
   - Type: Complex[]
   - Description: Contains all complexes that are part of the experiment.
-- reactants
-  - Type: Reactant[]
+- small_molecules
+  - Type: SmallMolecule[]
   - Description: Contains all reactants that are part of the experiment.
 - reactions
   - Type: Reaction[]
@@ -225,7 +225,7 @@ This object describes an ordinary differential equation that is part of the kine
   - Type: Equation
   - Description: Equation of the rate law.
 
-### KineticParameter
+### Parameter
 
 This object describes the parameters of the kinetic model and can include all estimated values.
 
