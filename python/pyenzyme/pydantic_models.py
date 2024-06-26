@@ -1,13 +1,11 @@
 ## This is a generated file. Do not modify it manually!
 
 from __future__ import annotations
-
-from datetime import date, datetime
+from pydantic import BaseModel, Field, ConfigDict
+from typing import Optional, Generic, TypeVar
 from enum import Enum
-from typing import Generic, Optional, TypeVar
 from uuid import uuid4
-
-from pydantic import BaseModel, ConfigDict, Field
+from datetime import date, datetime
 
 # Filter Wrapper definition used to filter a list of objects
 # based on their attributes
@@ -2233,7 +2231,6 @@ class UnitType(Enum):
     AVOGADRO = "avogadro"
     BECQUEREL = "becquerel"
     CANDELA = "candela"
-    CELSIUS = "celsius"
     COULOMB = "coulomb"
     DIMENSIONLESS = "dimensionless"
     FARAD = "farad"

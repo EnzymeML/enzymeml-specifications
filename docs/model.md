@@ -647,7 +647,6 @@ __value__ `float`
 | `AVOGADRO` | avogadro |
 | `BECQUEREL` | becquerel |
 | `CANDELA` | candela |
-| `CELSIUS` | celsius |
 | `COULOMB` | coulomb |
 | `DIMENSIONLESS` | dimensionless |
 | `FARAD` | farad |
