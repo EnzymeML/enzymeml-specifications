@@ -1,12 +1,13 @@
 ## This is a generated file. Do not modify it manually!
 
 from __future__ import annotations
+
 from dataclasses import dataclass, field
-from dataclasses_json import config, dataclass_json
-from typing import List, Optional
 from enum import Enum
+from typing import List, Optional
 from uuid import uuid4
-from datetime import date, datetime
+
+from dataclasses_json import config, dataclass_json
 
 
 @dataclass_json
@@ -14,15 +15,21 @@ from datetime import date, datetime
 class EnzymeMLDocument:
     name: str
     references: List[str] = field(default_factory=list)
-    created: Optional[str] = None
-    modified: Optional[str] = None
+    created: Optional[str] = field(
+        default=None, metadata=config(exclude=lambda x: x is None)
+    )
+    modified: Optional[str] = field(
+        default=None, metadata=config(exclude=lambda x: x is None)
+    )
     creators: List[Creator] = field(default_factory=list)
     vessels: List[Vessel] = field(default_factory=list)
     proteins: List[Protein] = field(default_factory=list)
     complexes: List[Complex] = field(default_factory=list)
     small_molecules: List[SmallMolecule] = field(default_factory=list)
     reactions: List[Reaction] = field(default_factory=list)
-    conditions: Optional[ReactionConditions] = None
+    conditions: Optional[ReactionConditions] = field(
+        default=None, metadata=config(exclude=lambda x: x is None)
+    )
     measurements: List[Measurement] = field(default_factory=list)
     equations: List[ODE] = field(default_factory=list)
     parameters: List[Parameter] = field(default_factory=list)
@@ -42,8 +49,8 @@ class EnzymeMLDocument:
         metadata=config(field_name="@context"),
         default_factory=lambda: {
             "md": "http://mdmodel.net/",
-            "schema": "https://schema.org/",
             "OBO": "http://purl.obolibrary.org/obo/",
+            "schema": "https://schema.org/",
             "name": "schema:name",
             "references": {
                 "@type": "@id",
@@ -59,6 +66,9 @@ class EnzymeMLDocument:
         **kwargs,
     ):
         params = {"given_name": given_name, "family_name": family_name, "mail": mail}
+
+        if "id" in kwargs:
+            params["id"] = kwargs["id"]
 
         self.creators.append(Creator(**params))
 
@@ -81,6 +91,9 @@ class EnzymeMLDocument:
             "creator_id": creator_id,
         }
 
+        if "id" in kwargs:
+            params["id"] = kwargs["id"]
+
         self.vessels.append(Vessel(**params))
 
         return self.vessels[-1]
@@ -94,7 +107,7 @@ class EnzymeMLDocument:
         ecnumber: Optional[str] = None,
         organism: Optional[str] = None,
         organism_tax_id: Optional[str] = None,
-        references: List[str] = [],
+        references: list[str] = [],
         **kwargs,
     ):
         params = {
@@ -108,16 +121,22 @@ class EnzymeMLDocument:
             "references": references,
         }
 
+        if "id" in kwargs:
+            params["id"] = kwargs["id"]
+
         self.proteins.append(Protein(**params))
 
         return self.proteins[-1]
 
     def add_to_complexes(
         self,
-        participants: List[str] = [],
+        participants: list[str] = [],
         **kwargs,
     ):
         params = {"participants": participants}
+
+        if "id" in kwargs:
+            params["id"] = kwargs["id"]
 
         self.complexes.append(Complex(**params))
 
@@ -130,7 +149,7 @@ class EnzymeMLDocument:
         vessel_id: Optional[str] = None,
         canonical_smiles: Optional[str] = None,
         inchikey: Optional[str] = None,
-        references: List[str] = [],
+        references: list[str] = [],
         **kwargs,
     ):
         params = {
@@ -142,6 +161,9 @@ class EnzymeMLDocument:
             "references": references,
         }
 
+        if "id" in kwargs:
+            params["id"] = kwargs["id"]
+
         self.small_molecules.append(SmallMolecule(**params))
 
         return self.small_molecules[-1]
@@ -151,8 +173,8 @@ class EnzymeMLDocument:
         name: str,
         reversible: bool = False,
         rate_law: Optional[Equation] = None,
-        species: List[ReactionElement] = [],
-        modifiers: List[str] = [],
+        species: list[ReactionElement] = [],
+        modifiers: list[str] = [],
         **kwargs,
     ):
         params = {
@@ -163,6 +185,9 @@ class EnzymeMLDocument:
             "modifiers": modifiers,
         }
 
+        if "id" in kwargs:
+            params["id"] = kwargs["id"]
+
         self.reactions.append(Reaction(**params))
 
         return self.reactions[-1]
@@ -170,11 +195,14 @@ class EnzymeMLDocument:
     def add_to_measurements(
         self,
         name: str,
-        species: List[MeasurementData] = [],
+        species: list[MeasurementData] = [],
         group_id: Optional[str] = None,
         **kwargs,
     ):
         params = {"name": name, "species": species, "group_id": group_id}
+
+        if "id" in kwargs:
+            params["id"] = kwargs["id"]
 
         self.measurements.append(Measurement(**params))
 
@@ -187,6 +215,9 @@ class EnzymeMLDocument:
         **kwargs,
     ):
         params = {"species_id": species_id, "equation": equation}
+
+        if "id" in kwargs:
+            params["id"] = kwargs["id"]
 
         self.equations.append(ODE(**params))
 
@@ -215,6 +246,9 @@ class EnzymeMLDocument:
             "stderr": stderr,
         }
 
+        if "id" in kwargs:
+            params["id"] = kwargs["id"]
+
         self.parameters.append(Parameter(**params))
 
         return self.parameters[-1]
@@ -240,8 +274,8 @@ class Creator:
         metadata=config(field_name="@context"),
         default_factory=lambda: {
             "md": "http://mdmodel.net/",
-            "schema": "https://schema.org/",
             "OBO": "http://purl.obolibrary.org/obo/",
+            "schema": "https://schema.org/",
             "given_name": "schema:givenName",
             "family_name": "schema:familyName",
             "mail": "schema:email",
@@ -256,7 +290,9 @@ class Vessel:
     volume: float
     unit: UnitDefinition
     constant: bool
-    creator_id: Optional[str] = None
+    creator_id: Optional[str] = field(
+        default=None, metadata=config(exclude=lambda x: x is None)
+    )
 
     # JSON-LD fields
     id: str = field(
@@ -271,8 +307,8 @@ class Vessel:
         metadata=config(field_name="@context"),
         default_factory=lambda: {
             "md": "http://mdmodel.net/",
-            "schema": "https://schema.org/",
             "OBO": "http://purl.obolibrary.org/obo/",
+            "schema": "https://schema.org/",
             "name": "schema:name",
             "volume": "OBO:OBI_0002139",
             "creator_id": {
@@ -288,11 +324,19 @@ class Vessel:
 class Protein:
     name: str
     sequence: str
-    constant: bool = false
-    vessel_id: Optional[str] = None
-    ecnumber: Optional[str] = None
-    organism: Optional[str] = None
-    organism_tax_id: Optional[str] = None
+    constant: bool = False
+    vessel_id: Optional[str] = field(
+        default=None, metadata=config(exclude=lambda x: x is None)
+    )
+    ecnumber: Optional[str] = field(
+        default=None, metadata=config(exclude=lambda x: x is None)
+    )
+    organism: Optional[str] = field(
+        default=None, metadata=config(exclude=lambda x: x is None)
+    )
+    organism_tax_id: Optional[str] = field(
+        default=None, metadata=config(exclude=lambda x: x is None)
+    )
     references: List[str] = field(default_factory=list)
 
     # JSON-LD fields
@@ -308,8 +352,8 @@ class Protein:
         metadata=config(field_name="@context"),
         default_factory=lambda: {
             "md": "http://mdmodel.net/",
-            "schema": "https://schema.org/",
             "OBO": "http://purl.obolibrary.org/obo/",
+            "schema": "https://schema.org/",
             "name": "schema:name",
             "sequence": "OBO:GSSO_007262",
             "vessel_id": {
@@ -347,8 +391,8 @@ class Complex:
         metadata=config(field_name="@context"),
         default_factory=lambda: {
             "md": "http://mdmodel.net/",
-            "schema": "https://schema.org/",
             "OBO": "http://purl.obolibrary.org/obo/",
+            "schema": "https://schema.org/",
             "participants": {
                 "@type": "@id",
             },
@@ -360,10 +404,16 @@ class Complex:
 @dataclass
 class SmallMolecule:
     name: str
-    constant: bool = false
-    vessel_id: Optional[str] = None
-    canonical_smiles: Optional[str] = None
-    inchikey: Optional[str] = None
+    constant: bool = False
+    vessel_id: Optional[str] = field(
+        default=None, metadata=config(exclude=lambda x: x is None)
+    )
+    canonical_smiles: Optional[str] = field(
+        default=None, metadata=config(exclude=lambda x: x is None)
+    )
+    inchikey: Optional[str] = field(
+        default=None, metadata=config(exclude=lambda x: x is None)
+    )
     references: List[str] = field(default_factory=list)
 
     # JSON-LD fields
@@ -381,8 +431,8 @@ class SmallMolecule:
         metadata=config(field_name="@context"),
         default_factory=lambda: {
             "md": "http://mdmodel.net/",
-            "schema": "https://schema.org/",
             "OBO": "http://purl.obolibrary.org/obo/",
+            "schema": "https://schema.org/",
             "name": "schema:name",
             "vessel_id": {
                 "@id": "schema:identifier",
@@ -399,8 +449,10 @@ class SmallMolecule:
 @dataclass
 class Reaction:
     name: str
-    reversible: bool = false
-    rate_law: Optional[Equation] = None
+    reversible: bool = False
+    rate_law: Optional[Equation] = field(
+        default=None, metadata=config(exclude=lambda x: x is None)
+    )
     species: List[ReactionElement] = field(default_factory=list)
     modifiers: List[str] = field(default_factory=list)
 
@@ -419,8 +471,8 @@ class Reaction:
         metadata=config(field_name="@context"),
         default_factory=lambda: {
             "md": "http://mdmodel.net/",
-            "schema": "https://schema.org/",
             "OBO": "http://purl.obolibrary.org/obo/",
+            "schema": "https://schema.org/",
             "modifiers": {
                 "@type": "@id",
             },
@@ -435,6 +487,9 @@ class Reaction:
     ):
         params = {"species_id": species_id, "stoichiometry": stoichiometry}
 
+        if "id" in kwargs:
+            params["id"] = kwargs["id"]
+
         self.species.append(ReactionElement(**params))
 
         return self.species[-1]
@@ -444,7 +499,9 @@ class Reaction:
 @dataclass
 class ReactionElement:
     species_id: str
-    stoichiometry: Optional[float] = None
+    stoichiometry: Optional[float] = field(
+        default=None, metadata=config(exclude=lambda x: x is None)
+    )
 
     # JSON-LD fields
     id: str = field(
@@ -461,8 +518,8 @@ class ReactionElement:
         metadata=config(field_name="@context"),
         default_factory=lambda: {
             "md": "http://mdmodel.net/",
-            "schema": "https://schema.org/",
             "OBO": "http://purl.obolibrary.org/obo/",
+            "schema": "https://schema.org/",
             "species_id": {
                 "@type": "@id",
             },
@@ -473,9 +530,15 @@ class ReactionElement:
 @dataclass_json
 @dataclass
 class ReactionConditions:
-    temperature: Optional[float] = None
-    temperature_unit: Optional[UnitDefinition] = None
-    ph: Optional[float] = None
+    temperature: Optional[float] = field(
+        default=None, metadata=config(exclude=lambda x: x is None)
+    )
+    temperature_unit: Optional[UnitDefinition] = field(
+        default=None, metadata=config(exclude=lambda x: x is None)
+    )
+    ph: Optional[float] = field(
+        default=None, metadata=config(exclude=lambda x: x is None)
+    )
 
     # JSON-LD fields
     id: str = field(
@@ -492,8 +555,8 @@ class ReactionConditions:
         metadata=config(field_name="@context"),
         default_factory=lambda: {
             "md": "http://mdmodel.net/",
-            "schema": "https://schema.org/",
             "OBO": "http://purl.obolibrary.org/obo/",
+            "schema": "https://schema.org/",
         },
     )
 
@@ -519,8 +582,8 @@ class ODE:
         metadata=config(field_name="@context"),
         default_factory=lambda: {
             "md": "http://mdmodel.net/",
-            "schema": "https://schema.org/",
             "OBO": "http://purl.obolibrary.org/obo/",
+            "schema": "https://schema.org/",
             "species_id": {
                 "@type": "@id",
             },
@@ -535,10 +598,18 @@ class Parameter:
     value: float
     unit: UnitDefinition
     constant: bool
-    initial_value: Optional[float] = None
-    upper: Optional[float] = None
-    lower: Optional[float] = None
-    stderr: Optional[float] = None
+    initial_value: Optional[float] = field(
+        default=None, metadata=config(exclude=lambda x: x is None)
+    )
+    upper: Optional[float] = field(
+        default=None, metadata=config(exclude=lambda x: x is None)
+    )
+    lower: Optional[float] = field(
+        default=None, metadata=config(exclude=lambda x: x is None)
+    )
+    stderr: Optional[float] = field(
+        default=None, metadata=config(exclude=lambda x: x is None)
+    )
 
     # JSON-LD fields
     id: str = field(
@@ -555,8 +626,8 @@ class Parameter:
         metadata=config(field_name="@context"),
         default_factory=lambda: {
             "md": "http://mdmodel.net/",
-            "schema": "https://schema.org/",
             "OBO": "http://purl.obolibrary.org/obo/",
+            "schema": "https://schema.org/",
         },
     )
 
@@ -566,7 +637,9 @@ class Parameter:
 class Measurement:
     name: str
     species: List[MeasurementData] = field(default_factory=list)
-    group_id: Optional[str] = None
+    group_id: Optional[str] = field(
+        default=None, metadata=config(exclude=lambda x: x is None)
+    )
 
     # JSON-LD fields
     id: str = field(
@@ -583,8 +656,8 @@ class Measurement:
         metadata=config(field_name="@context"),
         default_factory=lambda: {
             "md": "http://mdmodel.net/",
-            "schema": "https://schema.org/",
             "OBO": "http://purl.obolibrary.org/obo/",
+            "schema": "https://schema.org/",
             "group_id": {
                 "@type": "@id",
             },
@@ -598,8 +671,8 @@ class Measurement:
         data_type: DataTypes,
         data_unit: UnitDefinition,
         time_unit: UnitDefinition,
-        time: List[float] = [],
-        data: List[float] = [],
+        time: list[float] = [],
+        data: list[float] = [],
         is_calculated: bool = False,
         **kwargs,
     ):
@@ -613,6 +686,9 @@ class Measurement:
             "data": data,
             "is_calculated": is_calculated,
         }
+
+        if "id" in kwargs:
+            params["id"] = kwargs["id"]
 
         self.species.append(MeasurementData(**params))
 
@@ -629,7 +705,7 @@ class MeasurementData:
     time_unit: UnitDefinition
     time: List[float] = field(default_factory=list)
     data: List[float] = field(default_factory=list)
-    is_calculated: bool = false
+    is_calculated: bool = False
 
     # JSON-LD fields
     id: str = field(
@@ -646,8 +722,8 @@ class MeasurementData:
         metadata=config(field_name="@context"),
         default_factory=lambda: {
             "md": "http://mdmodel.net/",
-            "schema": "https://schema.org/",
             "OBO": "http://purl.obolibrary.org/obo/",
+            "schema": "https://schema.org/",
             "species_id": {
                 "@type": "@id",
             },
@@ -658,7 +734,7 @@ class MeasurementData:
 @dataclass_json
 @dataclass
 class Equation:
-    equation: Optional[str] = None
+    equation: str
     variables: List[EqVariable] = field(default_factory=list)
     parameters: List[EqParameter] = field(default_factory=list)
 
@@ -677,22 +753,22 @@ class Equation:
         metadata=config(field_name="@context"),
         default_factory=lambda: {
             "md": "http://mdmodel.net/",
-            "schema": "https://schema.org/",
             "OBO": "http://purl.obolibrary.org/obo/",
-            "id": {
-                "@type": "@id",
-            },
+            "schema": "https://schema.org/",
         },
     )
 
     def add_to_variables(
         self,
-        id: Optional[str] = None,
-        name: Optional[str] = None,
+        id: str,
+        name: str,
         symbol: Optional[str] = None,
         **kwargs,
     ):
         params = {"id": id, "name": name, "symbol": symbol}
+
+        if "id" in kwargs:
+            params["id"] = kwargs["id"]
 
         self.variables.append(EqVariable(**params))
 
@@ -700,13 +776,16 @@ class Equation:
 
     def add_to_parameters(
         self,
-        id: Optional[str] = None,
-        name: Optional[str] = None,
+        id: str,
+        name: str,
         symbol: Optional[str] = None,
         value: Optional[float] = None,
         **kwargs,
     ):
         params = {"id": id, "name": name, "symbol": symbol, "value": value}
+
+        if "id" in kwargs:
+            params["id"] = kwargs["id"]
 
         self.parameters.append(EqParameter(**params))
 
@@ -716,8 +795,10 @@ class Equation:
 @dataclass_json
 @dataclass
 class EqVariable:
-    name: Optional[str] = None
-    symbol: Optional[str] = None
+    name: str
+    symbol: Optional[str] = field(
+        default=None, metadata=config(exclude=lambda x: x is None)
+    )
 
     # JSON-LD fields
     id: str = field(
@@ -734,8 +815,8 @@ class EqVariable:
         metadata=config(field_name="@context"),
         default_factory=lambda: {
             "md": "http://mdmodel.net/",
-            "schema": "https://schema.org/",
             "OBO": "http://purl.obolibrary.org/obo/",
+            "schema": "https://schema.org/",
             "id": {
                 "@type": "@id",
             },
@@ -746,9 +827,13 @@ class EqVariable:
 @dataclass_json
 @dataclass
 class EqParameter:
-    name: Optional[str] = None
-    symbol: Optional[str] = None
-    value: Optional[float] = None
+    name: str
+    symbol: Optional[str] = field(
+        default=None, metadata=config(exclude=lambda x: x is None)
+    )
+    value: Optional[float] = field(
+        default=None, metadata=config(exclude=lambda x: x is None)
+    )
 
     # JSON-LD fields
     id: str = field(
@@ -765,8 +850,8 @@ class EqParameter:
         metadata=config(field_name="@context"),
         default_factory=lambda: {
             "md": "http://mdmodel.net/",
-            "schema": "https://schema.org/",
             "OBO": "http://purl.obolibrary.org/obo/",
+            "schema": "https://schema.org/",
             "id": {
                 "@type": "@id",
             },
@@ -777,6 +862,9 @@ class EqParameter:
 @dataclass_json
 @dataclass
 class UnitDefinition:
+    name: Optional[str] = field(
+        default=None, metadata=config(exclude=lambda x: x is None)
+    )
     base_units: List[BaseUnit] = field(default_factory=list)
 
     # JSON-LD fields
@@ -794,11 +882,8 @@ class UnitDefinition:
         metadata=config(field_name="@context"),
         default_factory=lambda: {
             "md": "http://mdmodel.net/",
-            "schema": "https://schema.org/",
             "OBO": "http://purl.obolibrary.org/obo/",
-            "id": {
-                "@type": "@id",
-            },
+            "schema": "https://schema.org/",
         },
     )
 
@@ -817,6 +902,9 @@ class UnitDefinition:
             "scale": scale,
         }
 
+        if "id" in kwargs:
+            params["id"] = kwargs["id"]
+
         self.base_units.append(BaseUnit(**params))
 
         return self.base_units[-1]
@@ -827,8 +915,12 @@ class UnitDefinition:
 class BaseUnit:
     kind: UnitType
     exponent: int
-    multiplier: Optional[float] = None
-    scale: Optional[float] = None
+    multiplier: Optional[float] = field(
+        default=None, metadata=config(exclude=lambda x: x is None)
+    )
+    scale: Optional[float] = field(
+        default=None, metadata=config(exclude=lambda x: x is None)
+    )
 
     # JSON-LD fields
     id: str = field(
@@ -845,8 +937,8 @@ class BaseUnit:
         metadata=config(field_name="@context"),
         default_factory=lambda: {
             "md": "http://mdmodel.net/",
-            "schema": "https://schema.org/",
             "OBO": "http://purl.obolibrary.org/obo/",
+            "schema": "https://schema.org/",
         },
     )
 
@@ -865,6 +957,7 @@ class UnitType(Enum):
     AVOGADRO = "avogadro"
     BECQUEREL = "becquerel"
     CANDELA = "candela"
+    CELSIUS = "celsius"
     COULOMB = "coulomb"
     DIMENSIONLESS = "dimensionless"
     FARAD = "farad"

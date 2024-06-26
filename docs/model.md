@@ -488,12 +488,7 @@ __is_calculated__* `boolean`
 ### Equation
 Represents an equation that can be used in a data model.
 
-__id__ `string`
-
-- Unique identifier for the equation.
-
-
-__equation__ `string`
+__equation__* `string`
 
 - The equation that is used in the data model.
 
@@ -513,12 +508,12 @@ __parameters__ [`list[EqParameter]`](#eqparameter)
 ### EqVariable
 Represents a variable that is used in the equation.
 
-__id__ `string`
+__id__* `string`
 
 - Unique identifier for the variable.
 
 
-__name__ `string`
+__name__* `string`
 
 - Name of the variable.
 
@@ -533,12 +528,12 @@ __symbol__ `string`
 ### EqParameter
 Represents a parameter that is used in the equation.
 
-__id__ `string`
+__id__* `string`
 
 - Unique identifier for the parameter.
 
 
-__name__ `string`
+__name__* `string`
 
 - Name of the parameter.
 
@@ -560,7 +555,12 @@ Represents a unit definition that is based on the SI unit system.
 
 __id__ `string`
 
-- Unique identifier for the unit definition.
+- Unique identifier of the unit definition.
+
+
+__name__ `string`
+
+- Common name of the unit definition.
 
 
 __base_units__ [`list[BaseUnit]`](#baseunit)
@@ -614,6 +614,7 @@ __scale__ `float`
 | `AVOGADRO` | avogadro |
 | `BECQUEREL` | becquerel |
 | `CANDELA` | candela |
+| `CELSIUS` | celsius |
 | `COULOMB` | coulomb |
 | `DIMENSIONLESS` | dimensionless |
 | `FARAD` | farad |

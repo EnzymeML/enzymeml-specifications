@@ -87,6 +87,32 @@
   },
   "description": "This is the root object that composes all objects found in an EnzymeML document. It also includes general metadata such as the name of the document, when it was created/modified and references to publications, databases and arbitrary links to the web.",
   "definitions": {
+    "Creator": {
+      "title": "Creator",
+      "type": "object",
+      "properties": {
+        "given_name": {
+          "title": "given_name",
+          "description": "Given name of the author or contributor.",
+          "term": "schema:givenName",
+          "type": "string"
+        },
+        "family_name": {
+          "title": "family_name",
+          "description": "Family name of the author or contributor.",
+          "term": "schema:familyName",
+          "type": "string"
+        },
+        "mail": {
+          "title": "mail",
+          "description": "Email address of the author or contributor.",
+          "term": "schema:email",
+          "type": "string"
+        }
+      },
+      "description": "The creator object contains all information about authors that contributed to the resulting document.",
+      "term": "schema:creator"
+    },
     "ODE": {
       "title": "ODE",
       "type": "object",
@@ -136,76 +162,62 @@
       },
       "description": "This object describes a chemical or enzymatic reaction that was investigated in the course of the experiment. All species used within this object need to be part of the data model."
     },
-    "Creator": {
-      "title": "Creator",
+    "Complex": {
+      "title": "Complex",
       "type": "object",
       "properties": {
-        "given_name": {
-          "title": "given_name",
-          "description": "Given name of the author or contributor.",
-          "term": "schema:givenName",
-          "type": "string"
-        },
-        "family_name": {
-          "title": "family_name",
-          "description": "Family name of the author or contributor.",
-          "term": "schema:familyName",
-          "type": "string"
-        },
-        "mail": {
-          "title": "mail",
-          "description": "Email address of the author or contributor.",
-          "term": "schema:email",
-          "type": "string"
+        "participants": {
+          "title": "participants",
+          "description": "Array of IDs the complex contains",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
         }
       },
-      "description": "The creator object contains all information about authors that contributed to the resulting document.",
-      "term": "schema:creator"
+      "description": "This object describes complexes made of reactants and/or proteins that were used or produced in the course of the experiment."
     },
-    "Parameter": {
-      "title": "Parameter",
+    "ReactionConditions": {
+      "title": "ReactionConditions",
+      "type": "object",
+      "properties": {
+        "temperature": {
+          "title": "temperature",
+          "description": "Numeric value of the temperature of the reaction.",
+          "type": "number"
+        },
+        "temperature_unit": {
+          "$ref": "#/definitions/UnitDefinition"
+        },
+        "ph": {
+          "title": "ph",
+          "description": "PH value of the reaction.",
+          "type": "number"
+        }
+      }
+    },
+    "Measurement": {
+      "title": "Measurement",
       "type": "object",
       "properties": {
         "name": {
           "title": "name",
-          "description": "Name of the estimated parameter.",
+          "description": "Name of the measurement",
           "type": "string"
         },
-        "value": {
-          "title": "value",
-          "description": "Numerical value of the estimated parameter.",
-          "type": "number"
+        "species": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/MeasurementData"
+          }
         },
-        "unit": {
-          "$ref": "#/definitions/UnitDefinition"
-        },
-        "initial_value": {
-          "title": "initial_value",
-          "description": "Initial value that was used for the parameter estimation.",
-          "type": "number"
-        },
-        "upper": {
-          "title": "upper",
-          "description": "Upper bound of the estimated parameter.",
-          "type": "number"
-        },
-        "lower": {
-          "title": "lower",
-          "description": "Lower bound of the estimated parameter.",
-          "type": "number"
-        },
-        "stderr": {
-          "title": "stderr",
-          "description": "Standard error of the estimated parameter.",
-          "type": "number"
-        },
-        "constant": {
-          "title": "constant",
-          "description": "Specifies if this parameter is constant",
-          "type": "boolean"
+        "group_id": {
+          "title": "group_id",
+          "description": "User-defined group ID to signalize relationships between measurements.",
+          "type": "string"
         }
       },
-      "description": "This object describes the parameters of the kinetic model and can include all estimated values."
+      "description": "This object describes the result of a measurement, which includes time course data of any type defined in DataTypes. It includes initial concentrations of all species used in a single measurement."
     },
     "SmallMolecule": {
       "title": "SmallMolecule",
@@ -281,62 +293,50 @@
       "description": "This object describes vessels in which the experiment has been carried out. These can include any type of vessel used in biocatalytic experiments.",
       "term": "OBO:OBI_0400081"
     },
-    "Measurement": {
-      "title": "Measurement",
+    "Parameter": {
+      "title": "Parameter",
       "type": "object",
       "properties": {
         "name": {
           "title": "name",
-          "description": "Name of the measurement",
+          "description": "Name of the estimated parameter.",
           "type": "string"
         },
-        "species": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/MeasurementData"
-          }
-        },
-        "group_id": {
-          "title": "group_id",
-          "description": "User-defined group ID to signalize relationships between measurements.",
-          "type": "string"
-        }
-      },
-      "description": "This object describes the result of a measurement, which includes time course data of any type defined in DataTypes. It includes initial concentrations of all species used in a single measurement."
-    },
-    "Complex": {
-      "title": "Complex",
-      "type": "object",
-      "properties": {
-        "participants": {
-          "title": "participants",
-          "description": "Array of IDs the complex contains",
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        }
-      },
-      "description": "This object describes complexes made of reactants and/or proteins that were used or produced in the course of the experiment."
-    },
-    "ReactionConditions": {
-      "title": "ReactionConditions",
-      "type": "object",
-      "properties": {
-        "temperature": {
-          "title": "temperature",
-          "description": "Numeric value of the temperature of the reaction.",
+        "value": {
+          "title": "value",
+          "description": "Numerical value of the estimated parameter.",
           "type": "number"
         },
-        "temperature_unit": {
+        "unit": {
           "$ref": "#/definitions/UnitDefinition"
         },
-        "ph": {
-          "title": "ph",
-          "description": "PH value of the reaction.",
+        "initial_value": {
+          "title": "initial_value",
+          "description": "Initial value that was used for the parameter estimation.",
           "type": "number"
+        },
+        "upper": {
+          "title": "upper",
+          "description": "Upper bound of the estimated parameter.",
+          "type": "number"
+        },
+        "lower": {
+          "title": "lower",
+          "description": "Lower bound of the estimated parameter.",
+          "type": "number"
+        },
+        "stderr": {
+          "title": "stderr",
+          "description": "Standard error of the estimated parameter.",
+          "type": "number"
+        },
+        "constant": {
+          "title": "constant",
+          "description": "Specifies if this parameter is constant",
+          "type": "boolean"
         }
-      }
+      },
+      "description": "This object describes the parameters of the kinetic model and can include all estimated values."
     },
     "Protein": {
       "title": "Protein",

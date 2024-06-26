@@ -29,7 +29,8 @@ export interface JsonLd {
     publications, databases and arbitrary links to the web.
 
     * @param name - Title of the EnzymeML Document.
-    * @param references - Contains references to publications, databases and arbitrary links to the web.
+    * @param references - Contains references to publications, databases and arbitrary links to
+             the web.
     * @param created - Date the EnzymeML document was created.
     * @param modified - Date the EnzymeML document was modified.
     * @param creators - Contains all authors that are part of the experiment.
@@ -40,24 +41,25 @@ export interface JsonLd {
     * @param reactions - Dictionary mapping from reaction IDs to reaction describing objects.
     * @param conditions - Conditions under which the reaction was carried out.
     * @param measurements - Contains measurements that describe outcomes of an experiment.
-    * @param equations - Contains ordinary differential equations that describe the kinetic model.
+    * @param equations - Contains ordinary differential equations that describe the kinetic
+             model.
     * @param parameters - Contains parameters that are part of the kinetic model.
 **/
 export interface EnzymeMLDocument extends JsonLd {
   name: string;
-  references?: string[];
-  created?: string;
-  modified?: string;
-  creators?: Creator[];
-  vessels?: Vessel[];
-  proteins?: Protein[];
-  complexes?: Complex[];
-  small_molecules?: SmallMolecule[];
-  reactions?: Reaction[];
-  conditions?: ReactionConditions;
-  measurements?: Measurement[];
-  equations?: ODE[];
-  parameters?: Parameter[];
+  references?: string[] | null;
+  created?: string | null;
+  modified?: string | null;
+  creators?: Creator[] | null;
+  vessels?: Vessel[] | null;
+  proteins?: Protein[] | null;
+  complexes?: Complex[] | null;
+  small_molecules?: SmallMolecule[] | null;
+  reactions?: Reaction[] | null;
+  conditions?: ReactionConditions | null;
+  measurements?: Measurement[] | null;
+  equations?: ODE[] | null;
+  parameters?: Parameter[] | null;
 }
 
 export const EnzymeMLDocumentCodec = D.lazy("EnzymeMLDocument", () => D.struct({
@@ -115,7 +117,7 @@ export interface Vessel extends JsonLd {
   volume: number;
   unit: UnitDefinition;
   constant: boolean;
-  creator_id?: string;
+  creator_id?: string | null;
 }
 
 export const VesselCodec = D.lazy("Vessel", () => D.struct({
@@ -138,17 +140,18 @@ export const VesselCodec = D.lazy("Vessel", () => D.struct({
     * @param ecnumber - EC number of the protein.
     * @param organism - Organism the protein was expressed in.
     * @param organism_tax_id - Taxonomy identifier of the expression host.
-    * @param references - Array of references to publications, database entries etc. that describe the protein.
+    * @param references - Array of references to publications, database entries etc. that
+             describe the protein.
 **/
 export interface Protein extends JsonLd {
   name: string;
   sequence: string;
   constant: boolean;
-  vessel_id?: string;
-  ecnumber?: string;
-  organism?: string;
-  organism_tax_id?: string;
-  references?: string[];
+  vessel_id?: string | null;
+  ecnumber?: string | null;
+  organism?: string | null;
+  organism_tax_id?: string | null;
+  references?: string[] | null;
 }
 
 export const ProteinCodec = D.lazy("Protein", () => D.struct({
@@ -170,7 +173,7 @@ export const ProteinCodec = D.lazy("Protein", () => D.struct({
     * @param participants - Array of IDs the complex contains
 **/
 export interface Complex extends JsonLd {
-  participants?: string[];
+  participants?: string[] | null;
 }
 
 export const ComplexCodec = D.lazy("Complex", () => D.struct({
@@ -185,17 +188,20 @@ export const ComplexCodec = D.lazy("Complex", () => D.struct({
     * @param name
     * @param constant
     * @param vessel_id
-    * @param canonical_smiles - Canonical Simplified Molecular-Input Line-Entry System (SMILES) encoding of the reactant.
-    * @param inchikey - Hashed International Chemical Identifier (InChIKey) encoding of the reactant.
-    * @param references - Array of references to publications, database entries etc. that describe the reactant.
+    * @param canonical_smiles - Canonical Simplified Molecular-Input Line-Entry System (SMILES)
+             encoding of the reactant.
+    * @param inchikey - Hashed International Chemical Identifier (InChIKey) encoding of the
+             reactant.
+    * @param references - Array of references to publications, database entries etc. that
+             describe the reactant.
 **/
 export interface SmallMolecule extends JsonLd {
   name: string;
   constant: boolean;
-  vessel_id?: string;
-  canonical_smiles?: string;
-  inchikey?: string;
-  references?: string[];
+  vessel_id?: string | null;
+  canonical_smiles?: string | null;
+  inchikey?: string | null;
+  references?: string[] | null;
 }
 
 export const SmallMoleculeCodec = D.lazy("SmallMolecule", () => D.struct({
@@ -217,14 +223,15 @@ export const SmallMoleculeCodec = D.lazy("SmallMolecule", () => D.struct({
     * @param reversible - Whether the reaction is reversible or irreversible
     * @param rate_law - Mathematical expression of the reaction.
     * @param species - List of reaction elements that are part of the reaction.
-    * @param modifiers - List of reaction elements that are not part of the reaction but influence it.
+    * @param modifiers - List of reaction elements that are not part of the reaction but
+             influence it.
 **/
 export interface Reaction extends JsonLd {
   name: string;
   reversible: boolean;
-  rate_law?: Equation;
-  species?: ReactionElement[];
-  modifiers?: string[];
+  rate_law?: Equation | null;
+  species?: ReactionElement[] | null;
+  modifiers?: string[] | null;
 }
 
 export const ReactionCodec = D.lazy("Reaction", () => D.struct({
@@ -241,12 +248,13 @@ export const ReactionCodec = D.lazy("Reaction", () => D.struct({
     educt, product or modifier. The latter includes buffers, counter-
     ions as well as proteins/enzymes.
 
-    * @param species_id - Internal identifier to either a protein or reactant defined in the EnzymeMLDocument.
+    * @param species_id - Internal identifier to either a protein or reactant defined in the
+             EnzymeMLDocument.
     * @param stoichiometry - Float number representing the associated stoichiometry.
 **/
 export interface ReactionElement extends JsonLd {
   species_id: string;
-  stoichiometry?: number;
+  stoichiometry?: number | null;
 }
 
 export const ReactionElementCodec = D.lazy("ReactionElement", () => D.struct({
@@ -261,9 +269,9 @@ export const ReactionElementCodec = D.lazy("ReactionElement", () => D.struct({
     * @param ph - PH value of the reaction.
 **/
 export interface ReactionConditions extends JsonLd {
-  temperature?: number;
-  temperature_unit?: UnitDefinition;
-  ph?: number;
+  temperature?: number | null;
+  temperature_unit?: UnitDefinition | null;
+  ph?: number | null;
 }
 
 export const ReactionConditionsCodec = D.lazy("ReactionConditions", () => D.struct({
@@ -309,10 +317,10 @@ export interface Parameter extends JsonLd {
   value: number;
   unit: UnitDefinition;
   constant: boolean;
-  initial_value?: number;
-  upper?: number;
-  lower?: number;
-  stderr?: number;
+  initial_value?: number | null;
+  upper?: number | null;
+  lower?: number | null;
+  stderr?: number | null;
 }
 
 export const ParameterCodec = D.lazy("Parameter", () => D.struct({
@@ -338,8 +346,8 @@ export const ParameterCodec = D.lazy("Parameter", () => D.struct({
 **/
 export interface Measurement extends JsonLd {
   name: string;
-  species?: MeasurementData[];
-  group_id?: string;
+  species?: MeasurementData[] | null;
+  group_id?: string | null;
 }
 
 export const MeasurementCodec = D.lazy("Measurement", () => D.struct({
@@ -389,21 +397,18 @@ export const MeasurementDataCodec = D.lazy("MeasurementData", () => D.struct({
 /**
     Represents an equation that can be used in a data model.
 
-    * @param id - Unique identifier for the equation.
     * @param equation - The equation that is used in the data model.
     * @param variables - List of variables that are used in the equation.
     * @param parameters - List of parameters that are used in the equation.
 **/
 export interface Equation extends JsonLd {
-  id?: string;
-  equation?: string;
-  variables?: EqVariable[];
-  parameters?: EqParameter[];
+  equation: string;
+  variables?: EqVariable[] | null;
+  parameters?: EqParameter[] | null;
 }
 
 export const EquationCodec = D.lazy("Equation", () => D.struct({
-    id: D.nullable(D.string),
-    equation: D.nullable(D.string),
+    equation: D.string,
     variables: D.array(EqVariableCodec),
     parameters: D.array(EqParameterCodec),
 }));
@@ -417,14 +422,14 @@ export const EquationCodec = D.lazy("Equation", () => D.struct({
     * @param symbol - Symbol of the variable.
 **/
 export interface EqVariable extends JsonLd {
-  id?: string;
-  name?: string;
-  symbol?: string;
+  id: string;
+  name: string;
+  symbol?: string | null;
 }
 
 export const EqVariableCodec = D.lazy("EqVariable", () => D.struct({
-    id: D.nullable(D.string),
-    name: D.nullable(D.string),
+    id: D.string,
+    name: D.string,
     symbol: D.nullable(D.string),
 }));
 
@@ -438,15 +443,15 @@ export const EqVariableCodec = D.lazy("EqVariable", () => D.struct({
     * @param value - Value of the parameter.
 **/
 export interface EqParameter extends JsonLd {
-  id?: string;
-  name?: string;
-  symbol?: string;
-  value?: number;
+  id: string;
+  name: string;
+  symbol?: string | null;
+  value?: number | null;
 }
 
 export const EqParameterCodec = D.lazy("EqParameter", () => D.struct({
-    id: D.nullable(D.string),
-    name: D.nullable(D.string),
+    id: D.string,
+    name: D.string,
     symbol: D.nullable(D.string),
     value: D.nullable(D.number),
 }));
@@ -455,16 +460,19 @@ export const EqParameterCodec = D.lazy("EqParameter", () => D.struct({
 /**
     Represents a unit definition that is based on the SI unit system.
 
-    * @param id - Unique identifier for the unit definition.
+    * @param id - Unique identifier of the unit definition.
+    * @param name - Common name of the unit definition.
     * @param base_units - Base units that define the unit.
 **/
 export interface UnitDefinition extends JsonLd {
-  id?: string;
-  base_units?: BaseUnit[];
+  id?: string | null;
+  name?: string | null;
+  base_units?: BaseUnit[] | null;
 }
 
 export const UnitDefinitionCodec = D.lazy("UnitDefinition", () => D.struct({
     id: D.nullable(D.string),
+    name: D.nullable(D.string),
     base_units: D.array(BaseUnitCodec),
 }));
 
@@ -480,8 +488,8 @@ export const UnitDefinitionCodec = D.lazy("UnitDefinition", () => D.struct({
 export interface BaseUnit extends JsonLd {
   kind: UnitType;
   exponent: number;
-  multiplier?: number;
-  scale?: number;
+  multiplier?: number | null;
+  scale?: number | null;
 }
 
 export const BaseUnitCodec = D.lazy("BaseUnit", () => D.struct({
@@ -516,6 +524,7 @@ export enum UnitType {
   AVOGADRO = 'avogadro',
   BECQUEREL = 'becquerel',
   CANDELA = 'candela',
+  CELSIUS = 'celsius',
   COULOMB = 'coulomb',
   DIMENSIONLESS = 'dimensionless',
   FARAD = 'farad',
@@ -552,6 +561,7 @@ export const UnitTypeCodec = D.union(
   D.literal(UnitType.AVOGADRO),
   D.literal(UnitType.BECQUEREL),
   D.literal(UnitType.CANDELA),
+  D.literal(UnitType.CELSIUS),
   D.literal(UnitType.COULOMB),
   D.literal(UnitType.DIMENSIONLESS),
   D.literal(UnitType.FARAD),
