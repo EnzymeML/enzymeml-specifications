@@ -1,4 +1,6 @@
 ---
+repo: "http://www.enzymeml.org/v2/"
+prefix: "enzml"
 prefixes:
   schema: "https://schema.org/"
   OBO: "http://purl.obolibrary.org/obo/"
@@ -17,19 +19,23 @@ This is the root object that composes all objects found in an EnzymeML document.
 - __name__
   - Type: string
   - Description: Title of the EnzymeML Document.
-  - Term: schema:name
+  - Term: schema:title
 - references
   - Type: Identifier[]
   - Description: Contains references to publications, databases and arbitrary links to the web.
+  - Term: schema:citation
 - created
   - Type: string
   - Description: Date the EnzymeML document was created.
+  - Term: schema:dateCreated
 - modified
   - Type: string
   - Description: Date the EnzymeML document was modified.
+  - Term: schema:dateModified
 - creators
   - Type: Creator[]
   - Description: Contains all authors that are part of the experiment.
+  - Term: schema:creator
 - vessels
   - Type: Vessel[]
   - Description: Contains all vessels that are part of the experiment.
@@ -45,14 +51,11 @@ This is the root object that composes all objects found in an EnzymeML document.
 - reactions
   - Type: Reaction[]
   - Description: Dictionary mapping from reaction IDs to reaction describing objects.
-- conditions
-  - Type: ReactionConditions
-  - Description: Conditions under which the reaction was carried out.
 - measurements
   - Type: Measurement[]
   - Description: Contains measurements that describe outcomes of an experiment.
 - equations
-  - Type: ODE[]
+  - Type: Equation[]
   - Description: Contains ordinary differential equations that describe the kinetic model.
 - parameters
   - Type: Parameter[]
@@ -60,7 +63,7 @@ This is the root object that composes all objects found in an EnzymeML document.
 
 ## General information
 
-### Creator (schema:creator)
+### Creator (schema:person)
 
 The creator object contains all information about authors that contributed to the resulting document.
 
@@ -83,6 +86,10 @@ The creator object contains all information about authors that contributed to th
 
 This object describes vessels in which the experiment has been carried out. These can include any type of vessel used in biocatalytic experiments.
 
+- __id__
+  - Type: Identifier
+  - Description: Unique identifier of the vessel.
+  - Term: schema:identifier
 - __name__
   - Type: string
   - Description: Name of the used vessel.
@@ -90,7 +97,6 @@ This object describes vessels in which the experiment has been carried out. Thes
 - __volume__
   - Type: float
   - Description: Volumetric value of the vessel.
-  - Template_alias: Volume value
   - Term: OBO:OBI_0002139
 - __unit__
   - Type: UnitDefinition
@@ -98,27 +104,29 @@ This object describes vessels in which the experiment has been carried out. Thes
 - __constant__
   - Type: boolean
   - Description: Whether the volume of the vessel is constant or not.
-- creator_id
-  - Type: Identifier
-  - Description: Unique identifier of the author.
-  - Term: schema:identifier
+  - Default: True
 
 ### Protein (schema:Protein)
 
 This objects describes the proteins that were used or formed over the course of the experiment.
 
+- __id__
+  - Type: Identifier
+  - Description: Unique internal identifier of the protein.
+  - schema:identifier
 - __name__
   - Type: string
   - Term: schema:name
 - __constant__
   - Type: boolean
   - Default: False
-- __sequence__
+- sequence
   - Type: string
   - Description: Amino acid sequence of the protein
   - Term: OBO:GSSO_007262
 - vessel_id
   - Type: Identifier
+  - Description: Unique identifier of the vessel this protein has been used in.
   - Term: schema:identifier
 - ecnumber
   - Type: string
@@ -133,12 +141,17 @@ This objects describes the proteins that were used or formed over the course of 
 - references
   - Type: Identifier[]
   - Description: Array of references to publications, database entries etc. that describe the protein.
+  - Term: schema:citation
 
 
 ### Complex
 
 This object describes complexes made of reactants and/or proteins that were used or produced in the course of the experiment.
 
+- __id__
+  - Type: Identifier
+  - Description: Unique identifier of the complex.
+  - Term: schema:identifier
 - participants
   - Type: Identifier[]
   - Description: Array of IDs the complex contains
@@ -147,6 +160,10 @@ This object describes complexes made of reactants and/or proteins that were used
 
 This objects describes the reactants that were used or produced in the course of the experiment.
 
+- __id__
+  - Type: Identifier
+  - Description: Unique identifier of the small molecule.
+  - Term: schema:identifier
 - __name__
   - Type: string
   - Term: schema:name
@@ -155,6 +172,7 @@ This objects describes the reactants that were used or produced in the course of
   - Default: False
 - vessel_id
   - Type: Identifier
+  - Description: Unique identifier of the vessel this small molecule has been used in.
   - Term: schema:identifier
 - canonical_smiles
   - Type: string
@@ -165,6 +183,7 @@ This objects describes the reactants that were used or produced in the course of
 - references
   - Type: Identifier[]
   - Description: Array of references to publications, database entries etc. that describe the reactant.
+  - Term: schema:citation
 
 ## EnzymeReaction
 
@@ -172,6 +191,10 @@ This objects describes the reactants that were used or produced in the course of
 
 This object describes a chemical or enzymatic reaction that was investigated in the course of the experiment. All species used within this object need to be part of the data model.
 
+- __id__
+  - Type: Identifier
+  - Description: Unique identifier of the reaction.
+  - Term: schema:identifier
 - __name__
   - Type: string
   - Description: Name of the reaction.
@@ -179,7 +202,7 @@ This object describes a chemical or enzymatic reaction that was investigated in 
   - Type: boolean
   - Description: Whether the reaction is reversible or irreversible
   - Default: False
-- rate_law
+- kinetic_law
   - Type: Equation
   - Description: Mathematical expression of the reaction.
 - species
@@ -196,46 +219,42 @@ This object is part of the Reaction object and describes either an educt, produc
 - __species_id__
   - Type: Identifier
   - Description: Internal identifier to either a protein or reactant defined in the EnzymeMLDocument.
-- stoichiometry
+  - schema:identifier
+- __stoichiometry__
   - Type: float
   - Description: Float number representing the associated stoichiometry.
 
-### ReactionConditions
-
-- temperature
-  - Type: float
-  - Description: Numeric value of the temperature of the reaction.
-- temperature_unit
-  - Type: UnitDefinition
-  - Description: Unit of the temperature of the reaction.
-- ph
-  - Type: float
-  - Description: PH value of the reaction.
-
 ## Modelling
 
-### ODE
+### Equation [Equation]
 
 This object describes an ordinary differential equation that is part of the kinetic model.
 
-- __species_id__
+- species_id
   - Type: Identifier
-  - Description: Internal identifier to a species defined in the EnzymeMLDocument.
-- __equation__
-  - Type: Equation
-  - Description: Equation of the rate law.
+  - Description: Internal identifier to a species defined in the EnzymeMLDocument, given it is a rate equation.
+- __unit__
+  - Type: UnitDefinition
+  - Description: Unit of the rate law.
+- __equation_type__
+  - Type: EquationType
+  - Description: Type of the equation.
 
 ### Parameter
 
 This object describes the parameters of the kinetic model and can include all estimated values.
 
+- __id__
+  - Type: Identifier
+  - Description: Unique identifier of the parameter.
+  - Term: schema:identifier
 - __name__
   - Type: string
   - Description: Name of the estimated parameter.
-- __value__
+- value
   - Type: float
   - Description: Numerical value of the estimated parameter.
-- __unit__
+- unit
   - Type: UnitDefinition
   - Description: Unit of the estimated parameter.
 - initial_value
@@ -250,9 +269,10 @@ This object describes the parameters of the kinetic model and can include all es
 - stderr
   - Type: float
   - Description: Standard error of the estimated parameter.
-- __constant__
+- constant
   - Type: boolean
   - Description: Specifies if this parameter is constant
+  - Default: True
 
 ## Time course data handling
 
@@ -260,6 +280,10 @@ This object describes the parameters of the kinetic model and can include all es
 
 This object describes the result of a measurement, which includes time course data of any type defined in DataTypes. It includes initial concentrations of all species used in a single measurement.
 
+- __id__
+  - Type: Identifier
+  - Description: Unique identifier of the measurement.
+  - Term: schema:identifier
 - __name__
   - Type: string
   - Description: Name of the measurement
@@ -269,6 +293,17 @@ This object describes the result of a measurement, which includes time course da
 - group_id
   - Type: Identifier
   - Description: User-defined group ID to signalize relationships between measurements.
+- ph
+  - Type: float
+  - Description: PH value of the measurement.
+  - Minimum: 0
+  - Maximum: 14
+- temperature
+  - Type: float
+  - Description: Temperature of the measurement.
+- temperature_unit
+  - Type: UnitDefinition
+  - Description: Unit of the temperature of the measurement.
 
 ### MeasurementData
 
@@ -313,4 +348,16 @@ FEED = "feed"
 BIOMASS = "biomass"
 CONVERSION = "conversion"
 PEAK_AREA = "peak-area"
+```
+
+
+### EquationType
+
+These values are used to determine the type of equation.
+
+```python
+ODE = "ode"
+ASSIGNMENT = "assignment"
+INITIAL_ASSIGNMENT = "initialAssignment"
+RATE_LAW = "rateLaw"
 ```

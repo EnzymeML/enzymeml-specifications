@@ -18,17 +18,16 @@ This page provides comprehensive information about the structure and components 
         smallmolecule(SmallMolecule)
         reaction(Reaction)
         reactionelement(ReactionElement)
-        reactionconditions(ReactionConditions)
-        ode(ODE)
+        equation(Equation)
         parameter(Parameter)
         measurement(Measurement)
         measurementdata(MeasurementData)
-        equation(Equation)
-        eqvariable(EqVariable)
-        eqparameter(EqParameter)
         unitdefinition(UnitDefinition)
         baseunit(BaseUnit)
+        eqvariable(EqVariable)
+        eqparameter(EqParameter)
         datatypes(DataTypes)
+        equationtype(EquationType)
         unittype(UnitType)
         enzymemldocument(EnzymeMLDocument) --> creator(Creator)
         enzymemldocument(EnzymeMLDocument) --> vessel(Vessel)
@@ -36,22 +35,22 @@ This page provides comprehensive information about the structure and components 
         enzymemldocument(EnzymeMLDocument) --> complex(Complex)
         enzymemldocument(EnzymeMLDocument) --> smallmolecule(SmallMolecule)
         enzymemldocument(EnzymeMLDocument) --> reaction(Reaction)
-        enzymemldocument(EnzymeMLDocument) --> reactionconditions(ReactionConditions)
         enzymemldocument(EnzymeMLDocument) --> measurement(Measurement)
-        enzymemldocument(EnzymeMLDocument) --> ode(ODE)
+        enzymemldocument(EnzymeMLDocument) --> equation(Equation)
         enzymemldocument(EnzymeMLDocument) --> parameter(Parameter)
         vessel(Vessel) --> unitdefinition(UnitDefinition)
         reaction(Reaction) --> equation(Equation)
         reaction(Reaction) --> reactionelement(ReactionElement)
-        reactionconditions(ReactionConditions) --> unitdefinition(UnitDefinition)
-        ode(ODE) --> equation(Equation)
+        equation(Equation) --> unitdefinition(UnitDefinition)
+        equation(Equation) --> equationtype(EquationType)
+        equation(Equation) --> eqvariable(EqVariable)
+        equation(Equation) --> eqparameter(EqParameter)
         parameter(Parameter) --> unitdefinition(UnitDefinition)
         measurement(Measurement) --> measurementdata(MeasurementData)
+        measurement(Measurement) --> unitdefinition(UnitDefinition)
         measurementdata(MeasurementData) --> datatypes(DataTypes)
         measurementdata(MeasurementData) --> unitdefinition(UnitDefinition)
         measurementdata(MeasurementData) --> unitdefinition(UnitDefinition)
-        equation(Equation) --> eqvariable(EqVariable)
-        equation(Equation) --> eqparameter(EqParameter)
         unitdefinition(UnitDefinition) --> baseunit(BaseUnit)
         baseunit(BaseUnit) --> unittype(UnitType)
 
@@ -63,17 +62,16 @@ This page provides comprehensive information about the structure and components 
         click smallmolecule "#smallmolecule" "Go to SmallMolecule"
         click reaction "#reaction" "Go to Reaction"
         click reactionelement "#reactionelement" "Go to ReactionElement"
-        click reactionconditions "#reactionconditions" "Go to ReactionConditions"
-        click ode "#ode" "Go to ODE"
+        click equation "#equation" "Go to Equation"
         click parameter "#parameter" "Go to Parameter"
         click measurement "#measurement" "Go to Measurement"
         click measurementdata "#measurementdata" "Go to MeasurementData"
-        click equation "#equation" "Go to Equation"
-        click eqvariable "#eqvariable" "Go to EqVariable"
-        click eqparameter "#eqparameter" "Go to EqParameter"
         click unitdefinition "#unitdefinition" "Go to UnitDefinition"
         click baseunit "#baseunit" "Go to BaseUnit"
+        click eqvariable "#eqvariable" "Go to EqVariable"
+        click eqparameter "#eqparameter" "Go to EqParameter"
         click datatypes "#datatypes" "Go to DataTypes"
+        click equationtype "#equationtype" "Go to EquationType"
         click unittype "#unittype" "Go to UnitType"
     ```
 
@@ -139,17 +137,12 @@ __reactions__ [`list[Reaction]`](#reaction)
 - Dictionary mapping from reaction IDs to reaction describing objects.
 
 
-__conditions__ [`ReactionConditions`](#reactionconditions)
-
-- Conditions under which the reaction was carried out.
-
-
 __measurements__ [`list[Measurement]`](#measurement)
 
 - Contains measurements that describe outcomes of an experiment.
 
 
-__equations__ [`list[ODE]`](#ode)
+__equations__ [`list[Equation]`](#equation)
 
 - Contains ordinary differential equations that describe the kinetic model.
 
@@ -184,6 +177,11 @@ __mail__* `string`
 ### Vessel
 This object describes vessels in which the experiment has been carried out. These can include any type of vessel used in biocatalytic experiments.
 
+__id__* `string`
+
+- Unique identifier of the vessel.
+
+
 __name__* `string`
 
 - Name of the used vessel.
@@ -192,7 +190,7 @@ __name__* `string`
 __volume__* `float`
 
 - Volumetric value of the vessel.
-- `Template_alias`: Volume value
+
 
 __unit__* [`UnitDefinition`](#unitdefinition)
 
@@ -203,23 +201,19 @@ __constant__* `boolean`
 
 - Whether the volume of the vessel is constant or not.
 
-
-__creator_id__ `string`
-
-- Unique identifier of the author.
-
+- `Default`: true
 
 ------
 
 ### Protein
 This objects describes the proteins that were used or formed over the course of the experiment.
 
+__id__* `string`
+
+- Unique internal identifier of the protein.
+- `Schema`: identifier
+
 __name__* `string`
-
-
-__sequence__* `string`
-
-- Amino acid sequence of the protein
 
 
 __constant__* `boolean`
@@ -227,7 +221,14 @@ __constant__* `boolean`
 
 - `Default`: false
 
+__sequence__ `string`
+
+- Amino acid sequence of the protein
+
+
 __vessel_id__ `string`
+
+- Unique identifier of the vessel this protein has been used in.
 
 
 __ecnumber__ `string`
@@ -255,6 +256,11 @@ __references__ `list[string]`
 ### Complex
 This object describes complexes made of reactants and/or proteins that were used or produced in the course of the experiment.
 
+__id__* `string`
+
+- Unique identifier of the complex.
+
+
 __participants__ `list[string]`
 
 - Array of IDs the complex contains
@@ -265,6 +271,11 @@ __participants__ `list[string]`
 ### SmallMolecule
 This objects describes the reactants that were used or produced in the course of the experiment.
 
+__id__* `string`
+
+- Unique identifier of the small molecule.
+
+
 __name__* `string`
 
 
@@ -274,6 +285,8 @@ __constant__* `boolean`
 - `Default`: false
 
 __vessel_id__ `string`
+
+- Unique identifier of the vessel this small molecule has been used in.
 
 
 __canonical_smiles__ `string`
@@ -296,6 +309,11 @@ __references__ `list[string]`
 ### Reaction
 This object describes a chemical or enzymatic reaction that was investigated in the course of the experiment. All species used within this object need to be part of the data model.
 
+__id__* `string`
+
+- Unique identifier of the reaction.
+
+
 __name__* `string`
 
 - Name of the reaction.
@@ -307,7 +325,7 @@ __reversible__* `boolean`
 
 - `Default`: false
 
-__rate_law__ [`Equation`](#equation)
+__kinetic_law__ [`Equation`](#equation)
 
 - Mathematical expression of the reaction.
 
@@ -330,46 +348,46 @@ This object is part of the Reaction object and describes either an educt, produc
 __species_id__* `string`
 
 - Internal identifier to either a protein or reactant defined in the EnzymeMLDocument.
+- `Schema`: identifier
 
-
-__stoichiometry__ `float`
+__stoichiometry__* `float`
 
 - Float number representing the associated stoichiometry.
 
 
 ------
 
-### ReactionConditions
-
-
-__temperature__ `float`
-
-- Numeric value of the temperature of the reaction.
-
-
-__temperature_unit__ [`UnitDefinition`](#unitdefinition)
-
-- Unit of the temperature of the reaction.
-
-
-__ph__ `float`
-
-- PH value of the reaction.
-
-
-------
-
-### ODE
+### Equation
 This object describes an ordinary differential equation that is part of the kinetic model.
 
-__species_id__* `string`
+__unit__* [`UnitDefinition`](#unitdefinition)
 
-- Internal identifier to a species defined in the EnzymeMLDocument.
+- Unit of the rate law.
 
 
-__equation__* [`Equation`](#equation)
+__equation_type__* [`EquationType`](#equationtype)
 
-- Equation of the rate law.
+- Type of the equation.
+
+
+__equation__* `string`
+
+- The equation that is used in the data model.
+
+
+__species_id__ `string`
+
+- Internal identifier to a species defined in the EnzymeMLDocument, given it is a rate equation.
+
+
+__variables__ [`list[EqVariable]`](#eqvariable)
+
+- List of variables that are used in the equation.
+
+
+__parameters__ [`list[EqParameter]`](#eqparameter)
+
+- List of parameters that are used in the equation.
 
 
 ------
@@ -377,24 +395,24 @@ __equation__* [`Equation`](#equation)
 ### Parameter
 This object describes the parameters of the kinetic model and can include all estimated values.
 
+__id__* `string`
+
+- Unique identifier of the parameter.
+
+
 __name__* `string`
 
 - Name of the estimated parameter.
 
 
-__value__* `float`
+__value__ `float`
 
 - Numerical value of the estimated parameter.
 
 
-__unit__* [`UnitDefinition`](#unitdefinition)
+__unit__ [`UnitDefinition`](#unitdefinition)
 
 - Unit of the estimated parameter.
-
-
-__constant__* `boolean`
-
-- Specifies if this parameter is constant
 
 
 __initial_value__ `float`
@@ -417,10 +435,21 @@ __stderr__ `float`
 - Standard error of the estimated parameter.
 
 
+__constant__ `boolean`
+
+- Specifies if this parameter is constant
+
+- `Default`: true
+
 ------
 
 ### Measurement
 This object describes the result of a measurement, which includes time course data of any type defined in DataTypes. It includes initial concentrations of all species used in a single measurement.
+
+__id__* `string`
+
+- Unique identifier of the measurement.
+
 
 __name__* `string`
 
@@ -435,6 +464,21 @@ __species__ [`list[MeasurementData]`](#measurementdata)
 __group_id__ `string`
 
 - User-defined group ID to signalize relationships between measurements.
+
+
+__ph__ `float`
+
+- PH value of the measurement.
+- `Minimum`: 0- `Maximum`: 14
+
+__temperature__ `float`
+
+- Temperature of the measurement.
+
+
+__temperature_unit__ [`UnitDefinition`](#unitdefinition)
+
+- Unit of the temperature of the measurement.
 
 
 ------
@@ -485,22 +529,47 @@ __is_calculated__* `boolean`
 
 ------
 
-### Equation
-Represents an equation that can be used in a data model.
+### UnitDefinition
+Represents a unit definition that is based on the SI unit system.
 
-__equation__* `string`
+__id__ `string`
 
-- The equation that is used in the data model.
-
-
-__variables__ [`list[EqVariable]`](#eqvariable)
-
-- List of variables that are used in the equation.
+- Unique identifier of the unit definition.
 
 
-__parameters__ [`list[EqParameter]`](#eqparameter)
+__name__ `string`
 
-- List of parameters that are used in the equation.
+- Common name of the unit definition.
+
+
+__base_units__ [`list[BaseUnit]`](#baseunit)
+
+- Base units that define the unit.
+
+
+------
+
+### BaseUnit
+Represents a base unit in the unit definition.
+
+__kind__* [`UnitType`](#unittype)
+
+- Kind of the base unit (e.g., meter, kilogram, second).
+
+
+__exponent__* `integer`
+
+- Exponent of the base unit in the unit definition.
+
+
+__multiplier__ `float`
+
+- Multiplier of the base unit in the unit definition.
+
+
+__scale__ `float`
+
+- Scale of the base unit in the unit definition.
 
 
 ------
@@ -548,51 +617,6 @@ __value__ `float`
 - Value of the parameter.
 
 
-------
-
-### UnitDefinition
-Represents a unit definition that is based on the SI unit system.
-
-__id__ `string`
-
-- Unique identifier of the unit definition.
-
-
-__name__ `string`
-
-- Common name of the unit definition.
-
-
-__base_units__ [`list[BaseUnit]`](#baseunit)
-
-- Base units that define the unit.
-
-
-------
-
-### BaseUnit
-Represents a base unit in the unit definition.
-
-__kind__* [`UnitType`](#unittype)
-
-- Kind of the base unit (e.g., meter, kilogram, second).
-
-
-__exponent__* `integer`
-
-- Exponent of the base unit in the unit definition.
-
-
-__multiplier__ `float`
-
-- Multiplier of the base unit in the unit definition.
-
-
-__scale__ `float`
-
-- Scale of the base unit in the unit definition.
-
-
 ## Enumerations
 
 ### DataTypes
@@ -605,6 +629,15 @@ __scale__ `float`
 | `CONVERSION` | conversion |
 | `FEED` | feed |
 | `PEAK_AREA` | peak-area |
+
+### EquationType
+
+| Alias | Value |
+|-------|-------|
+| `ASSIGNMENT` | assignment |
+| `INITIAL_ASSIGNMENT` | initialAssignment |
+| `ODE` | ode |
+| `RATE_LAW` | rateLaw |
 
 ### UnitType
 

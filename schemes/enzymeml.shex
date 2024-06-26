@@ -1,16 +1,36 @@
 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
-PREFIX md: <http://mdmodel.net/>
-PREFIX OBO: <http://purl.obolibrary.org/obo/>
+PREFIX enzml: <http://www.enzymeml.org/v2/>
 PREFIX schema: <https://schema.org/>
+PREFIX OBO: <http://purl.obolibrary.org/obo/>
 
-md:EnzymeMLDocument {
-    schema:name xsd:string {
+enzml:EnzymeMLDocument {
+    schema:title xsd:string {
         shex:annotation [
             shex:label "name"
         ]
     };
+    schema:citation xsd:string* {
+        shex:annotation [
+            shex:label "references"
+        ]
+    };
+    schema:dateCreated xsd:string? {
+        shex:annotation [
+            shex:label "created"
+        ]
+    };
+    schema:dateModified xsd:string? {
+        shex:annotation [
+            shex:label "modified"
+        ]
+    };
+    schema:creator @enzml:Creator* {
+        shex:annotation [
+            shex:label "creators"
+        ]
+    };
 }
-md:Creator {
+enzml:Creator {
     schema:givenName xsd:string {
         shex:annotation [
             shex:label "given_name"
@@ -27,7 +47,12 @@ md:Creator {
         ]
     };
 }
-md:Vessel {
+enzml:Vessel {
+    schema:identifier xsd:string {
+        shex:annotation [
+            shex:label "id"
+        ]
+    };
     schema:name xsd:string {
         shex:annotation [
             shex:label "name"
@@ -38,19 +63,14 @@ md:Vessel {
             shex:label "volume"
         ]
     };
-    schema:identifier xsd:string? {
-        shex:annotation [
-            shex:label "creator_id"
-        ]
-    };
 }
-md:Protein {
+enzml:Protein {
     schema:name xsd:string {
         shex:annotation [
             shex:label "name"
         ]
     };
-    OBO:GSSO_007262 xsd:string {
+    OBO:GSSO_007262 xsd:string? {
         shex:annotation [
             shex:label "sequence"
         ]
@@ -65,8 +85,25 @@ md:Protein {
             shex:label "organism"
         ]
     };
+    schema:citation xsd:string* {
+        shex:annotation [
+            shex:label "references"
+        ]
+    };
 }
-md:SmallMolecule {
+enzml:Complex {
+    schema:identifier xsd:string {
+        shex:annotation [
+            shex:label "id"
+        ]
+    };
+}
+enzml:SmallMolecule {
+    schema:identifier xsd:string {
+        shex:annotation [
+            shex:label "id"
+        ]
+    };
     schema:name xsd:string {
         shex:annotation [
             shex:label "name"
@@ -75,6 +112,32 @@ md:SmallMolecule {
     schema:identifier xsd:string? {
         shex:annotation [
             shex:label "vessel_id"
+        ]
+    };
+    schema:citation xsd:string* {
+        shex:annotation [
+            shex:label "references"
+        ]
+    };
+}
+enzml:Reaction {
+    schema:identifier xsd:string {
+        shex:annotation [
+            shex:label "id"
+        ]
+    };
+}
+enzml:Parameter {
+    schema:identifier xsd:string {
+        shex:annotation [
+            shex:label "id"
+        ]
+    };
+}
+enzml:Measurement {
+    schema:identifier xsd:string {
+        shex:annotation [
+            shex:label "id"
         ]
     };
 }
