@@ -77,8 +77,8 @@ This page provides comprehensive information about the structure and components 
 
 
 ## Ontologies
-- [schema](https://schema.org/)
 - [OBO](http://purl.obolibrary.org/obo/)
+- [schema](https://schema.org/)
 
 
 ## Types
@@ -493,7 +493,7 @@ __species_id__* `string`
 
 __init_conc__* `float`
 
-- Initial concentration of the measurement data.
+- Initial concentration of the measurement data. This must be the same as the first data point in the
 
 
 __data_type__* [`DataTypes`](#datatypes)
@@ -519,6 +519,11 @@ __time__* `list[float]`
 __data__* `list[float]`
 
 - Data that was measured.
+
+
+__prep_conc__ `float`
+
+- Concentration of the reactant before the measurement. This field should be used for specifying the prepared concentration of a species in the reaction mix. Not to be confused with init_conc, specifying the concentration at the first data point from the
 
 
 __is_calculated__* `boolean`
@@ -647,6 +652,7 @@ __value__ `float`
 | `AVOGADRO` | avogadro |
 | `BECQUEREL` | becquerel |
 | `CANDELA` | candela |
+| `CELSIUS` | celsius |
 | `COULOMB` | coulomb |
 | `DIMENSIONLESS` | dimensionless |
 | `FARAD` | farad |

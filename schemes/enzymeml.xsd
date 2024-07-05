@@ -622,7 +622,7 @@
             <xs:element name="init_conc" type="xs:float">
                 <xs:annotation>
                     <xs:documentation>
-                        Initial concentration of the measurement data.
+                        Initial concentration of the measurement data. This must be the same as the first data point in the
                     </xs:documentation>
                 </xs:annotation>
             </xs:element>
@@ -658,6 +658,13 @@
                 <xs:annotation>
                     <xs:documentation>
                         Data that was measured.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="prep_conc" type="xs:float">
+                <xs:annotation>
+                    <xs:documentation>
+                        Concentration of the reactant before the measurement. This field should be used for specifying the prepared concentration of a species in the reaction mix. Not to be confused with init_conc, specifying the concentration at the first data point from the
                     </xs:documentation>
                 </xs:annotation>
             </xs:element>
@@ -819,6 +826,7 @@
             <xs:enumeration value="avogadro"/>
             <xs:enumeration value="becquerel"/>
             <xs:enumeration value="candela"/>
+            <xs:enumeration value="celsius"/>
             <xs:enumeration value="coulomb"/>
             <xs:enumeration value="dimensionless"/>
             <xs:enumeration value="farad"/>
