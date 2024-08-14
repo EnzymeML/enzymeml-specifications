@@ -8,13 +8,13 @@ prefixes:
 
 # EnzymeML
 
-EnzymeML is an data exchange format that supports the comprehensive documentation of enzymatic data by describing reaction conditions, time courses of substrate and product concentrations, the kinetic model, and the estimated kinetic constants. EnzymeML is based on the Systems Biology Markup Language, which was extended by implementing the STRENDA Guidelines. An EnzymeML document serves as a container to transfer data between experimental platforms, modeling tools, and databases. EnzymeML supports the scientific community by introducing a standardized data exchange format to make enzymatic data findable, accessible, interoperable, and reusable according to the FAIR data principles.
+EnzymeML is a data exchange format that supports the comprehensive documentation of enzymatic data by describing reaction conditions, time courses of substrate and product concentrations, the kinetic model, and the estimated kinetic constants. EnzymeML is based on the Systems Biology Markup Language, which was extended by implementing the STRENDA Guidelines. An EnzymeML document serves as a container to transfer data between experimental platforms, modeling tools, and databases. EnzymeML supports the scientific community by introducing a standardized data exchange format to make enzymatic data findable, accessible, interoperable, and reusable according to the FAIR data principles.
 
 ## Root objects
 
 ### EnzymeMLDocument
 
-This is the root object that composes all objects found in an EnzymeML document. It also includes general metadata such as the name of the document, when it was created/modified and references to publications, databases and arbitrary links to the web.
+This is the root object that composes all objects found in an EnzymeML document. It also includes general metadata such as the name of the document, when it was created/modified, and references to publications, databases, and arbitrary links to the web.
 
 - __name__
   - Type: string
@@ -22,7 +22,7 @@ This is the root object that composes all objects found in an EnzymeML document.
   - Term: schema:title
 - references
   - Type: Identifier[]
-  - Description: Contains references to publications, databases and arbitrary links to the web.
+  - Description: Contains references to publications, databases, and arbitrary links to the web.
   - Term: schema:citation
 - created
   - Type: string
@@ -50,16 +50,13 @@ This is the root object that composes all objects found in an EnzymeML document.
   - Description: Contains all reactants that are part of the experiment.
 - reactions
   - Type: Reaction[]
-  - Description: Dictionary mapping from reaction IDs to reaction describing objects.
+  - Description: Dictionary mapping from reaction IDs to reaction-describing objects.
 - measurements
   - Type: Measurement[]
   - Description: Contains measurements that describe outcomes of an experiment.
 - equations
   - Type: Equation[]
   - Description: Contains ordinary differential equations that describe the kinetic model.
-- parameters
-  - Type: Parameter[]
-  - Description: Contains parameters that are part of the kinetic model.
 
 ## General information
 
@@ -108,7 +105,7 @@ This object describes vessels in which the experiment has been carried out. Thes
 
 ### Protein (schema:Protein)
 
-This objects describes the proteins that were used or formed over the course of the experiment.
+This object describes the proteins that were used or formed throughout the experiment.
 
 - __id__
   - Type: Identifier
@@ -140,7 +137,7 @@ This objects describes the proteins that were used or formed over the course of 
   - Description: Taxonomy identifier of the expression host.
 - references
   - Type: Identifier[]
-  - Description: Array of references to publications, database entries etc. that describe the protein.
+  - Description: Array of references to publications, database entries, etc. that describe the protein.
   - Term: schema:citation
 
 
@@ -152,13 +149,19 @@ This object describes complexes made of reactants and/or proteins that were used
   - Type: Identifier
   - Description: Unique identifier of the complex.
   - Term: schema:identifier
+- __name__
+  - Type: string
+  - Term: schema:name
+- __constant__
+  - Type: boolean
+  - Default: False
 - participants
   - Type: Identifier[]
   - Description: Array of IDs the complex contains
 
 ### SmallMolecule
 
-This objects describes the reactants that were used or produced in the course of the experiment.
+This object describes the reactants that were used or produced in the course of the experiment.
 
 - __id__
   - Type: Identifier
@@ -177,12 +180,15 @@ This objects describes the reactants that were used or produced in the course of
 - canonical_smiles
   - Type: string
   - Description: Canonical Simplified Molecular-Input Line-Entry System (SMILES) encoding of the reactant.
+- inchi
+  - Type: string
+  - Description: International Chemical Identifier (InChI) encoding of the reactant.
 - inchikey
   - Type: string
   - Description: Hashed International Chemical Identifier (InChIKey) encoding of the reactant.
 - references
   - Type: Identifier[]
-  - Description: Array of references to publications, database entries etc. that describe the reactant.
+  - Description: Array of references to publications, database entries, etc. that describe the reactant.
   - Term: schema:citation
 
 ## EnzymeReaction
@@ -287,12 +293,12 @@ This object describes the result of a measurement, which includes time course da
 - __name__
   - Type: string
   - Description: Name of the measurement
-- species
+- species_data
   - Type: MeasurementData[]
-  - Description: Species of the measurement.
+  - Description: Measurement data of all species that were part of the measurement. A species can refer to a protein, complex, or small molecule.
 - group_id
   - Type: Identifier
-  - Description: User-defined group ID to signalize relationships between measurements.
+  - Description: User-defined group ID to signal relationships between measurements.
 - ph
   - Type: float
   - Description: PH value of the measurement.
@@ -307,7 +313,7 @@ This object describes the result of a measurement, which includes time course da
 
 ### MeasurementData
 
-This object describes a single entity of a measurement, which corresponds to one species. It also holds replicates which contain time course data.
+This object describes a single entity of a measurement, which corresponds to one species. It also holds replicates that contain time course data.
 
 - __species_id__
   - Type: Identifier
@@ -318,25 +324,25 @@ This object describes a single entity of a measurement, which corresponds to one
 - __init_conc__
   - Type: float
   - Description: Initial concentration of the measurement data. This must be the same as the first data point in the `data` array.
-- __data_type__
-  - Type: DataTypes
-  - Description: Type of data that was measured (e.g. concentration)
 - __data_unit__
   - Type: UnitDefinition
   - Description: SI unit of the data that was measured.
-- __time_unit__
-  - Type: UnitDefinition
-  - Description: Time unit of the replicate.
-- __time__
-  - Type: float[]
-  - Description: Time steps of the replicate.
 - __data__
   - Type: float[]
   - Description: Data that was measured.
-- __is_calculated__
+- __time__
+  - Type: float[]
+  - Description: Time steps of the replicate.
+- __time_unit__
+  - Type: UnitDefinition
+  - Description: Time unit of the replicate.
+- __is_simulated__
   - Type: boolean
   - Description: Whether or not the data has been generated by simulation.
   - Default: False
+- data_type
+  - Type: Identifier
+  - Description: Type of data that was measured (e.g. concentration)
 
 ## Enumerations
 
@@ -363,4 +369,17 @@ ODE = "ode"
 ASSIGNMENT = "assignment"
 INITIAL_ASSIGNMENT = "initialAssignment"
 RATE_LAW = "rateLaw"
+```
+
+### DataTypes
+
+These values are used to determine the type of time course data.
+
+```python
+ABSORBANCE = "http://purl.allotrope.org/ontologies/quality#AFQ_0000061"
+CONCENTRATION = "http://purl.obolibrary.org/obo/PATO_0000033"
+CONVERSION = "http://purl.allotrope.org/ontologies/quality#AFQ_0000226"
+PEAK_AREA = "http://purl.allotrope.org/ontologies/result#AFR_0001073"
+TRANSMITTANCE = "http://purl.allotrope.org/ontologies/result#AFR_0002261"
+FLUORESCENCE = "http://purl.obolibrary.org/obo/PATO_0000018"
 ```
