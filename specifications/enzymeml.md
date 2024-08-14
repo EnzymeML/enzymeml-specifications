@@ -321,7 +321,7 @@ This object describes a single entity of a measurement, which corresponds to one
 - prepared
     - Type: float
     - Description: Amount of the reactant before the measurement. This field should be used for specifying the prepared amount of a species in the reaction mix. Not to be confused with `initial`, specifying the concentration at the first data point from the `data` array.
-- initial
+- __initial__
   - Type: float
   - Description: Initial amount of the measurement data. This must be the same as the first data point in the `data` array.
 - __data_unit__
