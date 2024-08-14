@@ -324,7 +324,7 @@ This object describes a single entity of a measurement, which corresponds to one
 - __init_conc__
   - Type: float
   - Description: Initial concentration of the measurement data. This must be the same as the first data point in the `data` array.
-- __data_unit__
+- __conc_unit__
   - Type: UnitDefinition
   - Description: SI unit of the data that was measured.
 - __data__
