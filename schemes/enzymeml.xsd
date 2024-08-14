@@ -616,6 +616,13 @@
                     </xs:documentation>
                 </xs:annotation>
             </xs:element>
+            <xs:element name="initial" type="xs:float">
+                <xs:annotation>
+                    <xs:documentation>
+                        Initial amount of the measurement data. This must be the same as the first data point in the
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
             <xs:element name="data_unit" type="UnitDefinitionType">
                 <xs:annotation>
                     <xs:documentation>
@@ -641,13 +648,6 @@
                 <xs:annotation>
                     <xs:documentation>
                         Amount of the reactant before the measurement. This field should be used for specifying the prepared amount of a species in the reaction mix. Not to be confused with
-                    </xs:documentation>
-                </xs:annotation>
-            </xs:element>
-            <xs:element name="initial" type="xs:float">
-                <xs:annotation>
-                    <xs:documentation>
-                        Initial amount of the measurement data. This must be the same as the first data point in the
                     </xs:documentation>
                 </xs:annotation>
             </xs:element>

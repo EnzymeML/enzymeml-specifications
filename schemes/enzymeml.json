@@ -82,6 +82,112 @@
   },
   "description": "This is the root object that composes all objects found in an EnzymeML document. It also includes general metadata such as the name of the document, when it was created/modified, and references to publications, databases, and arbitrary links to the web.",
   "definitions": {
+    "Equation": {
+      "title": "Equation",
+      "type": "object",
+      "properties": {
+        "species_id": {
+          "title": "species_id",
+          "description": "Internal identifier to a species defined in the EnzymeMLDocument, given it is a rate equation.",
+          "type": "string"
+        },
+        "unit": {
+          "$ref": "#/definitions/UnitDefinition"
+        },
+        "equation_type": {
+          "title": "equation_type",
+          "$ref": "#/definitions/EquationType"
+        },
+        "equation": {
+          "title": "equation",
+          "description": "The equation that is used in the data model.",
+          "type": "string"
+        },
+        "variables": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/EqVariable"
+          }
+        },
+        "parameters": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/EqParameter"
+          }
+        }
+      },
+      "description": "This object describes an ordinary differential equation that is part of the kinetic model."
+    },
+    "Reaction": {
+      "title": "Reaction",
+      "type": "object",
+      "properties": {
+        "id": {
+          "title": "id",
+          "description": "Unique identifier of the reaction.",
+          "term": "schema:identifier",
+          "type": "string"
+        },
+        "name": {
+          "title": "name",
+          "description": "Name of the reaction.",
+          "type": "string"
+        },
+        "reversible": {
+          "title": "reversible",
+          "description": "Whether the reaction is reversible or irreversible",
+          "type": "boolean"
+        },
+        "kinetic_law": {
+          "$ref": "#/definitions/Equation"
+        },
+        "species": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ReactionElement"
+          }
+        },
+        "modifiers": {
+          "title": "modifiers",
+          "description": "List of reaction elements that are not part of the reaction but influence it.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "description": "This object describes a chemical or enzymatic reaction that was investigated in the course of the experiment. All species used within this object need to be part of the data model."
+    },
+    "Complex": {
+      "title": "Complex",
+      "type": "object",
+      "properties": {
+        "id": {
+          "title": "id",
+          "description": "Unique identifier of the complex.",
+          "term": "schema:identifier",
+          "type": "string"
+        },
+        "name": {
+          "title": "name",
+          "term": "schema:name",
+          "type": "string"
+        },
+        "constant": {
+          "title": "constant",
+          "type": "boolean"
+        },
+        "participants": {
+          "title": "participants",
+          "description": "Array of IDs the complex contains",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "description": "This object describes complexes made of reactants and/or proteins that were used or produced in the course of the experiment."
+    },
     "Measurement": {
       "title": "Measurement",
       "type": "object",
@@ -125,190 +231,6 @@
         }
       },
       "description": "This object describes the result of a measurement, which includes time course data of any type defined in DataTypes. It includes initial concentrations of all species used in a single measurement."
-    },
-    "Equation": {
-      "title": "Equation",
-      "type": "object",
-      "properties": {
-        "species_id": {
-          "title": "species_id",
-          "description": "Internal identifier to a species defined in the EnzymeMLDocument, given it is a rate equation.",
-          "type": "string"
-        },
-        "unit": {
-          "$ref": "#/definitions/UnitDefinition"
-        },
-        "equation_type": {
-          "title": "equation_type",
-          "$ref": "#/definitions/EquationType"
-        },
-        "equation": {
-          "title": "equation",
-          "description": "The equation that is used in the data model.",
-          "type": "string"
-        },
-        "variables": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/EqVariable"
-          }
-        },
-        "parameters": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/EqParameter"
-          }
-        }
-      },
-      "description": "This object describes an ordinary differential equation that is part of the kinetic model."
-    },
-    "Complex": {
-      "title": "Complex",
-      "type": "object",
-      "properties": {
-        "id": {
-          "title": "id",
-          "description": "Unique identifier of the complex.",
-          "term": "schema:identifier",
-          "type": "string"
-        },
-        "name": {
-          "title": "name",
-          "term": "schema:name",
-          "type": "string"
-        },
-        "constant": {
-          "title": "constant",
-          "type": "boolean"
-        },
-        "participants": {
-          "title": "participants",
-          "description": "Array of IDs the complex contains",
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        }
-      },
-      "description": "This object describes complexes made of reactants and/or proteins that were used or produced in the course of the experiment."
-    },
-    "Creator": {
-      "title": "Creator",
-      "type": "object",
-      "properties": {
-        "given_name": {
-          "title": "given_name",
-          "description": "Given name of the author or contributor.",
-          "term": "schema:givenName",
-          "type": "string"
-        },
-        "family_name": {
-          "title": "family_name",
-          "description": "Family name of the author or contributor.",
-          "term": "schema:familyName",
-          "type": "string"
-        },
-        "mail": {
-          "title": "mail",
-          "description": "Email address of the author or contributor.",
-          "term": "schema:email",
-          "type": "string"
-        }
-      },
-      "description": "The creator object contains all information about authors that contributed to the resulting document.",
-      "term": "schema:person"
-    },
-    "SmallMolecule": {
-      "title": "SmallMolecule",
-      "type": "object",
-      "properties": {
-        "id": {
-          "title": "id",
-          "description": "Unique identifier of the small molecule.",
-          "term": "schema:identifier",
-          "type": "string"
-        },
-        "name": {
-          "title": "name",
-          "term": "schema:name",
-          "type": "string"
-        },
-        "constant": {
-          "title": "constant",
-          "type": "boolean"
-        },
-        "vessel_id": {
-          "title": "vessel_id",
-          "description": "Unique identifier of the vessel this small molecule has been used in.",
-          "term": "schema:identifier",
-          "type": "string"
-        },
-        "canonical_smiles": {
-          "title": "canonical_smiles",
-          "description": "Canonical Simplified Molecular-Input Line-Entry System (SMILES) encoding of the reactant.",
-          "type": "string"
-        },
-        "inchi": {
-          "title": "inchi",
-          "description": "International Chemical Identifier (InChI) encoding of the reactant.",
-          "type": "string"
-        },
-        "inchikey": {
-          "title": "inchikey",
-          "description": "Hashed International Chemical Identifier (InChIKey) encoding of the reactant.",
-          "type": "string"
-        },
-        "references": {
-          "title": "references",
-          "description": "Array of references to publications, database entries, etc. that describe the reactant.",
-          "term": "schema:citation",
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        }
-      },
-      "description": "This object describes the reactants that were used or produced in the course of the experiment."
-    },
-    "Reaction": {
-      "title": "Reaction",
-      "type": "object",
-      "properties": {
-        "id": {
-          "title": "id",
-          "description": "Unique identifier of the reaction.",
-          "term": "schema:identifier",
-          "type": "string"
-        },
-        "name": {
-          "title": "name",
-          "description": "Name of the reaction.",
-          "type": "string"
-        },
-        "reversible": {
-          "title": "reversible",
-          "description": "Whether the reaction is reversible or irreversible",
-          "type": "boolean"
-        },
-        "kinetic_law": {
-          "$ref": "#/definitions/Equation"
-        },
-        "species": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/ReactionElement"
-          }
-        },
-        "modifiers": {
-          "title": "modifiers",
-          "description": "List of reaction elements that are not part of the reaction but influence it.",
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        }
-      },
-      "description": "This object describes a chemical or enzymatic reaction that was investigated in the course of the experiment. All species used within this object need to be part of the data model."
     },
     "Protein": {
       "title": "Protein",
@@ -369,6 +291,84 @@
       },
       "description": "This object describes the proteins that were used or formed throughout the experiment.",
       "term": "schema:Protein"
+    },
+    "SmallMolecule": {
+      "title": "SmallMolecule",
+      "type": "object",
+      "properties": {
+        "id": {
+          "title": "id",
+          "description": "Unique identifier of the small molecule.",
+          "term": "schema:identifier",
+          "type": "string"
+        },
+        "name": {
+          "title": "name",
+          "term": "schema:name",
+          "type": "string"
+        },
+        "constant": {
+          "title": "constant",
+          "type": "boolean"
+        },
+        "vessel_id": {
+          "title": "vessel_id",
+          "description": "Unique identifier of the vessel this small molecule has been used in.",
+          "term": "schema:identifier",
+          "type": "string"
+        },
+        "canonical_smiles": {
+          "title": "canonical_smiles",
+          "description": "Canonical Simplified Molecular-Input Line-Entry System (SMILES) encoding of the reactant.",
+          "type": "string"
+        },
+        "inchi": {
+          "title": "inchi",
+          "description": "International Chemical Identifier (InChI) encoding of the reactant.",
+          "type": "string"
+        },
+        "inchikey": {
+          "title": "inchikey",
+          "description": "Hashed International Chemical Identifier (InChIKey) encoding of the reactant.",
+          "type": "string"
+        },
+        "references": {
+          "title": "references",
+          "description": "Array of references to publications, database entries, etc. that describe the reactant.",
+          "term": "schema:citation",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "description": "This object describes the reactants that were used or produced in the course of the experiment."
+    },
+    "Creator": {
+      "title": "Creator",
+      "type": "object",
+      "properties": {
+        "given_name": {
+          "title": "given_name",
+          "description": "Given name of the author or contributor.",
+          "term": "schema:givenName",
+          "type": "string"
+        },
+        "family_name": {
+          "title": "family_name",
+          "description": "Family name of the author or contributor.",
+          "term": "schema:familyName",
+          "type": "string"
+        },
+        "mail": {
+          "title": "mail",
+          "description": "Email address of the author or contributor.",
+          "term": "schema:email",
+          "type": "string"
+        }
+      },
+      "description": "The creator object contains all information about authors that contributed to the resulting document.",
+      "term": "schema:person"
     },
     "Vessel": {
       "title": "Vessel",
