@@ -39,7 +39,6 @@ This page provides comprehensive information about the structure and components 
         vessel(Vessel) --> unitdefinition(UnitDefinition)
         reaction(Reaction) --> equation(Equation)
         reaction(Reaction) --> reactionelement(ReactionElement)
-        equation(Equation) --> unitdefinition(UnitDefinition)
         equation(Equation) --> equationtype(EquationType)
         equation(Equation) --> variable(Variable)
         equation(Equation) --> parameter(Parameter)
@@ -74,8 +73,8 @@ This page provides comprehensive information about the structure and components 
 
 
 ## Ontologies
-- [schema](https://schema.org/)
 - [OBO](http://purl.obolibrary.org/obo/)
+- [schema](https://schema.org/)
 
 
 ## Types
@@ -368,11 +367,6 @@ This object describes an equation that can be used to model the kinetics of a re
 __equation__* `string`
 
 - Mathematical expression of the equation.
-
-
-__unit__* [`UnitDefinition`](#unitdefinition)
-
-- Unit of the rate law.
 
 
 __equation_type__* [`EquationType`](#equationtype)

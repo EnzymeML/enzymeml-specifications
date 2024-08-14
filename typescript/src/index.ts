@@ -286,7 +286,6 @@ export const ReactionElementCodec = D.lazy("ReactionElement", () => D.struct({
     rule.
 
     * @param equation - Mathematical expression of the equation.
-    * @param unit - Unit of the rate law.
     * @param equation_type - Type of the equation.
     * @param species_id - Internal identifier to a species defined in the EnzymeMLDocument,
              given it is a rate equation.
@@ -295,7 +294,6 @@ export const ReactionElementCodec = D.lazy("ReactionElement", () => D.struct({
 **/
 export interface Equation extends JsonLd {
   equation: string;
-  unit: UnitDefinition;
   equation_type: EquationType;
   species_id?: string | null;
   variables?: Variable[] | null;
@@ -304,7 +302,6 @@ export interface Equation extends JsonLd {
 
 export const EquationCodec = D.lazy("Equation", () => D.struct({
     equation: D.string,
-    unit: UnitDefinitionCodec,
     equation_type: EquationTypeCodec,
     species_id: D.nullable(D.string),
     variables: D.array(VariableCodec),

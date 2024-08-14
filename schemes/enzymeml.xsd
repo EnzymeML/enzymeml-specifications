@@ -428,13 +428,6 @@
                     </xs:documentation>
                 </xs:annotation>
             </xs:element>
-            <xs:element name="unit" type="UnitDefinitionType">
-                <xs:annotation>
-                    <xs:documentation>
-                        Unit of the rate law.
-                    </xs:documentation>
-                </xs:annotation>
-            </xs:element>
             <xs:element name="equation_type" type="EquationTypeType">
                 <xs:annotation>
                     <xs:documentation>
