@@ -279,33 +279,56 @@ export const ReactionElementCodec = D.lazy("ReactionElement", () => D.struct({
 
 
 /**
-    This object describes an ordinary differential equation that is part
-    of the kinetic model.
+    This object describes an equation that can be used to model the
+    kinetics of a reaction. There are different types of equations
+    that can be used to model the kinetics of a reaction. The equation
+    can be an ordinary differential equation, a rate law or assignment
+    rule.
 
+    * @param equation - Mathematical expression of the equation.
     * @param unit - Unit of the rate law.
     * @param equation_type - Type of the equation.
-    * @param equation - The equation that is used in the data model.
     * @param species_id - Internal identifier to a species defined in the EnzymeMLDocument,
              given it is a rate equation.
-    * @param variables - List of variables that are used in the equation.
-    * @param parameters - List of parameters that are used in the equation.
+    * @param variables - List of variables that are part of the equation
+    * @param parameters - List of parameters that are part of the equation
 **/
 export interface Equation extends JsonLd {
+  equation: string;
   unit: UnitDefinition;
   equation_type: EquationType;
-  equation: string;
   species_id?: string | null;
-  variables?: EqVariable[] | null;
-  parameters?: EqParameter[] | null;
+  variables?: Variable[] | null;
+  parameters?: Parameter[] | null;
 }
 
 export const EquationCodec = D.lazy("Equation", () => D.struct({
+    equation: D.string,
     unit: UnitDefinitionCodec,
     equation_type: EquationTypeCodec,
-    equation: D.string,
     species_id: D.nullable(D.string),
-    variables: D.array(EqVariableCodec),
-    parameters: D.array(EqParameterCodec),
+    variables: D.array(VariableCodec),
+    parameters: D.array(ParameterCodec),
+}));
+
+
+/**
+    This object describes a variable that is part of an equation.
+
+    * @param id - Unique identifier of the variable.
+    * @param name - Name of the variable.
+    * @param symbol - Symbol of the variable.
+**/
+export interface Variable extends JsonLd {
+  id: string;
+  name: string;
+  symbol: string;
+}
+
+export const VariableCodec = D.lazy("Variable", () => D.struct({
+    id: D.string,
+    name: D.string,
+    symbol: D.string,
 }));
 
 
@@ -314,7 +337,8 @@ export const EquationCodec = D.lazy("Equation", () => D.struct({
     include all estimated values.
 
     * @param id - Unique identifier of the parameter.
-    * @param name - Name of the estimated parameter.
+    * @param name - Name of the parameter.
+    * @param symbol - Symbol of the parameter.
     * @param value - Numerical value of the estimated parameter.
     * @param unit - Unit of the estimated parameter.
     * @param initial_value - Initial value that was used for the parameter estimation.
@@ -326,6 +350,7 @@ export const EquationCodec = D.lazy("Equation", () => D.struct({
 export interface Parameter extends JsonLd {
   id: string;
   name: string;
+  symbol: string;
   value?: number | null;
   unit?: UnitDefinition | null;
   initial_value?: number | null;
@@ -338,6 +363,7 @@ export interface Parameter extends JsonLd {
 export const ParameterCodec = D.lazy("Parameter", () => D.struct({
     id: D.string,
     name: D.string,
+    symbol: D.string,
     value: D.nullable(D.number),
     unit: D.nullable(UnitDefinitionCodec),
     initial_value: D.nullable(D.number),
@@ -467,49 +493,6 @@ export const BaseUnitCodec = D.lazy("BaseUnit", () => D.struct({
     exponent: D.number,
     multiplier: D.nullable(D.number),
     scale: D.nullable(D.number),
-}));
-
-
-/**
-    Represents a variable that is used in the equation.
-
-    * @param id - Unique identifier for the variable.
-    * @param name - Name of the variable.
-    * @param symbol - Symbol of the variable.
-**/
-export interface EqVariable extends JsonLd {
-  id: string;
-  name: string;
-  symbol?: string | null;
-}
-
-export const EqVariableCodec = D.lazy("EqVariable", () => D.struct({
-    id: D.string,
-    name: D.string,
-    symbol: D.nullable(D.string),
-}));
-
-
-/**
-    Represents a parameter that is used in the equation.
-
-    * @param id - Unique identifier for the parameter.
-    * @param name - Name of the parameter.
-    * @param symbol - Symbol of the parameter.
-    * @param value - Value of the parameter.
-**/
-export interface EqParameter extends JsonLd {
-  id: string;
-  name: string;
-  symbol?: string | null;
-  value?: number | null;
-}
-
-export const EqParameterCodec = D.lazy("EqParameter", () => D.struct({
-    id: D.string,
-    name: D.string,
-    symbol: D.nullable(D.string),
-    value: D.nullable(D.number),
 }));
 
 

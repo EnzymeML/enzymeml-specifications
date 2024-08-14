@@ -458,18 +458,18 @@ class EnzymeMLDocument(BaseModel):
 
     def add_to_equations(
         self,
+        equation: str,
         unit: UnitDefinition,
         equation_type: EquationType,
-        equation: str,
         species_id: Optional[str] = None,
-        variables: list[EqVariable] = [],
-        parameters: list[EqParameter] = [],
+        variables: list[Variable] = [],
+        parameters: list[Parameter] = [],
         **kwargs,
     ):
         params = {
+            "equation": equation,
             "unit": unit,
             "equation_type": equation_type,
-            "equation": equation,
             "species_id": species_id,
             "variables": variables,
             "parameters": parameters,
@@ -1247,12 +1247,12 @@ class Equation(BaseModel):
         validate_assigment=True,
     )  # type: ignore
 
+    equation: str
     unit: UnitDefinition
     equation_type: EquationType
-    equation: str
     species_id: Optional[str] = Field(default=None)
-    variables: list[EqVariable] = Field(default_factory=list)
-    parameters: list[EqParameter] = Field(default_factory=list)
+    variables: list[Variable] = Field(default_factory=list)
+    parameters: list[Parameter] = Field(default_factory=list)
 
     # JSON-LD fields
     ld_id: str = Field(
@@ -1277,29 +1277,29 @@ class Equation(BaseModel):
         },
     )
 
-    def filter_variables(self, **kwargs) -> list[EqVariable]:
+    def filter_variables(self, **kwargs) -> list[Variable]:
         """Filters the variables attribute based on the given kwargs
 
         Args:
             **kwargs: The attributes to filter by.
 
         Returns:
-            list[EqVariable]: The filtered list of EqVariable objects
+            list[Variable]: The filtered list of Variable objects
         """
 
-        return FilterWrapper[EqVariable](self.variables, **kwargs).filter()
+        return FilterWrapper[Variable](self.variables, **kwargs).filter()
 
-    def filter_parameters(self, **kwargs) -> list[EqParameter]:
+    def filter_parameters(self, **kwargs) -> list[Parameter]:
         """Filters the parameters attribute based on the given kwargs
 
         Args:
             **kwargs: The attributes to filter by.
 
         Returns:
-            list[EqParameter]: The filtered list of EqParameter objects
+            list[Parameter]: The filtered list of Parameter objects
         """
 
-        return FilterWrapper[EqParameter](self.parameters, **kwargs).filter()
+        return FilterWrapper[Parameter](self.parameters, **kwargs).filter()
 
     def set_attr_term(
         self,
@@ -1370,7 +1370,7 @@ class Equation(BaseModel):
         self,
         id: str,
         name: str,
-        symbol: Optional[str] = None,
+        symbol: str,
         **kwargs,
     ):
         params = {"id": id, "name": name, "symbol": symbol}
@@ -1378,7 +1378,7 @@ class Equation(BaseModel):
         if "id" in kwargs:
             params["id"] = kwargs["id"]
 
-        self.variables.append(EqVariable(**params))
+        self.variables.append(Variable(**params))
 
         return self.variables[-1]
 
@@ -1386,18 +1386,131 @@ class Equation(BaseModel):
         self,
         id: str,
         name: str,
-        symbol: Optional[str] = None,
+        symbol: str,
         value: Optional[float] = None,
+        unit: Optional[UnitDefinition] = None,
+        initial_value: Optional[float] = None,
+        upper: Optional[float] = None,
+        lower: Optional[float] = None,
+        stderr: Optional[float] = None,
+        constant: Optional[bool] = True,
         **kwargs,
     ):
-        params = {"id": id, "name": name, "symbol": symbol, "value": value}
+        params = {
+            "id": id,
+            "name": name,
+            "symbol": symbol,
+            "value": value,
+            "unit": unit,
+            "initial_value": initial_value,
+            "upper": upper,
+            "lower": lower,
+            "stderr": stderr,
+            "constant": constant,
+        }
 
         if "id" in kwargs:
             params["id"] = kwargs["id"]
 
-        self.parameters.append(EqParameter(**params))
+        self.parameters.append(Parameter(**params))
 
         return self.parameters[-1]
+
+
+class Variable(BaseModel):
+    model_config: ConfigDict = ConfigDict(  # type: ignore
+        validate_assigment=True,
+    )  # type: ignore
+
+    id: str
+    name: str
+    symbol: str
+
+    # JSON-LD fields
+    ld_id: str = Field(
+        serialization_alias="@id",
+        default_factory=lambda: "enzml:Variable/" + str(uuid4()),
+    )
+    ld_type: list[str] = Field(
+        serialization_alias="@type",
+        default_factory=lambda: [
+            "enzml:Variable",
+        ],
+    )
+    ld_context: dict[str, str | dict] = Field(
+        serialization_alias="@context",
+        default_factory=lambda: {
+            "enzml": "http://www.enzymeml.org/v2/",
+            "schema": "https://schema.org/",
+            "OBO": "http://purl.obolibrary.org/obo/",
+            "id": "schema:identifier",
+        },
+    )
+
+    def set_attr_term(
+        self,
+        attr: str,
+        term: str | dict,
+        prefix: str | None = None,
+        iri: str | None = None,
+    ):
+        """Sets the term for a given attribute in the JSON-LD object
+
+        Example:
+            # Using an IRI term
+            >> obj.set_attr_term("name", "http://schema.org/givenName")
+
+            # Using a prefix and term
+            >> obj.set_attr_term("name", "schema:givenName", "schema", "http://schema.org")
+
+            # Usinng a dictionary term
+            >> obj.set_attr_term("name", {"@id": "http://schema.org/givenName", "@type": "@id"})
+
+        Args:
+            attr (str): The attribute to set the term for
+            term (str | dict): The term to set for the attribute
+
+        Raises:
+            AssertionError: If the attribute is not found in the model
+        """
+
+        assert (
+            attr in self.model_fields
+        ), f"Attribute {attr} not found in {self.__class__.__name__}"
+
+        if prefix:
+            validate_prefix(term, prefix)
+
+        add_namespace(self, prefix, iri)
+        self.ld_context[attr] = term
+
+    def add_type_term(
+        self, term: str, prefix: str | None = None, iri: str | None = None
+    ):
+        """Adds a term to the @type field of the JSON-LD object
+
+        Example:
+            # Using a term
+            >> obj.add_type_term("https://schema.org/Person")
+
+            # Using a prefixed term
+            >> obj.add_type_term("schema:Person", "schema", "https://schema.org/Person")
+
+        Args:
+            term (str): The term to add to the @type field
+            prefix (str, optional): The prefix to use for the term. Defaults to None.
+            iri (str, optional): The IRI to use for the term prefix. Defaults to None.
+
+        Raises:
+            ValueError: If prefix is provided but iri is not
+            ValueError: If iri is provided but prefix is not
+        """
+
+        if prefix:
+            validate_prefix(term, prefix)
+
+        add_namespace(self, prefix, iri)
+        self.ld_type.append(term)
 
 
 class Parameter(BaseModel):
@@ -1407,6 +1520,7 @@ class Parameter(BaseModel):
 
     id: str
     name: str
+    symbol: str
     value: Optional[float] = Field(default=None)
     unit: Optional[UnitDefinition] = Field(default=None)
     initial_value: Optional[float] = Field(default=None)
@@ -1918,203 +2032,6 @@ class BaseUnit(BaseModel):
             "enzml": "http://www.enzymeml.org/v2/",
             "schema": "https://schema.org/",
             "OBO": "http://purl.obolibrary.org/obo/",
-        },
-    )
-
-    def set_attr_term(
-        self,
-        attr: str,
-        term: str | dict,
-        prefix: str | None = None,
-        iri: str | None = None,
-    ):
-        """Sets the term for a given attribute in the JSON-LD object
-
-        Example:
-            # Using an IRI term
-            >> obj.set_attr_term("name", "http://schema.org/givenName")
-
-            # Using a prefix and term
-            >> obj.set_attr_term("name", "schema:givenName", "schema", "http://schema.org")
-
-            # Usinng a dictionary term
-            >> obj.set_attr_term("name", {"@id": "http://schema.org/givenName", "@type": "@id"})
-
-        Args:
-            attr (str): The attribute to set the term for
-            term (str | dict): The term to set for the attribute
-
-        Raises:
-            AssertionError: If the attribute is not found in the model
-        """
-
-        assert (
-            attr in self.model_fields
-        ), f"Attribute {attr} not found in {self.__class__.__name__}"
-
-        if prefix:
-            validate_prefix(term, prefix)
-
-        add_namespace(self, prefix, iri)
-        self.ld_context[attr] = term
-
-    def add_type_term(
-        self, term: str, prefix: str | None = None, iri: str | None = None
-    ):
-        """Adds a term to the @type field of the JSON-LD object
-
-        Example:
-            # Using a term
-            >> obj.add_type_term("https://schema.org/Person")
-
-            # Using a prefixed term
-            >> obj.add_type_term("schema:Person", "schema", "https://schema.org/Person")
-
-        Args:
-            term (str): The term to add to the @type field
-            prefix (str, optional): The prefix to use for the term. Defaults to None.
-            iri (str, optional): The IRI to use for the term prefix. Defaults to None.
-
-        Raises:
-            ValueError: If prefix is provided but iri is not
-            ValueError: If iri is provided but prefix is not
-        """
-
-        if prefix:
-            validate_prefix(term, prefix)
-
-        add_namespace(self, prefix, iri)
-        self.ld_type.append(term)
-
-
-class EqVariable(BaseModel):
-    model_config: ConfigDict = ConfigDict(  # type: ignore
-        validate_assigment=True,
-    )  # type: ignore
-
-    id: str
-    name: str
-    symbol: Optional[str] = Field(default=None)
-
-    # JSON-LD fields
-    ld_id: str = Field(
-        serialization_alias="@id",
-        default_factory=lambda: "enzml:EqVariable/" + str(uuid4()),
-    )
-    ld_type: list[str] = Field(
-        serialization_alias="@type",
-        default_factory=lambda: [
-            "enzml:EqVariable",
-        ],
-    )
-    ld_context: dict[str, str | dict] = Field(
-        serialization_alias="@context",
-        default_factory=lambda: {
-            "enzml": "http://www.enzymeml.org/v2/",
-            "schema": "https://schema.org/",
-            "OBO": "http://purl.obolibrary.org/obo/",
-            "id": {
-                "@type": "@id",
-            },
-        },
-    )
-
-    def set_attr_term(
-        self,
-        attr: str,
-        term: str | dict,
-        prefix: str | None = None,
-        iri: str | None = None,
-    ):
-        """Sets the term for a given attribute in the JSON-LD object
-
-        Example:
-            # Using an IRI term
-            >> obj.set_attr_term("name", "http://schema.org/givenName")
-
-            # Using a prefix and term
-            >> obj.set_attr_term("name", "schema:givenName", "schema", "http://schema.org")
-
-            # Usinng a dictionary term
-            >> obj.set_attr_term("name", {"@id": "http://schema.org/givenName", "@type": "@id"})
-
-        Args:
-            attr (str): The attribute to set the term for
-            term (str | dict): The term to set for the attribute
-
-        Raises:
-            AssertionError: If the attribute is not found in the model
-        """
-
-        assert (
-            attr in self.model_fields
-        ), f"Attribute {attr} not found in {self.__class__.__name__}"
-
-        if prefix:
-            validate_prefix(term, prefix)
-
-        add_namespace(self, prefix, iri)
-        self.ld_context[attr] = term
-
-    def add_type_term(
-        self, term: str, prefix: str | None = None, iri: str | None = None
-    ):
-        """Adds a term to the @type field of the JSON-LD object
-
-        Example:
-            # Using a term
-            >> obj.add_type_term("https://schema.org/Person")
-
-            # Using a prefixed term
-            >> obj.add_type_term("schema:Person", "schema", "https://schema.org/Person")
-
-        Args:
-            term (str): The term to add to the @type field
-            prefix (str, optional): The prefix to use for the term. Defaults to None.
-            iri (str, optional): The IRI to use for the term prefix. Defaults to None.
-
-        Raises:
-            ValueError: If prefix is provided but iri is not
-            ValueError: If iri is provided but prefix is not
-        """
-
-        if prefix:
-            validate_prefix(term, prefix)
-
-        add_namespace(self, prefix, iri)
-        self.ld_type.append(term)
-
-
-class EqParameter(BaseModel):
-    model_config: ConfigDict = ConfigDict(  # type: ignore
-        validate_assigment=True,
-    )  # type: ignore
-
-    id: str
-    name: str
-    symbol: Optional[str] = Field(default=None)
-    value: Optional[float] = Field(default=None)
-
-    # JSON-LD fields
-    ld_id: str = Field(
-        serialization_alias="@id",
-        default_factory=lambda: "enzml:EqParameter/" + str(uuid4()),
-    )
-    ld_type: list[str] = Field(
-        serialization_alias="@type",
-        default_factory=lambda: [
-            "enzml:EqParameter",
-        ],
-    )
-    ld_context: dict[str, str | dict] = Field(
-        serialization_alias="@context",
-        default_factory=lambda: {
-            "enzml": "http://www.enzymeml.org/v2/",
-            "schema": "https://schema.org/",
-            "OBO": "http://purl.obolibrary.org/obo/",
-            "id": {
-                "@type": "@id",
-            },
         },
     )
 

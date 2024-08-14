@@ -11,13 +11,12 @@
     <xs:element name="Reaction" type="ReactionType"/>
     <xs:element name="ReactionElement" type="ReactionElementType"/>
     <xs:element name="Equation" type="EquationType"/>
+    <xs:element name="Variable" type="VariableType"/>
     <xs:element name="Parameter" type="ParameterType"/>
     <xs:element name="Measurement" type="MeasurementType"/>
     <xs:element name="MeasurementData" type="MeasurementDataType"/>
     <xs:element name="UnitDefinition" type="UnitDefinitionType"/>
     <xs:element name="BaseUnit" type="BaseUnitType"/>
-    <xs:element name="EqVariable" type="EqVariableType"/>
-    <xs:element name="EqParameter" type="EqParameterType"/>
 
     <!-- EnzymeMLDocument Definition -->
     <xs:complexType name="EnzymeMLDocumentType">
@@ -422,6 +421,13 @@
     <!-- Equation Definition -->
     <xs:complexType name="EquationType">
         <xs:sequence>
+            <xs:element name="equation" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>
+                        Mathematical expression of the equation.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
             <xs:element name="unit" type="UnitDefinitionType">
                 <xs:annotation>
                     <xs:documentation>
@@ -436,13 +442,6 @@
                     </xs:documentation>
                 </xs:annotation>
             </xs:element>
-            <xs:element name="equation" type="xs:string">
-                <xs:annotation>
-                    <xs:documentation>
-                        The equation that is used in the data model.
-                    </xs:documentation>
-                </xs:annotation>
-            </xs:element>
             <xs:element name="species_id" type="xs:string">
                 <xs:annotation>
                     <xs:documentation>
@@ -453,26 +452,53 @@
             <xs:element name="variables">
                 <xs:annotation>
                     <xs:documentation>
-                        List of variables that are used in the equation.
+                        List of variables that are part of the equation
                     </xs:documentation>
                 </xs:annotation>
                 <xs:complexType>
                     <xs:sequence>
-                        <xs:element name="EqVariable" type="EqVariableType" maxOccurs="unbounded"/>
+                        <xs:element name="Variable" type="VariableType" maxOccurs="unbounded"/>
                     </xs:sequence>
                 </xs:complexType>
             </xs:element>
             <xs:element name="parameters">
                 <xs:annotation>
                     <xs:documentation>
-                        List of parameters that are used in the equation.
+                        List of parameters that are part of the equation
                     </xs:documentation>
                 </xs:annotation>
                 <xs:complexType>
                     <xs:sequence>
-                        <xs:element name="EqParameter" type="EqParameterType" maxOccurs="unbounded"/>
+                        <xs:element name="Parameter" type="ParameterType" maxOccurs="unbounded"/>
                     </xs:sequence>
                 </xs:complexType>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+
+    <!-- Variable Definition -->
+    <xs:complexType name="VariableType">
+        <xs:sequence>
+            <xs:element name="id" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>
+                        Unique identifier of the variable.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="name" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>
+                        Name of the variable.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="symbol" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>
+                        Symbol of the variable.
+                    </xs:documentation>
+                </xs:annotation>
             </xs:element>
         </xs:sequence>
     </xs:complexType>
@@ -490,7 +516,14 @@
             <xs:element name="name" type="xs:string">
                 <xs:annotation>
                     <xs:documentation>
-                        Name of the estimated parameter.
+                        Name of the parameter.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="symbol" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>
+                        Symbol of the parameter.
                     </xs:documentation>
                 </xs:annotation>
             </xs:element>
@@ -734,63 +767,6 @@
             <xs:annotation>
                 <xs:documentation>
                     Scale of the base unit in the unit definition.
-                </xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-    </xs:complexType>
-
-    <!-- EqVariable Definition -->
-    <xs:complexType name="EqVariableType">
-        <xs:attribute name="id" type="xs:string"  use="required">
-            <xs:annotation>
-                <xs:documentation>
-                    Unique identifier for the variable.
-                </xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-        <xs:attribute name="name" type="xs:string"  use="required">
-            <xs:annotation>
-                <xs:documentation>
-                    Name of the variable.
-                </xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-        <xs:attribute name="symbol" type="xs:string">
-            <xs:annotation>
-                <xs:documentation>
-                    Symbol of the variable.
-                </xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-    </xs:complexType>
-
-    <!-- EqParameter Definition -->
-    <xs:complexType name="EqParameterType">
-        <xs:attribute name="id" type="xs:string"  use="required">
-            <xs:annotation>
-                <xs:documentation>
-                    Unique identifier for the parameter.
-                </xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-        <xs:attribute name="name" type="xs:string"  use="required">
-            <xs:annotation>
-                <xs:documentation>
-                    Name of the parameter.
-                </xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-        <xs:attribute name="symbol" type="xs:string">
-            <xs:annotation>
-                <xs:documentation>
-                    Symbol of the parameter.
-                </xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-        <xs:attribute name="value" type="xs:float">
-            <xs:annotation>
-                <xs:documentation>
-                    Value of the parameter.
                 </xs:documentation>
             </xs:annotation>
         </xs:attribute>

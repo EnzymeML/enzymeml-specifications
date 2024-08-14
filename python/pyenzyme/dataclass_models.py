@@ -237,18 +237,18 @@ class EnzymeMLDocument:
 
     def add_to_equations(
         self,
+        equation: str,
         unit: UnitDefinition,
         equation_type: EquationType,
-        equation: str,
         species_id: Optional[str] = None,
-        variables: list[EqVariable] = [],
-        parameters: list[EqParameter] = [],
+        variables: list[Variable] = [],
+        parameters: list[Parameter] = [],
         **kwargs,
     ):
         params = {
+            "equation": equation,
             "unit": unit,
             "equation_type": equation_type,
-            "equation": equation,
             "species_id": species_id,
             "variables": variables,
             "parameters": parameters,
@@ -558,14 +558,14 @@ class ReactionElement:
 @dataclass_json
 @dataclass
 class Equation:
+    equation: str
     unit: UnitDefinition
     equation_type: EquationType
-    equation: str
     species_id: Optional[str] = field(
         default=None, metadata=config(exclude=lambda x: x is None)
     )
-    variables: List[EqVariable] = field(default_factory=list)
-    parameters: List[EqParameter] = field(default_factory=list)
+    variables: List[Variable] = field(default_factory=list)
+    parameters: List[Parameter] = field(default_factory=list)
 
     # JSON-LD fields
     id: str = field(
@@ -594,7 +594,7 @@ class Equation:
         self,
         id: str,
         name: str,
-        symbol: Optional[str] = None,
+        symbol: str,
         **kwargs,
     ):
         params = {"id": id, "name": name, "symbol": symbol}
@@ -602,7 +602,7 @@ class Equation:
         if "id" in kwargs:
             params["id"] = kwargs["id"]
 
-        self.variables.append(EqVariable(**params))
+        self.variables.append(Variable(**params))
 
         return self.variables[-1]
 
@@ -610,24 +610,70 @@ class Equation:
         self,
         id: str,
         name: str,
-        symbol: Optional[str] = None,
+        symbol: str,
         value: Optional[float] = None,
+        unit: Optional[UnitDefinition] = None,
+        initial_value: Optional[float] = None,
+        upper: Optional[float] = None,
+        lower: Optional[float] = None,
+        stderr: Optional[float] = None,
+        constant: Optional[bool] = True,
         **kwargs,
     ):
-        params = {"id": id, "name": name, "symbol": symbol, "value": value}
+        params = {
+            "id": id,
+            "name": name,
+            "symbol": symbol,
+            "value": value,
+            "unit": unit,
+            "initial_value": initial_value,
+            "upper": upper,
+            "lower": lower,
+            "stderr": stderr,
+            "constant": constant,
+        }
 
         if "id" in kwargs:
             params["id"] = kwargs["id"]
 
-        self.parameters.append(EqParameter(**params))
+        self.parameters.append(Parameter(**params))
 
         return self.parameters[-1]
 
 
 @dataclass_json
 @dataclass
+class Variable:
+    name: str
+    symbol: str
+
+    # JSON-LD fields
+    id: str = field(
+        metadata=config(field_name="@id"),
+        default_factory=lambda: "enzml:Variable/" + str(uuid4()),
+    )
+    __type__: list[str] = field(
+        metadata=config(field_name="@type"),
+        default_factory=lambda: [
+            "enzml:Variable",
+        ],
+    )
+    __context__: dict[str, str | dict] = field(
+        metadata=config(field_name="@context"),
+        default_factory=lambda: {
+            "enzml": "http://www.enzymeml.org/v2/",
+            "schema": "https://schema.org/",
+            "OBO": "http://purl.obolibrary.org/obo/",
+            "id": "schema:identifier",
+        },
+    )
+
+
+@dataclass_json
+@dataclass
 class Parameter:
     name: str
+    symbol: str
     value: Optional[float] = field(
         default=None, metadata=config(exclude=lambda x: x is None)
     )
@@ -873,73 +919,6 @@ class BaseUnit:
             "enzml": "http://www.enzymeml.org/v2/",
             "schema": "https://schema.org/",
             "OBO": "http://purl.obolibrary.org/obo/",
-        },
-    )
-
-
-@dataclass_json
-@dataclass
-class EqVariable:
-    name: str
-    symbol: Optional[str] = field(
-        default=None, metadata=config(exclude=lambda x: x is None)
-    )
-
-    # JSON-LD fields
-    id: str = field(
-        metadata=config(field_name="@id"),
-        default_factory=lambda: "enzml:EqVariable/" + str(uuid4()),
-    )
-    __type__: list[str] = field(
-        metadata=config(field_name="@type"),
-        default_factory=lambda: [
-            "enzml:EqVariable",
-        ],
-    )
-    __context__: dict[str, str | dict] = field(
-        metadata=config(field_name="@context"),
-        default_factory=lambda: {
-            "enzml": "http://www.enzymeml.org/v2/",
-            "schema": "https://schema.org/",
-            "OBO": "http://purl.obolibrary.org/obo/",
-            "id": {
-                "@type": "@id",
-            },
-        },
-    )
-
-
-@dataclass_json
-@dataclass
-class EqParameter:
-    name: str
-    symbol: Optional[str] = field(
-        default=None, metadata=config(exclude=lambda x: x is None)
-    )
-    value: Optional[float] = field(
-        default=None, metadata=config(exclude=lambda x: x is None)
-    )
-
-    # JSON-LD fields
-    id: str = field(
-        metadata=config(field_name="@id"),
-        default_factory=lambda: "enzml:EqParameter/" + str(uuid4()),
-    )
-    __type__: list[str] = field(
-        metadata=config(field_name="@type"),
-        default_factory=lambda: [
-            "enzml:EqParameter",
-        ],
-    )
-    __context__: dict[str, str | dict] = field(
-        metadata=config(field_name="@context"),
-        default_factory=lambda: {
-            "enzml": "http://www.enzymeml.org/v2/",
-            "schema": "https://schema.org/",
-            "OBO": "http://purl.obolibrary.org/obo/",
-            "id": {
-                "@type": "@id",
-            },
         },
     )
 

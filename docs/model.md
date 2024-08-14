@@ -19,13 +19,12 @@ This page provides comprehensive information about the structure and components 
         reaction(Reaction)
         reactionelement(ReactionElement)
         equation(Equation)
+        variable(Variable)
         parameter(Parameter)
         measurement(Measurement)
         measurementdata(MeasurementData)
         unitdefinition(UnitDefinition)
         baseunit(BaseUnit)
-        eqvariable(EqVariable)
-        eqparameter(EqParameter)
         equationtype(EquationType)
         datatypes(DataTypes)
         unittype(UnitType)
@@ -42,8 +41,8 @@ This page provides comprehensive information about the structure and components 
         reaction(Reaction) --> reactionelement(ReactionElement)
         equation(Equation) --> unitdefinition(UnitDefinition)
         equation(Equation) --> equationtype(EquationType)
-        equation(Equation) --> eqvariable(EqVariable)
-        equation(Equation) --> eqparameter(EqParameter)
+        equation(Equation) --> variable(Variable)
+        equation(Equation) --> parameter(Parameter)
         parameter(Parameter) --> unitdefinition(UnitDefinition)
         measurement(Measurement) --> measurementdata(MeasurementData)
         measurement(Measurement) --> unitdefinition(UnitDefinition)
@@ -61,13 +60,12 @@ This page provides comprehensive information about the structure and components 
         click reaction "#reaction" "Go to Reaction"
         click reactionelement "#reactionelement" "Go to ReactionElement"
         click equation "#equation" "Go to Equation"
+        click variable "#variable" "Go to Variable"
         click parameter "#parameter" "Go to Parameter"
         click measurement "#measurement" "Go to Measurement"
         click measurementdata "#measurementdata" "Go to MeasurementData"
         click unitdefinition "#unitdefinition" "Go to UnitDefinition"
         click baseunit "#baseunit" "Go to BaseUnit"
-        click eqvariable "#eqvariable" "Go to EqVariable"
-        click eqparameter "#eqparameter" "Go to EqParameter"
         click equationtype "#equationtype" "Go to EquationType"
         click datatypes "#datatypes" "Go to DataTypes"
         click unittype "#unittype" "Go to UnitType"
@@ -75,8 +73,8 @@ This page provides comprehensive information about the structure and components 
 
 
 ## Ontologies
-- [schema](https://schema.org/)
 - [OBO](http://purl.obolibrary.org/obo/)
+- [schema](https://schema.org/)
 
 
 ## Types
@@ -364,7 +362,12 @@ __stoichiometry__* `float`
 ------
 
 ### Equation
-This object describes an ordinary differential equation that is part of the kinetic model.
+This object describes an equation that can be used to model the kinetics of a reaction. There are different types of equations that can be used to model the kinetics of a reaction. The equation can be an ordinary differential equation, a rate law or assignment rule.
+
+__equation__* `string`
+
+- Mathematical expression of the equation.
+
 
 __unit__* [`UnitDefinition`](#unitdefinition)
 
@@ -376,24 +379,39 @@ __equation_type__* [`EquationType`](#equationtype)
 - Type of the equation.
 
 
-__equation__* `string`
-
-- The equation that is used in the data model.
-
-
 __species_id__ `string`
 
 - Internal identifier to a species defined in the EnzymeMLDocument, given it is a rate equation.
 
 
-__variables__ [`list[EqVariable]`](#eqvariable)
+__variables__ [`list[Variable]`](#variable)
 
-- List of variables that are used in the equation.
+- List of variables that are part of the equation
 
 
-__parameters__ [`list[EqParameter]`](#eqparameter)
+__parameters__ [`list[Parameter]`](#parameter)
 
-- List of parameters that are used in the equation.
+- List of parameters that are part of the equation
+
+
+------
+
+### Variable
+This object describes a variable that is part of an equation.
+
+__id__* `string`
+
+- Unique identifier of the variable.
+
+
+__name__* `string`
+
+- Name of the variable.
+
+
+__symbol__* `string`
+
+- Symbol of the variable.
 
 
 ------
@@ -408,7 +426,12 @@ __id__* `string`
 
 __name__* `string`
 
-- Name of the estimated parameter.
+- Name of the parameter.
+
+
+__symbol__* `string`
+
+- Symbol of the parameter.
 
 
 __value__ `float`
@@ -581,51 +604,6 @@ __multiplier__ `float`
 __scale__ `float`
 
 - Scale of the base unit in the unit definition.
-
-
-------
-
-### EqVariable
-Represents a variable that is used in the equation.
-
-__id__* `string`
-
-- Unique identifier for the variable.
-
-
-__name__* `string`
-
-- Name of the variable.
-
-
-__symbol__ `string`
-
-- Symbol of the variable.
-
-
-------
-
-### EqParameter
-Represents a parameter that is used in the equation.
-
-__id__* `string`
-
-- Unique identifier for the parameter.
-
-
-__name__* `string`
-
-- Name of the parameter.
-
-
-__symbol__ `string`
-
-- Symbol of the parameter.
-
-
-__value__ `float`
-
-- Value of the parameter.
 
 
 ## Enumerations

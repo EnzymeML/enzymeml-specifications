@@ -174,6 +174,17 @@ enzml:ReactionShape
         sh:maxCount 1 ;
     ];
 
+enzml:VariableShape
+    a sh:NodeShape ;
+    sh:targetClass md:Variable ;
+
+    sh:property [
+        sh:path schema:identifier ;
+        sh:datatype xsd:string ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+    ];
+
 enzml:ParameterShape
     a sh:NodeShape ;
     sh:targetClass md:Parameter ;
