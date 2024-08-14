@@ -97,6 +97,11 @@ enzml:Complex {
             shex:label "id"
         ]
     };
+    schema:name xsd:string {
+        shex:annotation [
+            shex:label "name"
+        ]
+    };
 }
 enzml:SmallMolecule {
     schema:identifier xsd:string {

@@ -346,19 +346,6 @@ This object describes a single entity of a measurement, which corresponds to one
 
 ## Enumerations
 
-### DataTypes
-
-These values are used to determine the type of time course data.
-
-```python
-CONCENTRATION = "conc"
-ABSORPTION = "abs"
-FEED = "feed"
-BIOMASS = "biomass"
-CONVERSION = "conversion"
-PEAK_AREA = "peak-area"
-```
-
 ### EquationType
 
 These values are used to determine the type of equation.

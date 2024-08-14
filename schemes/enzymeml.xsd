@@ -32,7 +32,7 @@
             <xs:element name="references" type="xs:string"  maxOccurs="unbounded">
                 <xs:annotation>
                     <xs:documentation>
-                        Contains references to publications, databases and arbitrary links to the web.
+                        Contains references to publications, databases, and arbitrary links to the web.
                     </xs:documentation>
                 </xs:annotation>
             </xs:element>
@@ -113,7 +113,7 @@
             <xs:element name="reactions">
                 <xs:annotation>
                     <xs:documentation>
-                        Dictionary mapping from reaction IDs to reaction describing objects.
+                        Dictionary mapping from reaction IDs to reaction-describing objects.
                     </xs:documentation>
                 </xs:annotation>
                 <xs:complexType>
@@ -143,18 +143,6 @@
                 <xs:complexType>
                     <xs:sequence>
                         <xs:element name="Equation" type="EquationType" maxOccurs="unbounded"/>
-                    </xs:sequence>
-                </xs:complexType>
-            </xs:element>
-            <xs:element name="parameters">
-                <xs:annotation>
-                    <xs:documentation>
-                        Contains parameters that are part of the kinetic model.
-                    </xs:documentation>
-                </xs:annotation>
-                <xs:complexType>
-                    <xs:sequence>
-                        <xs:element name="Parameter" type="ParameterType" maxOccurs="unbounded"/>
                     </xs:sequence>
                 </xs:complexType>
             </xs:element>
@@ -279,7 +267,7 @@
             <xs:element name="references" type="xs:string"  maxOccurs="unbounded">
                 <xs:annotation>
                     <xs:documentation>
-                        Array of references to publications, database entries etc. that describe the protein.
+                        Array of references to publications, database entries, etc. that describe the protein.
                     </xs:documentation>
                 </xs:annotation>
             </xs:element>
@@ -296,6 +284,8 @@
                     </xs:documentation>
                 </xs:annotation>
             </xs:element>
+            <xs:element name="name" type="xs:string"/>
+            <xs:element name="constant" type="xs:boolean" default="false"/>
             <xs:element name="participants" type="xs:string"  maxOccurs="unbounded">
                 <xs:annotation>
                     <xs:documentation>
@@ -332,6 +322,13 @@
                     </xs:documentation>
                 </xs:annotation>
             </xs:element>
+            <xs:element name="inchi" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>
+                        International Chemical Identifier (InChI) encoding of the reactant.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
             <xs:element name="inchikey" type="xs:string">
                 <xs:annotation>
                     <xs:documentation>
@@ -342,7 +339,7 @@
             <xs:element name="references" type="xs:string"  maxOccurs="unbounded">
                 <xs:annotation>
                     <xs:documentation>
-                        Array of references to publications, database entries etc. that describe the reactant.
+                        Array of references to publications, database entries, etc. that describe the reactant.
                     </xs:documentation>
                 </xs:annotation>
             </xs:element>
@@ -566,10 +563,10 @@
                     </xs:documentation>
                 </xs:annotation>
             </xs:element>
-            <xs:element name="species">
+            <xs:element name="species_data">
                 <xs:annotation>
                     <xs:documentation>
-                        Species of the measurement.
+                        Measurement data of all species that were part of the measurement. A species can refer to a protein, complex, or small molecule.
                     </xs:documentation>
                 </xs:annotation>
                 <xs:complexType>
@@ -581,7 +578,7 @@
             <xs:element name="group_id" type="xs:string">
                 <xs:annotation>
                     <xs:documentation>
-                        User-defined group ID to signalize relationships between measurements.
+                        User-defined group ID to signal relationships between measurements.
                     </xs:documentation>
                 </xs:annotation>
             </xs:element>
@@ -626,31 +623,10 @@
                     </xs:documentation>
                 </xs:annotation>
             </xs:element>
-            <xs:element name="data_type" type="DataTypesType">
-                <xs:annotation>
-                    <xs:documentation>
-                        Type of data that was measured (e.g. concentration)
-                    </xs:documentation>
-                </xs:annotation>
-            </xs:element>
-            <xs:element name="data_unit" type="UnitDefinitionType">
+            <xs:element name="conc_unit" type="UnitDefinitionType">
                 <xs:annotation>
                     <xs:documentation>
                         SI unit of the data that was measured.
-                    </xs:documentation>
-                </xs:annotation>
-            </xs:element>
-            <xs:element name="time_unit" type="UnitDefinitionType">
-                <xs:annotation>
-                    <xs:documentation>
-                        Time unit of the replicate.
-                    </xs:documentation>
-                </xs:annotation>
-            </xs:element>
-            <xs:element name="time" type="xs:float"  maxOccurs="unbounded" minOccurs="1">
-                <xs:annotation>
-                    <xs:documentation>
-                        Time steps of the replicate.
                     </xs:documentation>
                 </xs:annotation>
             </xs:element>
@@ -661,6 +637,27 @@
                     </xs:documentation>
                 </xs:annotation>
             </xs:element>
+            <xs:element name="time" type="xs:float"  maxOccurs="unbounded" minOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>
+                        Time steps of the replicate.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="time_unit" type="UnitDefinitionType">
+                <xs:annotation>
+                    <xs:documentation>
+                        Time unit of the replicate.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="data_type" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>
+                        Type of data that was measured (e.g. concentration)
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
             <xs:element name="prep_conc" type="xs:float">
                 <xs:annotation>
                     <xs:documentation>
@@ -668,7 +665,7 @@
                     </xs:documentation>
                 </xs:annotation>
             </xs:element>
-            <xs:element name="is_calculated" type="xs:boolean" default="false">
+            <xs:element name="is_simulated" type="xs:boolean" default="false">
                 <xs:annotation>
                     <xs:documentation>
                         Whether or not the data has been generated by simulation.
@@ -799,17 +796,6 @@
         </xs:attribute>
     </xs:complexType>
 
-    <!-- Enum DataTypes Definition -->
-    <xs:simpleType name="DataTypesType">
-        <xs:restriction base="xs:string">
-            <xs:enumeration value="abs"/>
-            <xs:enumeration value="biomass"/>
-            <xs:enumeration value="conc"/>
-            <xs:enumeration value="conversion"/>
-            <xs:enumeration value="feed"/>
-            <xs:enumeration value="peak-area"/>
-        </xs:restriction>
-    </xs:simpleType>
     <!-- Enum EquationType Definition -->
     <xs:simpleType name="EquationTypeType">
         <xs:restriction base="xs:string">
@@ -817,6 +803,17 @@
             <xs:enumeration value="initialAssignment"/>
             <xs:enumeration value="ode"/>
             <xs:enumeration value="rateLaw"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <!-- Enum DataTypes Definition -->
+    <xs:simpleType name="DataTypesType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="http://purl.allotrope.org/ontologies/quality#AFQ_0000061"/>
+            <xs:enumeration value="http://purl.obolibrary.org/obo/PATO_0000033"/>
+            <xs:enumeration value="http://purl.allotrope.org/ontologies/quality#AFQ_0000226"/>
+            <xs:enumeration value="http://purl.obolibrary.org/obo/PATO_0000018"/>
+            <xs:enumeration value="http://purl.allotrope.org/ontologies/result#AFR_0001073"/>
+            <xs:enumeration value="http://purl.allotrope.org/ontologies/result#AFR_0002261"/>
         </xs:restriction>
     </xs:simpleType>
     <!-- Enum UnitType Definition -->

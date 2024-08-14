@@ -26,8 +26,8 @@ This page provides comprehensive information about the structure and components 
         baseunit(BaseUnit)
         eqvariable(EqVariable)
         eqparameter(EqParameter)
-        datatypes(DataTypes)
         equationtype(EquationType)
+        datatypes(DataTypes)
         unittype(UnitType)
         enzymemldocument(EnzymeMLDocument) --> creator(Creator)
         enzymemldocument(EnzymeMLDocument) --> vessel(Vessel)
@@ -37,7 +37,6 @@ This page provides comprehensive information about the structure and components 
         enzymemldocument(EnzymeMLDocument) --> reaction(Reaction)
         enzymemldocument(EnzymeMLDocument) --> measurement(Measurement)
         enzymemldocument(EnzymeMLDocument) --> equation(Equation)
-        enzymemldocument(EnzymeMLDocument) --> parameter(Parameter)
         vessel(Vessel) --> unitdefinition(UnitDefinition)
         reaction(Reaction) --> equation(Equation)
         reaction(Reaction) --> reactionelement(ReactionElement)
@@ -48,7 +47,6 @@ This page provides comprehensive information about the structure and components 
         parameter(Parameter) --> unitdefinition(UnitDefinition)
         measurement(Measurement) --> measurementdata(MeasurementData)
         measurement(Measurement) --> unitdefinition(UnitDefinition)
-        measurementdata(MeasurementData) --> datatypes(DataTypes)
         measurementdata(MeasurementData) --> unitdefinition(UnitDefinition)
         measurementdata(MeasurementData) --> unitdefinition(UnitDefinition)
         unitdefinition(UnitDefinition) --> baseunit(BaseUnit)
@@ -70,8 +68,8 @@ This page provides comprehensive information about the structure and components 
         click baseunit "#baseunit" "Go to BaseUnit"
         click eqvariable "#eqvariable" "Go to EqVariable"
         click eqparameter "#eqparameter" "Go to EqParameter"
-        click datatypes "#datatypes" "Go to DataTypes"
         click equationtype "#equationtype" "Go to EquationType"
+        click datatypes "#datatypes" "Go to DataTypes"
         click unittype "#unittype" "Go to UnitType"
     ```
 
@@ -85,7 +83,7 @@ This page provides comprehensive information about the structure and components 
 
 
 ### EnzymeMLDocument
-This is the root object that composes all objects found in an EnzymeML document. It also includes general metadata such as the name of the document, when it was created/modified and references to publications, databases and arbitrary links to the web.
+This is the root object that composes all objects found in an EnzymeML document. It also includes general metadata such as the name of the document, when it was created/modified, and references to publications, databases, and arbitrary links to the web.
 
 __name__* `string`
 
@@ -94,7 +92,7 @@ __name__* `string`
 
 __references__ `list[string]`
 
-- Contains references to publications, databases and arbitrary links to the web.
+- Contains references to publications, databases, and arbitrary links to the web.
 
 
 __created__ `string`
@@ -134,7 +132,7 @@ __small_molecules__ [`list[SmallMolecule]`](#smallmolecule)
 
 __reactions__ [`list[Reaction]`](#reaction)
 
-- Dictionary mapping from reaction IDs to reaction describing objects.
+- Dictionary mapping from reaction IDs to reaction-describing objects.
 
 
 __measurements__ [`list[Measurement]`](#measurement)
@@ -145,11 +143,6 @@ __measurements__ [`list[Measurement]`](#measurement)
 __equations__ [`list[Equation]`](#equation)
 
 - Contains ordinary differential equations that describe the kinetic model.
-
-
-__parameters__ [`list[Parameter]`](#parameter)
-
-- Contains parameters that are part of the kinetic model.
 
 
 ------
@@ -206,7 +199,7 @@ __constant__* `boolean`
 ------
 
 ### Protein
-This objects describes the proteins that were used or formed over the course of the experiment.
+This object describes the proteins that were used or formed throughout the experiment.
 
 __id__* `string`
 
@@ -248,7 +241,7 @@ __organism_tax_id__ `string`
 
 __references__ `list[string]`
 
-- Array of references to publications, database entries etc. that describe the protein.
+- Array of references to publications, database entries, etc. that describe the protein.
 
 
 ------
@@ -261,6 +254,14 @@ __id__* `string`
 - Unique identifier of the complex.
 
 
+__name__* `string`
+
+
+__constant__* `boolean`
+
+
+- `Default`: false
+
 __participants__ `list[string]`
 
 - Array of IDs the complex contains
@@ -269,7 +270,7 @@ __participants__ `list[string]`
 ------
 
 ### SmallMolecule
-This objects describes the reactants that were used or produced in the course of the experiment.
+This object describes the reactants that were used or produced in the course of the experiment.
 
 __id__* `string`
 
@@ -294,6 +295,11 @@ __canonical_smiles__ `string`
 - Canonical Simplified Molecular-Input Line-Entry System (SMILES) encoding of the reactant.
 
 
+__inchi__ `string`
+
+- International Chemical Identifier (InChI) encoding of the reactant.
+
+
 __inchikey__ `string`
 
 - Hashed International Chemical Identifier (InChIKey) encoding of the reactant.
@@ -301,7 +307,7 @@ __inchikey__ `string`
 
 __references__ `list[string]`
 
-- Array of references to publications, database entries etc. that describe the reactant.
+- Array of references to publications, database entries, etc. that describe the reactant.
 
 
 ------
@@ -456,14 +462,14 @@ __name__* `string`
 - Name of the measurement
 
 
-__species__ [`list[MeasurementData]`](#measurementdata)
+__species_data__ [`list[MeasurementData]`](#measurementdata)
 
-- Species of the measurement.
+- Measurement data of all species that were part of the measurement. A species can refer to a protein, complex, or small molecule.
 
 
 __group_id__ `string`
 
-- User-defined group ID to signalize relationships between measurements.
+- User-defined group ID to signal relationships between measurements.
 
 
 __ph__ `float`
@@ -484,7 +490,7 @@ __temperature_unit__ [`UnitDefinition`](#unitdefinition)
 ------
 
 ### MeasurementData
-This object describes a single entity of a measurement, which corresponds to one species. It also holds replicates which contain time course data.
+This object describes a single entity of a measurement, which corresponds to one species. It also holds replicates that contain time course data.
 
 __species_id__* `string`
 
@@ -496,24 +502,9 @@ __init_conc__* `float`
 - Initial concentration of the measurement data. This must be the same as the first data point in the
 
 
-__data_type__* [`DataTypes`](#datatypes)
-
-- Type of data that was measured (e.g. concentration)
-
-
-__data_unit__* [`UnitDefinition`](#unitdefinition)
+__conc_unit__* [`UnitDefinition`](#unitdefinition)
 
 - SI unit of the data that was measured.
-
-
-__time_unit__* [`UnitDefinition`](#unitdefinition)
-
-- Time unit of the replicate.
-
-
-__time__* `list[float]`
-
-- Time steps of the replicate.
 
 
 __data__* `list[float]`
@@ -521,12 +512,27 @@ __data__* `list[float]`
 - Data that was measured.
 
 
+__time__* `list[float]`
+
+- Time steps of the replicate.
+
+
+__time_unit__* [`UnitDefinition`](#unitdefinition)
+
+- Time unit of the replicate.
+
+
+__data_type__* `string`
+
+- Type of data that was measured (e.g. concentration)
+
+
 __prep_conc__ `float`
 
 - Concentration of the reactant before the measurement. This field should be used for specifying the prepared concentration of a species in the reaction mix. Not to be confused with init_conc, specifying the concentration at the first data point from the
 
 
-__is_calculated__* `boolean`
+__is_simulated__* `boolean`
 
 - Whether or not the data has been generated by simulation.
 
@@ -624,17 +630,6 @@ __value__ `float`
 
 ## Enumerations
 
-### DataTypes
-
-| Alias | Value |
-|-------|-------|
-| `ABSORPTION` | abs |
-| `BIOMASS` | biomass |
-| `CONCENTRATION` | conc |
-| `CONVERSION` | conversion |
-| `FEED` | feed |
-| `PEAK_AREA` | peak-area |
-
 ### EquationType
 
 | Alias | Value |
@@ -643,6 +638,17 @@ __value__ `float`
 | `INITIAL_ASSIGNMENT` | initialAssignment |
 | `ODE` | ode |
 | `RATE_LAW` | rateLaw |
+
+### DataTypes
+
+| Alias | Value |
+|-------|-------|
+| `ABSORBANCE` | http://purl.allotrope.org/ontologies/quality#AFQ_0000061 |
+| `CONCENTRATION` | http://purl.obolibrary.org/obo/PATO_0000033 |
+| `CONVERSION` | http://purl.allotrope.org/ontologies/quality#AFQ_0000226 |
+| `FLUORESCENCE` | http://purl.obolibrary.org/obo/PATO_0000018 |
+| `PEAK_AREA` | http://purl.allotrope.org/ontologies/result#AFR_0001073 |
+| `TRANSMITTANCE` | http://purl.allotrope.org/ontologies/result#AFR_0002261 |
 
 ### UnitType
 

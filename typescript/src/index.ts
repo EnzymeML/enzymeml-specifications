@@ -24,12 +24,12 @@ export interface JsonLd {
 // EnzymeML Type definitions
 /**
     This is the root object that composes all objects found in an EnzymeML
-    document. It also includes general metadata such as the name
-    of the document, when it was created/modified and references to
-    publications, databases and arbitrary links to the web.
+    document. It also includes general metadata such as the name of
+    the document, when it was created/modified, and references to
+    publications, databases, and arbitrary links to the web.
 
     * @param name - Title of the EnzymeML Document.
-    * @param references - Contains references to publications, databases and arbitrary links to
+    * @param references - Contains references to publications, databases, and arbitrary links to
              the web.
     * @param created - Date the EnzymeML document was created.
     * @param modified - Date the EnzymeML document was modified.
@@ -38,11 +38,10 @@ export interface JsonLd {
     * @param proteins - Contains all proteins that are part of the experiment.
     * @param complexes - Contains all complexes that are part of the experiment.
     * @param small_molecules - Contains all reactants that are part of the experiment.
-    * @param reactions - Dictionary mapping from reaction IDs to reaction describing objects.
+    * @param reactions - Dictionary mapping from reaction IDs to reaction-describing objects.
     * @param measurements - Contains measurements that describe outcomes of an experiment.
     * @param equations - Contains ordinary differential equations that describe the kinetic
              model.
-    * @param parameters - Contains parameters that are part of the kinetic model.
 **/
 export interface EnzymeMLDocument extends JsonLd {
   name: string;
@@ -57,7 +56,6 @@ export interface EnzymeMLDocument extends JsonLd {
   reactions?: Reaction[] | null;
   measurements?: Measurement[] | null;
   equations?: Equation[] | null;
-  parameters?: Parameter[] | null;
 }
 
 export const EnzymeMLDocumentCodec = D.lazy("EnzymeMLDocument", () => D.struct({
@@ -73,7 +71,6 @@ export const EnzymeMLDocumentCodec = D.lazy("EnzymeMLDocument", () => D.struct({
     reactions: D.array(ReactionCodec),
     measurements: D.array(MeasurementCodec),
     equations: D.array(EquationCodec),
-    parameters: D.array(ParameterCodec),
 }));
 
 
@@ -127,8 +124,8 @@ export const VesselCodec = D.lazy("Vessel", () => D.struct({
 
 
 /**
-    This objects describes the proteins that were used or formed over the
-    course of the experiment.
+    This object describes the proteins that were used or formed throughout
+    the experiment.
 
     * @param id - Unique internal identifier of the protein.
     * @param name
@@ -138,7 +135,7 @@ export const VesselCodec = D.lazy("Vessel", () => D.struct({
     * @param ecnumber - EC number of the protein.
     * @param organism - Organism the protein was expressed in.
     * @param organism_tax_id - Taxonomy identifier of the expression host.
-    * @param references - Array of references to publications, database entries etc. that
+    * @param references - Array of references to publications, database entries, etc. that
              describe the protein.
 **/
 export interface Protein extends JsonLd {
@@ -171,21 +168,27 @@ export const ProteinCodec = D.lazy("Protein", () => D.struct({
     were used or produced in the course of the experiment.
 
     * @param id - Unique identifier of the complex.
+    * @param name
+    * @param constant
     * @param participants - Array of IDs the complex contains
 **/
 export interface Complex extends JsonLd {
   id: string;
+  name: string;
+  constant: boolean;
   participants?: string[] | null;
 }
 
 export const ComplexCodec = D.lazy("Complex", () => D.struct({
     id: D.string,
+    name: D.string,
+    constant: D.boolean,
     participants: D.array(D.string),
 }));
 
 
 /**
-    This objects describes the reactants that were used or produced in the
+    This object describes the reactants that were used or produced in the
     course of the experiment.
 
     * @param id - Unique identifier of the small molecule.
@@ -194,9 +197,10 @@ export const ComplexCodec = D.lazy("Complex", () => D.struct({
     * @param vessel_id - Unique identifier of the vessel this small molecule has been used in.
     * @param canonical_smiles - Canonical Simplified Molecular-Input Line-Entry System (SMILES)
              encoding of the reactant.
+    * @param inchi - International Chemical Identifier (InChI) encoding of the reactant.
     * @param inchikey - Hashed International Chemical Identifier (InChIKey) encoding of the
              reactant.
-    * @param references - Array of references to publications, database entries etc. that
+    * @param references - Array of references to publications, database entries, etc. that
              describe the reactant.
 **/
 export interface SmallMolecule extends JsonLd {
@@ -205,6 +209,7 @@ export interface SmallMolecule extends JsonLd {
   constant: boolean;
   vessel_id?: string | null;
   canonical_smiles?: string | null;
+  inchi?: string | null;
   inchikey?: string | null;
   references?: string[] | null;
 }
@@ -215,6 +220,7 @@ export const SmallMoleculeCodec = D.lazy("SmallMolecule", () => D.struct({
     constant: D.boolean,
     vessel_id: D.nullable(D.string),
     canonical_smiles: D.nullable(D.string),
+    inchi: D.nullable(D.string),
     inchikey: D.nullable(D.string),
     references: D.array(D.string),
 }));
@@ -349,8 +355,10 @@ export const ParameterCodec = D.lazy("Parameter", () => D.struct({
 
     * @param id - Unique identifier of the measurement.
     * @param name - Name of the measurement
-    * @param species - Species of the measurement.
-    * @param group_id - User-defined group ID to signalize relationships between measurements.
+    * @param species_data - Measurement data of all species that were part of the measurement.
+             A species can refer to a protein, complex, or small
+             molecule.
+    * @param group_id - User-defined group ID to signal relationships between measurements.
     * @param ph - PH value of the measurement.
     * @param temperature - Temperature of the measurement.
     * @param temperature_unit - Unit of the temperature of the measurement.
@@ -358,7 +366,7 @@ export const ParameterCodec = D.lazy("Parameter", () => D.struct({
 export interface Measurement extends JsonLd {
   id: string;
   name: string;
-  species?: MeasurementData[] | null;
+  species_data?: MeasurementData[] | null;
   group_id?: string | null;
   ph?: number | null;
   temperature?: number | null;
@@ -368,7 +376,7 @@ export interface Measurement extends JsonLd {
 export const MeasurementCodec = D.lazy("Measurement", () => D.struct({
     id: D.string,
     name: D.string,
-    species: D.array(MeasurementDataCodec),
+    species_data: D.array(MeasurementDataCodec),
     group_id: D.nullable(D.string),
     ph: D.nullable(D.number),
     temperature: D.nullable(D.number),
@@ -378,46 +386,46 @@ export const MeasurementCodec = D.lazy("Measurement", () => D.struct({
 
 /**
     This object describes a single entity of a measurement, which
-    corresponds to one species. It also holds replicates which contain
+    corresponds to one species. It also holds replicates that contain
     time course data.
 
     * @param species_id - The identifier for the described reactant.
     * @param init_conc - Initial concentration of the measurement data. This must be the same
              as the first data point in the
-    * @param data_type - Type of data that was measured (e.g. concentration)
-    * @param data_unit - SI unit of the data that was measured.
-    * @param time_unit - Time unit of the replicate.
-    * @param time - Time steps of the replicate.
+    * @param conc_unit - SI unit of the data that was measured.
     * @param data - Data that was measured.
+    * @param time - Time steps of the replicate.
+    * @param time_unit - Time unit of the replicate.
+    * @param data_type - Type of data that was measured (e.g. concentration)
     * @param prep_conc - Concentration of the reactant before the measurement. This field
              should be used for specifying the prepared concentration
              of a species in the reaction mix. Not to be confused with
              init_conc, specifying the concentration at the first data
              point from the
-    * @param is_calculated - Whether or not the data has been generated by simulation.
+    * @param is_simulated - Whether or not the data has been generated by simulation.
 **/
 export interface MeasurementData extends JsonLd {
   species_id: string;
   init_conc: number;
-  data_type: DataTypes;
-  data_unit: UnitDefinition;
-  time_unit: UnitDefinition;
-  time: number[];
+  conc_unit: UnitDefinition;
   data: number[];
+  time: number[];
+  time_unit: UnitDefinition;
+  data_type: string;
   prep_conc?: number | null;
-  is_calculated: boolean;
+  is_simulated: boolean;
 }
 
 export const MeasurementDataCodec = D.lazy("MeasurementData", () => D.struct({
     species_id: D.string,
     init_conc: D.number,
-    data_type: DataTypesCodec,
-    data_unit: UnitDefinitionCodec,
-    time_unit: UnitDefinitionCodec,
-    time: D.array(D.number),
+    conc_unit: UnitDefinitionCodec,
     data: D.array(D.number),
+    time: D.array(D.number),
+    time_unit: UnitDefinitionCodec,
+    data_type: D.string,
     prep_conc: D.nullable(D.number),
-    is_calculated: D.boolean,
+    is_simulated: D.boolean,
 }));
 
 
@@ -508,24 +516,6 @@ export const EqParameterCodec = D.lazy("EqParameter", () => D.struct({
 
 
 // EnzymeML Enum definitions
-export enum DataTypes {
-  ABSORPTION = 'abs',
-  BIOMASS = 'biomass',
-  CONCENTRATION = 'conc',
-  CONVERSION = 'conversion',
-  FEED = 'feed',
-  PEAK_AREA = 'peak-area',
-}
-
-export const DataTypesCodec = D.union(
-  D.literal(DataTypes.ABSORPTION),
-  D.literal(DataTypes.BIOMASS),
-  D.literal(DataTypes.CONCENTRATION),
-  D.literal(DataTypes.CONVERSION),
-  D.literal(DataTypes.FEED),
-  D.literal(DataTypes.PEAK_AREA),
-);
-
 export enum EquationType {
   ASSIGNMENT = 'assignment',
   INITIAL_ASSIGNMENT = 'initialAssignment',
@@ -538,6 +528,24 @@ export const EquationTypeCodec = D.union(
   D.literal(EquationType.INITIAL_ASSIGNMENT),
   D.literal(EquationType.ODE),
   D.literal(EquationType.RATE_LAW),
+);
+
+export enum DataTypes {
+  ABSORBANCE = 'http://purl.allotrope.org/ontologies/quality#AFQ_0000061',
+  CONCENTRATION = 'http://purl.obolibrary.org/obo/PATO_0000033',
+  CONVERSION = 'http://purl.allotrope.org/ontologies/quality#AFQ_0000226',
+  FLUORESCENCE = 'http://purl.obolibrary.org/obo/PATO_0000018',
+  PEAK_AREA = 'http://purl.allotrope.org/ontologies/result#AFR_0001073',
+  TRANSMITTANCE = 'http://purl.allotrope.org/ontologies/result#AFR_0002261',
+}
+
+export const DataTypesCodec = D.union(
+  D.literal(DataTypes.ABSORBANCE),
+  D.literal(DataTypes.CONCENTRATION),
+  D.literal(DataTypes.CONVERSION),
+  D.literal(DataTypes.FLUORESCENCE),
+  D.literal(DataTypes.PEAK_AREA),
+  D.literal(DataTypes.TRANSMITTANCE),
 );
 
 export enum UnitType {
