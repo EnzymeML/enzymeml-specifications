@@ -242,9 +242,6 @@ This object describes an equation that can be used to model the kinetics of a re
 - __equation__
   - Type: string
   - Description: Mathematical expression of the equation.
-- __unit__
-  - Type: UnitDefinition
-  - Description: Unit of the rate law.
 - __equation_type__
   - Type: EquationType
   - Description: Type of the equation.
