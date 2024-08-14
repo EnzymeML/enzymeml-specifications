@@ -670,7 +670,7 @@
                     </xs:documentation>
                 </xs:annotation>
             </xs:element>
-            <xs:element name="data_type" type="xs:string">
+            <xs:element name="data_type" type="DataTypesType">
                 <xs:annotation>
                     <xs:documentation>
                         Type of data that was measured (e.g. concentration)

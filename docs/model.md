@@ -48,6 +48,7 @@ This page provides comprehensive information about the structure and components 
         measurement(Measurement) --> unitdefinition(UnitDefinition)
         measurementdata(MeasurementData) --> unitdefinition(UnitDefinition)
         measurementdata(MeasurementData) --> unitdefinition(UnitDefinition)
+        measurementdata(MeasurementData) --> datatypes(DataTypes)
         unitdefinition(UnitDefinition) --> baseunit(BaseUnit)
         baseunit(BaseUnit) --> unittype(UnitType)
 
@@ -73,8 +74,8 @@ This page provides comprehensive information about the structure and components 
 
 
 ## Ontologies
-- [OBO](http://purl.obolibrary.org/obo/)
 - [schema](https://schema.org/)
+- [OBO](http://purl.obolibrary.org/obo/)
 
 
 ## Types
@@ -535,7 +536,7 @@ __time_unit__* [`UnitDefinition`](#unitdefinition)
 - Time unit of the replicate.
 
 
-__data_type__* `string`
+__data_type__* [`DataTypes`](#datatypes)
 
 - Type of data that was measured (e.g. concentration)
 

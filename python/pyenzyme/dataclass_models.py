@@ -770,7 +770,7 @@ class Measurement:
         initial: float,
         data_unit: UnitDefinition,
         time_unit: UnitDefinition,
-        data_type: str,
+        data_type: DataTypes,
         prepared: Optional[float] = None,
         data: list[float] = [],
         time: list[float] = [],
@@ -804,7 +804,7 @@ class MeasurementData:
     initial: float
     data_unit: UnitDefinition
     time_unit: UnitDefinition
-    data_type: str
+    data_type: DataTypes
     prepared: Optional[float] = field(
         default=None, metadata=config(exclude=lambda x: x is None)
     )
@@ -830,9 +830,6 @@ class MeasurementData:
             "schema": "https://schema.org/",
             "OBO": "http://purl.obolibrary.org/obo/",
             "species_id": {
-                "@type": "@id",
-            },
-            "data_type": {
                 "@type": "@id",
             },
         },

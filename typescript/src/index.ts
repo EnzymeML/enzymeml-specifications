@@ -433,7 +433,7 @@ export interface MeasurementData extends JsonLd {
   initial: number;
   data_unit: UnitDefinition;
   time_unit: UnitDefinition;
-  data_type: string;
+  data_type: DataTypes;
   prepared?: number | null;
   data: number[];
   time: number[];
@@ -445,7 +445,7 @@ export const MeasurementDataCodec = D.lazy("MeasurementData", () => D.struct({
     initial: D.number,
     data_unit: UnitDefinitionCodec,
     time_unit: UnitDefinitionCodec,
-    data_type: D.string,
+    data_type: DataTypesCodec,
     prepared: D.nullable(D.number),
     data: D.array(D.number),
     time: D.array(D.number),
