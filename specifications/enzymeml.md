@@ -359,7 +359,6 @@ CONVERSION = "conversion"
 PEAK_AREA = "peak-area"
 ```
 
-
 ### EquationType
 
 These values are used to determine the type of equation.
