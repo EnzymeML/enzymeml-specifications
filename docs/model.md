@@ -75,8 +75,8 @@ This page provides comprehensive information about the structure and components 
 
 
 ## Ontologies
-- [OBO](http://purl.obolibrary.org/obo/)
 - [schema](https://schema.org/)
+- [OBO](http://purl.obolibrary.org/obo/)
 
 
 ## Types
@@ -507,16 +507,6 @@ __conc_unit__* [`UnitDefinition`](#unitdefinition)
 - SI unit of the data that was measured.
 
 
-__data__* `list[float]`
-
-- Data that was measured.
-
-
-__time__* `list[float]`
-
-- Time steps of the replicate.
-
-
 __time_unit__* [`UnitDefinition`](#unitdefinition)
 
 - Time unit of the replicate.
@@ -530,6 +520,16 @@ __data_type__* `string`
 __prep_conc__ `float`
 
 - Concentration of the reactant before the measurement. This field should be used for specifying the prepared concentration of a species in the reaction mix. Not to be confused with init_conc, specifying the concentration at the first data point from the
+
+
+__data__* `list[float]`
+
+- Data that was measured.
+
+
+__time__* `list[float]`
+
+- Time steps of the replicate.
 
 
 __is_simulated__* `boolean`

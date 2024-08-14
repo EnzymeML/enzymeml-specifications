@@ -630,20 +630,6 @@
                     </xs:documentation>
                 </xs:annotation>
             </xs:element>
-            <xs:element name="data" type="xs:float"  maxOccurs="unbounded" minOccurs="1">
-                <xs:annotation>
-                    <xs:documentation>
-                        Data that was measured.
-                    </xs:documentation>
-                </xs:annotation>
-            </xs:element>
-            <xs:element name="time" type="xs:float"  maxOccurs="unbounded" minOccurs="1">
-                <xs:annotation>
-                    <xs:documentation>
-                        Time steps of the replicate.
-                    </xs:documentation>
-                </xs:annotation>
-            </xs:element>
             <xs:element name="time_unit" type="UnitDefinitionType">
                 <xs:annotation>
                     <xs:documentation>
@@ -662,6 +648,20 @@
                 <xs:annotation>
                     <xs:documentation>
                         Concentration of the reactant before the measurement. This field should be used for specifying the prepared concentration of a species in the reaction mix. Not to be confused with init_conc, specifying the concentration at the first data point from the
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="data" type="xs:float"  maxOccurs="unbounded" minOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>
+                        Data that was measured.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="time" type="xs:float"  maxOccurs="unbounded" minOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>
+                        Time steps of the replicate.
                     </xs:documentation>
                 </xs:annotation>
             </xs:element>
