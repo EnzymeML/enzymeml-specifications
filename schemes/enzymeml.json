@@ -82,62 +82,6 @@
   },
   "description": "This is the root object that composes all objects found in an EnzymeML document. It also includes general metadata such as the name of the document, when it was created/modified, and references to publications, databases, and arbitrary links to the web.",
   "definitions": {
-    "Complex": {
-      "title": "Complex",
-      "type": "object",
-      "properties": {
-        "id": {
-          "title": "id",
-          "description": "Unique identifier of the complex.",
-          "term": "schema:identifier",
-          "type": "string"
-        },
-        "name": {
-          "title": "name",
-          "term": "schema:name",
-          "type": "string"
-        },
-        "constant": {
-          "title": "constant",
-          "type": "boolean"
-        },
-        "participants": {
-          "title": "participants",
-          "description": "Array of IDs the complex contains",
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        }
-      },
-      "description": "This object describes complexes made of reactants and/or proteins that were used or produced in the course of the experiment."
-    },
-    "Creator": {
-      "title": "Creator",
-      "type": "object",
-      "properties": {
-        "given_name": {
-          "title": "given_name",
-          "description": "Given name of the author or contributor.",
-          "term": "schema:givenName",
-          "type": "string"
-        },
-        "family_name": {
-          "title": "family_name",
-          "description": "Family name of the author or contributor.",
-          "term": "schema:familyName",
-          "type": "string"
-        },
-        "mail": {
-          "title": "mail",
-          "description": "Email address of the author or contributor.",
-          "term": "schema:email",
-          "type": "string"
-        }
-      },
-      "description": "The creator object contains all information about authors that contributed to the resulting document.",
-      "term": "schema:person"
-    },
     "Measurement": {
       "title": "Measurement",
       "type": "object",
@@ -218,6 +162,62 @@
       },
       "description": "This object describes an ordinary differential equation that is part of the kinetic model."
     },
+    "Complex": {
+      "title": "Complex",
+      "type": "object",
+      "properties": {
+        "id": {
+          "title": "id",
+          "description": "Unique identifier of the complex.",
+          "term": "schema:identifier",
+          "type": "string"
+        },
+        "name": {
+          "title": "name",
+          "term": "schema:name",
+          "type": "string"
+        },
+        "constant": {
+          "title": "constant",
+          "type": "boolean"
+        },
+        "participants": {
+          "title": "participants",
+          "description": "Array of IDs the complex contains",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "description": "This object describes complexes made of reactants and/or proteins that were used or produced in the course of the experiment."
+    },
+    "Creator": {
+      "title": "Creator",
+      "type": "object",
+      "properties": {
+        "given_name": {
+          "title": "given_name",
+          "description": "Given name of the author or contributor.",
+          "term": "schema:givenName",
+          "type": "string"
+        },
+        "family_name": {
+          "title": "family_name",
+          "description": "Family name of the author or contributor.",
+          "term": "schema:familyName",
+          "type": "string"
+        },
+        "mail": {
+          "title": "mail",
+          "description": "Email address of the author or contributor.",
+          "term": "schema:email",
+          "type": "string"
+        }
+      },
+      "description": "The creator object contains all information about authors that contributed to the resulting document.",
+      "term": "schema:person"
+    },
     "SmallMolecule": {
       "title": "SmallMolecule",
       "type": "object",
@@ -269,6 +269,46 @@
         }
       },
       "description": "This object describes the reactants that were used or produced in the course of the experiment."
+    },
+    "Reaction": {
+      "title": "Reaction",
+      "type": "object",
+      "properties": {
+        "id": {
+          "title": "id",
+          "description": "Unique identifier of the reaction.",
+          "term": "schema:identifier",
+          "type": "string"
+        },
+        "name": {
+          "title": "name",
+          "description": "Name of the reaction.",
+          "type": "string"
+        },
+        "reversible": {
+          "title": "reversible",
+          "description": "Whether the reaction is reversible or irreversible",
+          "type": "boolean"
+        },
+        "kinetic_law": {
+          "$ref": "#/definitions/Equation"
+        },
+        "species": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ReactionElement"
+          }
+        },
+        "modifiers": {
+          "title": "modifiers",
+          "description": "List of reaction elements that are not part of the reaction but influence it.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "description": "This object describes a chemical or enzymatic reaction that was investigated in the course of the experiment. All species used within this object need to be part of the data model."
     },
     "Protein": {
       "title": "Protein",
@@ -363,46 +403,6 @@
       },
       "description": "This object describes vessels in which the experiment has been carried out. These can include any type of vessel used in biocatalytic experiments.",
       "term": "OBO:OBI_0400081"
-    },
-    "Reaction": {
-      "title": "Reaction",
-      "type": "object",
-      "properties": {
-        "id": {
-          "title": "id",
-          "description": "Unique identifier of the reaction.",
-          "term": "schema:identifier",
-          "type": "string"
-        },
-        "name": {
-          "title": "name",
-          "description": "Name of the reaction.",
-          "type": "string"
-        },
-        "reversible": {
-          "title": "reversible",
-          "description": "Whether the reaction is reversible or irreversible",
-          "type": "boolean"
-        },
-        "kinetic_law": {
-          "$ref": "#/definitions/Equation"
-        },
-        "species": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/ReactionElement"
-          }
-        },
-        "modifiers": {
-          "title": "modifiers",
-          "description": "List of reaction elements that are not part of the reaction but influence it.",
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        }
-      },
-      "description": "This object describes a chemical or enzymatic reaction that was investigated in the course of the experiment. All species used within this object need to be part of the data model."
     }
   }
 }

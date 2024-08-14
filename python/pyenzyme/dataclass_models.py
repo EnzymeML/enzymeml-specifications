@@ -721,11 +721,11 @@ class Measurement:
     def add_to_species_data(
         self,
         species_id: str,
-        init_conc: float,
-        conc_unit: UnitDefinition,
+        data_unit: UnitDefinition,
         time_unit: UnitDefinition,
         data_type: str,
-        prep_conc: Optional[float] = None,
+        prepared: Optional[float] = None,
+        initial: Optional[float] = None,
         data: list[float] = [],
         time: list[float] = [],
         is_simulated: bool = False,
@@ -733,11 +733,11 @@ class Measurement:
     ):
         params = {
             "species_id": species_id,
-            "init_conc": init_conc,
-            "conc_unit": conc_unit,
+            "data_unit": data_unit,
             "time_unit": time_unit,
             "data_type": data_type,
-            "prep_conc": prep_conc,
+            "prepared": prepared,
+            "initial": initial,
             "data": data,
             "time": time,
             "is_simulated": is_simulated,
@@ -755,11 +755,13 @@ class Measurement:
 @dataclass
 class MeasurementData:
     species_id: str
-    init_conc: float
-    conc_unit: UnitDefinition
+    data_unit: UnitDefinition
     time_unit: UnitDefinition
     data_type: str
-    prep_conc: Optional[float] = field(
+    prepared: Optional[float] = field(
+        default=None, metadata=config(exclude=lambda x: x is None)
+    )
+    initial: Optional[float] = field(
         default=None, metadata=config(exclude=lambda x: x is None)
     )
     data: List[float] = field(default_factory=list)

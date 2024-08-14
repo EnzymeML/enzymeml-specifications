@@ -75,8 +75,8 @@ This page provides comprehensive information about the structure and components 
 
 
 ## Ontologies
-- [schema](https://schema.org/)
 - [OBO](http://purl.obolibrary.org/obo/)
+- [schema](https://schema.org/)
 
 
 ## Types
@@ -497,12 +497,7 @@ __species_id__* `string`
 - The identifier for the described reactant.
 
 
-__init_conc__* `float`
-
-- Initial concentration of the measurement data. This must be the same as the first data point in the
-
-
-__conc_unit__* [`UnitDefinition`](#unitdefinition)
+__data_unit__* [`UnitDefinition`](#unitdefinition)
 
 - SI unit of the data that was measured.
 
@@ -517,9 +512,14 @@ __data_type__* `string`
 - Type of data that was measured (e.g. concentration)
 
 
-__prep_conc__ `float`
+__prepared__ `float`
 
-- Concentration of the reactant before the measurement. This field should be used for specifying the prepared concentration of a species in the reaction mix. Not to be confused with init_conc, specifying the concentration at the first data point from the
+- Amount of the reactant before the measurement. This field should be used for specifying the prepared amount of a species in the reaction mix. Not to be confused with
+
+
+__initial__ `float`
+
+- Initial amount of the measurement data. This must be the same as the first data point in the
 
 
 __data__* `list[float]`
