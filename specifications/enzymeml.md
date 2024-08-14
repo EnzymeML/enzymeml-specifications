@@ -318,13 +318,13 @@ This object describes a single entity of a measurement, which corresponds to one
 - __species_id__
   - Type: Identifier
   - Description: The identifier for the described reactant.
-- prep_conc
+- prepared
     - Type: float
-    - Description: Concentration of the reactant before the measurement. This field should be used for specifying the prepared concentration of a species in the reaction mix. Not to be confused with init_conc, specifying the concentration at the first data point from the `data` array.
-- __init_conc__
+    - Description: Amount of the reactant before the measurement. This field should be used for specifying the prepared amount of a species in the reaction mix. Not to be confused with `initial`, specifying the concentration at the first data point from the `data` array.
+- initial
   - Type: float
-  - Description: Initial concentration of the measurement data. This must be the same as the first data point in the `data` array.
-- __conc_unit__
+  - Description: Initial amount of the measurement data. This must be the same as the first data point in the `data` array.
+- __data_unit__
   - Type: UnitDefinition
   - Description: SI unit of the data that was measured.
 - __data__
