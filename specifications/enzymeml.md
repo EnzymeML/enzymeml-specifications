@@ -232,19 +232,43 @@ This object is part of the Reaction object and describes either an educt, produc
 
 ## Modelling
 
-### Equation [Equation]
+### Equation
 
-This object describes an ordinary differential equation that is part of the kinetic model.
+This object describes an equation that can be used to model the kinetics of a reaction. There are different types of equations that can be used to model the kinetics of a reaction. The equation can be an ordinary differential equation, a rate law or assignment rule.
 
 - species_id
   - Type: Identifier
   - Description: Internal identifier to a species defined in the EnzymeMLDocument, given it is a rate equation.
+- __equation__
+  - Type: string
+  - Description: Mathematical expression of the equation.
 - __unit__
   - Type: UnitDefinition
   - Description: Unit of the rate law.
 - __equation_type__
   - Type: EquationType
   - Description: Type of the equation.
+- variables
+  - Type: Variable[]
+  - Description: List of variables that are part of the equation
+- parameters
+  - Type: Parameter[]
+  - Description: List of parameters that are part of the equation
+
+### Variable
+
+This object describes a variable that is part of an equation.
+
+- __id__
+  - Type: string
+  - Description: Unique identifier of the variable.
+  - Term: schema:identifier
+- __name__
+  - Type: string
+  - Description: Name of the variable.
+- __symbol__
+  - Type: string
+  - Description: Symbol of the variable.
 
 ### Parameter
 
@@ -256,7 +280,10 @@ This object describes the parameters of the kinetic model and can include all es
   - Term: schema:identifier
 - __name__
   - Type: string
-  - Description: Name of the estimated parameter.
+  - Description: Name of the parameter.
+- __symbol__
+  - Type: string
+  - Description: Symbol of the parameter.
 - value
   - Type: float
   - Description: Numerical value of the estimated parameter.
