@@ -57,6 +57,9 @@ This is the root object that composes all objects found in an EnzymeML document.
 - equations
   - Type: Equation[]
   - Description: Contains ordinary differential equations that describe the kinetic model.
+- parameters
+  - Type: Parameter[]
+  - Description: List of parameters that are part of the equation
 
 ## General information
 
@@ -248,9 +251,6 @@ This object describes an equation that can be used to model the kinetics of a re
 - variables
   - Type: Variable[]
   - Description: List of variables that are part of the equation
-- parameters
-  - Type: Parameter[]
-  - Description: List of parameters that are part of the equation
 
 ### Variable
 
