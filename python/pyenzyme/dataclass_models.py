@@ -28,6 +28,7 @@ class EnzymeMLDocument:
     reactions: List[Reaction] = field(default_factory=list)
     measurements: List[Measurement] = field(default_factory=list)
     equations: List[Equation] = field(default_factory=list)
+    parameters: List[Parameter] = field(default_factory=list)
 
     # JSON-LD fields
     id: str = field(
@@ -44,8 +45,8 @@ class EnzymeMLDocument:
         metadata=config(field_name="@context"),
         default_factory=lambda: {
             "enzml": "http://www.enzymeml.org/v2/",
-            "OBO": "http://purl.obolibrary.org/obo/",
             "schema": "https://schema.org/",
+            "OBO": "http://purl.obolibrary.org/obo/",
             "name": "schema:title",
             "references": {
                 "@id": "schema:citation",
@@ -241,7 +242,6 @@ class EnzymeMLDocument:
         equation_type: EquationType,
         species_id: Optional[str] = None,
         variables: list[Variable] = [],
-        parameters: list[Parameter] = [],
         **kwargs,
     ):
         params = {
@@ -249,7 +249,6 @@ class EnzymeMLDocument:
             "equation_type": equation_type,
             "species_id": species_id,
             "variables": variables,
-            "parameters": parameters,
         }
 
         if "id" in kwargs:
@@ -258,6 +257,40 @@ class EnzymeMLDocument:
         self.equations.append(Equation(**params))
 
         return self.equations[-1]
+
+    def add_to_parameters(
+        self,
+        id: str,
+        name: str,
+        symbol: str,
+        value: Optional[float] = None,
+        unit: Optional[UnitDefinition] = None,
+        initial_value: Optional[float] = None,
+        upper: Optional[float] = None,
+        lower: Optional[float] = None,
+        stderr: Optional[float] = None,
+        constant: Optional[bool] = True,
+        **kwargs,
+    ):
+        params = {
+            "id": id,
+            "name": name,
+            "symbol": symbol,
+            "value": value,
+            "unit": unit,
+            "initial_value": initial_value,
+            "upper": upper,
+            "lower": lower,
+            "stderr": stderr,
+            "constant": constant,
+        }
+
+        if "id" in kwargs:
+            params["id"] = kwargs["id"]
+
+        self.parameters.append(Parameter(**params))
+
+        return self.parameters[-1]
 
 
 @dataclass_json
@@ -280,8 +313,8 @@ class Creator:
         metadata=config(field_name="@context"),
         default_factory=lambda: {
             "enzml": "http://www.enzymeml.org/v2/",
-            "OBO": "http://purl.obolibrary.org/obo/",
             "schema": "https://schema.org/",
+            "OBO": "http://purl.obolibrary.org/obo/",
             "given_name": "schema:givenName",
             "family_name": "schema:familyName",
             "mail": "schema:email",
@@ -310,8 +343,8 @@ class Vessel:
         metadata=config(field_name="@context"),
         default_factory=lambda: {
             "enzml": "http://www.enzymeml.org/v2/",
-            "OBO": "http://purl.obolibrary.org/obo/",
             "schema": "https://schema.org/",
+            "OBO": "http://purl.obolibrary.org/obo/",
             "id": {
                 "@id": "schema:identifier",
                 "@type": "@id",
@@ -357,8 +390,8 @@ class Protein:
         metadata=config(field_name="@context"),
         default_factory=lambda: {
             "enzml": "http://www.enzymeml.org/v2/",
-            "OBO": "http://purl.obolibrary.org/obo/",
             "schema": "https://schema.org/",
+            "OBO": "http://purl.obolibrary.org/obo/",
             "id": {
                 "@type": "@id",
             },
@@ -402,8 +435,8 @@ class Complex:
         metadata=config(field_name="@context"),
         default_factory=lambda: {
             "enzml": "http://www.enzymeml.org/v2/",
-            "OBO": "http://purl.obolibrary.org/obo/",
             "schema": "https://schema.org/",
+            "OBO": "http://purl.obolibrary.org/obo/",
             "id": {
                 "@id": "schema:identifier",
                 "@type": "@id",
@@ -450,8 +483,8 @@ class SmallMolecule:
         metadata=config(field_name="@context"),
         default_factory=lambda: {
             "enzml": "http://www.enzymeml.org/v2/",
-            "OBO": "http://purl.obolibrary.org/obo/",
             "schema": "https://schema.org/",
+            "OBO": "http://purl.obolibrary.org/obo/",
             "id": {
                 "@id": "schema:identifier",
                 "@type": "@id",
@@ -495,8 +528,8 @@ class Reaction:
         metadata=config(field_name="@context"),
         default_factory=lambda: {
             "enzml": "http://www.enzymeml.org/v2/",
-            "OBO": "http://purl.obolibrary.org/obo/",
             "schema": "https://schema.org/",
+            "OBO": "http://purl.obolibrary.org/obo/",
             "id": {
                 "@id": "schema:identifier",
                 "@type": "@id",
@@ -544,8 +577,8 @@ class ReactionElement:
         metadata=config(field_name="@context"),
         default_factory=lambda: {
             "enzml": "http://www.enzymeml.org/v2/",
-            "OBO": "http://purl.obolibrary.org/obo/",
             "schema": "https://schema.org/",
+            "OBO": "http://purl.obolibrary.org/obo/",
             "species_id": {
                 "@type": "@id",
             },
@@ -562,7 +595,6 @@ class Equation:
         default=None, metadata=config(exclude=lambda x: x is None)
     )
     variables: List[Variable] = field(default_factory=list)
-    parameters: List[Parameter] = field(default_factory=list)
 
     # JSON-LD fields
     id: str = field(
@@ -579,8 +611,8 @@ class Equation:
         metadata=config(field_name="@context"),
         default_factory=lambda: {
             "enzml": "http://www.enzymeml.org/v2/",
-            "OBO": "http://purl.obolibrary.org/obo/",
             "schema": "https://schema.org/",
+            "OBO": "http://purl.obolibrary.org/obo/",
             "species_id": {
                 "@type": "@id",
             },
@@ -602,40 +634,6 @@ class Equation:
         self.variables.append(Variable(**params))
 
         return self.variables[-1]
-
-    def add_to_parameters(
-        self,
-        id: str,
-        name: str,
-        symbol: str,
-        value: Optional[float] = None,
-        unit: Optional[UnitDefinition] = None,
-        initial_value: Optional[float] = None,
-        upper: Optional[float] = None,
-        lower: Optional[float] = None,
-        stderr: Optional[float] = None,
-        constant: Optional[bool] = True,
-        **kwargs,
-    ):
-        params = {
-            "id": id,
-            "name": name,
-            "symbol": symbol,
-            "value": value,
-            "unit": unit,
-            "initial_value": initial_value,
-            "upper": upper,
-            "lower": lower,
-            "stderr": stderr,
-            "constant": constant,
-        }
-
-        if "id" in kwargs:
-            params["id"] = kwargs["id"]
-
-        self.parameters.append(Parameter(**params))
-
-        return self.parameters[-1]
 
 
 @dataclass_json
@@ -659,8 +657,8 @@ class Variable:
         metadata=config(field_name="@context"),
         default_factory=lambda: {
             "enzml": "http://www.enzymeml.org/v2/",
-            "OBO": "http://purl.obolibrary.org/obo/",
             "schema": "https://schema.org/",
+            "OBO": "http://purl.obolibrary.org/obo/",
             "id": "schema:identifier",
         },
     )
@@ -706,8 +704,8 @@ class Parameter:
         metadata=config(field_name="@context"),
         default_factory=lambda: {
             "enzml": "http://www.enzymeml.org/v2/",
-            "OBO": "http://purl.obolibrary.org/obo/",
             "schema": "https://schema.org/",
+            "OBO": "http://purl.obolibrary.org/obo/",
             "id": {
                 "@id": "schema:identifier",
                 "@type": "@id",
@@ -749,8 +747,8 @@ class Measurement:
         metadata=config(field_name="@context"),
         default_factory=lambda: {
             "enzml": "http://www.enzymeml.org/v2/",
-            "OBO": "http://purl.obolibrary.org/obo/",
             "schema": "https://schema.org/",
+            "OBO": "http://purl.obolibrary.org/obo/",
             "id": {
                 "@id": "schema:identifier",
                 "@type": "@id",
@@ -824,8 +822,8 @@ class MeasurementData:
         metadata=config(field_name="@context"),
         default_factory=lambda: {
             "enzml": "http://www.enzymeml.org/v2/",
-            "OBO": "http://purl.obolibrary.org/obo/",
             "schema": "https://schema.org/",
+            "OBO": "http://purl.obolibrary.org/obo/",
             "species_id": {
                 "@type": "@id",
             },
@@ -856,8 +854,8 @@ class UnitDefinition:
         metadata=config(field_name="@context"),
         default_factory=lambda: {
             "enzml": "http://www.enzymeml.org/v2/",
-            "OBO": "http://purl.obolibrary.org/obo/",
             "schema": "https://schema.org/",
+            "OBO": "http://purl.obolibrary.org/obo/",
         },
     )
 
@@ -911,8 +909,8 @@ class BaseUnit:
         metadata=config(field_name="@context"),
         default_factory=lambda: {
             "enzml": "http://www.enzymeml.org/v2/",
-            "OBO": "http://purl.obolibrary.org/obo/",
             "schema": "https://schema.org/",
+            "OBO": "http://purl.obolibrary.org/obo/",
         },
     )
 

@@ -36,12 +36,12 @@ This page provides comprehensive information about the structure and components 
         enzymemldocument(EnzymeMLDocument) --> reaction(Reaction)
         enzymemldocument(EnzymeMLDocument) --> measurement(Measurement)
         enzymemldocument(EnzymeMLDocument) --> equation(Equation)
+        enzymemldocument(EnzymeMLDocument) --> parameter(Parameter)
         vessel(Vessel) --> unitdefinition(UnitDefinition)
         reaction(Reaction) --> equation(Equation)
         reaction(Reaction) --> reactionelement(ReactionElement)
         equation(Equation) --> equationtype(EquationType)
         equation(Equation) --> variable(Variable)
-        equation(Equation) --> parameter(Parameter)
         parameter(Parameter) --> unitdefinition(UnitDefinition)
         measurement(Measurement) --> measurementdata(MeasurementData)
         measurement(Measurement) --> unitdefinition(UnitDefinition)
@@ -73,8 +73,8 @@ This page provides comprehensive information about the structure and components 
 
 
 ## Ontologies
-- [OBO](http://purl.obolibrary.org/obo/)
 - [schema](https://schema.org/)
+- [OBO](http://purl.obolibrary.org/obo/)
 
 
 ## Types
@@ -141,6 +141,11 @@ __measurements__ [`list[Measurement]`](#measurement)
 __equations__ [`list[Equation]`](#equation)
 
 - Contains ordinary differential equations that describe the kinetic model.
+
+
+__parameters__ [`list[Parameter]`](#parameter)
+
+- List of parameters that are part of the equation
 
 
 ------
@@ -382,11 +387,6 @@ __species_id__ `string`
 __variables__ [`list[Variable]`](#variable)
 
 - List of variables that are part of the equation
-
-
-__parameters__ [`list[Parameter]`](#parameter)
-
-- List of parameters that are part of the equation
 
 
 ------

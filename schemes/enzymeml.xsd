@@ -145,6 +145,18 @@
                     </xs:sequence>
                 </xs:complexType>
             </xs:element>
+            <xs:element name="parameters">
+                <xs:annotation>
+                    <xs:documentation>
+                        List of parameters that are part of the equation
+                    </xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="Parameter" type="ParameterType" maxOccurs="unbounded"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
         </xs:sequence>
     </xs:complexType>
 
@@ -451,18 +463,6 @@
                 <xs:complexType>
                     <xs:sequence>
                         <xs:element name="Variable" type="VariableType" maxOccurs="unbounded"/>
-                    </xs:sequence>
-                </xs:complexType>
-            </xs:element>
-            <xs:element name="parameters">
-                <xs:annotation>
-                    <xs:documentation>
-                        List of parameters that are part of the equation
-                    </xs:documentation>
-                </xs:annotation>
-                <xs:complexType>
-                    <xs:sequence>
-                        <xs:element name="Parameter" type="ParameterType" maxOccurs="unbounded"/>
                     </xs:sequence>
                 </xs:complexType>
             </xs:element>

@@ -42,6 +42,7 @@ export interface JsonLd {
     * @param measurements - Contains measurements that describe outcomes of an experiment.
     * @param equations - Contains ordinary differential equations that describe the kinetic
              model.
+    * @param parameters - List of parameters that are part of the equation
 **/
 export interface EnzymeMLDocument extends JsonLd {
   name: string;
@@ -56,6 +57,7 @@ export interface EnzymeMLDocument extends JsonLd {
   reactions?: Reaction[] | null;
   measurements?: Measurement[] | null;
   equations?: Equation[] | null;
+  parameters?: Parameter[] | null;
 }
 
 export const EnzymeMLDocumentCodec = D.lazy("EnzymeMLDocument", () => D.struct({
@@ -71,6 +73,7 @@ export const EnzymeMLDocumentCodec = D.lazy("EnzymeMLDocument", () => D.struct({
     reactions: D.array(ReactionCodec),
     measurements: D.array(MeasurementCodec),
     equations: D.array(EquationCodec),
+    parameters: D.array(ParameterCodec),
 }));
 
 
@@ -290,14 +293,12 @@ export const ReactionElementCodec = D.lazy("ReactionElement", () => D.struct({
     * @param species_id - Internal identifier to a species defined in the EnzymeMLDocument,
              given it is a rate equation.
     * @param variables - List of variables that are part of the equation
-    * @param parameters - List of parameters that are part of the equation
 **/
 export interface Equation extends JsonLd {
   equation: string;
   equation_type: EquationType;
   species_id?: string | null;
   variables?: Variable[] | null;
-  parameters?: Parameter[] | null;
 }
 
 export const EquationCodec = D.lazy("Equation", () => D.struct({
@@ -305,7 +306,6 @@ export const EquationCodec = D.lazy("Equation", () => D.struct({
     equation_type: EquationTypeCodec,
     species_id: D.nullable(D.string),
     variables: D.array(VariableCodec),
-    parameters: D.array(ParameterCodec),
 }));
 
 

@@ -88,6 +88,7 @@ class EnzymeMLDocument(BaseModel):
     reactions: list[Reaction] = Field(default_factory=list)
     measurements: list[Measurement] = Field(default_factory=list)
     equations: list[Equation] = Field(default_factory=list)
+    parameters: list[Parameter] = Field(default_factory=list)
 
     # JSON-LD fields
     ld_id: str = Field(
@@ -212,6 +213,18 @@ class EnzymeMLDocument(BaseModel):
         """
 
         return FilterWrapper[Equation](self.equations, **kwargs).filter()
+
+    def filter_parameters(self, **kwargs) -> list[Parameter]:
+        """Filters the parameters attribute based on the given kwargs
+
+        Args:
+            **kwargs: The attributes to filter by.
+
+        Returns:
+            list[Parameter]: The filtered list of Parameter objects
+        """
+
+        return FilterWrapper[Parameter](self.parameters, **kwargs).filter()
 
     def set_attr_term(
         self,
@@ -462,7 +475,6 @@ class EnzymeMLDocument(BaseModel):
         equation_type: EquationType,
         species_id: Optional[str] = None,
         variables: list[Variable] = [],
-        parameters: list[Parameter] = [],
         **kwargs,
     ):
         params = {
@@ -470,7 +482,6 @@ class EnzymeMLDocument(BaseModel):
             "equation_type": equation_type,
             "species_id": species_id,
             "variables": variables,
-            "parameters": parameters,
         }
 
         if "id" in kwargs:
@@ -479,6 +490,40 @@ class EnzymeMLDocument(BaseModel):
         self.equations.append(Equation(**params))
 
         return self.equations[-1]
+
+    def add_to_parameters(
+        self,
+        id: str,
+        name: str,
+        symbol: str,
+        value: Optional[float] = None,
+        unit: Optional[UnitDefinition] = None,
+        initial_value: Optional[float] = None,
+        upper: Optional[float] = None,
+        lower: Optional[float] = None,
+        stderr: Optional[float] = None,
+        constant: Optional[bool] = True,
+        **kwargs,
+    ):
+        params = {
+            "id": id,
+            "name": name,
+            "symbol": symbol,
+            "value": value,
+            "unit": unit,
+            "initial_value": initial_value,
+            "upper": upper,
+            "lower": lower,
+            "stderr": stderr,
+            "constant": constant,
+        }
+
+        if "id" in kwargs:
+            params["id"] = kwargs["id"]
+
+        self.parameters.append(Parameter(**params))
+
+        return self.parameters[-1]
 
 
 class Creator(BaseModel):
@@ -1249,7 +1294,6 @@ class Equation(BaseModel):
     equation_type: EquationType
     species_id: Optional[str] = Field(default=None)
     variables: list[Variable] = Field(default_factory=list)
-    parameters: list[Parameter] = Field(default_factory=list)
 
     # JSON-LD fields
     ld_id: str = Field(
@@ -1285,18 +1329,6 @@ class Equation(BaseModel):
         """
 
         return FilterWrapper[Variable](self.variables, **kwargs).filter()
-
-    def filter_parameters(self, **kwargs) -> list[Parameter]:
-        """Filters the parameters attribute based on the given kwargs
-
-        Args:
-            **kwargs: The attributes to filter by.
-
-        Returns:
-            list[Parameter]: The filtered list of Parameter objects
-        """
-
-        return FilterWrapper[Parameter](self.parameters, **kwargs).filter()
 
     def set_attr_term(
         self,
@@ -1378,40 +1410,6 @@ class Equation(BaseModel):
         self.variables.append(Variable(**params))
 
         return self.variables[-1]
-
-    def add_to_parameters(
-        self,
-        id: str,
-        name: str,
-        symbol: str,
-        value: Optional[float] = None,
-        unit: Optional[UnitDefinition] = None,
-        initial_value: Optional[float] = None,
-        upper: Optional[float] = None,
-        lower: Optional[float] = None,
-        stderr: Optional[float] = None,
-        constant: Optional[bool] = True,
-        **kwargs,
-    ):
-        params = {
-            "id": id,
-            "name": name,
-            "symbol": symbol,
-            "value": value,
-            "unit": unit,
-            "initial_value": initial_value,
-            "upper": upper,
-            "lower": lower,
-            "stderr": stderr,
-            "constant": constant,
-        }
-
-        if "id" in kwargs:
-            params["id"] = kwargs["id"]
-
-        self.parameters.append(Parameter(**params))
-
-        return self.parameters[-1]
 
 
 class Variable(BaseModel):
