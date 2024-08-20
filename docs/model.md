@@ -46,8 +46,8 @@ This page provides comprehensive information about the structure and components 
         measurement(Measurement) --> measurementdata(MeasurementData)
         measurement(Measurement) --> unitdefinition(UnitDefinition)
         measurementdata(MeasurementData) --> unitdefinition(UnitDefinition)
-        measurementdata(MeasurementData) --> unitdefinition(UnitDefinition)
         measurementdata(MeasurementData) --> datatypes(DataTypes)
+        measurementdata(MeasurementData) --> unitdefinition(UnitDefinition)
         unitdefinition(UnitDefinition) --> baseunit(BaseUnit)
         baseunit(BaseUnit) --> unittype(UnitType)
 
@@ -73,8 +73,8 @@ This page provides comprehensive information about the structure and components 
 
 
 ## Ontologies
-- [schema](https://schema.org/)
 - [OBO](http://purl.obolibrary.org/obo/)
+- [schema](https://schema.org/)
 
 
 ## Types
@@ -525,11 +525,6 @@ __data_unit__* [`UnitDefinition`](#unitdefinition)
 - SI unit of the data that was measured.
 
 
-__time_unit__* [`UnitDefinition`](#unitdefinition)
-
-- Time unit of the replicate.
-
-
 __data_type__* [`DataTypes`](#datatypes)
 
 - Type of data that was measured (e.g. concentration)
@@ -540,14 +535,19 @@ __prepared__ `float`
 - Amount of the reactant before the measurement. This field should be used for specifying the prepared amount of a species in the reaction mix. Not to be confused with
 
 
-__data__* `list[float]`
+__data__ `list[float]`
 
 - Data that was measured.
 
 
-__time__* `list[float]`
+__time__ `list[float]`
 
 - Time steps of the replicate.
+
+
+__time_unit__ [`UnitDefinition`](#unitdefinition)
+
+- Time unit of the replicate.
 
 
 __is_simulated__* `boolean`
