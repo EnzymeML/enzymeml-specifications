@@ -88,92 +88,6 @@
   },
   "description": "This is the root object that composes all objects found in an EnzymeML document. It also includes general metadata such as the name of the document, when it was created/modified, and references to publications, databases, and arbitrary links to the web.",
   "definitions": {
-    "Parameter": {
-      "title": "Parameter",
-      "type": "object",
-      "properties": {
-        "id": {
-          "title": "id",
-          "description": "Unique identifier of the parameter.",
-          "term": "schema:identifier",
-          "type": "string"
-        },
-        "name": {
-          "title": "name",
-          "description": "Name of the parameter.",
-          "type": "string"
-        },
-        "symbol": {
-          "title": "symbol",
-          "description": "Symbol of the parameter.",
-          "type": "string"
-        },
-        "value": {
-          "title": "value",
-          "description": "Numerical value of the estimated parameter.",
-          "type": "number"
-        },
-        "unit": {
-          "$ref": "#/definitions/UnitDefinition"
-        },
-        "initial_value": {
-          "title": "initial_value",
-          "description": "Initial value that was used for the parameter estimation.",
-          "type": "number"
-        },
-        "upper": {
-          "title": "upper",
-          "description": "Upper bound of the estimated parameter.",
-          "type": "number"
-        },
-        "lower": {
-          "title": "lower",
-          "description": "Lower bound of the estimated parameter.",
-          "type": "number"
-        },
-        "stderr": {
-          "title": "stderr",
-          "description": "Standard error of the estimated parameter.",
-          "type": "number"
-        },
-        "constant": {
-          "title": "constant",
-          "description": "Specifies if this parameter is constant",
-          "type": "boolean"
-        }
-      },
-      "description": "This object describes the parameters of the kinetic model and can include all estimated values."
-    },
-    "Complex": {
-      "title": "Complex",
-      "type": "object",
-      "properties": {
-        "id": {
-          "title": "id",
-          "description": "Unique identifier of the complex.",
-          "term": "schema:identifier",
-          "type": "string"
-        },
-        "name": {
-          "title": "name",
-          "term": "schema:name",
-          "type": "string"
-        },
-        "constant": {
-          "title": "constant",
-          "type": "boolean"
-        },
-        "participants": {
-          "title": "participants",
-          "description": "Array of IDs the complex contains",
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        }
-      },
-      "description": "This object describes complexes made of reactants and/or proteins that were used or produced in the course of the experiment."
-    },
     "SmallMolecule": {
       "title": "SmallMolecule",
       "type": "object",
@@ -226,59 +140,6 @@
       },
       "description": "This object describes the reactants that were used or produced in the course of the experiment."
     },
-    "Equation": {
-      "title": "Equation",
-      "type": "object",
-      "properties": {
-        "species_id": {
-          "title": "species_id",
-          "description": "Internal identifier to a species defined in the EnzymeMLDocument, given it is a rate equation.",
-          "type": "string"
-        },
-        "equation": {
-          "title": "equation",
-          "description": "Mathematical expression of the equation.",
-          "type": "string"
-        },
-        "equation_type": {
-          "title": "equation_type",
-          "$ref": "#/definitions/EquationType"
-        },
-        "variables": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/Variable"
-          }
-        }
-      },
-      "description": "This object describes an equation that can be used to model the kinetics of a reaction. There are different types of equations that can be used to model the kinetics of a reaction. The equation can be an ordinary differential equation, a rate law or assignment rule."
-    },
-    "Creator": {
-      "title": "Creator",
-      "type": "object",
-      "properties": {
-        "given_name": {
-          "title": "given_name",
-          "description": "Given name of the author or contributor.",
-          "term": "schema:givenName",
-          "type": "string"
-        },
-        "family_name": {
-          "title": "family_name",
-          "description": "Family name of the author or contributor.",
-          "term": "schema:familyName",
-          "type": "string"
-        },
-        "mail": {
-          "title": "mail",
-          "description": "Email address of the author or contributor.",
-          "term": "schema:email",
-          "type": "string"
-        }
-      },
-      "description": "The creator object contains all information about authors that contributed to the resulting document.",
-      "term": "schema:person"
-    },
     "Measurement": {
       "title": "Measurement",
       "type": "object",
@@ -323,79 +184,31 @@
       },
       "description": "This object describes the result of a measurement, which includes time course data of any type defined in DataTypes. It includes initial concentrations of all species used in a single measurement."
     },
-    "Vessel": {
-      "title": "Vessel",
+    "Creator": {
+      "title": "Creator",
       "type": "object",
       "properties": {
-        "id": {
-          "title": "id",
-          "description": "Unique identifier of the vessel.",
-          "term": "schema:identifier",
+        "given_name": {
+          "title": "given_name",
+          "description": "Given name of the author or contributor.",
+          "term": "schema:givenName",
           "type": "string"
         },
-        "name": {
-          "title": "name",
-          "description": "Name of the used vessel.",
-          "term": "schema:name",
+        "family_name": {
+          "title": "family_name",
+          "description": "Family name of the author or contributor.",
+          "term": "schema:familyName",
           "type": "string"
         },
-        "volume": {
-          "title": "volume",
-          "description": "Volumetric value of the vessel.",
-          "term": "OBO:OBI_0002139",
-          "type": "number"
-        },
-        "unit": {
-          "$ref": "#/definitions/UnitDefinition"
-        },
-        "constant": {
-          "title": "constant",
-          "description": "Whether the volume of the vessel is constant or not.",
-          "type": "boolean"
+        "mail": {
+          "title": "mail",
+          "description": "Email address of the author or contributor.",
+          "term": "schema:email",
+          "type": "string"
         }
       },
-      "description": "This object describes vessels in which the experiment has been carried out. These can include any type of vessel used in biocatalytic experiments.",
-      "term": "OBO:OBI_0400081"
-    },
-    "Reaction": {
-      "title": "Reaction",
-      "type": "object",
-      "properties": {
-        "id": {
-          "title": "id",
-          "description": "Unique identifier of the reaction.",
-          "term": "schema:identifier",
-          "type": "string"
-        },
-        "name": {
-          "title": "name",
-          "description": "Name of the reaction.",
-          "type": "string"
-        },
-        "reversible": {
-          "title": "reversible",
-          "description": "Whether the reaction is reversible or irreversible",
-          "type": "boolean"
-        },
-        "kinetic_law": {
-          "$ref": "#/definitions/Equation"
-        },
-        "species": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/ReactionElement"
-          }
-        },
-        "modifiers": {
-          "title": "modifiers",
-          "description": "List of reaction elements that are not part of the reaction but influence it.",
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        }
-      },
-      "description": "This object describes a chemical or enzymatic reaction that was investigated in the course of the experiment. All species used within this object need to be part of the data model."
+      "description": "The creator object contains all information about authors that contributed to the resulting document.",
+      "term": "schema:person"
     },
     "Protein": {
       "title": "Protein",
@@ -456,6 +269,193 @@
       },
       "description": "This object describes the proteins that were used or formed throughout the experiment.",
       "term": "schema:Protein"
+    },
+    "Reaction": {
+      "title": "Reaction",
+      "type": "object",
+      "properties": {
+        "id": {
+          "title": "id",
+          "description": "Unique identifier of the reaction.",
+          "term": "schema:identifier",
+          "type": "string"
+        },
+        "name": {
+          "title": "name",
+          "description": "Name of the reaction.",
+          "type": "string"
+        },
+        "reversible": {
+          "title": "reversible",
+          "description": "Whether the reaction is reversible or irreversible",
+          "type": "boolean"
+        },
+        "kinetic_law": {
+          "$ref": "#/definitions/Equation"
+        },
+        "species": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ReactionElement"
+          }
+        },
+        "modifiers": {
+          "title": "modifiers",
+          "description": "List of reaction elements that are not part of the reaction but influence it.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "description": "This object describes a chemical or enzymatic reaction that was investigated in the course of the experiment. All species used within this object need to be part of the data model."
+    },
+    "Vessel": {
+      "title": "Vessel",
+      "type": "object",
+      "properties": {
+        "id": {
+          "title": "id",
+          "description": "Unique identifier of the vessel.",
+          "term": "schema:identifier",
+          "type": "string"
+        },
+        "name": {
+          "title": "name",
+          "description": "Name of the used vessel.",
+          "term": "schema:name",
+          "type": "string"
+        },
+        "volume": {
+          "title": "volume",
+          "description": "Volumetric value of the vessel.",
+          "term": "OBO:OBI_0002139",
+          "type": "number"
+        },
+        "unit": {
+          "$ref": "#/definitions/UnitDefinition"
+        },
+        "constant": {
+          "title": "constant",
+          "description": "Whether the volume of the vessel is constant or not.",
+          "type": "boolean"
+        }
+      },
+      "description": "This object describes vessels in which the experiment has been carried out. These can include any type of vessel used in biocatalytic experiments.",
+      "term": "OBO:OBI_0400081"
+    },
+    "Equation": {
+      "title": "Equation",
+      "type": "object",
+      "properties": {
+        "species_id": {
+          "title": "species_id",
+          "description": "Internal identifier to a species defined in the EnzymeMLDocument, given it is a rate equation.",
+          "type": "string"
+        },
+        "equation": {
+          "title": "equation",
+          "description": "Mathematical expression of the equation.",
+          "type": "string"
+        },
+        "equation_type": {
+          "title": "equation_type",
+          "$ref": "#/definitions/EquationType"
+        },
+        "variables": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Variable"
+          }
+        }
+      },
+      "description": "This object describes an equation that can be used to model the kinetics of a reaction. There are different types of equations that can be used to model the kinetics of a reaction. The equation can be an ordinary differential equation, a rate law or assignment rule."
+    },
+    "Complex": {
+      "title": "Complex",
+      "type": "object",
+      "properties": {
+        "id": {
+          "title": "id",
+          "description": "Unique identifier of the complex.",
+          "term": "schema:identifier",
+          "type": "string"
+        },
+        "name": {
+          "title": "name",
+          "term": "schema:name",
+          "type": "string"
+        },
+        "constant": {
+          "title": "constant",
+          "type": "boolean"
+        },
+        "participants": {
+          "title": "participants",
+          "description": "Array of IDs the complex contains",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "description": "This object describes complexes made of reactants and/or proteins that were used or produced in the course of the experiment."
+    },
+    "Parameter": {
+      "title": "Parameter",
+      "type": "object",
+      "properties": {
+        "id": {
+          "title": "id",
+          "description": "Unique identifier of the parameter.",
+          "term": "schema:identifier",
+          "type": "string"
+        },
+        "name": {
+          "title": "name",
+          "description": "Name of the parameter.",
+          "type": "string"
+        },
+        "symbol": {
+          "title": "symbol",
+          "description": "Symbol of the parameter.",
+          "type": "string"
+        },
+        "value": {
+          "title": "value",
+          "description": "Numerical value of the estimated parameter.",
+          "type": "number"
+        },
+        "unit": {
+          "$ref": "#/definitions/UnitDefinition"
+        },
+        "initial_value": {
+          "title": "initial_value",
+          "description": "Initial value that was used for the parameter estimation.",
+          "type": "number"
+        },
+        "upper": {
+          "title": "upper",
+          "description": "Upper bound of the estimated parameter.",
+          "type": "number"
+        },
+        "lower": {
+          "title": "lower",
+          "description": "Lower bound of the estimated parameter.",
+          "type": "number"
+        },
+        "stderr": {
+          "title": "stderr",
+          "description": "Standard error of the estimated parameter.",
+          "type": "number"
+        },
+        "constant": {
+          "title": "constant",
+          "description": "Specifies if this parameter is constant",
+          "type": "boolean"
+        }
+      },
+      "description": "This object describes the parameters of the kinetic model and can include all estimated values."
     }
   }
 }
