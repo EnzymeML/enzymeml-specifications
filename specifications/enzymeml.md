@@ -16,7 +16,7 @@ EnzymeML is a data exchange format that supports the comprehensive documentation
 
 This is the root object that composes all objects found in an EnzymeML document. It also includes general metadata such as the name of the document, when it was created/modified, and references to publications, databases, and arbitrary links to the web.
 
-- __name__
+- **name**
   - Type: string
   - Description: Title of the EnzymeML Document.
   - Term: schema:title
@@ -67,15 +67,15 @@ This is the root object that composes all objects found in an EnzymeML document.
 
 The creator object contains all information about authors that contributed to the resulting document.
 
-- __given_name__
+- **given_name**
   - Type: string
   - Description: Given name of the author or contributor.
   - Term: schema:givenName
-- __family_name__
+- **family_name**
   - Type: string
   - Description: Family name of the author or contributor.
   - Term: schema:familyName
-- __mail__
+- **mail**
   - Type: string
   - Description: Email address of the author or contributor.
   - Term: schema:email
@@ -86,22 +86,22 @@ The creator object contains all information about authors that contributed to th
 
 This object describes vessels in which the experiment has been carried out. These can include any type of vessel used in biocatalytic experiments.
 
-- __id__
+- **id**
   - Type: Identifier
   - Description: Unique identifier of the vessel.
   - Term: schema:identifier
-- __name__
+- **name**
   - Type: string
   - Description: Name of the used vessel.
   - Term: schema:name
-- __volume__
+- **volume**
   - Type: float
   - Description: Volumetric value of the vessel.
   - Term: OBO:OBI_0002139
-- __unit__
+- **unit**
   - Type: UnitDefinition
   - Description: Volumetric unit of the vessel.
-- __constant__
+- **constant**
   - Type: boolean
   - Description: Whether the volume of the vessel is constant or not.
   - Default: True
@@ -110,14 +110,14 @@ This object describes vessels in which the experiment has been carried out. Thes
 
 This object describes the proteins that were used or formed throughout the experiment.
 
-- __id__
+- **id**
   - Type: Identifier
   - Description: Unique internal identifier of the protein.
   - schema:identifier
-- __name__
+- **name**
   - Type: string
   - Term: schema:name
-- __constant__
+- **constant**
   - Type: boolean
   - Default: False
 - sequence
@@ -143,21 +143,24 @@ This object describes the proteins that were used or formed throughout the exper
   - Description: Array of references to publications, database entries, etc. that describe the protein.
   - Term: schema:citation
 
-
 ### Complex
 
 This object describes complexes made of reactants and/or proteins that were used or produced in the course of the experiment.
 
-- __id__
+- **id**
   - Type: Identifier
   - Description: Unique identifier of the complex.
   - Term: schema:identifier
-- __name__
+- **name**
   - Type: string
   - Term: schema:name
-- __constant__
+- **constant**
   - Type: boolean
   - Default: False
+- vessel_id
+  - Type: Identifier
+  - Description: Unique identifier of the vessel this complex has been used in.
+  - Term: schema:identifier
 - participants
   - Type: Identifier[]
   - Description: Array of IDs the complex contains
@@ -166,14 +169,14 @@ This object describes complexes made of reactants and/or proteins that were used
 
 This object describes the reactants that were used or produced in the course of the experiment.
 
-- __id__
+- **id**
   - Type: Identifier
   - Description: Unique identifier of the small molecule.
   - Term: schema:identifier
-- __name__
+- **name**
   - Type: string
   - Term: schema:name
-- __constant__
+- **constant**
   - Type: boolean
   - Default: False
 - vessel_id
@@ -200,14 +203,14 @@ This object describes the reactants that were used or produced in the course of 
 
 This object describes a chemical or enzymatic reaction that was investigated in the course of the experiment. All species used within this object need to be part of the data model.
 
-- __id__
+- **id**
   - Type: Identifier
   - Description: Unique identifier of the reaction.
   - Term: schema:identifier
-- __name__
+- **name**
   - Type: string
   - Description: Name of the reaction.
-- __reversible__
+- **reversible**
   - Type: boolean
   - Description: Whether the reaction is reversible or irreversible
   - Default: False
@@ -225,11 +228,11 @@ This object describes a chemical or enzymatic reaction that was investigated in 
 
 This object is part of the Reaction object and describes either an educt, product or modifier. The latter includes buffers, counter-ions as well as proteins/enzymes.
 
-- __species_id__
+- **species_id**
   - Type: Identifier
   - Description: Internal identifier to either a protein or reactant defined in the EnzymeMLDocument.
   - schema:identifier
-- __stoichiometry__
+- **stoichiometry**
   - Type: float
   - Description: Float number representing the associated stoichiometry.
 
@@ -242,10 +245,10 @@ This object describes an equation that can be used to model the kinetics of a re
 - species_id
   - Type: Identifier
   - Description: Internal identifier to a species defined in the EnzymeMLDocument, given it is a rate equation.
-- __equation__
+- **equation**
   - Type: string
   - Description: Mathematical expression of the equation.
-- __equation_type__
+- **equation_type**
   - Type: EquationType
   - Description: Type of the equation.
 - variables
@@ -256,14 +259,14 @@ This object describes an equation that can be used to model the kinetics of a re
 
 This object describes a variable that is part of an equation.
 
-- __id__
+- **id**
   - Type: string
   - Description: Unique identifier of the variable.
   - Term: schema:identifier
-- __name__
+- **name**
   - Type: string
   - Description: Name of the variable.
-- __symbol__
+- **symbol**
   - Type: string
   - Description: Symbol of the variable.
 
@@ -271,14 +274,14 @@ This object describes a variable that is part of an equation.
 
 This object describes the parameters of the kinetic model and can include all estimated values.
 
-- __id__
+- **id**
   - Type: Identifier
   - Description: Unique identifier of the parameter.
   - Term: schema:identifier
-- __name__
+- **name**
   - Type: string
   - Description: Name of the parameter.
-- __symbol__
+- **symbol**
   - Type: string
   - Description: Symbol of the parameter.
 - value
@@ -310,11 +313,11 @@ This object describes the parameters of the kinetic model and can include all es
 
 This object describes the result of a measurement, which includes time course data of any type defined in DataTypes. It includes initial concentrations of all species used in a single measurement.
 
-- __id__
+- **id**
   - Type: Identifier
   - Description: Unique identifier of the measurement.
   - Term: schema:identifier
-- __name__
+- **name**
   - Type: string
   - Description: Name of the measurement
 - species_data
@@ -339,16 +342,16 @@ This object describes the result of a measurement, which includes time course da
 
 This object describes a single entity of a measurement, which corresponds to one species. It also holds replicates that contain time course data.
 
-- __species_id__
+- **species_id**
   - Type: Identifier
   - Description: The identifier for the described reactant.
 - prepared
-    - Type: float
-    - Description: Amount of the reactant before the measurement. This field should be used for specifying the prepared amount of a species in the reaction mix. Not to be confused with `initial`, specifying the concentration at the first data point from the `data` array.
-- __initial__
+  - Type: float
+  - Description: Amount of the reactant before the measurement. This field should be used for specifying the prepared amount of a species in the reaction mix. Not to be confused with `initial`, specifying the concentration at the first data point from the `data` array.
+- **initial**
   - Type: float
   - Description: Initial amount of the measurement data. This must be the same as the first data point in the `data` array.
-- __data_unit__
+- **data_unit**
   - Type: UnitDefinition
   - Description: SI unit of the data that was measured.
 - data
@@ -360,10 +363,10 @@ This object describes a single entity of a measurement, which corresponds to one
 - time_unit
   - Type: UnitDefinition
   - Description: Time unit of the replicate.
-- __data_type__
+- **data_type**
   - Type: DataTypes
   - Description: Type of data that was measured (e.g. concentration)
-- __is_simulated__
+- **is_simulated**
   - Type: boolean
   - Description: Whether or not the data has been generated by simulation.
   - Default: False
