@@ -297,6 +297,13 @@
             </xs:element>
             <xs:element name="name" type="xs:string"/>
             <xs:element name="constant" type="xs:boolean" default="false"/>
+            <xs:element name="vessel_id" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>
+                        Unique identifier of the vessel this complex has been used in.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
             <xs:element name="participants" type="xs:string"  maxOccurs="unbounded">
                 <xs:annotation>
                     <xs:documentation>

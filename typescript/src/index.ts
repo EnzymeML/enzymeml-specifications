@@ -173,12 +173,14 @@ export const ProteinCodec = D.lazy("Protein", () => D.struct({
     * @param id - Unique identifier of the complex.
     * @param name
     * @param constant
+    * @param vessel_id - Unique identifier of the vessel this complex has been used in.
     * @param participants - Array of IDs the complex contains
 **/
 export interface Complex extends JsonLd {
   id: string;
   name: string;
   constant: boolean;
+  vessel_id?: string | null;
   participants?: string[] | null;
 }
 
@@ -186,6 +188,7 @@ export const ComplexCodec = D.lazy("Complex", () => D.struct({
     id: D.string,
     name: D.string,
     constant: D.boolean,
+    vessel_id: D.nullable(D.string),
     participants: D.array(D.string),
 }));
 

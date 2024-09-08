@@ -368,6 +368,7 @@ class EnzymeMLDocument(BaseModel):
         id: str,
         name: str,
         constant: bool = False,
+        vessel_id: Optional[str] = None,
         participants: list[str] = [],
         **kwargs,
     ):
@@ -375,6 +376,7 @@ class EnzymeMLDocument(BaseModel):
             "id": id,
             "name": name,
             "constant": constant,
+            "vessel_id": vessel_id,
             "participants": participants,
         }
 
@@ -847,6 +849,7 @@ class Complex(BaseModel):
     id: str
     name: str
     constant: bool = False
+    vessel_id: Optional[str] = Field(default=None)
     participants: list[str] = Field(default_factory=list)
 
     # JSON-LD fields
@@ -871,6 +874,10 @@ class Complex(BaseModel):
                 "@type": "@id",
             },
             "name": "schema:name",
+            "vessel_id": {
+                "@id": "schema:identifier",
+                "@type": "@id",
+            },
             "participants": {
                 "@type": "@id",
             },

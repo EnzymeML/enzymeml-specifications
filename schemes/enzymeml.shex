@@ -1,7 +1,7 @@
 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 PREFIX enzml: <http://www.enzymeml.org/v2/>
-PREFIX OBO: <http://purl.obolibrary.org/obo/>
 PREFIX schema: <https://schema.org/>
+PREFIX OBO: <http://purl.obolibrary.org/obo/>
 
 enzml:EnzymeMLDocument {
     schema:title xsd:string {
@@ -100,6 +100,11 @@ enzml:Complex {
     schema:name xsd:string {
         shex:annotation [
             shex:label "name"
+        ]
+    };
+    schema:identifier xsd:string? {
+        shex:annotation [
+            shex:label "vessel_id"
         ]
     };
 }

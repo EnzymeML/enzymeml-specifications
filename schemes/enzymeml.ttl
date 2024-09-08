@@ -134,6 +134,12 @@ enzml:ComplexShape
         sh:minCount 1 ;
         sh:maxCount 1 ;
     ];
+    sh:property [
+        sh:path schema:identifier ;
+        sh:datatype xsd:string ;
+        sh:minCount 0 ;
+        sh:maxCount 1 ;
+    ];
 
 enzml:SmallMoleculeShape
     a sh:NodeShape ;

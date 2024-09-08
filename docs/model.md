@@ -265,6 +265,11 @@ __constant__* `boolean`
 
 - `Default`: false
 
+__vessel_id__ `string`
+
+- Unique identifier of the vessel this complex has been used in.
+
+
 __participants__ `list[string]`
 
 - Array of IDs the complex contains

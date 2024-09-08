@@ -135,6 +135,7 @@ class EnzymeMLDocument:
         id: str,
         name: str,
         constant: bool = False,
+        vessel_id: Optional[str] = None,
         participants: list[str] = [],
         **kwargs,
     ):
@@ -142,6 +143,7 @@ class EnzymeMLDocument:
             "id": id,
             "name": name,
             "constant": constant,
+            "vessel_id": vessel_id,
             "participants": participants,
         }
 
@@ -418,6 +420,9 @@ class Protein:
 class Complex:
     name: str
     constant: bool = False
+    vessel_id: Optional[str] = field(
+        default=None, metadata=config(exclude=lambda x: x is None)
+    )
     participants: List[str] = field(default_factory=list)
 
     # JSON-LD fields
@@ -442,6 +447,10 @@ class Complex:
                 "@type": "@id",
             },
             "name": "schema:name",
+            "vessel_id": {
+                "@id": "schema:identifier",
+                "@type": "@id",
+            },
             "participants": {
                 "@type": "@id",
             },
