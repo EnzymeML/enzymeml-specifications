@@ -1,3 +1,20 @@
 # EnzymeML
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor. Cras elementum ultrices diam. Maecenas ligula massa, varius a, semper congue, euismod non, mi. Proin porttitor, orci nec nonummy molestie, enim est eleifend mi, non fermentum diam nisl sit amet erat. Duis semper. Duis arcu massa, scelerisque vitae, consequat in, pretium a, enim. Pellentesque congue. Ut in risus volutpat libero pharetra tempor. Cras vestibulum bibendum augue. Praesent egestas leo in pede. Praesent blandit odio eu enim. Pellentesque sed dui ut augue blandit sodales. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Aliquam nibh. Mauris ac mauris sed pede pellentesque fermentum. Maecenas adipiscing ante non diam sodales hendrerit.
+## Why EnzymeML?
+
+EnzymeML is a data model for catalyzed reaction data.
+
+It sets information on small molecules, proteins, and their reaction in context with reaction conditions and the measured data.
+
+EnzymeML is a standardized data model allowing for exchange of data among colleagues, database providers, and data science tools.
+
+
+## How to use EnzymeML?
+
+Besides the data model, different tools are available to accelerate your processing and analysis of catalyzed reaction data.
+
+- EnzymeML Suite: A desktop application for creating, editing, simulating, and visualizing EnzymeML documents.
+- Chromatopy: A Python tool for processing chromatographic data.
+- MTPHandler: A Python tool for processing plate reader data.
+- NMRpy: A Python tool for processing NMR data.
+
