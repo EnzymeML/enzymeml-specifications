@@ -42,7 +42,7 @@ nav:
   - Use cases: use_cases.md
   - Team: team.md
   - Publications: publications.md
-  - "Model Reference": model.md
+  - "EnzymeML Data Model": model.md
 
 markdown_extensions:
   - attr_list

@@ -2,9 +2,10 @@
 
 ## Developers
 
-- Jan Range (UX/UI Designer)
-- Max Häussler (Data Integration Architect)
-- Torsten Giess 
+- Jan Range
+- Max Häussler
+- Torsten Giess
+- Sascha Gabriel
 
 ## Scientific Coordinators
 
@@ -12,4 +13,3 @@
 
 ## Former Developers
 
-- Stephan Malzacher
