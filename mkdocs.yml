@@ -1,0 +1,70 @@
+site_name: EnzymeML
+repo_url: https://github.com/EnzymeML/enzymeml-specifications
+edit_uri: edit/main/docs/
+
+theme:
+  logo: img/enzml_logo.png
+
+  font:
+    text: Open Sans
+  icon:
+    repo: fontawesome/brands/github
+    edit: material/pencil
+    view: material/eye
+  name: material
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.path
+    - navigation.top
+    - navigation.tracking
+    - toc.follow
+    - search.suggest
+    - content.action.edit
+    - content.code.copy
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      primary: custom
+      accent: custom
+      scheme: custom
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      primary: custom
+      accent: custom
+      scheme: slate
+      toggle:
+        icon: material/weather-night
+        name: Switch to light mode
+nav:
+  - Home: index.md
+  - Use cases: use_cases.md
+  - Team: team.md
+  - Publications: publications.md
+  - "EnzymeML Data Model": model.md
+
+markdown_extensions:
+  - attr_list
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.critic
+  - pymdownx.caret
+  - pymdownx.keys
+  - pymdownx.mark
+  - pymdownx.tilde
+  - toc:
+      permalink: true
+plugins:
+  - search
+
+extra_css:
+  - stylesheets/extra.css

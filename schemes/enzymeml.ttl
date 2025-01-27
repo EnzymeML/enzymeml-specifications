@@ -1,0 +1,214 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix enzml: <http://www.enzymeml.org/v2/> .
+@prefix schema: <https://schema.org/> .
+@prefix OBO: <http://purl.obolibrary.org/obo/> .
+
+
+enzml:EnzymeMLDocumentShape
+    a sh:NodeShape ;
+    sh:targetClass md:EnzymeMLDocument ;
+
+    sh:property [
+        sh:path schema:title ;
+        sh:datatype xsd:string ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+    ];
+    sh:property [
+        sh:path schema:citation ;
+        sh:datatype xsd:string ;
+        sh:minCount 0 ;
+    ];
+    sh:property [
+        sh:path schema:dateCreated ;
+        sh:datatype xsd:string ;
+        sh:minCount 0 ;
+        sh:maxCount 1 ;
+    ];
+    sh:property [
+        sh:path schema:dateModified ;
+        sh:datatype xsd:string ;
+        sh:minCount 0 ;
+        sh:maxCount 1 ;
+    ];
+    sh:property [
+        sh:path schema:creator ;
+        sh:node md:CreatorShape ;
+        sh:minCount 0 ;
+    ];
+
+enzml:CreatorShape
+    a sh:NodeShape ;
+    sh:targetClass md:Creator ;
+
+    sh:property [
+        sh:path schema:givenName ;
+        sh:datatype xsd:string ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+    ];
+    sh:property [
+        sh:path schema:familyName ;
+        sh:datatype xsd:string ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+    ];
+    sh:property [
+        sh:path schema:email ;
+        sh:datatype xsd:string ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+    ].
+
+enzml:VesselShape
+    a sh:NodeShape ;
+    sh:targetClass md:Vessel ;
+
+    sh:property [
+        sh:path schema:identifier ;
+        sh:datatype xsd:string ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+    ];
+    sh:property [
+        sh:path schema:name ;
+        sh:datatype xsd:string ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+    ];
+    sh:property [
+        sh:path OBO:OBI_0002139 ;
+        sh:datatype xsd:double ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+    ];
+
+enzml:ProteinShape
+    a sh:NodeShape ;
+    sh:targetClass md:Protein ;
+
+    sh:property [
+        sh:path schema:name ;
+        sh:datatype xsd:string ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+    ];
+    sh:property [
+        sh:path OBO:GSSO_007262 ;
+        sh:datatype xsd:string ;
+        sh:minCount 0 ;
+        sh:maxCount 1 ;
+    ];
+    sh:property [
+        sh:path schema:identifier ;
+        sh:datatype xsd:string ;
+        sh:minCount 0 ;
+        sh:maxCount 1 ;
+    ];
+    sh:property [
+        sh:path OBO:OBI_0100026 ;
+        sh:datatype xsd:string ;
+        sh:minCount 0 ;
+        sh:maxCount 1 ;
+    ];
+    sh:property [
+        sh:path schema:citation ;
+        sh:datatype xsd:string ;
+        sh:minCount 0 ;
+    ].
+
+enzml:ComplexShape
+    a sh:NodeShape ;
+    sh:targetClass md:Complex ;
+
+    sh:property [
+        sh:path schema:identifier ;
+        sh:datatype xsd:string ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+    ];
+    sh:property [
+        sh:path schema:name ;
+        sh:datatype xsd:string ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+    ];
+    sh:property [
+        sh:path schema:identifier ;
+        sh:datatype xsd:string ;
+        sh:minCount 0 ;
+        sh:maxCount 1 ;
+    ];
+
+enzml:SmallMoleculeShape
+    a sh:NodeShape ;
+    sh:targetClass md:SmallMolecule ;
+
+    sh:property [
+        sh:path schema:identifier ;
+        sh:datatype xsd:string ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+    ];
+    sh:property [
+        sh:path schema:name ;
+        sh:datatype xsd:string ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+    ];
+    sh:property [
+        sh:path schema:identifier ;
+        sh:datatype xsd:string ;
+        sh:minCount 0 ;
+        sh:maxCount 1 ;
+    ];
+    sh:property [
+        sh:path schema:citation ;
+        sh:datatype xsd:string ;
+        sh:minCount 0 ;
+    ].
+
+enzml:ReactionShape
+    a sh:NodeShape ;
+    sh:targetClass md:Reaction ;
+
+    sh:property [
+        sh:path schema:identifier ;
+        sh:datatype xsd:string ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+    ];
+
+enzml:VariableShape
+    a sh:NodeShape ;
+    sh:targetClass md:Variable ;
+
+    sh:property [
+        sh:path schema:identifier ;
+        sh:datatype xsd:string ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+    ];
+
+enzml:ParameterShape
+    a sh:NodeShape ;
+    sh:targetClass md:Parameter ;
+
+    sh:property [
+        sh:path schema:identifier ;
+        sh:datatype xsd:string ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+    ];
+
+enzml:MeasurementShape
+    a sh:NodeShape ;
+    sh:targetClass md:Measurement ;
+
+    sh:property [
+        sh:path schema:identifier ;
+        sh:datatype xsd:string ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+    ];
