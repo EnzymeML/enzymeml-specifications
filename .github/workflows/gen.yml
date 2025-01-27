@@ -51,5 +51,5 @@ jobs:
         with:
           path: .cache
           key: ${{ github.ref }}
-      - run: pip install mkdocs-material jupyter nbconvert mkdocs-jupyter
+      - run: pip install mkdocs-material jupyter nbconvert mkdocs-jupyter mkdocs-plugin-inline-svg
       - run: mkdocs gh-deploy --force
