@@ -105,8 +105,8 @@ class EnzymeMLDocument(BaseModel):
         serialization_alias="@context",
         default_factory=lambda: {
             "enzml": "http://www.enzymeml.org/v2/",
-            "OBO": "http://purl.obolibrary.org/obo/",
             "schema": "https://schema.org/",
+            "OBO": "http://purl.obolibrary.org/obo/",
             "name": "schema:title",
             "references": {
                 "@id": "schema:citation",
@@ -550,8 +550,8 @@ class Creator(BaseModel):
         serialization_alias="@context",
         default_factory=lambda: {
             "enzml": "http://www.enzymeml.org/v2/",
-            "OBO": "http://purl.obolibrary.org/obo/",
             "schema": "https://schema.org/",
+            "OBO": "http://purl.obolibrary.org/obo/",
             "given_name": "schema:givenName",
             "family_name": "schema:familyName",
             "mail": "schema:email",
@@ -648,8 +648,8 @@ class Vessel(BaseModel):
         serialization_alias="@context",
         default_factory=lambda: {
             "enzml": "http://www.enzymeml.org/v2/",
-            "OBO": "http://purl.obolibrary.org/obo/",
             "schema": "https://schema.org/",
+            "OBO": "http://purl.obolibrary.org/obo/",
             "id": {
                 "@id": "schema:identifier",
                 "@type": "@id",
@@ -753,8 +753,8 @@ class Protein(BaseModel):
         serialization_alias="@context",
         default_factory=lambda: {
             "enzml": "http://www.enzymeml.org/v2/",
-            "OBO": "http://purl.obolibrary.org/obo/",
             "schema": "https://schema.org/",
+            "OBO": "http://purl.obolibrary.org/obo/",
             "id": {
                 "@type": "@id",
             },
@@ -867,8 +867,8 @@ class Complex(BaseModel):
         serialization_alias="@context",
         default_factory=lambda: {
             "enzml": "http://www.enzymeml.org/v2/",
-            "OBO": "http://purl.obolibrary.org/obo/",
             "schema": "https://schema.org/",
+            "OBO": "http://purl.obolibrary.org/obo/",
             "id": {
                 "@id": "schema:identifier",
                 "@type": "@id",
@@ -979,8 +979,8 @@ class SmallMolecule(BaseModel):
         serialization_alias="@context",
         default_factory=lambda: {
             "enzml": "http://www.enzymeml.org/v2/",
-            "OBO": "http://purl.obolibrary.org/obo/",
             "schema": "https://schema.org/",
+            "OBO": "http://purl.obolibrary.org/obo/",
             "id": {
                 "@id": "schema:identifier",
                 "@type": "@id",
@@ -1090,8 +1090,8 @@ class Reaction(BaseModel):
         serialization_alias="@context",
         default_factory=lambda: {
             "enzml": "http://www.enzymeml.org/v2/",
-            "OBO": "http://purl.obolibrary.org/obo/",
             "schema": "https://schema.org/",
+            "OBO": "http://purl.obolibrary.org/obo/",
             "id": {
                 "@id": "schema:identifier",
                 "@type": "@id",
@@ -1218,8 +1218,8 @@ class ReactionElement(BaseModel):
         serialization_alias="@context",
         default_factory=lambda: {
             "enzml": "http://www.enzymeml.org/v2/",
-            "OBO": "http://purl.obolibrary.org/obo/",
             "schema": "https://schema.org/",
+            "OBO": "http://purl.obolibrary.org/obo/",
             "species_id": {
                 "@type": "@id",
             },
@@ -1317,8 +1317,8 @@ class Equation(BaseModel):
         serialization_alias="@context",
         default_factory=lambda: {
             "enzml": "http://www.enzymeml.org/v2/",
-            "OBO": "http://purl.obolibrary.org/obo/",
             "schema": "https://schema.org/",
+            "OBO": "http://purl.obolibrary.org/obo/",
             "species_id": {
                 "@type": "@id",
             },
@@ -1443,8 +1443,8 @@ class Variable(BaseModel):
         serialization_alias="@context",
         default_factory=lambda: {
             "enzml": "http://www.enzymeml.org/v2/",
-            "OBO": "http://purl.obolibrary.org/obo/",
             "schema": "https://schema.org/",
+            "OBO": "http://purl.obolibrary.org/obo/",
             "id": "schema:identifier",
         },
     )
@@ -1546,8 +1546,8 @@ class Parameter(BaseModel):
         serialization_alias="@context",
         default_factory=lambda: {
             "enzml": "http://www.enzymeml.org/v2/",
-            "OBO": "http://purl.obolibrary.org/obo/",
             "schema": "https://schema.org/",
+            "OBO": "http://purl.obolibrary.org/obo/",
             "id": {
                 "@id": "schema:identifier",
                 "@type": "@id",
@@ -1649,8 +1649,8 @@ class Measurement(BaseModel):
         serialization_alias="@context",
         default_factory=lambda: {
             "enzml": "http://www.enzymeml.org/v2/",
-            "OBO": "http://purl.obolibrary.org/obo/",
             "schema": "https://schema.org/",
+            "OBO": "http://purl.obolibrary.org/obo/",
             "id": {
                 "@id": "schema:identifier",
                 "@type": "@id",
@@ -1801,8 +1801,8 @@ class MeasurementData(BaseModel):
         serialization_alias="@context",
         default_factory=lambda: {
             "enzml": "http://www.enzymeml.org/v2/",
-            "OBO": "http://purl.obolibrary.org/obo/",
             "schema": "https://schema.org/",
+            "OBO": "http://purl.obolibrary.org/obo/",
             "species_id": {
                 "@type": "@id",
             },
@@ -1899,8 +1899,8 @@ class UnitDefinition(BaseModel):
         serialization_alias="@context",
         default_factory=lambda: {
             "enzml": "http://www.enzymeml.org/v2/",
-            "OBO": "http://purl.obolibrary.org/obo/",
             "schema": "https://schema.org/",
+            "OBO": "http://purl.obolibrary.org/obo/",
         },
     )
 
@@ -2029,8 +2029,8 @@ class BaseUnit(BaseModel):
         serialization_alias="@context",
         default_factory=lambda: {
             "enzml": "http://www.enzymeml.org/v2/",
-            "OBO": "http://purl.obolibrary.org/obo/",
             "schema": "https://schema.org/",
+            "OBO": "http://purl.obolibrary.org/obo/",
         },
     )
 

@@ -7,7 +7,7 @@ hide:
 
 This page provides comprehensive information about the structure and components of the data model, including detailed descriptions of the types and their properties, information on enumerations, and an overview of the ontologies used and their associated prefixes. Below, you will find a graph that visually represents the overall structure of the data model.
 
-!!! quote "EnzymeML Data Model"
+??? quote "Graph"
     ``` mermaid
     flowchart TB
         enzymemldocument(EnzymeMLDocument)
@@ -73,8 +73,8 @@ This page provides comprehensive information about the structure and components 
 
 
 ## Ontologies
-- [schema](https://schema.org/)
 - [OBO](http://purl.obolibrary.org/obo/)
+- [schema](https://schema.org/)
 
 
 ## Types
