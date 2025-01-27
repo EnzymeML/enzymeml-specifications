@@ -253,9 +253,9 @@ class EnzymeMLDocument(BaseModel):
             AssertionError: If the attribute is not found in the model
         """
 
-        assert (
-            attr in self.model_fields
-        ), f"Attribute {attr} not found in {self.__class__.__name__}"
+        assert attr in self.model_fields, (
+            f"Attribute {attr} not found in {self.__class__.__name__}"
+        )
 
         if prefix:
             validate_prefix(term, prefix)
@@ -585,9 +585,9 @@ class Creator(BaseModel):
             AssertionError: If the attribute is not found in the model
         """
 
-        assert (
-            attr in self.model_fields
-        ), f"Attribute {attr} not found in {self.__class__.__name__}"
+        assert attr in self.model_fields, (
+            f"Attribute {attr} not found in {self.__class__.__name__}"
+        )
 
         if prefix:
             validate_prefix(term, prefix)
@@ -686,9 +686,9 @@ class Vessel(BaseModel):
             AssertionError: If the attribute is not found in the model
         """
 
-        assert (
-            attr in self.model_fields
-        ), f"Attribute {attr} not found in {self.__class__.__name__}"
+        assert attr in self.model_fields, (
+            f"Attribute {attr} not found in {self.__class__.__name__}"
+        )
 
         if prefix:
             validate_prefix(term, prefix)
@@ -802,9 +802,9 @@ class Protein(BaseModel):
             AssertionError: If the attribute is not found in the model
         """
 
-        assert (
-            attr in self.model_fields
-        ), f"Attribute {attr} not found in {self.__class__.__name__}"
+        assert attr in self.model_fields, (
+            f"Attribute {attr} not found in {self.__class__.__name__}"
+        )
 
         if prefix:
             validate_prefix(term, prefix)
@@ -911,9 +911,9 @@ class Complex(BaseModel):
             AssertionError: If the attribute is not found in the model
         """
 
-        assert (
-            attr in self.model_fields
-        ), f"Attribute {attr} not found in {self.__class__.__name__}"
+        assert attr in self.model_fields, (
+            f"Attribute {attr} not found in {self.__class__.__name__}"
+        )
 
         if prefix:
             validate_prefix(term, prefix)
@@ -1024,9 +1024,9 @@ class SmallMolecule(BaseModel):
             AssertionError: If the attribute is not found in the model
         """
 
-        assert (
-            attr in self.model_fields
-        ), f"Attribute {attr} not found in {self.__class__.__name__}"
+        assert attr in self.model_fields, (
+            f"Attribute {attr} not found in {self.__class__.__name__}"
+        )
 
         if prefix:
             validate_prefix(term, prefix)
@@ -1141,9 +1141,9 @@ class Reaction(BaseModel):
             AssertionError: If the attribute is not found in the model
         """
 
-        assert (
-            attr in self.model_fields
-        ), f"Attribute {attr} not found in {self.__class__.__name__}"
+        assert attr in self.model_fields, (
+            f"Attribute {attr} not found in {self.__class__.__name__}"
+        )
 
         if prefix:
             validate_prefix(term, prefix)
@@ -1253,9 +1253,9 @@ class ReactionElement(BaseModel):
             AssertionError: If the attribute is not found in the model
         """
 
-        assert (
-            attr in self.model_fields
-        ), f"Attribute {attr} not found in {self.__class__.__name__}"
+        assert attr in self.model_fields, (
+            f"Attribute {attr} not found in {self.__class__.__name__}"
+        )
 
         if prefix:
             validate_prefix(term, prefix)
@@ -1364,9 +1364,9 @@ class Equation(BaseModel):
             AssertionError: If the attribute is not found in the model
         """
 
-        assert (
-            attr in self.model_fields
-        ), f"Attribute {attr} not found in {self.__class__.__name__}"
+        assert attr in self.model_fields, (
+            f"Attribute {attr} not found in {self.__class__.__name__}"
+        )
 
         if prefix:
             validate_prefix(term, prefix)
@@ -1476,9 +1476,9 @@ class Variable(BaseModel):
             AssertionError: If the attribute is not found in the model
         """
 
-        assert (
-            attr in self.model_fields
-        ), f"Attribute {attr} not found in {self.__class__.__name__}"
+        assert attr in self.model_fields, (
+            f"Attribute {attr} not found in {self.__class__.__name__}"
+        )
 
         if prefix:
             validate_prefix(term, prefix)
@@ -1582,9 +1582,9 @@ class Parameter(BaseModel):
             AssertionError: If the attribute is not found in the model
         """
 
-        assert (
-            attr in self.model_fields
-        ), f"Attribute {attr} not found in {self.__class__.__name__}"
+        assert attr in self.model_fields, (
+            f"Attribute {attr} not found in {self.__class__.__name__}"
+        )
 
         if prefix:
             validate_prefix(term, prefix)
@@ -1700,9 +1700,9 @@ class Measurement(BaseModel):
             AssertionError: If the attribute is not found in the model
         """
 
-        assert (
-            attr in self.model_fields
-        ), f"Attribute {attr} not found in {self.__class__.__name__}"
+        assert attr in self.model_fields, (
+            f"Attribute {attr} not found in {self.__class__.__name__}"
+        )
 
         if prefix:
             validate_prefix(term, prefix)
@@ -1836,9 +1836,9 @@ class MeasurementData(BaseModel):
             AssertionError: If the attribute is not found in the model
         """
 
-        assert (
-            attr in self.model_fields
-        ), f"Attribute {attr} not found in {self.__class__.__name__}"
+        assert attr in self.model_fields, (
+            f"Attribute {attr} not found in {self.__class__.__name__}"
+        )
 
         if prefix:
             validate_prefix(term, prefix)
@@ -1943,9 +1943,9 @@ class UnitDefinition(BaseModel):
             AssertionError: If the attribute is not found in the model
         """
 
-        assert (
-            attr in self.model_fields
-        ), f"Attribute {attr} not found in {self.__class__.__name__}"
+        assert attr in self.model_fields, (
+            f"Attribute {attr} not found in {self.__class__.__name__}"
+        )
 
         if prefix:
             validate_prefix(term, prefix)
@@ -2061,9 +2061,9 @@ class BaseUnit(BaseModel):
             AssertionError: If the attribute is not found in the model
         """
 
-        assert (
-            attr in self.model_fields
-        ), f"Attribute {attr} not found in {self.__class__.__name__}"
+        assert attr in self.model_fields, (
+            f"Attribute {attr} not found in {self.__class__.__name__}"
+        )
 
         if prefix:
             validate_prefix(term, prefix)

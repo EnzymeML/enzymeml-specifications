@@ -1,467 +1,801 @@
 {
-  "$schema": "http://json-schema.org/draft-07/schema",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "http://www.enzymeml.org/v2/",
   "title": "EnzymeMLDocument",
   "type": "object",
+  "description": "This is the root object that composes all objects found in an EnzymeML document. It also includes general metadata such as the name of the document, when it was created/modified, and references to publications, databases, and arbitrary links to the web.",
   "properties": {
-    "name": {
-      "title": "name",
-      "description": "Title of the EnzymeML Document.",
-      "term": "schema:title",
-      "type": "string"
-    },
-    "references": {
-      "title": "references",
-      "description": "Contains references to publications, databases, and arbitrary links to the web.",
-      "term": "schema:citation",
+    "complexes": {
+      "title": "complexes",
       "type": "array",
+      "description": "Contains all complexes that are part of the experiment.",
       "items": {
-        "type": "string"
+        "$ref": "#/$defs/Complex"
       }
     },
     "created": {
       "title": "created",
+      "type": "string",
       "description": "Date the EnzymeML document was created.",
-      "term": "schema:dateCreated",
-      "type": "string"
-    },
-    "modified": {
-      "title": "modified",
-      "description": "Date the EnzymeML document was modified.",
-      "term": "schema:dateModified",
-      "type": "string"
+      "$term": "https://schema.org/dateCreated"
     },
     "creators": {
-      "term": "schema:creator",
+      "title": "creators",
       "type": "array",
+      "description": "Contains all authors that are part of the experiment.",
+      "$term": "https://schema.org/creator",
       "items": {
-        "$ref": "#/definitions/Creator"
-      }
-    },
-    "vessels": {
-      "type": "array",
-      "items": {
-        "$ref": "#/definitions/Vessel"
-      }
-    },
-    "proteins": {
-      "type": "array",
-      "items": {
-        "$ref": "#/definitions/Protein"
-      }
-    },
-    "complexes": {
-      "type": "array",
-      "items": {
-        "$ref": "#/definitions/Complex"
-      }
-    },
-    "small_molecules": {
-      "type": "array",
-      "items": {
-        "$ref": "#/definitions/SmallMolecule"
-      }
-    },
-    "reactions": {
-      "type": "array",
-      "items": {
-        "$ref": "#/definitions/Reaction"
-      }
-    },
-    "measurements": {
-      "type": "array",
-      "items": {
-        "$ref": "#/definitions/Measurement"
+        "$ref": "#/$defs/Creator"
       }
     },
     "equations": {
+      "title": "equations",
       "type": "array",
+      "description": "Contains ordinary differential equations that describe the kinetic model.",
       "items": {
-        "$ref": "#/definitions/Equation"
+        "$ref": "#/$defs/Equation"
       }
     },
-    "parameters": {
+    "measurements": {
+      "title": "measurements",
       "type": "array",
+      "description": "Contains measurements that describe outcomes of an experiment.",
       "items": {
-        "$ref": "#/definitions/Parameter"
+        "$ref": "#/$defs/Measurement"
+      }
+    },
+    "modified": {
+      "title": "modified",
+      "type": "string",
+      "description": "Date the EnzymeML document was modified.",
+      "$term": "https://schema.org/dateModified"
+    },
+    "name": {
+      "title": "name",
+      "type": "string",
+      "description": "Title of the EnzymeML Document.",
+      "$term": "https://schema.org/title"
+    },
+    "parameters": {
+      "title": "parameters",
+      "type": "array",
+      "description": "List of parameters that are part of the equation",
+      "items": {
+        "$ref": "#/$defs/Parameter"
+      }
+    },
+    "proteins": {
+      "title": "proteins",
+      "type": "array",
+      "description": "Contains all proteins that are part of the experiment.",
+      "items": {
+        "$ref": "#/$defs/Protein"
+      }
+    },
+    "reactions": {
+      "title": "reactions",
+      "type": "array",
+      "description": "Dictionary mapping from reaction IDs to reaction-describing objects.",
+      "items": {
+        "$ref": "#/$defs/Reaction"
+      }
+    },
+    "references": {
+      "title": "references",
+      "type": "array",
+      "description": "Contains references to publications, databases, and arbitrary links to the web.",
+      "$term": "https://schema.org/citation",
+      "items": {
+        "type": "string"
+      }
+    },
+    "small_molecules": {
+      "title": "small_molecules",
+      "type": "array",
+      "description": "Contains all reactants that are part of the experiment.",
+      "items": {
+        "$ref": "#/$defs/SmallMolecule"
+      }
+    },
+    "vessels": {
+      "title": "vessels",
+      "type": "array",
+      "description": "Contains all vessels that are part of the experiment.",
+      "items": {
+        "$ref": "#/$defs/Vessel"
       }
     }
   },
-  "description": "This is the root object that composes all objects found in an EnzymeML document. It also includes general metadata such as the name of the document, when it was created/modified, and references to publications, databases, and arbitrary links to the web.",
-  "definitions": {
-    "Reaction": {
-      "title": "Reaction",
+  "$defs": {
+    "BaseUnit": {
+      "title": "BaseUnit",
       "type": "object",
+      "description": "Represents a base unit in the unit definition.",
       "properties": {
-        "id": {
-          "title": "id",
-          "description": "Unique identifier of the reaction.",
-          "term": "schema:identifier",
-          "type": "string"
+        "exponent": {
+          "title": "exponent",
+          "type": "integer",
+          "description": "Exponent of the base unit in the unit definition."
         },
-        "name": {
-          "title": "name",
-          "description": "Name of the reaction.",
-          "type": "string"
+        "kind": {
+          "title": "kind",
+          "description": "Kind of the base unit (e.g., meter, kilogram, second).",
+          "$ref": "#/$defs/UnitType"
         },
-        "reversible": {
-          "title": "reversible",
-          "description": "Whether the reaction is reversible or irreversible",
-          "type": "boolean"
-        },
-        "kinetic_law": {
-          "$ref": "#/definitions/Equation"
-        },
-        "species": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/ReactionElement"
-          }
-        },
-        "modifiers": {
-          "title": "modifiers",
-          "description": "List of reaction elements that are not part of the reaction but influence it.",
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        }
-      },
-      "description": "This object describes a chemical or enzymatic reaction that was investigated in the course of the experiment. All species used within this object need to be part of the data model."
-    },
-    "Measurement": {
-      "title": "Measurement",
-      "type": "object",
-      "properties": {
-        "id": {
-          "title": "id",
-          "description": "Unique identifier of the measurement.",
-          "term": "schema:identifier",
-          "type": "string"
-        },
-        "name": {
-          "title": "name",
-          "description": "Name of the measurement",
-          "type": "string"
-        },
-        "species_data": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/MeasurementData"
-          }
-        },
-        "group_id": {
-          "title": "group_id",
-          "description": "User-defined group ID to signal relationships between measurements.",
-          "type": "string"
-        },
-        "ph": {
-          "title": "ph",
-          "description": "PH value of the measurement.",
+        "multiplier": {
+          "title": "multiplier",
           "type": "number",
-          "minimum": 0.0,
-          "maximum": 14.0
+          "description": "Multiplier of the base unit in the unit definition."
         },
-        "temperature": {
-          "title": "temperature",
-          "description": "Temperature of the measurement.",
-          "type": "number"
-        },
-        "temperature_unit": {
-          "$ref": "#/definitions/UnitDefinition"
+        "scale": {
+          "title": "scale",
+          "type": "number",
+          "description": "Scale of the base unit in the unit definition."
         }
       },
-      "description": "This object describes the result of a measurement, which includes time course data of any type defined in DataTypes. It includes initial concentrations of all species used in a single measurement."
-    },
-    "SmallMolecule": {
-      "title": "SmallMolecule",
-      "type": "object",
-      "properties": {
-        "id": {
-          "title": "id",
-          "description": "Unique identifier of the small molecule.",
-          "term": "schema:identifier",
-          "type": "string"
-        },
-        "name": {
-          "title": "name",
-          "term": "schema:name",
-          "type": "string"
-        },
-        "constant": {
-          "title": "constant",
-          "type": "boolean"
-        },
-        "vessel_id": {
-          "title": "vessel_id",
-          "description": "Unique identifier of the vessel this small molecule has been used in.",
-          "term": "schema:identifier",
-          "type": "string"
-        },
-        "canonical_smiles": {
-          "title": "canonical_smiles",
-          "description": "Canonical Simplified Molecular-Input Line-Entry System (SMILES) encoding of the reactant.",
-          "type": "string"
-        },
-        "inchi": {
-          "title": "inchi",
-          "description": "International Chemical Identifier (InChI) encoding of the reactant.",
-          "type": "string"
-        },
-        "inchikey": {
-          "title": "inchikey",
-          "description": "Hashed International Chemical Identifier (InChIKey) encoding of the reactant.",
-          "type": "string"
-        },
-        "references": {
-          "title": "references",
-          "description": "Array of references to publications, database entries, etc. that describe the reactant.",
-          "term": "schema:citation",
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        }
-      },
-      "description": "This object describes the reactants that were used or produced in the course of the experiment."
-    },
-    "Protein": {
-      "title": "Protein",
-      "type": "object",
-      "properties": {
-        "id": {
-          "title": "id",
-          "description": "Unique internal identifier of the protein.",
-          "type": "string",
-          "schema": "identifier"
-        },
-        "name": {
-          "title": "name",
-          "term": "schema:name",
-          "type": "string"
-        },
-        "constant": {
-          "title": "constant",
-          "type": "boolean"
-        },
-        "sequence": {
-          "title": "sequence",
-          "description": "Amino acid sequence of the protein",
-          "term": "OBO:GSSO_007262",
-          "type": "string"
-        },
-        "vessel_id": {
-          "title": "vessel_id",
-          "description": "Unique identifier of the vessel this protein has been used in.",
-          "term": "schema:identifier",
-          "type": "string"
-        },
-        "ecnumber": {
-          "title": "ecnumber",
-          "description": "EC number of the protein.",
-          "type": "string"
-        },
-        "organism": {
-          "title": "organism",
-          "description": "Organism the protein was expressed in.",
-          "term": "OBO:OBI_0100026",
-          "type": "string"
-        },
-        "organism_tax_id": {
-          "title": "organism_tax_id",
-          "description": "Taxonomy identifier of the expression host.",
-          "type": "string"
-        },
-        "references": {
-          "title": "references",
-          "description": "Array of references to publications, database entries, etc. that describe the protein.",
-          "term": "schema:citation",
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        }
-      },
-      "description": "This object describes the proteins that were used or formed throughout the experiment.",
-      "term": "schema:Protein"
-    },
-    "Parameter": {
-      "title": "Parameter",
-      "type": "object",
-      "properties": {
-        "id": {
-          "title": "id",
-          "description": "Unique identifier of the parameter.",
-          "term": "schema:identifier",
-          "type": "string"
-        },
-        "name": {
-          "title": "name",
-          "description": "Name of the parameter.",
-          "type": "string"
-        },
-        "symbol": {
-          "title": "symbol",
-          "description": "Symbol of the parameter.",
-          "type": "string"
-        },
-        "value": {
-          "title": "value",
-          "description": "Numerical value of the estimated parameter.",
-          "type": "number"
-        },
-        "unit": {
-          "$ref": "#/definitions/UnitDefinition"
-        },
-        "initial_value": {
-          "title": "initial_value",
-          "description": "Initial value that was used for the parameter estimation.",
-          "type": "number"
-        },
-        "upper": {
-          "title": "upper",
-          "description": "Upper bound of the estimated parameter.",
-          "type": "number"
-        },
-        "lower": {
-          "title": "lower",
-          "description": "Lower bound of the estimated parameter.",
-          "type": "number"
-        },
-        "stderr": {
-          "title": "stderr",
-          "description": "Standard error of the estimated parameter.",
-          "type": "number"
-        },
-        "constant": {
-          "title": "constant",
-          "description": "Specifies if this parameter is constant",
-          "type": "boolean"
-        }
-      },
-      "description": "This object describes the parameters of the kinetic model and can include all estimated values."
-    },
-    "Vessel": {
-      "title": "Vessel",
-      "type": "object",
-      "properties": {
-        "id": {
-          "title": "id",
-          "description": "Unique identifier of the vessel.",
-          "term": "schema:identifier",
-          "type": "string"
-        },
-        "name": {
-          "title": "name",
-          "description": "Name of the used vessel.",
-          "term": "schema:name",
-          "type": "string"
-        },
-        "volume": {
-          "title": "volume",
-          "description": "Volumetric value of the vessel.",
-          "term": "OBO:OBI_0002139",
-          "type": "number"
-        },
-        "unit": {
-          "$ref": "#/definitions/UnitDefinition"
-        },
-        "constant": {
-          "title": "constant",
-          "description": "Whether the volume of the vessel is constant or not.",
-          "type": "boolean"
-        }
-      },
-      "description": "This object describes vessels in which the experiment has been carried out. These can include any type of vessel used in biocatalytic experiments.",
-      "term": "OBO:OBI_0400081"
-    },
-    "Creator": {
-      "title": "Creator",
-      "type": "object",
-      "properties": {
-        "given_name": {
-          "title": "given_name",
-          "description": "Given name of the author or contributor.",
-          "term": "schema:givenName",
-          "type": "string"
-        },
-        "family_name": {
-          "title": "family_name",
-          "description": "Family name of the author or contributor.",
-          "term": "schema:familyName",
-          "type": "string"
-        },
-        "mail": {
-          "title": "mail",
-          "description": "Email address of the author or contributor.",
-          "term": "schema:email",
-          "type": "string"
-        }
-      },
-      "description": "The creator object contains all information about authors that contributed to the resulting document.",
-      "term": "schema:person"
+      "required": [
+        "kind",
+        "exponent"
+      ],
+      "additionalProperties": false
     },
     "Complex": {
       "title": "Complex",
       "type": "object",
+      "description": "This object describes complexes made of reactants and/or proteins that were used or produced in the course of the experiment.",
       "properties": {
+        "constant": {
+          "title": "constant",
+          "type": "boolean"
+        },
         "id": {
           "title": "id",
+          "type": "string",
           "description": "Unique identifier of the complex.",
-          "term": "schema:identifier",
-          "type": "string"
+          "$term": "https://schema.org/identifier"
         },
         "name": {
           "title": "name",
-          "term": "schema:name",
-          "type": "string"
+          "type": "string",
+          "$term": "https://schema.org/name"
+        },
+        "participants": {
+          "title": "participants",
+          "type": "array",
+          "description": "Array of IDs the complex contains",
+          "items": {
+            "type": "string"
+          }
+        },
+        "vessel_id": {
+          "title": "vessel_id",
+          "type": "string",
+          "description": "Unique identifier of the vessel this complex has been used in.",
+          "$term": "https://schema.org/identifier"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "constant"
+      ],
+      "additionalProperties": false
+    },
+    "Creator": {
+      "title": "Creator",
+      "type": "object",
+      "description": "The creator object contains all information about authors that contributed to the resulting document.",
+      "properties": {
+        "family_name": {
+          "title": "family_name",
+          "type": "string",
+          "description": "Family name of the author or contributor.",
+          "$term": "https://schema.org/familyName"
+        },
+        "given_name": {
+          "title": "given_name",
+          "type": "string",
+          "description": "Given name of the author or contributor.",
+          "$term": "https://schema.org/givenName"
+        },
+        "mail": {
+          "title": "mail",
+          "type": "string",
+          "description": "Email address of the author or contributor.",
+          "$term": "https://schema.org/email"
+        }
+      },
+      "required": [
+        "given_name",
+        "family_name",
+        "mail"
+      ],
+      "additionalProperties": false
+    },
+    "DataTypes": {
+      "title": "DataTypes",
+      "type": "string",
+      "enum": [
+        "http://purl.allotrope.org/ontologies/quality#AFQ_0000061",
+        "http://purl.obolibrary.org/obo/PATO_0000033",
+        "http://purl.allotrope.org/ontologies/quality#AFQ_0000226",
+        "http://purl.obolibrary.org/obo/PATO_0000018",
+        "http://purl.allotrope.org/ontologies/result#AFR_0001073",
+        "http://purl.allotrope.org/ontologies/result#AFR_0002261"
+      ]
+    },
+    "Equation": {
+      "title": "Equation",
+      "type": "object",
+      "description": "This object describes an equation that can be used to model the kinetics of a reaction. There are different types of equations that can be used to model the kinetics of a reaction. The equation can be an ordinary differential equation, a rate law or assignment rule.",
+      "properties": {
+        "equation": {
+          "title": "equation",
+          "type": "string",
+          "description": "Mathematical expression of the equation."
+        },
+        "equation_type": {
+          "title": "equation_type",
+          "description": "Type of the equation.",
+          "$ref": "#/$defs/EquationType"
+        },
+        "species_id": {
+          "title": "species_id",
+          "type": "string",
+          "description": "Internal identifier to a species defined in the EnzymeMLDocument, given it is a rate equation."
+        },
+        "variables": {
+          "title": "variables",
+          "type": "array",
+          "description": "List of variables that are part of the equation",
+          "items": {
+            "$ref": "#/$defs/Variable"
+          }
+        }
+      },
+      "required": [
+        "equation",
+        "equation_type"
+      ],
+      "additionalProperties": false
+    },
+    "EquationType": {
+      "title": "EquationType",
+      "type": "string",
+      "enum": [
+        "assignment",
+        "initialAssignment",
+        "ode",
+        "rateLaw"
+      ]
+    },
+    "Measurement": {
+      "title": "Measurement",
+      "type": "object",
+      "description": "This object describes the result of a measurement, which includes time course data of any type defined in DataTypes. It includes initial concentrations of all species used in a single measurement.",
+      "properties": {
+        "group_id": {
+          "title": "group_id",
+          "type": "string",
+          "description": "User-defined group ID to signal relationships between measurements."
+        },
+        "id": {
+          "title": "id",
+          "type": "string",
+          "description": "Unique identifier of the measurement.",
+          "$term": "https://schema.org/identifier"
+        },
+        "name": {
+          "title": "name",
+          "type": "string",
+          "description": "Name of the measurement"
+        },
+        "ph": {
+          "title": "ph",
+          "type": "number",
+          "description": "PH value of the measurement.",
+          "maximum": 14.0,
+          "minimum": 0.0
+        },
+        "species_data": {
+          "title": "species_data",
+          "type": "array",
+          "description": "Measurement data of all species that were part of the measurement. A species can refer to a protein, complex, or small molecule.",
+          "items": {
+            "$ref": "#/$defs/MeasurementData"
+          }
+        },
+        "temperature": {
+          "title": "temperature",
+          "type": "number",
+          "description": "Temperature of the measurement."
+        },
+        "temperature_unit": {
+          "title": "temperature_unit",
+          "type": "object",
+          "description": "Unit of the temperature of the measurement.",
+          "$ref": "#/$defs/UnitDefinition"
+        }
+      },
+      "required": [
+        "id",
+        "name"
+      ],
+      "additionalProperties": false
+    },
+    "MeasurementData": {
+      "title": "MeasurementData",
+      "type": "object",
+      "description": "This object describes a single entity of a measurement, which corresponds to one species. It also holds replicates that contain time course data.",
+      "properties": {
+        "data": {
+          "title": "data",
+          "type": "array",
+          "description": "Data that was measured.",
+          "items": {
+            "type": "number"
+          }
+        },
+        "data_type": {
+          "title": "data_type",
+          "description": "Type of data that was measured (e.g. concentration)",
+          "$ref": "#/$defs/DataTypes"
+        },
+        "data_unit": {
+          "title": "data_unit",
+          "type": "object",
+          "description": "SI unit of the data that was measured.",
+          "$ref": "#/$defs/UnitDefinition"
+        },
+        "initial": {
+          "title": "initial",
+          "type": "number",
+          "description": "Initial amount of the measurement data. This must be the same as the first data point in the"
+        },
+        "is_simulated": {
+          "title": "is_simulated",
+          "type": "boolean",
+          "description": "Whether or not the data has been generated by simulation."
+        },
+        "prepared": {
+          "title": "prepared",
+          "type": "number",
+          "description": "Amount of the reactant before the measurement. This field should be used for specifying the prepared amount of a species in the reaction mix. Not to be confused with"
+        },
+        "species_id": {
+          "title": "species_id",
+          "type": "string",
+          "description": "The identifier for the described reactant."
+        },
+        "time": {
+          "title": "time",
+          "type": "array",
+          "description": "Time steps of the replicate.",
+          "items": {
+            "type": "number"
+          }
+        },
+        "time_unit": {
+          "title": "time_unit",
+          "type": "object",
+          "description": "Time unit of the replicate.",
+          "$ref": "#/$defs/UnitDefinition"
+        }
+      },
+      "required": [
+        "species_id",
+        "initial",
+        "data_unit",
+        "data_type",
+        "is_simulated"
+      ],
+      "additionalProperties": false
+    },
+    "Parameter": {
+      "title": "Parameter",
+      "type": "object",
+      "description": "This object describes the parameters of the kinetic model and can include all estimated values.",
+      "properties": {
+        "constant": {
+          "title": "constant",
+          "type": "boolean",
+          "description": "Specifies if this parameter is constant"
+        },
+        "id": {
+          "title": "id",
+          "type": "string",
+          "description": "Unique identifier of the parameter.",
+          "$term": "https://schema.org/identifier"
+        },
+        "initial_value": {
+          "title": "initial_value",
+          "type": "number",
+          "description": "Initial value that was used for the parameter estimation."
+        },
+        "lower": {
+          "title": "lower",
+          "type": "number",
+          "description": "Lower bound of the estimated parameter."
+        },
+        "name": {
+          "title": "name",
+          "type": "string",
+          "description": "Name of the parameter."
+        },
+        "stderr": {
+          "title": "stderr",
+          "type": "number",
+          "description": "Standard error of the estimated parameter."
+        },
+        "symbol": {
+          "title": "symbol",
+          "type": "string",
+          "description": "Symbol of the parameter."
+        },
+        "unit": {
+          "title": "unit",
+          "type": "object",
+          "description": "Unit of the estimated parameter.",
+          "$ref": "#/$defs/UnitDefinition"
+        },
+        "upper": {
+          "title": "upper",
+          "type": "number",
+          "description": "Upper bound of the estimated parameter."
+        },
+        "value": {
+          "title": "value",
+          "type": "number",
+          "description": "Numerical value of the estimated parameter."
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "symbol"
+      ],
+      "additionalProperties": false
+    },
+    "Protein": {
+      "title": "Protein",
+      "type": "object",
+      "description": "This object describes the proteins that were used or formed throughout the experiment.",
+      "properties": {
+        "constant": {
+          "title": "constant",
+          "type": "boolean"
+        },
+        "ecnumber": {
+          "title": "ecnumber",
+          "type": "string",
+          "description": "EC number of the protein."
+        },
+        "id": {
+          "title": "id",
+          "type": "string",
+          "description": "Unique internal identifier of the protein.",
+          "schema": "identifier"
+        },
+        "name": {
+          "title": "name",
+          "type": "string",
+          "$term": "https://schema.org/name"
+        },
+        "organism": {
+          "title": "organism",
+          "type": "string",
+          "description": "Organism the protein was expressed in.",
+          "$term": "http://purl.obolibrary.org/obo/OBI_0100026"
+        },
+        "organism_tax_id": {
+          "title": "organism_tax_id",
+          "type": "string",
+          "description": "Taxonomy identifier of the expression host."
+        },
+        "references": {
+          "title": "references",
+          "type": "array",
+          "description": "Array of references to publications, database entries, etc. that describe the protein.",
+          "$term": "https://schema.org/citation",
+          "items": {
+            "type": "string"
+          }
+        },
+        "sequence": {
+          "title": "sequence",
+          "type": "string",
+          "description": "Amino acid sequence of the protein",
+          "$term": "http://purl.obolibrary.org/obo/GSSO_007262"
+        },
+        "vessel_id": {
+          "title": "vessel_id",
+          "type": "string",
+          "description": "Unique identifier of the vessel this protein has been used in.",
+          "$term": "https://schema.org/identifier"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "constant"
+      ],
+      "additionalProperties": false
+    },
+    "Reaction": {
+      "title": "Reaction",
+      "type": "object",
+      "description": "This object describes a chemical or enzymatic reaction that was investigated in the course of the experiment. All species used within this object need to be part of the data model.",
+      "properties": {
+        "id": {
+          "title": "id",
+          "type": "string",
+          "description": "Unique identifier of the reaction.",
+          "$term": "https://schema.org/identifier"
+        },
+        "kinetic_law": {
+          "title": "kinetic_law",
+          "type": "object",
+          "description": "Mathematical expression of the reaction.",
+          "$ref": "#/$defs/Equation"
+        },
+        "modifiers": {
+          "title": "modifiers",
+          "type": "array",
+          "description": "List of reaction elements that are not part of the reaction but influence it.",
+          "items": {
+            "type": "string"
+          }
+        },
+        "name": {
+          "title": "name",
+          "type": "string",
+          "description": "Name of the reaction."
+        },
+        "reversible": {
+          "title": "reversible",
+          "type": "boolean",
+          "description": "Whether the reaction is reversible or irreversible"
+        },
+        "species": {
+          "title": "species",
+          "type": "array",
+          "description": "List of reaction elements that are part of the reaction.",
+          "items": {
+            "$ref": "#/$defs/ReactionElement"
+          }
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "reversible"
+      ],
+      "additionalProperties": false
+    },
+    "ReactionElement": {
+      "title": "ReactionElement",
+      "type": "object",
+      "description": "This object is part of the Reaction object and describes either an educt, product or modifier. The latter includes buffers, counter-ions as well as proteins/enzymes.",
+      "properties": {
+        "species_id": {
+          "title": "species_id",
+          "type": "string",
+          "description": "Internal identifier to either a protein or reactant defined in the EnzymeMLDocument.",
+          "schema": "identifier"
+        },
+        "stoichiometry": {
+          "title": "stoichiometry",
+          "type": "number",
+          "description": "Float number representing the associated stoichiometry."
+        }
+      },
+      "required": [
+        "species_id",
+        "stoichiometry"
+      ],
+      "additionalProperties": false
+    },
+    "SmallMolecule": {
+      "title": "SmallMolecule",
+      "type": "object",
+      "description": "This object describes the reactants that were used or produced in the course of the experiment.",
+      "properties": {
+        "canonical_smiles": {
+          "title": "canonical_smiles",
+          "type": "string",
+          "description": "Canonical Simplified Molecular-Input Line-Entry System (SMILES) encoding of the reactant."
         },
         "constant": {
           "title": "constant",
           "type": "boolean"
         },
-        "vessel_id": {
-          "title": "vessel_id",
-          "description": "Unique identifier of the vessel this complex has been used in.",
-          "term": "schema:identifier",
-          "type": "string"
+        "id": {
+          "title": "id",
+          "type": "string",
+          "description": "Unique identifier of the small molecule.",
+          "$term": "https://schema.org/identifier"
         },
-        "participants": {
-          "title": "participants",
-          "description": "Array of IDs the complex contains",
+        "inchi": {
+          "title": "inchi",
+          "type": "string",
+          "description": "International Chemical Identifier (InChI) encoding of the reactant."
+        },
+        "inchikey": {
+          "title": "inchikey",
+          "type": "string",
+          "description": "Hashed International Chemical Identifier (InChIKey) encoding of the reactant."
+        },
+        "name": {
+          "title": "name",
+          "type": "string",
+          "$term": "https://schema.org/name"
+        },
+        "references": {
+          "title": "references",
           "type": "array",
+          "description": "Array of references to publications, database entries, etc. that describe the reactant.",
+          "$term": "https://schema.org/citation",
           "items": {
             "type": "string"
           }
+        },
+        "vessel_id": {
+          "title": "vessel_id",
+          "type": "string",
+          "description": "Unique identifier of the vessel this small molecule has been used in.",
+          "$term": "https://schema.org/identifier"
         }
       },
-      "description": "This object describes complexes made of reactants and/or proteins that were used or produced in the course of the experiment."
+      "required": [
+        "id",
+        "name",
+        "constant"
+      ],
+      "additionalProperties": false
     },
-    "Equation": {
-      "title": "Equation",
+    "UnitDefinition": {
+      "title": "UnitDefinition",
       "type": "object",
+      "description": "Represents a unit definition that is based on the SI unit system.",
       "properties": {
-        "species_id": {
-          "title": "species_id",
-          "description": "Internal identifier to a species defined in the EnzymeMLDocument, given it is a rate equation.",
-          "type": "string"
-        },
-        "equation": {
-          "title": "equation",
-          "description": "Mathematical expression of the equation.",
-          "type": "string"
-        },
-        "equation_type": {
-          "title": "equation_type",
-          "$ref": "#/definitions/EquationType"
-        },
-        "variables": {
+        "base_units": {
+          "title": "base_units",
           "type": "array",
+          "description": "Base units that define the unit.",
           "items": {
-            "$ref": "#/definitions/Variable"
+            "$ref": "#/$defs/BaseUnit"
           }
+        },
+        "id": {
+          "title": "id",
+          "type": "string",
+          "description": "Unique identifier of the unit definition."
+        },
+        "name": {
+          "title": "name",
+          "type": "string",
+          "description": "Common name of the unit definition."
         }
       },
-      "description": "This object describes an equation that can be used to model the kinetics of a reaction. There are different types of equations that can be used to model the kinetics of a reaction. The equation can be an ordinary differential equation, a rate law or assignment rule."
+      "required": [],
+      "additionalProperties": false
+    },
+    "UnitType": {
+      "title": "UnitType",
+      "type": "string",
+      "enum": [
+        "ampere",
+        "avogadro",
+        "becquerel",
+        "candela",
+        "celsius",
+        "coulomb",
+        "dimensionless",
+        "farad",
+        "gram",
+        "gray",
+        "henry",
+        "hertz",
+        "item",
+        "joule",
+        "katal",
+        "kelvin",
+        "kilogram",
+        "litre",
+        "lumen",
+        "lux",
+        "metre",
+        "mole",
+        "newton",
+        "ohm",
+        "pascal",
+        "radian",
+        "second",
+        "siemens",
+        "sievert",
+        "steradian",
+        "tesla",
+        "volt",
+        "watt",
+        "weber"
+      ]
+    },
+    "Variable": {
+      "title": "Variable",
+      "type": "object",
+      "description": "This object describes a variable that is part of an equation.",
+      "properties": {
+        "id": {
+          "title": "id",
+          "type": "string",
+          "description": "Unique identifier of the variable.",
+          "$term": "https://schema.org/identifier"
+        },
+        "name": {
+          "title": "name",
+          "type": "string",
+          "description": "Name of the variable."
+        },
+        "symbol": {
+          "title": "symbol",
+          "type": "string",
+          "description": "Symbol of the variable."
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "symbol"
+      ],
+      "additionalProperties": false
+    },
+    "Vessel": {
+      "title": "Vessel",
+      "type": "object",
+      "description": "This object describes vessels in which the experiment has been carried out. These can include any type of vessel used in biocatalytic experiments.",
+      "properties": {
+        "constant": {
+          "title": "constant",
+          "type": "boolean",
+          "description": "Whether the volume of the vessel is constant or not."
+        },
+        "id": {
+          "title": "id",
+          "type": "string",
+          "description": "Unique identifier of the vessel.",
+          "$term": "https://schema.org/identifier"
+        },
+        "name": {
+          "title": "name",
+          "type": "string",
+          "description": "Name of the used vessel.",
+          "$term": "https://schema.org/name"
+        },
+        "unit": {
+          "title": "unit",
+          "type": "object",
+          "description": "Volumetric unit of the vessel.",
+          "$ref": "#/$defs/UnitDefinition"
+        },
+        "volume": {
+          "title": "volume",
+          "type": "number",
+          "description": "Volumetric value of the vessel.",
+          "$term": "http://purl.obolibrary.org/obo/OBI_0002139"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "volume",
+        "unit",
+        "constant"
+      ],
+      "additionalProperties": false
     }
-  }
+  },
+  "required": [
+    "name"
+  ],
+  "additionalProperties": false
 }
