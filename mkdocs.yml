@@ -1,9 +1,11 @@
-site_name: EnzymeML
 repo_url: https://github.com/EnzymeML/enzymeml-specifications
+site_name: EnzymeML
 edit_uri: edit/main/docs/
 
 theme:
   logo: img/enzml_logo.png
+  name: material
+  custom_dir: overrides
 
   font:
     text: Open Sans
@@ -11,7 +13,6 @@ theme:
     repo: fontawesome/brands/github
     edit: material/pencil
     view: material/eye
-  name: material
   features:
     - navigation.tabs
     - navigation.sections
@@ -46,6 +47,7 @@ nav:
 
 markdown_extensions:
   - attr_list
+  - md_in_html
   - admonition
   - pymdownx.details
   - pymdownx.superfences
@@ -65,6 +67,8 @@ markdown_extensions:
       permalink: true
 plugins:
   - search
+  - inline-svg
+
 
 extra_css:
   - stylesheets/extra.css

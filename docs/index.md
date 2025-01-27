@@ -1,38 +1,72 @@
-# EnzymeML
+---
+title: The specific page with hidden the header 1 title 
+template: home.html
+---
+
+![EnzymeML Logo](img/enzymeml.svg){ width="10%" }
 
 ## What is EnzymeML?
 
-- **Schema**: EnzymeML standardizes biocatalytic reaction data, providing a structured, machine-readable format for storing and transferring enzyme kinetics data. 
-- **Programmatic Data Exchange**: It enables seamless integration with software tools, databases, and electronic laboratory notebooks to ensure consistent and interoperable data handling.
+EnzymeML is a standardized data format for catalytic reaction data, designed to ensure consistency and interoperability. It enables researchers to store, share, and enrich reaction data with detailed metadata in JSON or XML formats. Tools for reading and writing EnzymeML simplify data handling and ensure reproducibility, paving the way for data-driven research in biocatalysis.
 
-## What comprises an EnzymeML Document?
-
-*figure illustrating the EnzymeML document structure*
 
 ## Why EnzymeML?
 
-- **Data Exchange**:  
-EnzymeML facilitates the sharing of enzyme kinetics data across scientists, tools, and databases, enabling collaborative research and integration of diverse datasets.
-- **Efficiency**:  
-By standardizing and automating data processing, it minimizes manual steps, reducing errors and saving time.
-- **Compatibility**:  
-EnzymeML adheres to FAIR principles and integrates with the Systems Biology Markup Language (SBML), ensuring broad usability and extensibility.
-- **No data - no AI-party**:  
-EnzymeML is a data exchange format for biocatalysis catalyzed reaction data.
+🧩 **Standardization**  
+  An EnzymeML Document is a standardized data format. It allows representing all data of a biocatalytic reaction in a consistent structure, independent of the experimental setup.
 
-## How to Use EnzymeML?
+🔄 **Data Exchange**  
+  EnzymeML facilitates the sharing of enzyme-catalyzed reaction data across scientists, tools, and databases, enabling collaborative research and integration of diverse datasets.
 
-Besides the generic [EnzymeML API](https://pyenzyme.readthedocs.io/en/latest/index.html#) to read and write EnzymeML documents programmatically, there are tools enabling the processing of data from different analytical instruments:
+⚡ **Efficiency**  
+  Standardization of data formats enables automation of data processing, minimizing manual steps, reducing errors, and saving time.
 
-- __Photometric Data__:  
+🌟 **FAIR Data**  
+  EnzymeML makes data interoperable, constituting an important building block for making data FAIR.
 
-- __Chromatographic Data__:  
-
-- __NMR Data__:  
+🤖 **No data - no AI-party**  
+  Structured data is the foundation for making your data compatible with machine learning.
 
 
-Chromatopy A versatile library used for processing chromatographic data.
+## What comprises an EnzymeML Document?
 
-MTPHandler A library for handling data from microtiter plate (MTP) readers. It supports various file formats and provides tools for data processing.
+An EnzymeML Document organizes and contextualizes data of a biocatalytic reaction. It integrates information about enzymes, substrates, products, experimental conditions, and measurement data, providing a structured representation that links these elements seamlessly. No matter what reaction is assayed, the data is always in the same consistent structure, enabling efficient data analysis, visualization, and sharing.
 
-NMRPy A library that facilitates the analysis of Nuclear Magnetic Resonance (NMR) data. It helps in spectral processing, visualization, and interpretation of (time-course) NMR experiments.
+![EnzymeML Document Structure](img/enzymeml_parts.png)
+
+## How to use EnzymeML?
+
+Several tools are available to read and write EnzymeML Documents, ranging from graphical desktop applications to Python libraries, specifically tailored to streamline the processing of data from different analytical instruments:
+
+🔬 **Photometric Data**:  
+  The [MTPHandler](https://github.com/fairchemistry/MTPHandler) Python library streamlines the processing of photometric data from plate readers. It enables reading, processing, and exporting data from a variety of plate reader formats, blank correction, and concentration calculation in a scalable way.
+
+🌈 **Chromatographic Data**:  
+  The [Chromatopy](https://github.com/fairchemistry/Chromatopy) Python library streamlines the processing of chromatographic time-course data. It enables reading, processing, and exporting data from a variety of chromatographic instruments, assignment of retention times to molecules, and concentration calculation in a scalable way.
+
+🧲 **NMR Data**:  
+  The [NMRPy](https://github.com/fairchemistry/NMRPy) Python library streamlines the processing of NMR time-course data.
+
+📔 **EnzymeML Suite**:  
+  The [EnzymeML Suite](https://github.com/fairchemistry/EnzymeML-Suite) is a desktop application for creating, editing, and visualizing EnzymeML Documents.
+
+🛠️ **EnzymeML API**:  
+  The [pyenzyme](https://pyenzyme.readthedocs.io/en/latest/index.html#) Python library enables reading and writing EnzymeML Documents programmatically.
+
+## Use Cases
+
+To get an impression of the tools, have a look at the following [use cases](use_cases.md).
+
+<div class="grid cards" markdown>
+
+- 🔬 **[MTPHandler](https://github.com/fairchemistry/MTPHandler)**
+- 🌈 **[Chromatopy](https://github.com/fairchemistry/Chromatopy)**
+- 🧲 **[NMRPy](https://github.com/fairchemistry/NMRPy)**
+- 🛠️ **[pyenzyme](https://pyenzyme.readthedocs.io/en/latest/index.html#)**
+
+</div>
+
+## Cite EnzymeML
+
+If you use EnzymeML in your work, please cite the following paper:
+
