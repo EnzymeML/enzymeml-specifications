@@ -7,10 +7,10 @@ use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 
 // JSON-LD base types
-#[derive(Debug, Default, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct JsonLdContext(pub HashMap<String, serde_json::Value>);
 
-#[derive(Debug, Default, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct JsonLd {
     #[serde(rename = "@context", skip_serializing_if = "Option::is_none")]
     pub context: Option<JsonLdContext>,
@@ -27,7 +27,7 @@ pub struct JsonLd {
 /// document. It also includes general metadata such as the name of
 /// the document, when it was created/modified, and references to
 /// publications, databases, and arbitrary links to the web.
-#[derive(Debug, Default, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct EnzymeMLDocument {
     #[serde(flatten)]
     pub json_ld: JsonLd,
@@ -75,7 +75,7 @@ pub struct EnzymeMLDocument {
 
 /// The creator object contains all information about authors that
 /// contributed to the resulting document.
-#[derive(Debug, Default, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Creator {
     #[serde(flatten)]
     pub json_ld: JsonLd,
@@ -90,7 +90,7 @@ pub struct Creator {
 /// This object describes vessels in which the experiment has been carried
 /// out. These can include any type of vessel used in biocatalytic
 /// experiments.
-#[derive(Debug, Default, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Vessel {
     #[serde(flatten)]
     pub json_ld: JsonLd,
@@ -108,7 +108,7 @@ pub struct Vessel {
 
 /// This object describes the proteins that were used or formed throughout
 /// the experiment.
-#[derive(Debug, Default, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Protein {
     #[serde(flatten)]
     pub json_ld: JsonLd,
@@ -139,7 +139,7 @@ pub struct Protein {
 
 /// This object describes complexes made of reactants and/or proteins that
 /// were used or produced in the course of the experiment.
-#[derive(Debug, Default, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Complex {
     #[serde(flatten)]
     pub json_ld: JsonLd,
@@ -157,7 +157,7 @@ pub struct Complex {
 
 /// This object describes the reactants that were used or produced in the
 /// course of the experiment.
-#[derive(Debug, Default, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct SmallMolecule {
     #[serde(flatten)]
     pub json_ld: JsonLd,
@@ -188,7 +188,7 @@ pub struct SmallMolecule {
 /// This object describes a chemical or enzymatic reaction that was
 /// investigated in the course of the experiment. All species used
 /// within this object need to be part of the data model.
-#[derive(Debug, Default, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Reaction {
     #[serde(flatten)]
     pub json_ld: JsonLd,
@@ -213,7 +213,7 @@ pub struct Reaction {
 /// This object is part of the Reaction object and describes either an
 /// educt, product or modifier. The latter includes buffers, counter-
 /// ions as well as proteins/enzymes.
-#[derive(Debug, Default, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct ReactionElement {
     #[serde(flatten)]
     pub json_ld: JsonLd,
@@ -229,7 +229,7 @@ pub struct ReactionElement {
 /// that can be used to model the kinetics of a reaction. The equation
 /// can be an ordinary differential equation, a rate law or assignment
 /// rule.
-#[derive(Debug, Default, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Equation {
     #[serde(flatten)]
     pub json_ld: JsonLd,
@@ -247,7 +247,7 @@ pub struct Equation {
 }
 
 /// This object describes a variable that is part of an equation.
-#[derive(Debug, Default, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Variable {
     #[serde(flatten)]
     pub json_ld: JsonLd,
@@ -261,7 +261,7 @@ pub struct Variable {
 
 /// This object describes the parameters of the kinetic model and can
 /// include all estimated values.
-#[derive(Debug, Default, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Parameter {
     #[serde(flatten)]
     pub json_ld: JsonLd,
@@ -297,7 +297,7 @@ pub struct Parameter {
 /// This object describes the result of a measurement, which includes time
 /// course data of any type defined in DataTypes. It includes initial
 /// concentrations of all species used in a single measurement.
-#[derive(Debug, Default, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Measurement {
     #[serde(flatten)]
     pub json_ld: JsonLd,
@@ -326,7 +326,7 @@ pub struct Measurement {
 /// This object describes a single entity of a measurement, which
 /// corresponds to one species. It also holds replicates that contain
 /// time course data.
-#[derive(Debug, Default, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct MeasurementData {
     #[serde(flatten)]
     pub json_ld: JsonLd,
@@ -359,7 +359,7 @@ pub struct MeasurementData {
 }
 
 /// Represents a unit definition that is based on the SI unit system.
-#[derive(Debug, Default, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct UnitDefinition {
     #[serde(flatten)]
     pub json_ld: JsonLd,
@@ -375,7 +375,7 @@ pub struct UnitDefinition {
 }
 
 /// Represents a base unit in the unit definition.
-#[derive(Debug, Default, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct BaseUnit {
     #[serde(flatten)]
     pub json_ld: JsonLd,
@@ -395,6 +395,7 @@ pub struct BaseUnit {
 // EnzymeML Enum definitions
 //
 
+#[allow(non_camel_case_types)]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum EquationType {
     #[serde(rename = "assignment")]
@@ -407,7 +408,7 @@ pub enum EquationType {
     RATE_LAW,
 }
 
-
+#[allow(non_camel_case_types)]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum DataTypes {
     #[serde(rename = "http://purl.allotrope.org/ontologies/quality#AFQ_0000061")]
@@ -424,7 +425,7 @@ pub enum DataTypes {
     TRANSMITTANCE,
 }
 
-
+#[allow(non_camel_case_types)]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum UnitType {
     #[serde(rename = "ampere")]
@@ -496,8 +497,3 @@ pub enum UnitType {
     #[serde(rename = "weber")]
     WEBER,
 }
-
-
-//
-// Enum definitions for attributes with multiple types
-//
