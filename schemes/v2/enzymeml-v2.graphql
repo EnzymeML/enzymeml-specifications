@@ -1,0 +1,330 @@
+# This file contains GraphQL type definitions.
+#
+# WARNING: This is an auto-generated file.
+# Do not edit directly - any changes will be overwritten.
+
+
+# Scalar wrapper types
+
+# Union type definitions
+
+# EnzymeML Type definitions
+type EnzymeMLDocument {
+  name: String!
+  references: [String]
+  created: String
+  modified: String
+  creators: [Creator]
+  vessels: [Vessel]
+  proteins: [Protein]
+  complexes: [Complex]
+  small_molecules: [SmallMolecule]
+  reactions: [Reaction]
+  measurements: [Measurement]
+  equations: [Equation]
+  parameters: [Parameter]
+}
+
+type Creator {
+  given_name: String!
+  family_name: String!
+  mail: String!
+}
+
+type Vessel {
+  id: String!
+  name: String!
+  volume: Float!
+  unit: UnitDefinition!
+  constant: Boolean!
+}
+
+type Protein {
+  id: String!
+  name: String!
+  constant: Boolean!
+  sequence: String
+  vessel_id: String
+  ecnumber: String
+  organism: String
+  organism_tax_id: String
+  references: [String]
+}
+
+type Complex {
+  id: String!
+  name: String!
+  constant: Boolean!
+  vessel_id: String
+  participants: [String]
+}
+
+type SmallMolecule {
+  id: String!
+  name: String!
+  constant: Boolean!
+  vessel_id: String
+  canonical_smiles: String
+  inchi: String
+  inchikey: String
+  references: [String]
+}
+
+type Reaction {
+  id: String!
+  name: String!
+  reversible: Boolean!
+  kinetic_law: Equation
+  species: [ReactionElement]
+  modifiers: [String]
+}
+
+type ReactionElement {
+  species_id: String!
+  stoichiometry: Float!
+}
+
+type Equation {
+  equation: String!
+  equation_type: EquationType!
+  species_id: String
+  variables: [Variable]
+}
+
+type Variable {
+  id: String!
+  name: String!
+  symbol: String!
+}
+
+type Parameter {
+  id: String!
+  name: String!
+  symbol: String!
+  value: Float
+  unit: UnitDefinition
+  initial_value: Float
+  upper: Float
+  lower: Float
+  stderr: Float
+  constant: Boolean
+}
+
+type Measurement {
+  id: String!
+  name: String!
+  species_data: [MeasurementData]
+  group_id: String
+  ph: Float
+  temperature: Float
+  temperature_unit: UnitDefinition
+}
+
+type MeasurementData {
+  species_id: String!
+  initial: Float!
+  data_unit: UnitDefinition!
+  data_type: DataTypes!
+  prepared: Float
+  data: [Float]
+  time: [Float]
+  time_unit: UnitDefinition
+  is_simulated: Boolean!
+}
+
+type UnitDefinition {
+  id: String
+  name: String
+  base_units: [BaseUnit]
+}
+
+type BaseUnit {
+  kind: UnitType!
+  exponent: Int!
+  multiplier: Float
+  scale: Float
+}
+
+# EnzymeML Enum definitions
+enum EquationType {
+  ASSIGNMENT # assignment
+  INITIAL_ASSIGNMENT # initialAssignment
+  ODE # ode
+  RATE_LAW # rateLaw
+}
+
+enum DataTypes {
+  ABSORBANCE # http://purl.allotrope.org/ontologies/quality#AFQ_0000061
+  CONCENTRATION # http://purl.obolibrary.org/obo/PATO_0000033
+  CONVERSION # http://purl.allotrope.org/ontologies/quality#AFQ_0000226
+  FLUORESCENCE # http://purl.obolibrary.org/obo/PATO_0000018
+  PEAK_AREA # http://purl.allotrope.org/ontologies/result#AFR_0001073
+  TRANSMITTANCE # http://purl.allotrope.org/ontologies/result#AFR_0002261
+}
+
+enum UnitType {
+  AMPERE # ampere
+  AVOGADRO # avogadro
+  BECQUEREL # becquerel
+  CANDELA # candela
+  CELSIUS # celsius
+  COULOMB # coulomb
+  DIMENSIONLESS # dimensionless
+  FARAD # farad
+  GRAM # gram
+  GRAY # gray
+  HENRY # henry
+  HERTZ # hertz
+  ITEM # item
+  JOULE # joule
+  KATAL # katal
+  KELVIN # kelvin
+  KILOGRAM # kilogram
+  LITRE # litre
+  LUMEN # lumen
+  LUX # lux
+  METRE # metre
+  MOLE # mole
+  NEWTON # newton
+  OHM # ohm
+  PASCAL # pascal
+  RADIAN # radian
+  SECOND # second
+  SIEMENS # siemens
+  SIEVERT # sievert
+  STERADIAN # steradian
+  TESLA # tesla
+  VOLT # volt
+  WATT # watt
+  WEBER # weber
+}
+
+
+# Query type definitions
+type Query {
+
+  # EnzymeMLDocument queries
+  enzymemldocument(id: ID!): EnzymeMLDocument
+  allEnzymeMLDocuments: [EnzymeMLDocument]
+  enzymemldocumentByName(name: String): [EnzymeMLDocument]
+  enzymemldocumentByCreated(created: String): [EnzymeMLDocument]
+  enzymemldocumentByModified(modified: String): [EnzymeMLDocument]
+
+  # Creator queries
+  creator(id: ID!): Creator
+  allCreators: [Creator]
+  creatorByGiven_name(given_name: String): [Creator]
+  creatorByFamily_name(family_name: String): [Creator]
+  creatorByMail(mail: String): [Creator]
+
+  # Vessel queries
+  vessel(id: ID!): Vessel
+  allVessels: [Vessel]
+  vesselById(id: String): [Vessel]
+  vesselByName(name: String): [Vessel]
+  vesselByVolume(volume: Float): [Vessel]
+  vesselByConstant(constant: Boolean): [Vessel]
+
+  # Protein queries
+  protein(id: ID!): Protein
+  allProteins: [Protein]
+  proteinById(id: String): [Protein]
+  proteinByName(name: String): [Protein]
+  proteinByConstant(constant: Boolean): [Protein]
+  proteinBySequence(sequence: String): [Protein]
+  proteinByVessel_id(vessel_id: String): [Protein]
+  proteinByEcnumber(ecnumber: String): [Protein]
+  proteinByOrganism(organism: String): [Protein]
+  proteinByOrganism_tax_id(organism_tax_id: String): [Protein]
+
+  # Complex queries
+  complex(id: ID!): Complex
+  allComplexs: [Complex]
+  complexById(id: String): [Complex]
+  complexByName(name: String): [Complex]
+  complexByConstant(constant: Boolean): [Complex]
+  complexByVessel_id(vessel_id: String): [Complex]
+
+  # SmallMolecule queries
+  smallmolecule(id: ID!): SmallMolecule
+  allSmallMolecules: [SmallMolecule]
+  smallmoleculeById(id: String): [SmallMolecule]
+  smallmoleculeByName(name: String): [SmallMolecule]
+  smallmoleculeByConstant(constant: Boolean): [SmallMolecule]
+  smallmoleculeByVessel_id(vessel_id: String): [SmallMolecule]
+  smallmoleculeByCanonical_smiles(canonical_smiles: String): [SmallMolecule]
+  smallmoleculeByInchi(inchi: String): [SmallMolecule]
+  smallmoleculeByInchikey(inchikey: String): [SmallMolecule]
+
+  # Reaction queries
+  reaction(id: ID!): Reaction
+  allReactions: [Reaction]
+  reactionById(id: String): [Reaction]
+  reactionByName(name: String): [Reaction]
+  reactionByReversible(reversible: Boolean): [Reaction]
+
+  # ReactionElement queries
+  reactionelement(id: ID!): ReactionElement
+  allReactionElements: [ReactionElement]
+  reactionelementBySpecies_id(species_id: String): [ReactionElement]
+  reactionelementByStoichiometry(stoichiometry: Float): [ReactionElement]
+
+  # Equation queries
+  equation(id: ID!): Equation
+  allEquations: [Equation]
+  equationByEquation(equation: String): [Equation]
+  equationByEquation_type(equation_type: EquationType): [Equation]
+  equationBySpecies_id(species_id: String): [Equation]
+
+  # Variable queries
+  variable(id: ID!): Variable
+  allVariables: [Variable]
+  variableById(id: String): [Variable]
+  variableByName(name: String): [Variable]
+  variableBySymbol(symbol: String): [Variable]
+
+  # Parameter queries
+  parameter(id: ID!): Parameter
+  allParameters: [Parameter]
+  parameterById(id: String): [Parameter]
+  parameterByName(name: String): [Parameter]
+  parameterBySymbol(symbol: String): [Parameter]
+  parameterByValue(value: Float): [Parameter]
+  parameterByInitial_value(initial_value: Float): [Parameter]
+  parameterByUpper(upper: Float): [Parameter]
+  parameterByLower(lower: Float): [Parameter]
+  parameterByStderr(stderr: Float): [Parameter]
+  parameterByConstant(constant: Boolean): [Parameter]
+
+  # Measurement queries
+  measurement(id: ID!): Measurement
+  allMeasurements: [Measurement]
+  measurementById(id: String): [Measurement]
+  measurementByName(name: String): [Measurement]
+  measurementByGroup_id(group_id: String): [Measurement]
+  measurementByPh(ph: Float): [Measurement]
+  measurementByTemperature(temperature: Float): [Measurement]
+
+  # MeasurementData queries
+  measurementdata(id: ID!): MeasurementData
+  allMeasurementDatas: [MeasurementData]
+  measurementdataBySpecies_id(species_id: String): [MeasurementData]
+  measurementdataByInitial(initial: Float): [MeasurementData]
+  measurementdataByData_type(data_type: DataTypes): [MeasurementData]
+  measurementdataByPrepared(prepared: Float): [MeasurementData]
+  measurementdataByIs_simulated(is_simulated: Boolean): [MeasurementData]
+
+  # UnitDefinition queries
+  unitdefinition(id: ID!): UnitDefinition
+  allUnitDefinitions: [UnitDefinition]
+  unitdefinitionById(id: String): [UnitDefinition]
+  unitdefinitionByName(name: String): [UnitDefinition]
+
+  # BaseUnit queries
+  baseunit(id: ID!): BaseUnit
+  allBaseUnits: [BaseUnit]
+  baseunitByKind(kind: UnitType): [BaseUnit]
+  baseunitByExponent(exponent: Int): [BaseUnit]
+  baseunitByMultiplier(multiplier: Float): [BaseUnit]
+  baseunitByScale(scale: Float): [BaseUnit]
+}
