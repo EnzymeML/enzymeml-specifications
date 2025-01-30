@@ -4,14 +4,15 @@ description = "This is a code and schema generator for Strenda Biocatalysis."
 paths = ["specifications/v2.md"]
 
 [generate]
-xml-schema = { out = "schemes/v2/enzymeml-v2.xsd" }
-shacl = { out = "schemes/v2/enzymeml-v2.ttl" }
-shex = { out = "schemes/v2/enzymeml-v2.shex" }
-protobuf = { out = "schemes/v2/enzymeml-v2.proto" }
-graphql = { out = "schemes/v2/enzymeml-v2.graphql" }
-json-schema = { out = "schemes/v2/enzymeml-v2.json", root = "EnzymeMLDocument" }
-python-pydantic-xml = { out = "pyenzyme/v2.py" }
-mk-docs = { out = "docs/versions/v2.md", nav = "true" }
-typescript-zod = { out = "enzymeml-ts/src/index.ts" }
-rust = { out = "enzymeml-rs/src/versions/v2.rs" }
-golang = { out = "enzymeml-go/src/v2.go" }
+xml-schema = { out = "schemes/*/enzymeml-*.xsd", per-spec = true }
+shacl = { out = "schemes/*/enzymeml-*.ttl", per-spec = true }
+shex = { out = "schemes/*/enzymeml-*.shex", per-spec = true }
+protobuf = { out = "schemes/*/enzymeml-*.proto", per-spec = true }
+graphql = { out = "schemes/*/enzymeml-*.graphql", per-spec = true }
+linkml = { out = "schemes/*/enzymeml-*-linkml.yaml", per-spec = true }
+json-schema = { out = "schemes/*/enzymeml-*.json", root = "EnzymeMLDocument", per-spec = true }
+python-pydantic-xml = { out = "pyenzyme/*.py", per-spec = true }
+mk-docs = { out = "docs/versions/*.md", nav = "true", per-spec = true }
+typescript-zod = { out = "enzymeml-ts/src/*.ts", per-spec = true }
+rust = { out = "enzymeml-rs/src/versions/*.rs", per-spec = true }
+golang = { out = "enzymeml-go/src/*.go", per-spec = true }
