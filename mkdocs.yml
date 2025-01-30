@@ -43,7 +43,8 @@ nav:
   - Use cases: use_cases.md
   - Team: team.md
   - Publications: publications.md
-  - "EnzymeML Data Model": model.md
+  - "EnzymeML Data Model":
+      - "Version 2.0": versions/v2.md
 
 markdown_extensions:
   - attr_list
@@ -68,7 +69,6 @@ markdown_extensions:
 plugins:
   - search
   - inline-svg
-
 
 extra_css:
   - stylesheets/extra.css
