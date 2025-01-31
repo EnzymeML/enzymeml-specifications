@@ -31,7 +31,8 @@
             <xs:element name="references" type="xs:string"  maxOccurs="unbounded">
                 <xs:annotation>
                     <xs:documentation>
-                        Contains references to publications, databases, and arbitrary links to the web.
+                        Contains references to publications, databases, and arbitrary links to
+                        the web.
                     </xs:documentation>
                 </xs:annotation>
             </xs:element>
@@ -136,7 +137,8 @@
             <xs:element name="equations">
                 <xs:annotation>
                     <xs:documentation>
-                        Contains ordinary differential equations that describe the kinetic model.
+                        Contains ordinary differential equations that describe the kinetic
+                        model.
                     </xs:documentation>
                 </xs:annotation>
                 <xs:complexType>
@@ -278,7 +280,8 @@
             <xs:element name="references" type="xs:string"  maxOccurs="unbounded">
                 <xs:annotation>
                     <xs:documentation>
-                        Array of references to publications, database entries, etc. that describe the protein.
+                        Array of references to publications, database entries, etc. that
+                        describe the protein.
                     </xs:documentation>
                 </xs:annotation>
             </xs:element>
@@ -336,7 +339,8 @@
             <xs:element name="canonical_smiles" type="xs:string">
                 <xs:annotation>
                     <xs:documentation>
-                        Canonical Simplified Molecular-Input Line-Entry System (SMILES) encoding of the reactant.
+                        Canonical Simplified Molecular-Input Line-Entry System (SMILES)
+                        encoding of the reactant.
                     </xs:documentation>
                 </xs:annotation>
             </xs:element>
@@ -350,14 +354,16 @@
             <xs:element name="inchikey" type="xs:string">
                 <xs:annotation>
                     <xs:documentation>
-                        Hashed International Chemical Identifier (InChIKey) encoding of the reactant.
+                        Hashed International Chemical Identifier (InChIKey) encoding of the
+                        reactant.
                     </xs:documentation>
                 </xs:annotation>
             </xs:element>
             <xs:element name="references" type="xs:string"  maxOccurs="unbounded">
                 <xs:annotation>
                     <xs:documentation>
-                        Array of references to publications, database entries, etc. that describe the reactant.
+                        Array of references to publications, database entries, etc. that
+                        describe the reactant.
                     </xs:documentation>
                 </xs:annotation>
             </xs:element>
@@ -410,7 +416,8 @@
             <xs:element name="modifiers" type="xs:string"  maxOccurs="unbounded">
                 <xs:annotation>
                     <xs:documentation>
-                        List of reaction elements that are not part of the reaction but influence it.
+                        List of reaction elements that are not part of the reaction but
+                        influence it.
                     </xs:documentation>
                 </xs:annotation>
             </xs:element>
@@ -423,7 +430,8 @@
             <xs:element name="species_id" type="xs:string">
                 <xs:annotation>
                     <xs:documentation>
-                        Internal identifier to either a protein or reactant defined in the EnzymeMLDocument.
+                        Internal identifier to either a protein or reactant defined in the
+                        EnzymeMLDocument.
                     </xs:documentation>
                 </xs:annotation>
             </xs:element>
@@ -457,7 +465,8 @@
             <xs:element name="species_id" type="xs:string">
                 <xs:annotation>
                     <xs:documentation>
-                        Internal identifier to a species defined in the EnzymeMLDocument, given it is a rate equation.
+                        Internal identifier to a species defined in the EnzymeMLDocument,
+                        given it is a rate equation.
                     </xs:documentation>
                 </xs:annotation>
             </xs:element>
@@ -599,7 +608,9 @@
             <xs:element name="species_data">
                 <xs:annotation>
                     <xs:documentation>
-                        Measurement data of all species that were part of the measurement. A species can refer to a protein, complex, or small molecule.
+                        Measurement data of all species that were part of the measurement. A
+                        species can refer to a protein, complex, or
+                        small molecule.
                     </xs:documentation>
                 </xs:annotation>
                 <xs:complexType>
@@ -652,7 +663,8 @@
             <xs:element name="initial" type="xs:float">
                 <xs:annotation>
                     <xs:documentation>
-                        Initial amount of the measurement data. This must be the same as the first data point in the
+                        Initial amount of the measurement data. This must be the same as the
+                        first data point in the array.
                     </xs:documentation>
                 </xs:annotation>
             </xs:element>
@@ -673,7 +685,11 @@
             <xs:element name="prepared" type="xs:float">
                 <xs:annotation>
                     <xs:documentation>
-                        Amount of the reactant before the measurement. This field should be used for specifying the prepared amount of a species in the reaction mix. Not to be confused with
+                        Amount of the reactant before the measurement. This field should
+                        be used for specifying the prepared amount
+                        of a species in the reaction mix. Not to be
+                        confused with , specifying the concentration
+                        at the first data point from the array.
                     </xs:documentation>
                 </xs:annotation>
             </xs:element>

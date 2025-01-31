@@ -1,14 +1,18 @@
 [meta]
 name = "EnzymeML"
 description = "This is a code and schema generator for Strenda Biocatalysis."
-paths = ["specifications/enzymeml.md"]
+paths = ["specifications/v2.md"]
 
 [generate]
-xml-schema = { out = "schemes/enzymeml.xsd" }
-shacl = { out = "schemes/enzymeml.ttl" }
-shex = { out = "schemes/enzymeml.shex" }
-json-schema = { out = "schemes/enzymeml.json", root = "EnzymeMLDocument" }
-python-dataclass = { out = "python/pyenzyme/dataclass_models.py" }
-python-pydantic = { out = "python/pyenzyme/pydantic_models.py" }
-mk-docs = { out = "docs/model.md", nav = "false" }
-typescript = { out = "typescript/src/index.ts" }
+xml-schema = { out = "schemes/*/enzymeml-*.xsd", per-spec = true }
+shacl = { out = "schemes/*/enzymeml-*.ttl", per-spec = true }
+shex = { out = "schemes/*/enzymeml-*.shex", per-spec = true }
+protobuf = { out = "schemes/*/enzymeml-*.proto", per-spec = true }
+graphql = { out = "schemes/*/enzymeml-*.graphql", per-spec = true }
+linkml = { out = "schemes/*/enzymeml-*-linkml.yaml", per-spec = true }
+json-schema = { out = "schemes/*/enzymeml-*.json", root = "EnzymeMLDocument", per-spec = true }
+python-pydantic-xml = { out = "pyenzyme/*.py", per-spec = true }
+mk-docs = { out = "docs/versions/*.md", nav = "true", per-spec = true }
+typescript-zod = { out = "enzymeml-ts/src/*.ts", per-spec = true }
+rust = { out = "enzymeml-rs/src/versions/*.rs", per-spec = true }
+golang = { out = "enzymeml-go/src/*.go", per-spec = true }
