@@ -1,6 +1,6 @@
 [meta]
 name = "EnzymeML"
-description = "This is a code and schema generator for Strenda Biocatalysis."
+description = "This is a code and schema generator for EnzymeML."
 paths = ["specifications/v2.md"]
 
 [generate]
