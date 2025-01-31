@@ -9,181 +9,61 @@ default_range: string
 imports:
 - linkml:types
 classes:
-  Vessel:
-    description: This object describes vessels in which the experiment has been carried out. These can include any type of vessel used in biocatalytic experiments.
-    class_uri: OBO:OBI_0400081
+  EnzymeMLDocument:
+    description: This is the root object that composes all objects found in an EnzymeML document. It also includes general metadata such as the name of the document, when it was created/modified, and references to publications, databases, and arbitrary links to the web.
     attributes:
       name:
-        description: Name of the used vessel.
-        slot_uri: schema:name
+        description: Title of the EnzymeML Document.
+        slot_uri: schema:title
         required: true
-      volume:
-        description: Volumetric value of the vessel.
-        slot_uri: OBO:OBI_0002139
-        required: true
-        range: float
-      unit:
-        description: Volumetric unit of the vessel.
-        required: true
-        range: UnitDefinition
-      id:
-        description: Unique identifier of the vessel.
-        slot_uri: schema:identifier
-        identifier: true
-        required: true
-      constant:
-        description: Whether the volume of the vessel is constant or not.
-        required: true
-        range: boolean
-  Reaction:
-    description: This object describes a chemical or enzymatic reaction that was investigated in the course of the experiment. All species used within this object need to be part of the data model.
-    attributes:
-      reversible:
-        description: Whether the reaction is reversible or irreversible
-        required: true
-        range: boolean
-      species:
-        description: List of reaction elements that are part of the reaction.
-        range: ReactionElement
-        multivalued: true
-      modifiers:
-        description: List of reaction elements that are not part of the reaction but influence it.
-        identifier: true
-        multivalued: true
-      name:
-        description: Name of the reaction.
-        required: true
-      kinetic_law:
-        description: Mathematical expression of the reaction.
-        range: Equation
-      id:
-        description: Unique identifier of the reaction.
-        slot_uri: schema:identifier
-        identifier: true
-        required: true
-  Variable:
-    description: This object describes a variable that is part of an equation.
-    attributes:
-      name:
-        description: Name of the variable.
-        required: true
-      symbol:
-        description: Symbol of the variable.
-        required: true
-      id:
-        description: Unique identifier of the variable.
-        slot_uri: schema:identifier
-        required: true
-  BaseUnit:
-    description: Represents a base unit in the unit definition.
-    attributes:
-      multiplier:
-        description: Multiplier of the base unit in the unit definition.
-        range: float
-      kind:
-        description: Kind of the base unit (e.g., meter, kilogram, second).
-        required: true
-        range: UnitType
-      scale:
-        description: Scale of the base unit in the unit definition.
-        range: float
-      exponent:
-        description: Exponent of the base unit in the unit definition.
-        required: true
-        range: integer
-  Complex:
-    description: This object describes complexes made of reactants and/or proteins that were used or produced in the course of the experiment.
-    attributes:
-      name:
-        slot_uri: schema:name
-        required: true
-      participants:
-        description: Array of IDs the complex contains
-        identifier: true
-        multivalued: true
-      id:
-        description: Unique identifier of the complex.
-        slot_uri: schema:identifier
-        identifier: true
-        required: true
-      vessel_id:
-        description: Unique identifier of the vessel this complex has been used in.
-        slot_uri: schema:identifier
-        identifier: true
-      constant:
-        required: true
-        range: boolean
-  Protein:
-    description: This object describes the proteins that were used or formed throughout the experiment.
-    class_uri: schema:Protein
-    attributes:
       references:
-        description: Array of references to publications, database entries, etc. that describe the protein.
+        description: Contains references to publications, databases, and arbitrary links to the web.
         slot_uri: schema:citation
         identifier: true
         multivalued: true
-      id:
-        description: Unique internal identifier of the protein.
-        identifier: true
-        required: true
-      organism:
-        description: Organism the protein was expressed in.
-        slot_uri: OBO:OBI_0100026
-      sequence:
-        description: Amino acid sequence of the protein
-        slot_uri: OBO:GSSO_007262
-      name:
-        slot_uri: schema:name
-        required: true
-      vessel_id:
-        description: Unique identifier of the vessel this protein has been used in.
-        slot_uri: schema:identifier
-        identifier: true
-      ecnumber:
-        description: EC number of the protein.
-      organism_tax_id:
-        description: Taxonomy identifier of the expression host.
-        identifier: true
-      constant:
-        required: true
-        range: boolean
-  MeasurementData:
-    description: This object describes a single entity of a measurement, which corresponds to one species. It also holds replicates that contain time course data.
-    attributes:
-      prepared:
-        description: Amount of the reactant before the measurement. This field should be used for specifying the prepared amount of a species in the reaction mix. Not to be confused with , specifying the concentration at the first data point from the  array.
-        range: float
-      time:
-        description: Time steps of the replicate.
-        range: float
+      created:
+        description: Date the EnzymeML document was created.
+        slot_uri: schema:dateCreated
+      modified:
+        description: Date the EnzymeML document was modified.
+        slot_uri: schema:dateModified
+      creators:
+        description: Contains all authors that are part of the experiment.
+        slot_uri: schema:creator
+        range: Creator
         multivalued: true
-      data_unit:
-        description: SI unit of the data that was measured.
-        required: true
-        range: UnitDefinition
-      data_type:
-        description: Type of data that was measured (e.g. concentration)
-        required: true
-        range: DataTypes
-      data:
-        description: Data that was measured.
-        range: float
+      vessels:
+        description: Contains all vessels that are part of the experiment.
+        range: Vessel
         multivalued: true
-      species_id:
-        description: The identifier for the described reactant.
-        identifier: true
-        required: true
-      initial:
-        description: Initial amount of the measurement data. This must be the same as the first data point in the  array.
-        required: true
-        range: float
-      time_unit:
-        description: Time unit of the replicate.
-        range: UnitDefinition
-      is_simulated:
-        description: Whether or not the data has been generated by simulation.
-        required: true
-        range: boolean
+      proteins:
+        description: Contains all proteins that are part of the experiment.
+        range: Protein
+        multivalued: true
+      complexes:
+        description: Contains all complexes that are part of the experiment.
+        range: Complex
+        multivalued: true
+      small_molecules:
+        description: Contains all reactants that are part of the experiment.
+        range: SmallMolecule
+        multivalued: true
+      reactions:
+        description: Dictionary mapping from reaction IDs to reaction-describing objects.
+        range: Reaction
+        multivalued: true
+      measurements:
+        description: Contains measurements that describe outcomes of an experiment.
+        range: Measurement
+        multivalued: true
+      equations:
+        description: Contains ordinary differential equations that describe the kinetic model.
+        range: Equation
+        multivalued: true
+      parameters:
+        description: List of parameters that are part of the equation
+        range: Parameter
+        multivalued: true
   Creator:
     description: The creator object contains all information about authors that contributed to the resulting document.
     class_uri: schema:person
@@ -200,28 +80,88 @@ classes:
         description: Email address of the author or contributor.
         slot_uri: schema:email
         required: true
-  UnitDefinition:
-    description: Represents a unit definition that is based on the SI unit system.
+  Vessel:
+    description: This object describes vessels in which the experiment has been carried out. These can include any type of vessel used in biocatalytic experiments.
+    class_uri: OBO:OBI_0400081
     attributes:
-      name:
-        description: Common name of the unit definition.
       id:
-        description: Unique identifier of the unit definition.
-      base_units:
-        description: Base units that define the unit.
-        range: BaseUnit
-        multivalued: true
-  ReactionElement:
-    description: This object is part of the Reaction object and describes either an educt, product or modifier. The latter includes buffers, counter-ions as well as proteins/enzymes.
-    attributes:
-      stoichiometry:
-        description: Float number representing the associated stoichiometry.
-        required: true
-        range: float
-      species_id:
-        description: Internal identifier to either a protein or reactant defined in the EnzymeMLDocument.
+        description: Unique identifier of the vessel.
+        slot_uri: schema:identifier
         identifier: true
         required: true
+      name:
+        description: Name of the used vessel.
+        slot_uri: schema:name
+        required: true
+      volume:
+        description: Volumetric value of the vessel.
+        slot_uri: OBO:OBI_0002139
+        required: true
+        range: float
+      unit:
+        description: Volumetric unit of the vessel.
+        required: true
+        range: UnitDefinition
+      constant:
+        description: Whether the volume of the vessel is constant or not.
+        required: true
+        range: boolean
+  Protein:
+    description: This object describes the proteins that were used or formed throughout the experiment.
+    class_uri: schema:Protein
+    attributes:
+      id:
+        description: Unique internal identifier of the protein.
+        identifier: true
+        required: true
+      name:
+        slot_uri: schema:name
+        required: true
+      constant:
+        required: true
+        range: boolean
+      sequence:
+        description: Amino acid sequence of the protein
+        slot_uri: OBO:GSSO_007262
+      vessel_id:
+        description: Unique identifier of the vessel this protein has been used in.
+        slot_uri: schema:identifier
+        identifier: true
+      ecnumber:
+        description: EC number of the protein.
+      organism:
+        description: Organism the protein was expressed in.
+        slot_uri: OBO:OBI_0100026
+      organism_tax_id:
+        description: Taxonomy identifier of the expression host.
+        identifier: true
+      references:
+        description: Array of references to publications, database entries, etc. that describe the protein.
+        slot_uri: schema:citation
+        identifier: true
+        multivalued: true
+  Complex:
+    description: This object describes complexes made of reactants and/or proteins that were used or produced in the course of the experiment.
+    attributes:
+      id:
+        description: Unique identifier of the complex.
+        slot_uri: schema:identifier
+        identifier: true
+        required: true
+      name:
+        slot_uri: schema:name
+        required: true
+      constant:
+        required: true
+        range: boolean
+      vessel_id:
+        description: Unique identifier of the vessel this complex has been used in.
+        slot_uri: schema:identifier
+        identifier: true
+      participants:
+        description: Array of IDs the complex contains
+        identifier: true
+        multivalued: true
   SmallMolecule:
     description: This object describes the reactants that were used or produced in the course of the experiment.
     attributes:
@@ -230,299 +170,359 @@ classes:
         slot_uri: schema:identifier
         identifier: true
         required: true
+      name:
+        slot_uri: schema:name
+        required: true
       constant:
         required: true
         range: boolean
-      inchi:
-        description: International Chemical Identifier (InChI) encoding of the reactant.
-      inchikey:
-        description: Hashed International Chemical Identifier (InChIKey) encoding of the reactant.
       vessel_id:
         description: Unique identifier of the vessel this small molecule has been used in.
         slot_uri: schema:identifier
         identifier: true
       canonical_smiles:
         description: Canonical Simplified Molecular-Input Line-Entry System (SMILES) encoding of the reactant.
+      inchi:
+        description: International Chemical Identifier (InChI) encoding of the reactant.
+      inchikey:
+        description: Hashed International Chemical Identifier (InChIKey) encoding of the reactant.
       references:
         description: Array of references to publications, database entries, etc. that describe the reactant.
         slot_uri: schema:citation
         identifier: true
         multivalued: true
-      name:
-        slot_uri: schema:name
+  Reaction:
+    description: This object describes a chemical or enzymatic reaction that was investigated in the course of the experiment. All species used within this object need to be part of the data model.
+    attributes:
+      id:
+        description: Unique identifier of the reaction.
+        slot_uri: schema:identifier
+        identifier: true
         required: true
+      name:
+        description: Name of the reaction.
+        required: true
+      reversible:
+        description: Whether the reaction is reversible or irreversible
+        required: true
+        range: boolean
+      kinetic_law:
+        description: Mathematical expression of the reaction.
+        range: Equation
+      species:
+        description: List of reaction elements that are part of the reaction.
+        range: ReactionElement
+        multivalued: true
+      modifiers:
+        description: List of reaction elements that are not part of the reaction but influence it.
+        identifier: true
+        multivalued: true
+  ReactionElement:
+    description: This object is part of the Reaction object and describes either an educt, product or modifier. The latter includes buffers, counter-ions as well as proteins/enzymes.
+    attributes:
+      species_id:
+        description: Internal identifier to either a protein or reactant defined in the EnzymeMLDocument.
+        identifier: true
+        required: true
+      stoichiometry:
+        description: Float number representing the associated stoichiometry.
+        required: true
+        range: float
   Equation:
     description: This object describes an equation that can be used to model the kinetics of a reaction. There are different types of equations that can be used to model the kinetics of a reaction. The equation can be an ordinary differential equation, a rate law or assignment rule.
     attributes:
+      equation:
+        description: Mathematical expression of the equation.
+        required: true
       equation_type:
         description: Type of the equation.
         required: true
         range: EquationType
+      species_id:
+        description: Internal identifier to a species defined in the EnzymeMLDocument, given it is a rate equation.
+        identifier: true
       variables:
         description: List of variables that are part of the equation
         range: Variable
         multivalued: true
-      species_id:
-        description: Internal identifier to a species defined in the EnzymeMLDocument, given it is a rate equation.
-        identifier: true
-      equation:
-        description: Mathematical expression of the equation.
+  Variable:
+    description: This object describes a variable that is part of an equation.
+    attributes:
+      id:
+        description: Unique identifier of the variable.
+        slot_uri: schema:identifier
+        required: true
+      name:
+        description: Name of the variable.
+        required: true
+      symbol:
+        description: Symbol of the variable.
         required: true
   Parameter:
     description: This object describes the parameters of the kinetic model and can include all estimated values.
     attributes:
-      lower:
-        description: Lower bound of the estimated parameter.
-        range: float
-      initial_value:
-        description: Initial value that was used for the parameter estimation.
-        range: float
-      value:
-        description: Numerical value of the estimated parameter.
-        range: float
+      id:
+        description: Unique identifier of the parameter.
+        slot_uri: schema:identifier
+        identifier: true
+        required: true
       name:
         description: Name of the parameter.
         required: true
       symbol:
         description: Symbol of the parameter.
         required: true
-      id:
-        description: Unique identifier of the parameter.
-        slot_uri: schema:identifier
-        identifier: true
-        required: true
+      value:
+        description: Numerical value of the estimated parameter.
+        range: float
       unit:
         description: Unit of the estimated parameter.
         range: UnitDefinition
+      initial_value:
+        description: Initial value that was used for the parameter estimation.
+        range: float
+      upper:
+        description: Upper bound of the estimated parameter.
+        range: float
+      lower:
+        description: Lower bound of the estimated parameter.
+        range: float
       stderr:
         description: Standard error of the estimated parameter.
         range: float
       constant:
         description: Specifies if this parameter is constant
         range: boolean
-      upper:
-        description: Upper bound of the estimated parameter.
-        range: float
-  EnzymeMLDocument:
-    description: This is the root object that composes all objects found in an EnzymeML document. It also includes general metadata such as the name of the document, when it was created/modified, and references to publications, databases, and arbitrary links to the web.
-    attributes:
-      small_molecules:
-        description: Contains all reactants that are part of the experiment.
-        range: SmallMolecule
-        multivalued: true
-      modified:
-        description: Date the EnzymeML document was modified.
-        slot_uri: schema:dateModified
-      reactions:
-        description: Dictionary mapping from reaction IDs to reaction-describing objects.
-        range: Reaction
-        multivalued: true
-      complexes:
-        description: Contains all complexes that are part of the experiment.
-        range: Complex
-        multivalued: true
-      vessels:
-        description: Contains all vessels that are part of the experiment.
-        range: Vessel
-        multivalued: true
-      equations:
-        description: Contains ordinary differential equations that describe the kinetic model.
-        range: Equation
-        multivalued: true
-      created:
-        description: Date the EnzymeML document was created.
-        slot_uri: schema:dateCreated
-      references:
-        description: Contains references to publications, databases, and arbitrary links to the web.
-        slot_uri: schema:citation
-        identifier: true
-        multivalued: true
-      measurements:
-        description: Contains measurements that describe outcomes of an experiment.
-        range: Measurement
-        multivalued: true
-      parameters:
-        description: List of parameters that are part of the equation
-        range: Parameter
-        multivalued: true
-      proteins:
-        description: Contains all proteins that are part of the experiment.
-        range: Protein
-        multivalued: true
-      creators:
-        description: Contains all authors that are part of the experiment.
-        slot_uri: schema:creator
-        range: Creator
-        multivalued: true
-      name:
-        description: Title of the EnzymeML Document.
-        slot_uri: schema:title
-        required: true
   Measurement:
     description: This object describes the result of a measurement, which includes time course data of any type defined in DataTypes. It includes initial concentrations of all species used in a single measurement.
     attributes:
-      name:
-        description: Name of the measurement
-        required: true
-      group_id:
-        description: User-defined group ID to signal relationships between measurements.
-        identifier: true
       id:
         description: Unique identifier of the measurement.
         slot_uri: schema:identifier
         identifier: true
         required: true
+      name:
+        description: Name of the measurement
+        required: true
       species_data:
         description: Measurement data of all species that were part of the measurement. A species can refer to a protein, complex, or small molecule.
         range: MeasurementData
         multivalued: true
+      group_id:
+        description: User-defined group ID to signal relationships between measurements.
+        identifier: true
       ph:
         description: PH value of the measurement.
         range: float
         minimum_value: 0
         maximum_value: 14
-      temperature_unit:
-        description: Unit of the temperature of the measurement.
-        range: UnitDefinition
       temperature:
         description: Temperature of the measurement.
         range: float
+      temperature_unit:
+        description: Unit of the temperature of the measurement.
+        range: UnitDefinition
+  MeasurementData:
+    description: This object describes a single entity of a measurement, which corresponds to one species. It also holds replicates that contain time course data.
+    attributes:
+      species_id:
+        description: The identifier for the described reactant.
+        identifier: true
+        required: true
+      initial:
+        description: Initial amount of the measurement data. This must be the same as the first data point in the  array.
+        required: true
+        range: float
+      data_unit:
+        description: SI unit of the data that was measured.
+        required: true
+        range: UnitDefinition
+      data_type:
+        description: Type of data that was measured (e.g. concentration)
+        required: true
+        range: DataTypes
+      prepared:
+        description: Amount of the reactant before the measurement. This field should be used for specifying the prepared amount of a species in the reaction mix. Not to be confused with , specifying the concentration at the first data point from the  array.
+        range: float
+      data:
+        description: Data that was measured.
+        range: float
+        multivalued: true
+      time:
+        description: Time steps of the replicate.
+        range: float
+        multivalued: true
+      time_unit:
+        description: Time unit of the replicate.
+        range: UnitDefinition
+      is_simulated:
+        description: Whether or not the data has been generated by simulation.
+        required: true
+        range: boolean
+  UnitDefinition:
+    description: Represents a unit definition that is based on the SI unit system.
+    attributes:
+      id:
+        description: Unique identifier of the unit definition.
+      name:
+        description: Common name of the unit definition.
+      base_units:
+        description: Base units that define the unit.
+        range: BaseUnit
+        multivalued: true
+  BaseUnit:
+    description: Represents a base unit in the unit definition.
+    attributes:
+      kind:
+        description: Kind of the base unit (e.g., meter, kilogram, second).
+        required: true
+        range: UnitType
+      exponent:
+        description: Exponent of the base unit in the unit definition.
+        required: true
+        range: integer
+      multiplier:
+        description: Multiplier of the base unit in the unit definition.
+        range: float
+      scale:
+        description: Scale of the base unit in the unit definition.
+        range: float
 enums:
-  DataTypes:
-    permissible_values:
-      FLUORESCENCE:
-        meaning: http://purl.obolibrary.org/obo/PATO_0000018
-        description: http://purl.obolibrary.org/obo/PATO_0000018
-      TRANSMITTANCE:
-        meaning: http://purl.allotrope.org/ontologies/result#AFR_0002261
-        description: http://purl.allotrope.org/ontologies/result#AFR_0002261
-      CONVERSION:
-        meaning: http://purl.allotrope.org/ontologies/quality#AFQ_0000226
-        description: http://purl.allotrope.org/ontologies/quality#AFQ_0000226
-      ABSORBANCE:
-        meaning: http://purl.allotrope.org/ontologies/quality#AFQ_0000061
-        description: http://purl.allotrope.org/ontologies/quality#AFQ_0000061
-      PEAK_AREA:
-        meaning: http://purl.allotrope.org/ontologies/result#AFR_0001073
-        description: http://purl.allotrope.org/ontologies/result#AFR_0001073
-      CONCENTRATION:
-        meaning: http://purl.obolibrary.org/obo/PATO_0000033
-        description: http://purl.obolibrary.org/obo/PATO_0000033
-  UnitType:
-    permissible_values:
-      COULOMB:
-        meaning: coulomb
-        description: coulomb
-      KILOGRAM:
-        meaning: kilogram
-        description: kilogram
-      AMPERE:
-        meaning: ampere
-        description: ampere
-      GRAY:
-        meaning: gray
-        description: gray
-      SIEMENS:
-        meaning: siemens
-        description: siemens
-      ITEM:
-        meaning: item
-        description: item
-      HENRY:
-        meaning: henry
-        description: henry
-      BECQUEREL:
-        meaning: becquerel
-        description: becquerel
-      JOULE:
-        meaning: joule
-        description: joule
-      PASCAL:
-        meaning: pascal
-        description: pascal
-      AVOGADRO:
-        meaning: avogadro
-        description: avogadro
-      VOLT:
-        meaning: volt
-        description: volt
-      FARAD:
-        meaning: farad
-        description: farad
-      LUMEN:
-        meaning: lumen
-        description: lumen
-      KATAL:
-        meaning: katal
-        description: katal
-      NEWTON:
-        meaning: newton
-        description: newton
-      KELVIN:
-        meaning: kelvin
-        description: kelvin
-      CANDELA:
-        meaning: candela
-        description: candela
-      CELSIUS:
-        meaning: celsius
-        description: celsius
-      DIMENSIONLESS:
-        meaning: dimensionless
-        description: dimensionless
-      LITRE:
-        meaning: litre
-        description: litre
-      RADIAN:
-        meaning: radian
-        description: radian
-      TESLA:
-        meaning: tesla
-        description: tesla
-      WEBER:
-        meaning: weber
-        description: weber
-      LUX:
-        meaning: lux
-        description: lux
-      HERTZ:
-        meaning: hertz
-        description: hertz
-      METRE:
-        meaning: metre
-        description: metre
-      OHM:
-        meaning: ohm
-        description: ohm
-      WATT:
-        meaning: watt
-        description: watt
-      GRAM:
-        meaning: gram
-        description: gram
-      SECOND:
-        meaning: second
-        description: second
-      STERADIAN:
-        meaning: steradian
-        description: steradian
-      MOLE:
-        meaning: mole
-        description: mole
-      SIEVERT:
-        meaning: sievert
-        description: sievert
   EquationType:
     permissible_values:
       ASSIGNMENT:
         meaning: assignment
         description: assignment
+      INITIAL_ASSIGNMENT:
+        meaning: initialAssignment
+        description: initialAssignment
       ODE:
         meaning: ode
         description: ode
       RATE_LAW:
         meaning: rateLaw
         description: rateLaw
-      INITIAL_ASSIGNMENT:
-        meaning: initialAssignment
-        description: initialAssignment
+  DataTypes:
+    permissible_values:
+      ABSORBANCE:
+        meaning: http://purl.allotrope.org/ontologies/quality#AFQ_0000061
+        description: http://purl.allotrope.org/ontologies/quality#AFQ_0000061
+      CONCENTRATION:
+        meaning: http://purl.obolibrary.org/obo/PATO_0000033
+        description: http://purl.obolibrary.org/obo/PATO_0000033
+      CONVERSION:
+        meaning: http://purl.allotrope.org/ontologies/quality#AFQ_0000226
+        description: http://purl.allotrope.org/ontologies/quality#AFQ_0000226
+      FLUORESCENCE:
+        meaning: http://purl.obolibrary.org/obo/PATO_0000018
+        description: http://purl.obolibrary.org/obo/PATO_0000018
+      PEAK_AREA:
+        meaning: http://purl.allotrope.org/ontologies/result#AFR_0001073
+        description: http://purl.allotrope.org/ontologies/result#AFR_0001073
+      TRANSMITTANCE:
+        meaning: http://purl.allotrope.org/ontologies/result#AFR_0002261
+        description: http://purl.allotrope.org/ontologies/result#AFR_0002261
+  UnitType:
+    permissible_values:
+      AMPERE:
+        meaning: ampere
+        description: ampere
+      AVOGADRO:
+        meaning: avogadro
+        description: avogadro
+      BECQUEREL:
+        meaning: becquerel
+        description: becquerel
+      CANDELA:
+        meaning: candela
+        description: candela
+      CELSIUS:
+        meaning: celsius
+        description: celsius
+      COULOMB:
+        meaning: coulomb
+        description: coulomb
+      DIMENSIONLESS:
+        meaning: dimensionless
+        description: dimensionless
+      FARAD:
+        meaning: farad
+        description: farad
+      GRAM:
+        meaning: gram
+        description: gram
+      GRAY:
+        meaning: gray
+        description: gray
+      HENRY:
+        meaning: henry
+        description: henry
+      HERTZ:
+        meaning: hertz
+        description: hertz
+      ITEM:
+        meaning: item
+        description: item
+      JOULE:
+        meaning: joule
+        description: joule
+      KATAL:
+        meaning: katal
+        description: katal
+      KELVIN:
+        meaning: kelvin
+        description: kelvin
+      KILOGRAM:
+        meaning: kilogram
+        description: kilogram
+      LITRE:
+        meaning: litre
+        description: litre
+      LUMEN:
+        meaning: lumen
+        description: lumen
+      LUX:
+        meaning: lux
+        description: lux
+      METRE:
+        meaning: metre
+        description: metre
+      MOLE:
+        meaning: mole
+        description: mole
+      NEWTON:
+        meaning: newton
+        description: newton
+      OHM:
+        meaning: ohm
+        description: ohm
+      PASCAL:
+        meaning: pascal
+        description: pascal
+      RADIAN:
+        meaning: radian
+        description: radian
+      SECOND:
+        meaning: second
+        description: second
+      SIEMENS:
+        meaning: siemens
+        description: siemens
+      SIEVERT:
+        meaning: sievert
+        description: sievert
+      STERADIAN:
+        meaning: steradian
+        description: steradian
+      TESLA:
+        meaning: tesla
+        description: tesla
+      VOLT:
+        meaning: volt
+        description: volt
+      WATT:
+        meaning: watt
+        description: watt
+      WEBER:
+        meaning: weber
+        description: weber
