@@ -294,8 +294,8 @@
           "title": "ph",
           "type": "number",
           "description": "PH value of the measurement.",
-          "maximum": 14.0,
-          "minimum": 0.0
+          "minimum": 0.0,
+          "maximum": 14.0
         },
         "species_data": {
           "title": "species_data",
