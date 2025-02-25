@@ -1,4 +1,5 @@
 ---
+title: The specific page with hidden the header 1 title 
 template: home.html
 ---
 
@@ -64,7 +65,7 @@ An EnzymeML Document organizes and contextualizes data of a biocatalytic reactio
 
 </div>
 
-For the full specification of an EnzymeML Document, refer to the [EnzymeML Data Model](versions/v2.md).
+For the full specification of an EnzymeML Document, refere to the [EnzymeML Data Model](versions/v2.md).
 
 
 ## How to use EnzymeML?
