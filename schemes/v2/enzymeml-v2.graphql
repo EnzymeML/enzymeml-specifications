@@ -214,8 +214,8 @@ type Query {
 
   # Creator queries
   allCreators: [Creator]
-  creatorByGiven_name(given_name: String): [Creator]
-  creatorByFamily_name(family_name: String): [Creator]
+  creatorByGivenName(given_name: String): [Creator]
+  creatorByFamilyName(family_name: String): [Creator]
   creatorByMail(mail: String): [Creator]
 
   # Vessel queries
@@ -231,25 +231,25 @@ type Query {
   proteinByName(name: String): [Protein]
   proteinByConstant(constant: Boolean): [Protein]
   proteinBySequence(sequence: String): [Protein]
-  proteinByVessel_id(vessel_id: String): [Protein]
+  proteinByVesselId(vessel_id: String): [Protein]
   proteinByEcnumber(ecnumber: String): [Protein]
   proteinByOrganism(organism: String): [Protein]
-  proteinByOrganism_tax_id(organism_tax_id: String): [Protein]
+  proteinByOrganismTaxId(organism_tax_id: String): [Protein]
 
   # Complex queries
   allComplexs: [Complex]
   complexById(id: String): [Complex]
   complexByName(name: String): [Complex]
   complexByConstant(constant: Boolean): [Complex]
-  complexByVessel_id(vessel_id: String): [Complex]
+  complexByVesselId(vessel_id: String): [Complex]
 
   # SmallMolecule queries
   allSmallMolecules: [SmallMolecule]
   smallmoleculeById(id: String): [SmallMolecule]
   smallmoleculeByName(name: String): [SmallMolecule]
   smallmoleculeByConstant(constant: Boolean): [SmallMolecule]
-  smallmoleculeByVessel_id(vessel_id: String): [SmallMolecule]
-  smallmoleculeByCanonical_smiles(canonical_smiles: String): [SmallMolecule]
+  smallmoleculeByVesselId(vessel_id: String): [SmallMolecule]
+  smallmoleculeByCanonicalSmiles(canonical_smiles: String): [SmallMolecule]
   smallmoleculeByInchi(inchi: String): [SmallMolecule]
   smallmoleculeByInchikey(inchikey: String): [SmallMolecule]
 
@@ -261,14 +261,14 @@ type Query {
 
   # ReactionElement queries
   allReactionElements: [ReactionElement]
-  reactionelementBySpecies_id(species_id: String): [ReactionElement]
+  reactionelementBySpeciesId(species_id: String): [ReactionElement]
   reactionelementByStoichiometry(stoichiometry: Float): [ReactionElement]
 
   # Equation queries
   allEquations: [Equation]
   equationByEquation(equation: String): [Equation]
-  equationByEquation_type(equation_type: EquationType): [Equation]
-  equationBySpecies_id(species_id: String): [Equation]
+  equationByEquationType(equation_type: EquationType): [Equation]
+  equationBySpeciesId(species_id: String): [Equation]
 
   # Variable queries
   allVariables: [Variable]
@@ -282,7 +282,7 @@ type Query {
   parameterByName(name: String): [Parameter]
   parameterBySymbol(symbol: String): [Parameter]
   parameterByValue(value: Float): [Parameter]
-  parameterByInitial_value(initial_value: Float): [Parameter]
+  parameterByInitialValue(initial_value: Float): [Parameter]
   parameterByUpper(upper: Float): [Parameter]
   parameterByLower(lower: Float): [Parameter]
   parameterByStderr(stderr: Float): [Parameter]
@@ -292,17 +292,17 @@ type Query {
   allMeasurements: [Measurement]
   measurementById(id: String): [Measurement]
   measurementByName(name: String): [Measurement]
-  measurementByGroup_id(group_id: String): [Measurement]
+  measurementByGroupId(group_id: String): [Measurement]
   measurementByPh(ph: Float): [Measurement]
   measurementByTemperature(temperature: Float): [Measurement]
 
   # MeasurementData queries
   allMeasurementDatas: [MeasurementData]
-  measurementdataBySpecies_id(species_id: String): [MeasurementData]
+  measurementdataBySpeciesId(species_id: String): [MeasurementData]
   measurementdataByInitial(initial: Float): [MeasurementData]
-  measurementdataByData_type(data_type: DataTypes): [MeasurementData]
+  measurementdataByDataType(data_type: DataTypes): [MeasurementData]
   measurementdataByPrepared(prepared: Float): [MeasurementData]
-  measurementdataByIs_simulated(is_simulated: Boolean): [MeasurementData]
+  measurementdataByIsSimulated(is_simulated: Boolean): [MeasurementData]
 
   # UnitDefinition queries
   allUnitDefinitions: [UnitDefinition]
