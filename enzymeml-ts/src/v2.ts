@@ -42,6 +42,10 @@ export const JsonLdSchema = z.object({
 });
 
 // EnzymeML Type definitions
+// This is the root object that composes all objects found in an EnzymeML
+// document. It also includes general metadata such as the name of
+// the document, when it was created/modified, and references to
+// publications, databases, and arbitrary links to the web.
 export const EnzymeMLDocumentSchema = z.lazy(() => JsonLdSchema.extend({
   name: z.string().describe(`
     Title of the EnzymeML Document.
@@ -49,6 +53,10 @@ export const EnzymeMLDocumentSchema = z.lazy(() => JsonLdSchema.extend({
   references: z.array(z.string()).describe(`
     Contains references to publications, databases, and arbitrary links to
     the web.
+  `),
+  description: z.string().nullable().describe(`
+    Free-text field for further desctiptions of the experiment and
+    dataset.
   `),
   created: z.string().nullable().describe(`
     Date the EnzymeML document was created.
@@ -88,6 +96,8 @@ export const EnzymeMLDocumentSchema = z.lazy(() => JsonLdSchema.extend({
 
 export type EnzymeMLDocument = z.infer<typeof EnzymeMLDocumentSchema>;
 
+// The creator object contains all information about authors that
+// contributed to the resulting document.
 export const CreatorSchema = z.lazy(() => JsonLdSchema.extend({
   given_name: z.string().describe(`
     Given name of the author or contributor.
@@ -102,6 +112,9 @@ export const CreatorSchema = z.lazy(() => JsonLdSchema.extend({
 
 export type Creator = z.infer<typeof CreatorSchema>;
 
+// This object describes vessels in which the experiment has been carried
+// out. These can include any type of vessel used in biocatalytic
+// experiments.
 export const VesselSchema = z.lazy(() => JsonLdSchema.extend({
   id: z.string().describe(`
     Unique identifier of the vessel.
@@ -122,6 +135,8 @@ export const VesselSchema = z.lazy(() => JsonLdSchema.extend({
 
 export type Vessel = z.infer<typeof VesselSchema>;
 
+// This object describes the proteins that were used or formed throughout
+// the experiment.
 export const ProteinSchema = z.lazy(() => JsonLdSchema.extend({
   id: z.string().describe(`
     Unique internal identifier of the protein.
@@ -151,6 +166,8 @@ export const ProteinSchema = z.lazy(() => JsonLdSchema.extend({
 
 export type Protein = z.infer<typeof ProteinSchema>;
 
+// This object describes complexes made of reactants and/or proteins that
+// were used or produced in the course of the experiment.
 export const ComplexSchema = z.lazy(() => JsonLdSchema.extend({
   id: z.string().describe(`
     Unique identifier of the complex.
@@ -167,12 +184,15 @@ export const ComplexSchema = z.lazy(() => JsonLdSchema.extend({
 
 export type Complex = z.infer<typeof ComplexSchema>;
 
+// This object describes the reactants that were used or produced in the
+// course of the experiment.
 export const SmallMoleculeSchema = z.lazy(() => JsonLdSchema.extend({
   id: z.string().describe(`
     Unique identifier of the small molecule.
   `),
   name: z.string(),
   constant: z.boolean(),
+  synonymous_names: z.array(z.string()),
   vessel_id: z.string().nullable().describe(`
     Unique identifier of the vessel this small molecule has been used in.
   `),
@@ -195,6 +215,9 @@ export const SmallMoleculeSchema = z.lazy(() => JsonLdSchema.extend({
 
 export type SmallMolecule = z.infer<typeof SmallMoleculeSchema>;
 
+// This object describes a chemical or enzymatic reaction that was
+// investigated in the course of the experiment. All species used
+// within this object need to be part of the data model.
 export const ReactionSchema = z.lazy(() => JsonLdSchema.extend({
   id: z.string().describe(`
     Unique identifier of the reaction.
@@ -219,6 +242,9 @@ export const ReactionSchema = z.lazy(() => JsonLdSchema.extend({
 
 export type Reaction = z.infer<typeof ReactionSchema>;
 
+// This object is part of the Reaction object and describes either an
+// educt, product or modifier. The latter includes buffers, counter-
+// ions as well as proteins/enzymes.
 export const ReactionElementSchema = z.lazy(() => JsonLdSchema.extend({
   species_id: z.string().describe(`
     Internal identifier to either a protein or reactant defined in the
@@ -231,6 +257,11 @@ export const ReactionElementSchema = z.lazy(() => JsonLdSchema.extend({
 
 export type ReactionElement = z.infer<typeof ReactionElementSchema>;
 
+// This object describes an equation that can be used to model the
+// kinetics of a reaction. There are different types of equations
+// that can be used to model the kinetics of a reaction. The equation
+// can be an ordinary differential equation, a rate law or assignment
+// rule.
 export const EquationSchema = z.lazy(() => JsonLdSchema.extend({
   equation: z.string().describe(`
     Mathematical expression of the equation.
@@ -249,6 +280,7 @@ export const EquationSchema = z.lazy(() => JsonLdSchema.extend({
 
 export type Equation = z.infer<typeof EquationSchema>;
 
+// This object describes a variable that is part of an equation.
 export const VariableSchema = z.lazy(() => JsonLdSchema.extend({
   id: z.string().describe(`
     Unique identifier of the variable.
@@ -263,6 +295,8 @@ export const VariableSchema = z.lazy(() => JsonLdSchema.extend({
 
 export type Variable = z.infer<typeof VariableSchema>;
 
+// This object describes the parameters of the kinetic model and can
+// include all estimated values.
 export const ParameterSchema = z.lazy(() => JsonLdSchema.extend({
   id: z.string().describe(`
     Unique identifier of the parameter.
@@ -298,6 +332,9 @@ export const ParameterSchema = z.lazy(() => JsonLdSchema.extend({
 
 export type Parameter = z.infer<typeof ParameterSchema>;
 
+// This object describes the result of a measurement, which includes time
+// course data of any type defined in DataTypes. It includes initial
+// concentrations of all species used in a single measurement.
 export const MeasurementSchema = z.lazy(() => JsonLdSchema.extend({
   id: z.string().describe(`
     Unique identifier of the measurement.
@@ -325,6 +362,9 @@ export const MeasurementSchema = z.lazy(() => JsonLdSchema.extend({
 
 export type Measurement = z.infer<typeof MeasurementSchema>;
 
+// This object describes a single entity of a measurement, which
+// corresponds to one species. It also holds replicates that contain
+// time course data.
 export const MeasurementDataSchema = z.lazy(() => JsonLdSchema.extend({
   species_id: z.string().describe(`
     The identifier for the described reactant.
@@ -361,6 +401,7 @@ export const MeasurementDataSchema = z.lazy(() => JsonLdSchema.extend({
 
 export type MeasurementData = z.infer<typeof MeasurementDataSchema>;
 
+// Represents a unit definition that is based on the SI unit system.
 export const UnitDefinitionSchema = z.lazy(() => JsonLdSchema.extend({
   id: z.string().nullable().describe(`
     Unique identifier of the unit definition.
@@ -375,6 +416,7 @@ export const UnitDefinitionSchema = z.lazy(() => JsonLdSchema.extend({
 
 export type UnitDefinition = z.infer<typeof UnitDefinitionSchema>;
 
+// Represents a base unit in the unit definition.
 export const BaseUnitSchema = z.lazy(() => JsonLdSchema.extend({
   kind: UnitTypeSchema.describe(`
     Kind of the base unit (e.g., meter, kilogram, second).

@@ -11,6 +11,7 @@ imports:
 classes:
   EnzymeMLDocument:
     description: This is the root object that composes all objects found in an EnzymeML document. It also includes general metadata such as the name of the document, when it was created/modified, and references to publications, databases, and arbitrary links to the web.
+    tree_root: true
     attributes:
       name:
         description: Title of the EnzymeML Document.
@@ -21,6 +22,8 @@ classes:
         slot_uri: schema:citation
         identifier: true
         multivalued: true
+      description:
+        description: Free-text field for further desctiptions of the experiment and dataset.
       created:
         description: Date the EnzymeML document was created.
         slot_uri: schema:dateCreated
@@ -176,6 +179,8 @@ classes:
       constant:
         required: true
         range: boolean
+      synonymous_names:
+        multivalued: true
       vessel_id:
         description: Unique identifier of the vessel this small molecule has been used in.
         slot_uri: schema:identifier

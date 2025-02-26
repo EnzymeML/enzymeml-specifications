@@ -77,29 +77,32 @@ message EnzymeMLDocument {
   // Contains references to publications, databases, and arbitrary links to
   // the web.
   repeated string references = 2;
+  // Free-text field for further desctiptions of the experiment and
+  // dataset.
+  optional string description = 3;
   // Date the EnzymeML document was created.
-  optional string created = 3;
+  optional string created = 4;
   // Date the EnzymeML document was modified.
-  optional string modified = 4;
+  optional string modified = 5;
   // Contains all authors that are part of the experiment.
-  repeated Creator creators = 5;
+  repeated Creator creators = 6;
   // Contains all vessels that are part of the experiment.
-  repeated Vessel vessels = 6;
+  repeated Vessel vessels = 7;
   // Contains all proteins that are part of the experiment.
-  repeated Protein proteins = 7;
+  repeated Protein proteins = 8;
   // Contains all complexes that are part of the experiment.
-  repeated Complex complexes = 8;
+  repeated Complex complexes = 9;
   // Contains all reactants that are part of the experiment.
-  repeated SmallMolecule small_molecules = 9;
+  repeated SmallMolecule small_molecules = 10;
   // Dictionary mapping from reaction IDs to reaction-describing objects.
-  repeated Reaction reactions = 10;
+  repeated Reaction reactions = 11;
   // Contains measurements that describe outcomes of an experiment.
-  repeated Measurement measurements = 11;
+  repeated Measurement measurements = 12;
   // Contains ordinary differential equations that describe the kinetic
   // model.
-  repeated Equation equations = 12;
+  repeated Equation equations = 13;
   // List of parameters that are part of the equation
-  repeated Parameter parameters = 13;
+  repeated Parameter parameters = 14;
 }
 
 message Creator {
@@ -160,19 +163,20 @@ message SmallMolecule {
   string id = 1;
   string name = 2;
   boolean constant = 3;
+  repeated string synonymous_names = 4;
   // Unique identifier of the vessel this small molecule has been used in.
-  optional string vessel_id = 4;
+  optional string vessel_id = 5;
   // Canonical Simplified Molecular-Input Line-Entry System (SMILES)
   // encoding of the reactant.
-  optional string canonical_smiles = 5;
+  optional string canonical_smiles = 6;
   // International Chemical Identifier (InChI) encoding of the reactant.
-  optional string inchi = 6;
+  optional string inchi = 7;
   // Hashed International Chemical Identifier (InChIKey) encoding of the
   // reactant.
-  optional string inchikey = 7;
+  optional string inchikey = 8;
   // Array of references to publications, database entries, etc. that
   // describe the reactant.
-  repeated string references = 8;
+  repeated string references = 9;
 }
 
 message Reaction {

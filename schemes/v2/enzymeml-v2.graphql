@@ -12,6 +12,7 @@
 type EnzymeMLDocument {
   name: String!
   references: [String]
+  description: String
   created: String
   modified: String
   creators: [Creator]
@@ -63,6 +64,7 @@ type SmallMolecule {
   id: String!
   name: String!
   constant: Boolean!
+  synonymous_names: [String]
   vessel_id: String
   canonical_smiles: String
   inchi: String
@@ -204,21 +206,19 @@ enum UnitType {
 type Query {
 
   # EnzymeMLDocument queries
-  enzymemldocument(id: ID!): EnzymeMLDocument
   allEnzymeMLDocuments: [EnzymeMLDocument]
   enzymemldocumentByName(name: String): [EnzymeMLDocument]
+  enzymemldocumentByDescription(description: String): [EnzymeMLDocument]
   enzymemldocumentByCreated(created: String): [EnzymeMLDocument]
   enzymemldocumentByModified(modified: String): [EnzymeMLDocument]
 
   # Creator queries
-  creator(id: ID!): Creator
   allCreators: [Creator]
   creatorByGiven_name(given_name: String): [Creator]
   creatorByFamily_name(family_name: String): [Creator]
   creatorByMail(mail: String): [Creator]
 
   # Vessel queries
-  vessel(id: ID!): Vessel
   allVessels: [Vessel]
   vesselById(id: String): [Vessel]
   vesselByName(name: String): [Vessel]
@@ -226,7 +226,6 @@ type Query {
   vesselByConstant(constant: Boolean): [Vessel]
 
   # Protein queries
-  protein(id: ID!): Protein
   allProteins: [Protein]
   proteinById(id: String): [Protein]
   proteinByName(name: String): [Protein]
@@ -238,7 +237,6 @@ type Query {
   proteinByOrganism_tax_id(organism_tax_id: String): [Protein]
 
   # Complex queries
-  complex(id: ID!): Complex
   allComplexs: [Complex]
   complexById(id: String): [Complex]
   complexByName(name: String): [Complex]
@@ -246,7 +244,6 @@ type Query {
   complexByVessel_id(vessel_id: String): [Complex]
 
   # SmallMolecule queries
-  smallmolecule(id: ID!): SmallMolecule
   allSmallMolecules: [SmallMolecule]
   smallmoleculeById(id: String): [SmallMolecule]
   smallmoleculeByName(name: String): [SmallMolecule]
@@ -257,34 +254,29 @@ type Query {
   smallmoleculeByInchikey(inchikey: String): [SmallMolecule]
 
   # Reaction queries
-  reaction(id: ID!): Reaction
   allReactions: [Reaction]
   reactionById(id: String): [Reaction]
   reactionByName(name: String): [Reaction]
   reactionByReversible(reversible: Boolean): [Reaction]
 
   # ReactionElement queries
-  reactionelement(id: ID!): ReactionElement
   allReactionElements: [ReactionElement]
   reactionelementBySpecies_id(species_id: String): [ReactionElement]
   reactionelementByStoichiometry(stoichiometry: Float): [ReactionElement]
 
   # Equation queries
-  equation(id: ID!): Equation
   allEquations: [Equation]
   equationByEquation(equation: String): [Equation]
   equationByEquation_type(equation_type: EquationType): [Equation]
   equationBySpecies_id(species_id: String): [Equation]
 
   # Variable queries
-  variable(id: ID!): Variable
   allVariables: [Variable]
   variableById(id: String): [Variable]
   variableByName(name: String): [Variable]
   variableBySymbol(symbol: String): [Variable]
 
   # Parameter queries
-  parameter(id: ID!): Parameter
   allParameters: [Parameter]
   parameterById(id: String): [Parameter]
   parameterByName(name: String): [Parameter]
@@ -297,7 +289,6 @@ type Query {
   parameterByConstant(constant: Boolean): [Parameter]
 
   # Measurement queries
-  measurement(id: ID!): Measurement
   allMeasurements: [Measurement]
   measurementById(id: String): [Measurement]
   measurementByName(name: String): [Measurement]
@@ -306,7 +297,6 @@ type Query {
   measurementByTemperature(temperature: Float): [Measurement]
 
   # MeasurementData queries
-  measurementdata(id: ID!): MeasurementData
   allMeasurementDatas: [MeasurementData]
   measurementdataBySpecies_id(species_id: String): [MeasurementData]
   measurementdataByInitial(initial: Float): [MeasurementData]
@@ -315,13 +305,11 @@ type Query {
   measurementdataByIs_simulated(is_simulated: Boolean): [MeasurementData]
 
   # UnitDefinition queries
-  unitdefinition(id: ID!): UnitDefinition
   allUnitDefinitions: [UnitDefinition]
   unitdefinitionById(id: String): [UnitDefinition]
   unitdefinitionByName(name: String): [UnitDefinition]
 
   # BaseUnit queries
-  baseunit(id: ID!): BaseUnit
   allBaseUnits: [BaseUnit]
   baseunitByKind(kind: UnitType): [BaseUnit]
   baseunitByExponent(exponent: Int): [BaseUnit]

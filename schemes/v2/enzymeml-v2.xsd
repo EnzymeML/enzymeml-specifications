@@ -36,6 +36,14 @@
                     </xs:documentation>
                 </xs:annotation>
             </xs:element>
+            <xs:element name="description" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>
+                        Free-text field for further desctiptions of the experiment and
+                        dataset.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
             <xs:element name="created" type="xs:string">
                 <xs:annotation>
                     <xs:documentation>
@@ -329,6 +337,7 @@
             </xs:element>
             <xs:element name="name" type="xs:string"/>
             <xs:element name="constant" type="xs:boolean" default="false"/>
+            <xs:element name="synonymous_names" type="xs:string"  maxOccurs="unbounded"/>
             <xs:element name="vessel_id" type="xs:string">
                 <xs:annotation>
                     <xs:documentation>
@@ -758,7 +767,7 @@
 
     <!-- BaseUnit Definition -->
     <xs:complexType name="BaseUnitType">
-        <xs:attribute name="kind" type="xs:UnitType"  use="required">
+        <xs:attribute name="kind" type="UnitTypeType"  use="required">
             <xs:annotation>
                 <xs:documentation>
                     Kind of the base unit (e.g., meter, kilogram, second).

@@ -7,8 +7,8 @@
   "properties": {
     "complexes": {
       "title": "complexes",
-      "type": "array",
       "description": "Contains all complexes that are part of the experiment.",
+      "$ref": "#/$defs/Complex",
       "items": {
         "$ref": "#/$defs/Complex"
       }
@@ -21,25 +21,30 @@
     },
     "creators": {
       "title": "creators",
-      "type": "array",
       "description": "Contains all authors that are part of the experiment.",
       "$term": "https://schema.org/creator",
+      "$ref": "#/$defs/Creator",
       "items": {
         "$ref": "#/$defs/Creator"
       }
     },
+    "description": {
+      "title": "description",
+      "type": "string",
+      "description": "Free-text field for further desctiptions of the experiment and dataset."
+    },
     "equations": {
       "title": "equations",
-      "type": "array",
       "description": "Contains ordinary differential equations that describe the kinetic model.",
+      "$ref": "#/$defs/Equation",
       "items": {
         "$ref": "#/$defs/Equation"
       }
     },
     "measurements": {
       "title": "measurements",
-      "type": "array",
       "description": "Contains measurements that describe outcomes of an experiment.",
+      "$ref": "#/$defs/Measurement",
       "items": {
         "$ref": "#/$defs/Measurement"
       }
@@ -58,24 +63,24 @@
     },
     "parameters": {
       "title": "parameters",
-      "type": "array",
       "description": "List of parameters that are part of the equation",
+      "$ref": "#/$defs/Parameter",
       "items": {
         "$ref": "#/$defs/Parameter"
       }
     },
     "proteins": {
       "title": "proteins",
-      "type": "array",
       "description": "Contains all proteins that are part of the experiment.",
+      "$ref": "#/$defs/Protein",
       "items": {
         "$ref": "#/$defs/Protein"
       }
     },
     "reactions": {
       "title": "reactions",
-      "type": "array",
       "description": "Dictionary mapping from reaction IDs to reaction-describing objects.",
+      "$ref": "#/$defs/Reaction",
       "items": {
         "$ref": "#/$defs/Reaction"
       }
@@ -91,16 +96,16 @@
     },
     "small_molecules": {
       "title": "small_molecules",
-      "type": "array",
       "description": "Contains all reactants that are part of the experiment.",
+      "$ref": "#/$defs/SmallMolecule",
       "items": {
         "$ref": "#/$defs/SmallMolecule"
       }
     },
     "vessels": {
       "title": "vessels",
-      "type": "array",
       "description": "Contains all vessels that are part of the experiment.",
+      "$ref": "#/$defs/Vessel",
       "items": {
         "$ref": "#/$defs/Vessel"
       }
@@ -246,8 +251,8 @@
         },
         "variables": {
           "title": "variables",
-          "type": "array",
           "description": "List of variables that are part of the equation",
+          "$ref": "#/$defs/Variable",
           "items": {
             "$ref": "#/$defs/Variable"
           }
@@ -299,8 +304,8 @@
         },
         "species_data": {
           "title": "species_data",
-          "type": "array",
           "description": "Measurement data of all species that were part of the measurement. A species can refer to a protein, complex, or small molecule.",
+          "$ref": "#/$defs/MeasurementData",
           "items": {
             "$ref": "#/$defs/MeasurementData"
           }
@@ -312,7 +317,6 @@
         },
         "temperature_unit": {
           "title": "temperature_unit",
-          "type": "object",
           "description": "Unit of the temperature of the measurement.",
           "$ref": "#/$defs/UnitDefinition"
         }
@@ -343,7 +347,6 @@
         },
         "data_unit": {
           "title": "data_unit",
-          "type": "object",
           "description": "SI unit of the data that was measured.",
           "$ref": "#/$defs/UnitDefinition"
         },
@@ -377,7 +380,6 @@
         },
         "time_unit": {
           "title": "time_unit",
-          "type": "object",
           "description": "Time unit of the replicate.",
           "$ref": "#/$defs/UnitDefinition"
         }
@@ -434,7 +436,6 @@
         },
         "unit": {
           "title": "unit",
-          "type": "object",
           "description": "Unit of the estimated parameter.",
           "$ref": "#/$defs/UnitDefinition"
         },
@@ -534,7 +535,6 @@
         },
         "kinetic_law": {
           "title": "kinetic_law",
-          "type": "object",
           "description": "Mathematical expression of the reaction.",
           "$ref": "#/$defs/Equation"
         },
@@ -558,8 +558,8 @@
         },
         "species": {
           "title": "species",
-          "type": "array",
           "description": "List of reaction elements that are part of the reaction.",
+          "$ref": "#/$defs/ReactionElement",
           "items": {
             "$ref": "#/$defs/ReactionElement"
           }
@@ -639,6 +639,13 @@
             "type": "string"
           }
         },
+        "synonymous_names": {
+          "title": "synonymous_names",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
         "vessel_id": {
           "title": "vessel_id",
           "type": "string",
@@ -660,8 +667,8 @@
       "properties": {
         "base_units": {
           "title": "base_units",
-          "type": "array",
           "description": "Base units that define the unit.",
+          "$ref": "#/$defs/BaseUnit",
           "items": {
             "$ref": "#/$defs/BaseUnit"
           }
@@ -773,7 +780,6 @@
         },
         "unit": {
           "title": "unit",
-          "type": "object",
           "description": "Volumetric unit of the vessel.",
           "$ref": "#/$defs/UnitDefinition"
         },
