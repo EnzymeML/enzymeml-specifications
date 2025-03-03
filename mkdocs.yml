@@ -1,6 +1,12 @@
 repo_url: https://github.com/EnzymeML/enzymeml-specifications
 site_name: EnzymeML
 edit_uri: edit/main/docs/
+extra_javascript:
+  - js/treeviewer.js
+extra_css:
+  - stylesheets/treeviewer.css
+  - stylesheets/validation.css
+  - stylesheets/extra.css
 
 theme:
   logo: img/enzml_logo.png
@@ -45,6 +51,7 @@ nav:
   - Publications: publications.md
   - "EnzymeML Data Model":
       - "Version 2.0": versions/v2.md
+  - "Validation": validation.md
 
 markdown_extensions:
   - attr_list
@@ -69,6 +76,3 @@ markdown_extensions:
 plugins:
   - search
   - inline-svg
-
-extra_css:
-  - stylesheets/extra.css
