@@ -2,6 +2,11 @@ name: MD-Models Pipeline
 
 on:
   workflow_dispatch:
+    inputs:
+      run-gen:
+        description: 'Run the generation pipeline'
+        required: true
+        default: 'true'
 
 jobs:
   generate:
@@ -12,24 +17,29 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Set up Rust
+        if: inputs.run-gen == 'true'
         uses: actions-rs/toolchain@v1
         with:
           toolchain: stable
           override: true
 
       - name: Install MD-Models
+        if: inputs.run-gen == 'true'
         run: cargo install --git https://github.com/JR-1991/md-models.git
 
       - name: Run the generation pipeline
+        if: inputs.run-gen == 'true'
         run: md-models pipeline -i gen.toml
 
       - name: Format the generated code
+        if: inputs.run-gen == 'true'
         uses: chartboost/ruff-action@v1
         with:
-          args: "format"
+          args: 'format'
 
-      - name: "Push generated code/schemes"
-        shell: "bash"
+      - name: 'Push generated code/schemes'
+        if: inputs.run-gen == 'true'
+        shell: 'bash'
         run: |
           if [[ `git status --porcelain` ]]; then
               git add --all
