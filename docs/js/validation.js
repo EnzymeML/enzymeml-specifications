@@ -122,8 +122,9 @@ function validationResultToDiv(valRes) {
     valRes.errors.forEach((error) => {
       let message = error.message;
       let location = error.location;
+      let severity = error.severity;
 
-      let errorElement = createErrorElement(location, message);
+      let errorElement = createErrorElement(location, message, severity);
 
       div.appendChild(errorElement);
     });
@@ -174,7 +175,7 @@ function messageToHTML(message) {
  * @param {string} message - The validation error message.
  * @returns {HTMLDivElement} The div element containing the validation error.
  */
-function createErrorElement(location, message) {
+function createErrorElement(location, message, severity) {
   let errorElem = document.createElement("div");
   errorElem.id = "error-element";
 
@@ -184,7 +185,16 @@ function createErrorElement(location, message) {
 
   let messageElement = document.createElement("p");
   messageElement.className = "error-message";
-  messageElement.innerHTML = messageToHTML(message);
+
+
+  if (severity) {
+    messageElement.innerHTML = messageToHTML(
+      `<strong style="color: ${severity === "Error" ? "red" : "orange"
+      };">${severity}:</strong> ${message}`,
+    );
+  } else {
+    messageElement.innerHTML = messageToHTML(message);
+  }
 
   errorElem.appendChild(locationElement);
   errorElem.appendChild(messageElement);
