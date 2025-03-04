@@ -22,12 +22,12 @@ enum EquationType {
   RATE_LAW = 3; // rateLaw
 }
 enum DataTypes {
-  ABSORBANCE = 0; // http://purl.allotrope.org/ontologies/quality#AFQ_0000061
-  CONCENTRATION = 1; // http://purl.obolibrary.org/obo/PATO_0000033
-  CONVERSION = 2; // http://purl.allotrope.org/ontologies/quality#AFQ_0000226
-  FLUORESCENCE = 3; // http://purl.obolibrary.org/obo/PATO_0000018
-  PEAK_AREA = 4; // http://purl.allotrope.org/ontologies/result#AFR_0001073
-  TRANSMITTANCE = 5; // http://purl.allotrope.org/ontologies/result#AFR_0002261
+  ABSORBANCE = 0; // absorbance
+  CONCENTRATION = 1; // concentration
+  CONVERSION = 2; // conversion
+  FLUORESCENCE = 3; // fluorescence
+  PEAK_AREA = 4; // peakarea
+  TRANSMITTANCE = 5; // transmittance
 }
 enum UnitType {
   AMPERE = 0; // ampere
@@ -74,32 +74,38 @@ enum UnitType {
 message EnzymeMLDocument {
   // Title of the EnzymeML Document.
   string name = 1;
+  // Date the EnzymeML Document was created.
+  optional string created = 2;
+  // Date the EnzymeML Document was modified.
+  optional string modified = 3;
+  // Contains descriptions of all authors that are part of the experiment.
+  repeated Creator creators = 4;
+  // Contains descriptions of all vessels that are part of the experiment.
+  repeated Vessel vessels = 5;
+  // Contains descriptions of all proteins that are part of the experiment
+  // that may be referenced in reactions, measurements, and equations.
+  repeated Protein proteins = 6;
+  // Contains descriptions of all complexes that are part of the experiment
+  // that may be referenced in reactions, measurements, and equations.
+  repeated Complex complexes = 7;
+  // Contains descriptions of all reactants that are part of the experiment
+  // that may be referenced in reactions, measurements, and equations.
+  repeated SmallMolecule small_molecules = 8;
+  // Contains descriptions of all reactions that are part of the
+  // experiment.
+  repeated Reaction reactions = 9;
+  // Contains descriptions of all measurements that are part of the
+  // experiment.
+  repeated Measurement measurements = 10;
+  // Contains descriptions of all equations that are part of the
+  // experiment.
+  repeated Equation equations = 11;
+  // Contains descriptions of all parameters that are part of the
+  // experiment and may be used in equations.
+  repeated Parameter parameters = 12;
   // Contains references to publications, databases, and arbitrary links to
   // the web.
-  repeated string references = 2;
-  // Date the EnzymeML document was created.
-  optional string created = 3;
-  // Date the EnzymeML document was modified.
-  optional string modified = 4;
-  // Contains all authors that are part of the experiment.
-  repeated Creator creators = 5;
-  // Contains all vessels that are part of the experiment.
-  repeated Vessel vessels = 6;
-  // Contains all proteins that are part of the experiment.
-  repeated Protein proteins = 7;
-  // Contains all complexes that are part of the experiment.
-  repeated Complex complexes = 8;
-  // Contains all reactants that are part of the experiment.
-  repeated SmallMolecule small_molecules = 9;
-  // Dictionary mapping from reaction IDs to reaction-describing objects.
-  repeated Reaction reactions = 10;
-  // Contains measurements that describe outcomes of an experiment.
-  repeated Measurement measurements = 11;
-  // Contains ordinary differential equations that describe the kinetic
-  // model.
-  repeated Equation equations = 12;
-  // List of parameters that are part of the equation
-  repeated Parameter parameters = 13;
+  repeated string references = 13;
 }
 
 message Creator {
@@ -120,34 +126,41 @@ message Vessel {
   double volume = 3;
   // Volumetric unit of the vessel.
   UnitDefinition unit = 4;
-  // Whether the volume of the vessel is constant or not.
+  // Whether the volume of the vessel is constant or not. Default is True.
   boolean constant = 5;
 }
 
 message Protein {
-  // Unique internal identifier of the protein.
+  // Identifier of the protein, such as a UniProt ID, or a custom
+  // identifier.
   string id = 1;
+  // Name of the protein.
   string name = 2;
+  // Whether the concentration of the protein is constant through the
+  // experiment or not. Default is True.
   boolean constant = 3;
   // Amino acid sequence of the protein
   optional string sequence = 4;
-  // Unique identifier of the vessel this protein has been used in.
+  // Identifier of the vessel this protein has been applied to.
   optional string vessel_id = 5;
   // EC number of the protein.
   optional string ecnumber = 6;
-  // Organism the protein was expressed in.
+  // Expression host organism of the protein.
   optional string organism = 7;
   // Taxonomy identifier of the expression host.
   optional string organism_tax_id = 8;
-  // Array of references to publications, database entries, etc. that
-  // describe the protein.
+  // List of references to publications, database entries, etc. that
+  // describe or reference the protein.
   repeated string references = 9;
 }
 
 message Complex {
   // Unique identifier of the complex.
   string id = 1;
+  // Name of the complex.
   string name = 2;
+  // Whether the concentration of the complex is constant through the
+  // experiment or not. Default is False.
   boolean constant = 3;
   // Unique identifier of the vessel this complex has been used in.
   optional string vessel_id = 4;
@@ -156,22 +169,27 @@ message Complex {
 }
 
 message SmallMolecule {
-  // Unique identifier of the small molecule.
+  // Identifier of the small molecule, such as a Pubchem ID, ChEBI ID, or a
+  // custom identifier.
   string id = 1;
+  // Name of the small molecule.
   string name = 2;
+  // Whether the concentration of the small molecule is constant through
+  // the experiment or not. Default is False.
   boolean constant = 3;
-  // Unique identifier of the vessel this small molecule has been used in.
+  // Identifier of the vessel this small molecule has been used in.
   optional string vessel_id = 4;
   // Canonical Simplified Molecular-Input Line-Entry System (SMILES)
-  // encoding of the reactant.
+  // encoding of the small molecule.
   optional string canonical_smiles = 5;
-  // International Chemical Identifier (InChI) encoding of the reactant.
+  // International Chemical Identifier (InChI) encoding of the small
+  // molecule.
   optional string inchi = 6;
   // Hashed International Chemical Identifier (InChIKey) encoding of the
-  // reactant.
+  // small molecule.
   optional string inchikey = 7;
-  // Array of references to publications, database entries, etc. that
-  // describe the reactant.
+  // List of references to publications, database entries, etc. that
+  // describe or reference the small molecule.
   repeated string references = 8;
 }
 
@@ -180,7 +198,7 @@ message Reaction {
   string id = 1;
   // Name of the reaction.
   string name = 2;
-  // Whether the reaction is reversible or irreversible
+  // Whether the reaction is reversible or irreversible. Default is False.
   boolean reversible = 3;
   // Mathematical expression of the reaction.
   optional Equation kinetic_law = 4;
@@ -193,17 +211,20 @@ message Reaction {
 
 message ReactionElement {
   // Internal identifier to either a protein or reactant defined in the
-  // EnzymeMLDocument.
+  // EnzymeML Document.
   string species_id = 1;
-  // Float number representing the associated stoichiometry.
+  // Float number representing the associated stoichiometry. Negative
+  // values indicate that the species is a reactant and positive
+  // values indicate that the species is a product of the reaction.
   double stoichiometry = 2;
 }
 
 message Equation {
-  // Internal identifier to a species defined in the EnzymeMLDocument,
-  // given it is a rate equation.
+  // Identifier of a defined species (SmallMolecule, Protein, Complex).
+  // Represents the left hand side of the equation.
   string species_id = 1;
-  // Mathematical expression of the equation.
+  // Mathematical expression of the equation. Represents the right hand
+  // side of the equation.
   string equation = 2;
   // Type of the equation.
   EquationType equation_type = 3;
@@ -212,20 +233,20 @@ message Equation {
 }
 
 message Variable {
-  // Unique identifier of the variable.
+  // Identifier of the variable.
   string id = 1;
   // Name of the variable.
   string name = 2;
-  // Symbol of the variable.
+  // Equation symbol of the variable.
   string symbol = 3;
 }
 
 message Parameter {
-  // Unique identifier of the parameter.
+  // Identifier of the parameter.
   string id = 1;
   // Name of the parameter.
   string name = 2;
-  // Symbol of the parameter.
+  // Equation symbol of the parameter.
   string symbol = 3;
   // Numerical value of the estimated parameter.
   optional double value = 4;
@@ -233,13 +254,15 @@ message Parameter {
   optional UnitDefinition unit = 5;
   // Initial value that was used for the parameter estimation.
   optional double initial_value = 6;
-  // Upper bound of the estimated parameter.
+  // Upper bound for the parameter value that was used for the parameter
+  // estimation
   optional double upper_bound = 7;
-  // Lower bound of the estimated parameter.
+  // Lower bound for the parameter value that was used for the parameter
+  // estimation
   optional double lower_bound = 8;
   // Standard error of the estimated parameter.
   optional double stderr = 9;
-  // Specifies if this parameter is constant
+  // Specifies if this parameter is constant. Default is True.
   optional boolean constant = 10;
 }
 
@@ -249,11 +272,11 @@ message Measurement {
   // Name of the measurement
   string name = 2;
   // Measurement data of all species that were part of the measurement. A
-  // species can refer to a protein, complex, or small molecule.
+  // species refers to a Protein, Complex, or SmallMolecule.
   repeated MeasurementData species_data = 3;
   // User-defined group ID to signal relationships between measurements.
   optional string group_id = 4;
-  // PH value of the measurement.
+  // pH value of the measurement.
   optional double ph = 5;
   // Temperature of the measurement.
   optional double temperature = 6;
@@ -269,20 +292,22 @@ message MeasurementData {
   double initial = 2;
   // SI unit of the data that was measured.
   UnitDefinition data_unit = 3;
-  // Type of data that was measured (e.g. concentration)
+  // Type of data that was measured (e.g. concentration, absorbance, etc.)
   DataTypes data_type = 4;
-  // Amount of the reactant before the measurement. This field should
-  // be used for specifying the prepared amount of a species in
-  // the reaction mix. Not to be confused with , specifying the
-  // concentration at the first data point from the array.
+  // Amount of the the species before starting the measurement. This field
+  // can be used for specifying the prepared amount of a species
+  // in the reaction mix. Not to be confused with , specifying the
+  // concentration of a species at the first data point from the
+  // array.
   optional double prepared = 5;
   // Data that was measured.
   repeated double data = 6;
-  // Time steps of the replicate.
+  // Corresponding time points of the .
   repeated double time = 7;
-  // Time unit of the replicate.
+  // Unit of the time points of the .
   optional UnitDefinition time_unit = 8;
-  // Whether or not the data has been generated by simulation.
+  // Whether or not the data has been generated by simulation. Default
+  // is False.
   boolean is_simulated = 9;
 }
 

@@ -41,60 +41,73 @@ export const JsonLdSchema = z.object({
 });
 
 // EnzymeML V2 Type definitions
-// This is the root object that composes all objects found in an EnzymeML
-// document. It also includes general metadata such as the name of
-// the document, when it was created/modified, and references to
-// publications, databases, and arbitrary links to the web.
+// The EnzymeMLDocument is the root object that serves as a container for
+// all components of an enzymatic experiment. It includes essential
+// metadata about the document itself, such as its title and creation/
+// modification dates, as well as references to related publications
+// and databases. Additionally, it contains comprehensive information
+// about the experimental setup, including reaction vessels, proteins,
+// complexes, small molecules, reactions, measurements, equations,
+// and parameters.
 export const EnzymeMLDocumentSchema = z.lazy(() =>
   JsonLdSchema.extend({
     name: z.string().describe(`
     Title of the EnzymeML Document.
   `),
+    created: z.string().nullable().describe(`
+    Date the EnzymeML Document was created.
+  `),
+    modified: z.string().nullable().describe(`
+    Date the EnzymeML Document was modified.
+  `),
+    creators: z.array(CreatorSchema).describe(`
+    Contains descriptions of all authors that are part of the experiment.
+  `),
+    vessels: z.array(VesselSchema).describe(`
+    Contains descriptions of all vessels that are part of the experiment.
+  `),
+    proteins: z.array(ProteinSchema).describe(`
+    Contains descriptions of all proteins that are part of the experiment
+    that may be referenced in reactions, measurements, and equations.
+  `),
+    complexes: z.array(ComplexSchema).describe(`
+    Contains descriptions of all complexes that are part of the experiment
+    that may be referenced in reactions, measurements, and equations.
+  `),
+    small_molecules: z.array(SmallMoleculeSchema).describe(`
+    Contains descriptions of all reactants that are part of the experiment
+    that may be referenced in reactions, measurements, and equations.
+  `),
+    reactions: z.array(ReactionSchema).describe(`
+    Contains descriptions of all reactions that are part of the
+    experiment.
+  `),
+    measurements: z.array(MeasurementSchema).describe(`
+    Contains descriptions of all measurements that are part of the
+    experiment.
+  `),
+    equations: z.array(EquationSchema).describe(`
+    Contains descriptions of all equations that are part of the
+    experiment.
+  `),
+    parameters: z.array(ParameterSchema).describe(`
+    Contains descriptions of all parameters that are part of the
+    experiment and may be used in equations.
+  `),
     references: z.array(z.string()).describe(`
     Contains references to publications, databases, and arbitrary links to
     the web.
-  `),
-    created: z.string().nullable().describe(`
-    Date the EnzymeML document was created.
-  `),
-    modified: z.string().nullable().describe(`
-    Date the EnzymeML document was modified.
-  `),
-    creators: z.array(CreatorSchema).describe(`
-    Contains all authors that are part of the experiment.
-  `),
-    vessels: z.array(VesselSchema).describe(`
-    Contains all vessels that are part of the experiment.
-  `),
-    proteins: z.array(ProteinSchema).describe(`
-    Contains all proteins that are part of the experiment.
-  `),
-    complexes: z.array(ComplexSchema).describe(`
-    Contains all complexes that are part of the experiment.
-  `),
-    small_molecules: z.array(SmallMoleculeSchema).describe(`
-    Contains all reactants that are part of the experiment.
-  `),
-    reactions: z.array(ReactionSchema).describe(`
-    Dictionary mapping from reaction IDs to reaction-describing objects.
-  `),
-    measurements: z.array(MeasurementSchema).describe(`
-    Contains measurements that describe outcomes of an experiment.
-  `),
-    equations: z.array(EquationSchema).describe(`
-    Contains ordinary differential equations that describe the kinetic
-    model.
-  `),
-    parameters: z.array(ParameterSchema).describe(`
-    List of parameters that are part of the equation
   `),
   }),
 );
 
 export type EnzymeMLDocument = z.infer<typeof EnzymeMLDocumentSchema>;
 
-// The creator object contains all information about authors that
-// contributed to the resulting document.
+// The Creator object represents an individual author or contributor who
+// has participated in creating or modifying the EnzymeML Document.
+// It captures essential personal information such as their name
+// and contact details, allowing proper attribution and enabling
+// communication with the document's creators.
 export const CreatorSchema = z.lazy(() =>
   JsonLdSchema.extend({
     given_name: z.string().describe(`
@@ -111,9 +124,10 @@ export const CreatorSchema = z.lazy(() =>
 
 export type Creator = z.infer<typeof CreatorSchema>;
 
-// This object describes vessels in which the experiment has been carried
-// out. These can include any type of vessel used in biocatalytic
-// experiments.
+// The Vessel object represents containers used to conduct experiments,
+// such as reaction vessels, microplates, or bioreactors. It captures
+// key properties like volume and whether the volume remains constant
+// during the experiment.
 export const VesselSchema = z.lazy(() =>
   JsonLdSchema.extend({
     id: z.string().describe(`
@@ -129,55 +143,68 @@ export const VesselSchema = z.lazy(() =>
     Volumetric unit of the vessel.
   `),
     constant: z.boolean().describe(`
-    Whether the volume of the vessel is constant or not.
+    Whether the volume of the vessel is constant or not. Default is True.
   `),
   }),
 );
 
 export type Vessel = z.infer<typeof VesselSchema>;
 
-// This object describes the proteins that were used or formed throughout
+// The Protein object represents enzymes and other proteins involved in
 // the experiment.
 export const ProteinSchema = z.lazy(() =>
   JsonLdSchema.extend({
     id: z.string().describe(`
-    Unique internal identifier of the protein.
+    Identifier of the protein, such as a UniProt ID, or a custom
+    identifier.
   `),
-    name: z.string(),
-    constant: z.boolean(),
+    name: z.string().describe(`
+    Name of the protein.
+  `),
+    constant: z.boolean().describe(`
+    Whether the concentration of the protein is constant through the
+    experiment or not. Default is True.
+  `),
     sequence: z.string().nullable().describe(`
     Amino acid sequence of the protein
   `),
     vessel_id: z.string().nullable().describe(`
-    Unique identifier of the vessel this protein has been used in.
+    Identifier of the vessel this protein has been applied to.
   `),
     ecnumber: z.string().nullable().describe(`
     EC number of the protein.
   `),
     organism: z.string().nullable().describe(`
-    Organism the protein was expressed in.
+    Expression host organism of the protein.
   `),
     organism_tax_id: z.string().nullable().describe(`
     Taxonomy identifier of the expression host.
   `),
     references: z.array(z.string()).describe(`
-    Array of references to publications, database entries, etc. that
-    describe the protein.
+    List of references to publications, database entries, etc. that
+    describe or reference the protein.
   `),
   }),
 );
 
 export type Protein = z.infer<typeof ProteinSchema>;
 
-// This object describes complexes made of reactants and/or proteins that
-// were used or produced in the course of the experiment.
+// The Complex object allows the grouping of multiple species using
+// their . This enables the representation of protein-small molecule
+// complexes (e.g., enzyme-substrate complexes) as well as buffer or
+// solvent mixtures (combinations of SmallMolecule species).
 export const ComplexSchema = z.lazy(() =>
   JsonLdSchema.extend({
     id: z.string().describe(`
     Unique identifier of the complex.
   `),
-    name: z.string(),
-    constant: z.boolean(),
+    name: z.string().describe(`
+    Name of the complex.
+  `),
+    constant: z.boolean().describe(`
+    Whether the concentration of the complex is constant through the
+    experiment or not. Default is False.
+  `),
     vessel_id: z.string().nullable().describe(`
     Unique identifier of the vessel this complex has been used in.
   `),
@@ -189,41 +216,50 @@ export const ComplexSchema = z.lazy(() =>
 
 export type Complex = z.infer<typeof ComplexSchema>;
 
-// This object describes the reactants that were used or produced in the
-// course of the experiment.
+// The SmallMolecule object represents small chemical compounds
+// that participate in the experiment as substrates, products, or
+// modifiers. It captures key molecular identifiers like SMILES and
+// InChI.
 export const SmallMoleculeSchema = z.lazy(() =>
   JsonLdSchema.extend({
     id: z.string().describe(`
-    Unique identifier of the small molecule.
+    Identifier of the small molecule, such as a Pubchem ID, ChEBI ID, or a
+    custom identifier.
   `),
-    name: z.string(),
-    constant: z.boolean(),
+    name: z.string().describe(`
+    Name of the small molecule.
+  `),
+    constant: z.boolean().describe(`
+    Whether the concentration of the small molecule is constant through
+    the experiment or not. Default is False.
+  `),
     vessel_id: z.string().nullable().describe(`
-    Unique identifier of the vessel this small molecule has been used in.
+    Identifier of the vessel this small molecule has been used in.
   `),
     canonical_smiles: z.string().nullable().describe(`
     Canonical Simplified Molecular-Input Line-Entry System (SMILES)
-    encoding of the reactant.
+    encoding of the small molecule.
   `),
     inchi: z.string().nullable().describe(`
-    International Chemical Identifier (InChI) encoding of the reactant.
+    International Chemical Identifier (InChI) encoding of the small
+    molecule.
   `),
     inchikey: z.string().nullable().describe(`
     Hashed International Chemical Identifier (InChIKey) encoding of the
-    reactant.
+    small molecule.
   `),
     references: z.array(z.string()).describe(`
-    Array of references to publications, database entries, etc. that
-    describe the reactant.
+    List of references to publications, database entries, etc. that
+    describe or reference the small molecule.
   `),
   }),
 );
 
 export type SmallMolecule = z.infer<typeof SmallMoleculeSchema>;
 
-// This object describes a chemical or enzymatic reaction that was
-// investigated in the course of the experiment. All species used
-// within this object need to be part of the data model.
+// The Reaction object represents a chemical or enzymatic reaction and
+// holds the different species and modifiers that are part of the
+// reaction.
 export const ReactionSchema = z.lazy(() =>
   JsonLdSchema.extend({
     id: z.string().describe(`
@@ -233,7 +269,7 @@ export const ReactionSchema = z.lazy(() =>
     Name of the reaction.
   `),
     reversible: z.boolean().describe(`
-    Whether the reaction is reversible or irreversible
+    Whether the reaction is reversible or irreversible. Default is False.
   `),
     kinetic_law: EquationSchema.nullable().describe(`
     Mathematical expression of the reaction.
@@ -250,36 +286,40 @@ export const ReactionSchema = z.lazy(() =>
 
 export type Reaction = z.infer<typeof ReactionSchema>;
 
-// This object is part of the Reaction object and describes either an
-// educt, product or modifier. The latter includes buffers, counter-
-// ions as well as proteins/enzymes.
+// This object is part of the object and describes a species
+// (SmallMolecule, Protein, Complex) participating in the reaction.
+// THE TYPE OF THE REACTION ELEMENT IS SPECIFIED IN THE TYPE FIELD.
+// The stochiometry is of the species is specified in the field,
+// whereas negative values indicate that the species is a reactant
+// and positive values indicate that the species is a product of the
+// reaction.
 export const ReactionElementSchema = z.lazy(() =>
   JsonLdSchema.extend({
     species_id: z.string().describe(`
     Internal identifier to either a protein or reactant defined in the
-    EnzymeMLDocument.
+    EnzymeML Document.
   `),
     stoichiometry: z.number().describe(`
-    Float number representing the associated stoichiometry.
+    Float number representing the associated stoichiometry. Negative
+    values indicate that the species is a reactant and positive values
+    indicate that the species is a product of the reaction.
   `),
   }),
 );
 
 export type ReactionElement = z.infer<typeof ReactionElementSchema>;
 
-// This object describes an equation that can be used to model the
-// kinetics of a reaction. There are different types of equations
-// that can be used to model the kinetics of a reaction. The equation
-// can be an ordinary differential equation, a rate law or assignment
-// rule.
+// The Equation object describes a mathematical equation used to model
+// parts of a reaction system.
 export const EquationSchema = z.lazy(() =>
   JsonLdSchema.extend({
     species_id: z.string().describe(`
-    Internal identifier to a species defined in the EnzymeMLDocument,
-    given it is a rate equation.
+    Identifier of a defined species (SmallMolecule, Protein, Complex).
+    Represents the left hand side of the equation.
   `),
     equation: z.string().describe(`
-    Mathematical expression of the equation.
+    Mathematical expression of the equation. Represents the right hand
+    side of the equation.
   `),
     equation_type: EquationTypeSchema.describe(`
     Type of the equation.
@@ -293,34 +333,41 @@ export const EquationSchema = z.lazy(() =>
 export type Equation = z.infer<typeof EquationSchema>;
 
 // This object describes a variable that is part of an equation.
+// Variables can represent species concentrations, time, or other
+// quantities that appear in mathematical expressions. Each variable
+// must have a unique identifier, name, and symbol that is used in
+// equations.
 export const VariableSchema = z.lazy(() =>
   JsonLdSchema.extend({
     id: z.string().describe(`
-    Unique identifier of the variable.
+    Identifier of the variable.
   `),
     name: z.string().describe(`
     Name of the variable.
   `),
     symbol: z.string().describe(`
-    Symbol of the variable.
+    Equation symbol of the variable.
   `),
   }),
 );
 
 export type Variable = z.infer<typeof VariableSchema>;
 
-// This object describes the parameters of the kinetic model and can
-// include all estimated values.
+// This object describes parameters used in kinetic models, including
+// estimated values, bounds, and associated uncertainties. Parameters
+// can represent rate constants, binding constants, or other numerical
+// values that appear in rate equations or other mathematical
+// expressions.
 export const ParameterSchema = z.lazy(() =>
   JsonLdSchema.extend({
     id: z.string().describe(`
-    Unique identifier of the parameter.
+    Identifier of the parameter.
   `),
     name: z.string().describe(`
     Name of the parameter.
   `),
     symbol: z.string().describe(`
-    Symbol of the parameter.
+    Equation symbol of the parameter.
   `),
     value: z.number().nullable().describe(`
     Numerical value of the estimated parameter.
@@ -332,25 +379,30 @@ export const ParameterSchema = z.lazy(() =>
     Initial value that was used for the parameter estimation.
   `),
     upper_bound: z.number().nullable().describe(`
-    Upper bound of the estimated parameter.
+    Upper bound for the parameter value that was used for the parameter
+    estimation
   `),
     lower_bound: z.number().nullable().describe(`
-    Lower bound of the estimated parameter.
+    Lower bound for the parameter value that was used for the parameter
+    estimation
   `),
     stderr: z.number().nullable().describe(`
     Standard error of the estimated parameter.
   `),
     constant: z.boolean().nullable().describe(`
-    Specifies if this parameter is constant
+    Specifies if this parameter is constant. Default is True.
   `),
   }),
 );
 
 export type Parameter = z.infer<typeof ParameterSchema>;
 
-// This object describes the result of a measurement, which includes time
-// course data of any type defined in DataTypes. It includes initial
-// concentrations of all species used in a single measurement.
+// This object describes a single measurement, which includes time
+// course data of any type defined in DataTypes. It contains initial
+// concentrations and measurement data for all species involved in the
+// experiment. Multiple measurements can be grouped together using the
+// group_id field to indicate they are part of the same experimental
+// series.
 export const MeasurementSchema = z.lazy(() =>
   JsonLdSchema.extend({
     id: z.string().describe(`
@@ -361,13 +413,13 @@ export const MeasurementSchema = z.lazy(() =>
   `),
     species_data: z.array(MeasurementDataSchema).describe(`
     Measurement data of all species that were part of the measurement. A
-    species can refer to a protein, complex, or small molecule.
+    species refers to a Protein, Complex, or SmallMolecule.
   `),
     group_id: z.string().nullable().describe(`
     User-defined group ID to signal relationships between measurements.
   `),
     ph: z.number().nullable().describe(`
-    PH value of the measurement.
+    pH value of the measurement.
   `),
     temperature: z.number().nullable().describe(`
     Temperature of the measurement.
@@ -381,8 +433,11 @@ export const MeasurementSchema = z.lazy(() =>
 export type Measurement = z.infer<typeof MeasurementSchema>;
 
 // This object describes a single entity of a measurement, which
-// corresponds to one species. It also holds replicates that contain
-// time course data.
+// corresponds to one species (Protein, Complex, SmallMolecule). It
+// contains time course data for that species, including the initial
+// amount, prepared amount, and measured data points over time.
+// Endpoint data is treated as a time course data point with only one
+// data point.
 export const MeasurementDataSchema = z.lazy(() =>
   JsonLdSchema.extend({
     species_id: z.string().describe(`
@@ -396,25 +451,26 @@ export const MeasurementDataSchema = z.lazy(() =>
     SI unit of the data that was measured.
   `),
     data_type: DataTypesSchema.describe(`
-    Type of data that was measured (e.g. concentration)
+    Type of data that was measured (e.g. concentration, absorbance, etc.)
   `),
     prepared: z.number().nullable().describe(`
-    Amount of the reactant before the measurement. This field should
-    be used for specifying the prepared amount of a species in
-    the reaction mix. Not to be confused with , specifying the
-    concentration at the first data point from the array.
+    Amount of the the species before starting the measurement. This
+    field can be used for specifying the prepared amount of a species
+    in the reaction mix. Not to be confused with , specifying the
+    concentration of a species at the first data point from the array.
   `),
     data: z.array(z.number()).describe(`
     Data that was measured.
   `),
     time: z.array(z.number()).describe(`
-    Time steps of the replicate.
+    Corresponding time points of the .
   `),
     time_unit: UnitDefinitionSchema.nullable().describe(`
-    Time unit of the replicate.
+    Unit of the time points of the .
   `),
     is_simulated: z.boolean().describe(`
-    Whether or not the data has been generated by simulation.
+    Whether or not the data has been generated by simulation. Default
+    is False.
   `),
   }),
 );
@@ -469,12 +525,12 @@ export enum EquationType {
 export const EquationTypeSchema = z.nativeEnum(EquationType);
 
 export enum DataTypes {
-  ABSORBANCE = "http://purl.allotrope.org/ontologies/quality#AFQ_0000061",
-  CONCENTRATION = "http://purl.obolibrary.org/obo/PATO_0000033",
-  CONVERSION = "http://purl.allotrope.org/ontologies/quality#AFQ_0000226",
-  FLUORESCENCE = "http://purl.obolibrary.org/obo/PATO_0000018",
-  PEAK_AREA = "http://purl.allotrope.org/ontologies/result#AFR_0001073",
-  TRANSMITTANCE = "http://purl.allotrope.org/ontologies/result#AFR_0002261",
+  ABSORBANCE = "absorbance",
+  CONCENTRATION = "concentration",
+  CONVERSION = "conversion",
+  FLUORESCENCE = "fluorescence",
+  PEAK_AREA = "peakarea",
+  TRANSMITTANCE = "transmittance",
 }
 
 export const DataTypesSchema = z.nativeEnum(DataTypes);

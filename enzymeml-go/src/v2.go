@@ -11,14 +11,16 @@ package enzymeml_v2
 
 // EnzymeMLDocument
 //
-// This is the root object that composes all objects found in an EnzymeML document.
-// It also includes general metadata such as the name of the document, when
-// it was created/modified, and references to publications, databases, and
-// arbitrary links to the web.
+// The EnzymeMLDocument is the root object that serves as a container for all
+// components of an enzymatic experiment. It includes essential metadata about
+// the document itself, such as its title and creation/modification dates,
+// as well as references to related publications and databases. Additionally,
+// it contains comprehensive information about the experimental setup,
+// including reaction vessels, proteins, complexes, small molecules, reactions,
+// measurements, equations, and parameters.
 type EnzymeMLDocument struct {
 	ID             *uint           `json:"id,omitempty" xml:"id,attr,omitempty" gorm:"primaryKey,autoIncrement"`
 	Name           string          `json:"name" xml:"name" `
-	References     []string        `json:"references,omitempty" xml:"references,omitempty" `
 	Created        string          `json:"created,omitempty" xml:"created,omitempty" `
 	Modified       string          `json:"modified,omitempty" xml:"modified,omitempty" `
 	Creators       []Creator       `json:"creators,omitempty" xml:"creators,omitempty" gorm:"many2many:enzymemldocument_creators;"`
@@ -30,12 +32,16 @@ type EnzymeMLDocument struct {
 	Measurements   []Measurement   `json:"measurements,omitempty" xml:"measurements,omitempty" gorm:"many2many:enzymemldocument_measurements;"`
 	Equations      []Equation      `json:"equations,omitempty" xml:"equations,omitempty" gorm:"many2many:enzymemldocument_equations;"`
 	Parameters     []Parameter     `json:"parameters,omitempty" xml:"parameters,omitempty" gorm:"many2many:enzymemldocument_parameters;"`
+	References     []string        `json:"references,omitempty" xml:"references,omitempty" `
 }
 
 // Creator
 //
-// The creator object contains all information about authors that contributed to
-// the resulting document.
+// The Creator object represents an individual author or contributor who has
+// participated in creating or modifying the EnzymeML Document. It captures
+// essential personal information such as their name and contact details,
+// allowing proper attribution and enabling communication with the document's
+// creators.
 type Creator struct {
 	ID         *uint  `json:"id,omitempty" xml:"id,attr,omitempty" gorm:"primaryKey,autoIncrement"`
 	GivenName  string `json:"given_name" xml:"given_name" `
@@ -45,8 +51,9 @@ type Creator struct {
 
 // Vessel
 //
-// This object describes vessels in which the experiment has been carried out.
-// These can include any type of vessel used in biocatalytic experiments.
+// The Vessel object represents containers used to conduct experiments, such as
+// reaction vessels, microplates, or bioreactors. It captures key properties
+// like volume and whether the volume remains constant during the experiment.
 type Vessel struct {
 	Id       string         `json:"id" xml:"id" gorm:"primaryKey"`
 	Name     string         `json:"name" xml:"name" `
@@ -57,7 +64,7 @@ type Vessel struct {
 
 // Protein
 //
-// This object describes the proteins that were used or formed throughout the
+// The Protein object represents enzymes and other proteins involved in the
 // experiment.
 type Protein struct {
 	Id            string   `json:"id" xml:"id" gorm:"primaryKey"`
@@ -73,8 +80,10 @@ type Protein struct {
 
 // Complex
 //
-// This object describes complexes made of reactants and/or proteins that were used
-// or produced in the course of the experiment.
+// The Complex object allows the grouping of multiple species using their . This
+// enables the representation of protein-small molecule complexes (e.g., enzyme-
+// substrate complexes) as well as buffer or solvent mixtures (combinations of
+// SmallMolecule species).
 type Complex struct {
 	Id           string   `json:"id" xml:"id" gorm:"primaryKey"`
 	Name         string   `json:"name" xml:"name" `
@@ -85,8 +94,9 @@ type Complex struct {
 
 // SmallMolecule
 //
-// This object describes the reactants that were used or produced in the course of
-// the experiment.
+// The SmallMolecule object represents small chemical compounds that participate
+// in the experiment as substrates, products, or modifiers. It captures key
+// molecular identifiers like SMILES and InChI.
 type SmallMolecule struct {
 	Id              string   `json:"id" xml:"id" gorm:"primaryKey"`
 	Name            string   `json:"name" xml:"name" `
@@ -100,9 +110,8 @@ type SmallMolecule struct {
 
 // Reaction
 //
-// This object describes a chemical or enzymatic reaction that was investigated in
-// the course of the experiment. All species used within this object need to be
-// part of the data model.
+// The Reaction object represents a chemical or enzymatic reaction and holds the
+// different species and modifiers that are part of the reaction.
 type Reaction struct {
 	Id         string            `json:"id" xml:"id" gorm:"primaryKey"`
 	Name       string            `json:"name" xml:"name" `
@@ -114,9 +123,12 @@ type Reaction struct {
 
 // ReactionElement
 //
-// This object is part of the Reaction object and describes either an educt,
-// product or modifier. The latter includes buffers, counter-ions as well as
-// proteins/enzymes.
+// This object is part of the object and describes a species (SmallMolecule,
+// Protein, Complex) participating in the reaction. THE TYPE OF THE REACTION
+// ELEMENT IS SPECIFIED IN THE TYPE FIELD. The stochiometry is of the species
+// is specified in the field, whereas negative values indicate that the species
+// is a reactant and positive values indicate that the species is a product of
+// the reaction.
 type ReactionElement struct {
 	ID            *uint   `json:"id,omitempty" xml:"id,attr,omitempty" gorm:"primaryKey,autoIncrement"`
 	SpeciesId     string  `json:"species_id" xml:"species_id" `
@@ -125,10 +137,8 @@ type ReactionElement struct {
 
 // Equation
 //
-// This object describes an equation that can be used to model the kinetics of a
-// reaction. There are different types of equations that can be used to model
-// the kinetics of a reaction. The equation can be an ordinary differential
-// equation, a rate law or assignment rule.
+// The Equation object describes a mathematical equation used to model parts of a
+// reaction system.
 type Equation struct {
 	ID           *uint        `json:"id,omitempty" xml:"id,attr,omitempty" gorm:"primaryKey,autoIncrement"`
 	SpeciesId    string       `json:"species_id" xml:"species_id" `
@@ -139,7 +149,10 @@ type Equation struct {
 
 // Variable
 //
-// This object describes a variable that is part of an equation.
+// This object describes a variable that is part of an equation. Variables can
+// represent species concentrations, time, or other quantities that appear in
+// mathematical expressions. Each variable must have a unique identifier, name,
+// and symbol that is used in equations.
 type Variable struct {
 	Id     string `json:"id" xml:"id" gorm:"primaryKey"`
 	Name   string `json:"name" xml:"name" `
@@ -148,8 +161,10 @@ type Variable struct {
 
 // Parameter
 //
-// This object describes the parameters of the kinetic model and can include all
-// estimated values.
+// This object describes parameters used in kinetic models, including estimated
+// values, bounds, and associated uncertainties. Parameters can represent rate
+// constants, binding constants, or other numerical values that appear in rate
+// equations or other mathematical expressions.
 type Parameter struct {
 	Id           string         `json:"id" xml:"id" gorm:"primaryKey"`
 	Name         string         `json:"name" xml:"name" `
@@ -165,9 +180,11 @@ type Parameter struct {
 
 // Measurement
 //
-// This object describes the result of a measurement, which includes time course
-// data of any type defined in DataTypes. It includes initial concentrations of
-// all species used in a single measurement.
+// This object describes a single measurement, which includes time course data
+// of any type defined in DataTypes. It contains initial concentrations and
+// measurement data for all species involved in the experiment. Multiple
+// measurements can be grouped together using the group_id field to indicate
+// they are part of the same experimental series.
 type Measurement struct {
 	Id              string            `json:"id" xml:"id" gorm:"primaryKey"`
 	Name            string            `json:"name" xml:"name" `
@@ -180,8 +197,11 @@ type Measurement struct {
 
 // MeasurementData
 //
-// This object describes a single entity of a measurement, which corresponds to one
-// species. It also holds replicates that contain time course data.
+// This object describes a single entity of a measurement, which corresponds to
+// one species (Protein, Complex, SmallMolecule). It contains time course data
+// for that species, including the initial amount, prepared amount, and measured
+// data points over time. Endpoint data is treated as a time course data point
+// with only one data point.
 type MeasurementData struct {
 	ID          *uint          `json:"id,omitempty" xml:"id,attr,omitempty" gorm:"primaryKey,autoIncrement"`
 	SpeciesId   string         `json:"species_id" xml:"species_id" `
@@ -228,12 +248,12 @@ const (
 type DataTypes string
 
 const (
-	ABSORBANCE    DataTypes = "http://purl.allotrope.org/ontologies/quality#AFQ_0000061"
-	CONCENTRATION DataTypes = "http://purl.obolibrary.org/obo/PATO_0000033"
-	CONVERSION    DataTypes = "http://purl.allotrope.org/ontologies/quality#AFQ_0000226"
-	FLUORESCENCE  DataTypes = "http://purl.obolibrary.org/obo/PATO_0000018"
-	PEAK_AREA     DataTypes = "http://purl.allotrope.org/ontologies/result#AFR_0001073"
-	TRANSMITTANCE DataTypes = "http://purl.allotrope.org/ontologies/result#AFR_0002261"
+	ABSORBANCE    DataTypes = "absorbance"
+	CONCENTRATION DataTypes = "concentration"
+	CONVERSION    DataTypes = "conversion"
+	FLUORESCENCE  DataTypes = "fluorescence"
+	PEAK_AREA     DataTypes = "peakarea"
+	TRANSMITTANCE DataTypes = "transmittance"
 )
 
 type UnitType string

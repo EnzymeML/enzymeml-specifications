@@ -1,8 +1,8 @@
 @prefix sh: <http://www.w3.org/ns/shacl#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 @prefix enzml: <http://www.enzymeml.org/v2/> .
-@prefix OBO: <http://purl.obolibrary.org/obo/> .
 @prefix schema: <https://schema.org/> .
+@prefix OBO: <http://purl.obolibrary.org/obo/> .
 
 
 enzml:EnzymeMLDocumentShape
@@ -14,11 +14,6 @@ enzml:EnzymeMLDocumentShape
         sh:datatype xsd:string ;
         sh:minCount 1 ;
         sh:maxCount 1 ;
-    ];
-    sh:property [
-        sh:path schema:citation ;
-        sh:datatype xsd:string ;
-        sh:minCount 0 ;
     ];
     sh:property [
         sh:path schema:dateCreated ;
@@ -37,6 +32,11 @@ enzml:EnzymeMLDocumentShape
         sh:node md:CreatorShape ;
         sh:minCount 0 ;
     ];
+    sh:property [
+        sh:path schema:citation ;
+        sh:datatype xsd:string ;
+        sh:minCount 0 ;
+    ].
 
 enzml:CreatorShape
     a sh:NodeShape ;
@@ -88,6 +88,12 @@ enzml:ProteinShape
     a sh:NodeShape ;
     sh:targetClass md:Protein ;
 
+    sh:property [
+        sh:path schema:identifier ;
+        sh:datatype xsd:string ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+    ];
     sh:property [
         sh:path schema:name ;
         sh:datatype xsd:string ;

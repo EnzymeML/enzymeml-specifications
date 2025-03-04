@@ -28,32 +28,24 @@
                     </xs:documentation>
                 </xs:annotation>
             </xs:element>
-            <xs:element name="references" type="xs:string"  maxOccurs="unbounded">
-                <xs:annotation>
-                    <xs:documentation>
-                        Contains references to publications, databases, and arbitrary links to
-                        the web.
-                    </xs:documentation>
-                </xs:annotation>
-            </xs:element>
             <xs:element name="created" type="xs:string">
                 <xs:annotation>
                     <xs:documentation>
-                        Date the EnzymeML document was created.
+                        Date the EnzymeML Document was created.
                     </xs:documentation>
                 </xs:annotation>
             </xs:element>
             <xs:element name="modified" type="xs:string">
                 <xs:annotation>
                     <xs:documentation>
-                        Date the EnzymeML document was modified.
+                        Date the EnzymeML Document was modified.
                     </xs:documentation>
                 </xs:annotation>
             </xs:element>
             <xs:element name="creators">
                 <xs:annotation>
                     <xs:documentation>
-                        Contains all authors that are part of the experiment.
+                        Contains descriptions of all authors that are part of the experiment.
                     </xs:documentation>
                 </xs:annotation>
                 <xs:complexType>
@@ -65,7 +57,7 @@
             <xs:element name="vessels">
                 <xs:annotation>
                     <xs:documentation>
-                        Contains all vessels that are part of the experiment.
+                        Contains descriptions of all vessels that are part of the experiment.
                     </xs:documentation>
                 </xs:annotation>
                 <xs:complexType>
@@ -77,7 +69,9 @@
             <xs:element name="proteins">
                 <xs:annotation>
                     <xs:documentation>
-                        Contains all proteins that are part of the experiment.
+                        Contains descriptions of all proteins that are part of the experiment
+                        that may be referenced in reactions,
+                        measurements, and equations.
                     </xs:documentation>
                 </xs:annotation>
                 <xs:complexType>
@@ -89,7 +83,9 @@
             <xs:element name="complexes">
                 <xs:annotation>
                     <xs:documentation>
-                        Contains all complexes that are part of the experiment.
+                        Contains descriptions of all complexes that are part of the experiment
+                        that may be referenced in reactions,
+                        measurements, and equations.
                     </xs:documentation>
                 </xs:annotation>
                 <xs:complexType>
@@ -101,7 +97,9 @@
             <xs:element name="small_molecules">
                 <xs:annotation>
                     <xs:documentation>
-                        Contains all reactants that are part of the experiment.
+                        Contains descriptions of all reactants that are part of the experiment
+                        that may be referenced in reactions,
+                        measurements, and equations.
                     </xs:documentation>
                 </xs:annotation>
                 <xs:complexType>
@@ -113,7 +111,8 @@
             <xs:element name="reactions">
                 <xs:annotation>
                     <xs:documentation>
-                        Dictionary mapping from reaction IDs to reaction-describing objects.
+                        Contains descriptions of all reactions that are part of the
+                        experiment.
                     </xs:documentation>
                 </xs:annotation>
                 <xs:complexType>
@@ -125,7 +124,8 @@
             <xs:element name="measurements">
                 <xs:annotation>
                     <xs:documentation>
-                        Contains measurements that describe outcomes of an experiment.
+                        Contains descriptions of all measurements that are part of the
+                        experiment.
                     </xs:documentation>
                 </xs:annotation>
                 <xs:complexType>
@@ -137,8 +137,8 @@
             <xs:element name="equations">
                 <xs:annotation>
                     <xs:documentation>
-                        Contains ordinary differential equations that describe the kinetic
-                        model.
+                        Contains descriptions of all equations that are part of the
+                        experiment.
                     </xs:documentation>
                 </xs:annotation>
                 <xs:complexType>
@@ -150,7 +150,8 @@
             <xs:element name="parameters">
                 <xs:annotation>
                     <xs:documentation>
-                        List of parameters that are part of the equation
+                        Contains descriptions of all parameters that are part of the
+                        experiment and may be used in equations.
                     </xs:documentation>
                 </xs:annotation>
                 <xs:complexType>
@@ -158,6 +159,14 @@
                         <xs:element name="Parameter" type="ParameterType" maxOccurs="unbounded"/>
                     </xs:sequence>
                 </xs:complexType>
+            </xs:element>
+            <xs:element name="references" type="xs:string"  maxOccurs="unbounded">
+                <xs:annotation>
+                    <xs:documentation>
+                        Contains references to publications, databases, and arbitrary links to
+                        the web.
+                    </xs:documentation>
+                </xs:annotation>
             </xs:element>
         </xs:sequence>
     </xs:complexType>
@@ -223,7 +232,7 @@
             <xs:element name="constant" type="xs:boolean" default="true">
                 <xs:annotation>
                     <xs:documentation>
-                        Whether the volume of the vessel is constant or not.
+                        Whether the volume of the vessel is constant or not. Default is True.
                     </xs:documentation>
                 </xs:annotation>
             </xs:element>
@@ -236,12 +245,26 @@
             <xs:element name="id" type="xs:string">
                 <xs:annotation>
                     <xs:documentation>
-                        Unique internal identifier of the protein.
+                        Identifier of the protein, such as a UniProt ID, or a custom
+                        identifier.
                     </xs:documentation>
                 </xs:annotation>
             </xs:element>
-            <xs:element name="name" type="xs:string"/>
-            <xs:element name="constant" type="xs:boolean" default="false"/>
+            <xs:element name="name" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>
+                        Name of the protein.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="constant" type="xs:boolean" default="true">
+                <xs:annotation>
+                    <xs:documentation>
+                        Whether the concentration of the protein is constant through the
+                        experiment or not. Default is True.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
             <xs:element name="sequence" type="xs:string">
                 <xs:annotation>
                     <xs:documentation>
@@ -252,7 +275,7 @@
             <xs:element name="vessel_id" type="xs:string">
                 <xs:annotation>
                     <xs:documentation>
-                        Unique identifier of the vessel this protein has been used in.
+                        Identifier of the vessel this protein has been applied to.
                     </xs:documentation>
                 </xs:annotation>
             </xs:element>
@@ -266,7 +289,7 @@
             <xs:element name="organism" type="xs:string">
                 <xs:annotation>
                     <xs:documentation>
-                        Organism the protein was expressed in.
+                        Expression host organism of the protein.
                     </xs:documentation>
                 </xs:annotation>
             </xs:element>
@@ -280,8 +303,8 @@
             <xs:element name="references" type="xs:string"  maxOccurs="unbounded">
                 <xs:annotation>
                     <xs:documentation>
-                        Array of references to publications, database entries, etc. that
-                        describe the protein.
+                        List of references to publications, database entries, etc. that
+                        describe or reference the protein.
                     </xs:documentation>
                 </xs:annotation>
             </xs:element>
@@ -298,8 +321,21 @@
                     </xs:documentation>
                 </xs:annotation>
             </xs:element>
-            <xs:element name="name" type="xs:string"/>
-            <xs:element name="constant" type="xs:boolean" default="false"/>
+            <xs:element name="name" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>
+                        Name of the complex.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="constant" type="xs:boolean" default="false">
+                <xs:annotation>
+                    <xs:documentation>
+                        Whether the concentration of the complex is constant through the
+                        experiment or not. Default is False.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
             <xs:element name="vessel_id" type="xs:string">
                 <xs:annotation>
                     <xs:documentation>
@@ -323,16 +359,30 @@
             <xs:element name="id" type="xs:string">
                 <xs:annotation>
                     <xs:documentation>
-                        Unique identifier of the small molecule.
+                        Identifier of the small molecule, such as a Pubchem ID, ChEBI ID, or a
+                        custom identifier.
                     </xs:documentation>
                 </xs:annotation>
             </xs:element>
-            <xs:element name="name" type="xs:string"/>
-            <xs:element name="constant" type="xs:boolean" default="false"/>
+            <xs:element name="name" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>
+                        Name of the small molecule.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="constant" type="xs:boolean" default="false">
+                <xs:annotation>
+                    <xs:documentation>
+                        Whether the concentration of the small molecule is constant through
+                        the experiment or not. Default is False.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
             <xs:element name="vessel_id" type="xs:string">
                 <xs:annotation>
                     <xs:documentation>
-                        Unique identifier of the vessel this small molecule has been used in.
+                        Identifier of the vessel this small molecule has been used in.
                     </xs:documentation>
                 </xs:annotation>
             </xs:element>
@@ -340,14 +390,15 @@
                 <xs:annotation>
                     <xs:documentation>
                         Canonical Simplified Molecular-Input Line-Entry System (SMILES)
-                        encoding of the reactant.
+                        encoding of the small molecule.
                     </xs:documentation>
                 </xs:annotation>
             </xs:element>
             <xs:element name="inchi" type="xs:string">
                 <xs:annotation>
                     <xs:documentation>
-                        International Chemical Identifier (InChI) encoding of the reactant.
+                        International Chemical Identifier (InChI) encoding of the small
+                        molecule.
                     </xs:documentation>
                 </xs:annotation>
             </xs:element>
@@ -355,15 +406,15 @@
                 <xs:annotation>
                     <xs:documentation>
                         Hashed International Chemical Identifier (InChIKey) encoding of the
-                        reactant.
+                        small molecule.
                     </xs:documentation>
                 </xs:annotation>
             </xs:element>
             <xs:element name="references" type="xs:string"  maxOccurs="unbounded">
                 <xs:annotation>
                     <xs:documentation>
-                        Array of references to publications, database entries, etc. that
-                        describe the reactant.
+                        List of references to publications, database entries, etc. that
+                        describe or reference the small molecule.
                     </xs:documentation>
                 </xs:annotation>
             </xs:element>
@@ -390,7 +441,7 @@
             <xs:element name="reversible" type="xs:boolean" default="false">
                 <xs:annotation>
                     <xs:documentation>
-                        Whether the reaction is reversible or irreversible
+                        Whether the reaction is reversible or irreversible. Default is False.
                     </xs:documentation>
                 </xs:annotation>
             </xs:element>
@@ -431,14 +482,17 @@
                 <xs:annotation>
                     <xs:documentation>
                         Internal identifier to either a protein or reactant defined in the
-                        EnzymeMLDocument.
+                        EnzymeML Document.
                     </xs:documentation>
                 </xs:annotation>
             </xs:element>
             <xs:element name="stoichiometry" type="xs:float">
                 <xs:annotation>
                     <xs:documentation>
-                        Float number representing the associated stoichiometry.
+                        Float number representing the associated stoichiometry. Negative
+                        values indicate that the species is a reactant
+                        and positive values indicate that the species
+                        is a product of the reaction.
                     </xs:documentation>
                 </xs:annotation>
             </xs:element>
@@ -451,15 +505,16 @@
             <xs:element name="species_id" type="xs:string">
                 <xs:annotation>
                     <xs:documentation>
-                        Internal identifier to a species defined in the EnzymeMLDocument,
-                        given it is a rate equation.
+                        Identifier of a defined species (SmallMolecule, Protein, Complex).
+                        Represents the left hand side of the equation.
                     </xs:documentation>
                 </xs:annotation>
             </xs:element>
             <xs:element name="equation" type="xs:string">
                 <xs:annotation>
                     <xs:documentation>
-                        Mathematical expression of the equation.
+                        Mathematical expression of the equation. Represents the right hand
+                        side of the equation.
                     </xs:documentation>
                 </xs:annotation>
             </xs:element>
@@ -491,7 +546,7 @@
             <xs:element name="id" type="xs:string">
                 <xs:annotation>
                     <xs:documentation>
-                        Unique identifier of the variable.
+                        Identifier of the variable.
                     </xs:documentation>
                 </xs:annotation>
             </xs:element>
@@ -505,7 +560,7 @@
             <xs:element name="symbol" type="xs:string">
                 <xs:annotation>
                     <xs:documentation>
-                        Symbol of the variable.
+                        Equation symbol of the variable.
                     </xs:documentation>
                 </xs:annotation>
             </xs:element>
@@ -518,7 +573,7 @@
             <xs:element name="id" type="xs:string">
                 <xs:annotation>
                     <xs:documentation>
-                        Unique identifier of the parameter.
+                        Identifier of the parameter.
                     </xs:documentation>
                 </xs:annotation>
             </xs:element>
@@ -532,7 +587,7 @@
             <xs:element name="symbol" type="xs:string">
                 <xs:annotation>
                     <xs:documentation>
-                        Symbol of the parameter.
+                        Equation symbol of the parameter.
                     </xs:documentation>
                 </xs:annotation>
             </xs:element>
@@ -560,14 +615,16 @@
             <xs:element name="upper_bound" type="xs:float">
                 <xs:annotation>
                     <xs:documentation>
-                        Upper bound of the estimated parameter.
+                        Upper bound for the parameter value that was used for the parameter
+                        estimation
                     </xs:documentation>
                 </xs:annotation>
             </xs:element>
             <xs:element name="lower_bound" type="xs:float">
                 <xs:annotation>
                     <xs:documentation>
-                        Lower bound of the estimated parameter.
+                        Lower bound for the parameter value that was used for the parameter
+                        estimation
                     </xs:documentation>
                 </xs:annotation>
             </xs:element>
@@ -581,7 +638,7 @@
             <xs:element name="constant" type="xs:boolean" default="true">
                 <xs:annotation>
                     <xs:documentation>
-                        Specifies if this parameter is constant
+                        Specifies if this parameter is constant. Default is True.
                     </xs:documentation>
                 </xs:annotation>
             </xs:element>
@@ -608,9 +665,9 @@
             <xs:element name="species_data">
                 <xs:annotation>
                     <xs:documentation>
-                        Measurement data of all species that were part of the measurement. A
-                        species can refer to a protein, complex, or
-                        small molecule.
+                        Measurement data of all species that were part of the measurement.
+                        A species refers to a Protein, Complex, or
+                        SmallMolecule.
                     </xs:documentation>
                 </xs:annotation>
                 <xs:complexType>
@@ -629,7 +686,7 @@
             <xs:element name="ph" type="xs:float">
                 <xs:annotation>
                     <xs:documentation>
-                        PH value of the measurement.
+                        pH value of the measurement.
                     </xs:documentation>
                 </xs:annotation>
             </xs:element>
@@ -678,18 +735,19 @@
             <xs:element name="data_type" type="DataTypesType">
                 <xs:annotation>
                     <xs:documentation>
-                        Type of data that was measured (e.g. concentration)
+                        Type of data that was measured (e.g. concentration, absorbance, etc.)
                     </xs:documentation>
                 </xs:annotation>
             </xs:element>
             <xs:element name="prepared" type="xs:float">
                 <xs:annotation>
                     <xs:documentation>
-                        Amount of the reactant before the measurement. This field should
-                        be used for specifying the prepared amount
+                        Amount of the the species before starting the measurement. This field
+                        can be used for specifying the prepared amount
                         of a species in the reaction mix. Not to be
                         confused with , specifying the concentration
-                        at the first data point from the array.
+                        of a species at the first data point from
+                        the array.
                     </xs:documentation>
                 </xs:annotation>
             </xs:element>
@@ -703,21 +761,22 @@
             <xs:element name="time" type="xs:float"  maxOccurs="unbounded">
                 <xs:annotation>
                     <xs:documentation>
-                        Time steps of the replicate.
+                        Corresponding time points of the .
                     </xs:documentation>
                 </xs:annotation>
             </xs:element>
             <xs:element name="time_unit" type="UnitDefinitionType">
                 <xs:annotation>
                     <xs:documentation>
-                        Time unit of the replicate.
+                        Unit of the time points of the .
                     </xs:documentation>
                 </xs:annotation>
             </xs:element>
             <xs:element name="is_simulated" type="xs:boolean" default="false">
                 <xs:annotation>
                     <xs:documentation>
-                        Whether or not the data has been generated by simulation.
+                        Whether or not the data has been generated by simulation. Default
+                        is False.
                     </xs:documentation>
                 </xs:annotation>
             </xs:element>
@@ -758,7 +817,7 @@
 
     <!-- BaseUnit Definition -->
     <xs:complexType name="BaseUnitType">
-        <xs:attribute name="kind" type="xs:UnitType"  use="required">
+        <xs:attribute name="kind" type="UnitTypeType"  use="required">
             <xs:annotation>
                 <xs:documentation>
                     Kind of the base unit (e.g., meter, kilogram, second).
@@ -800,12 +859,12 @@
     <!-- Enum DataTypes Definition -->
     <xs:simpleType name="DataTypesType">
         <xs:restriction base="xs:string">
-            <xs:enumeration value="http://purl.allotrope.org/ontologies/quality#AFQ_0000061"/>
-            <xs:enumeration value="http://purl.obolibrary.org/obo/PATO_0000033"/>
-            <xs:enumeration value="http://purl.allotrope.org/ontologies/quality#AFQ_0000226"/>
-            <xs:enumeration value="http://purl.obolibrary.org/obo/PATO_0000018"/>
-            <xs:enumeration value="http://purl.allotrope.org/ontologies/result#AFR_0001073"/>
-            <xs:enumeration value="http://purl.allotrope.org/ontologies/result#AFR_0002261"/>
+            <xs:enumeration value="absorbance"/>
+            <xs:enumeration value="concentration"/>
+            <xs:enumeration value="conversion"/>
+            <xs:enumeration value="fluorescence"/>
+            <xs:enumeration value="peakarea"/>
+            <xs:enumeration value="transmittance"/>
         </xs:restriction>
     </xs:simpleType>
     <!-- Enum UnitType Definition -->
