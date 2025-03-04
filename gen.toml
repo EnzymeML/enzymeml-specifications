@@ -11,8 +11,11 @@ protobuf = { out = "schemes/*/enzymeml-*.proto", per-spec = true }
 graphql = { out = "schemes/*/enzymeml-*.graphql", per-spec = true }
 linkml = { out = "schemes/*/enzymeml-*-linkml.yaml", per-spec = true }
 json-schema = { out = "schemes/*/enzymeml-*.json", root = "EnzymeMLDocument", per-spec = true }
-python-pydantic-xml = { out = "pyenzyme/*.py", per-spec = true }
 mk-docs = { out = "docs/versions/*.md", nav = "true", per-spec = true }
 typescript-zod = { out = "enzymeml-ts/src/*.ts", per-spec = true }
-rust = { out = "enzymeml-rs/src/versions/*.rs", per-spec = true }
 golang = { out = "enzymeml-go/src/*.go", per-spec = true }
+julia = { out = "enzymeml-jl/src/*.jl", per-spec = true, fname-case = "Pascal" }
+
+# These libraries have their own repositories and are not part of this one
+# rust = { out = "enzymeml-rs/src/versions/*.rs", per-spec = true }
+# python-pydantic = { out = "enzymeml-py/models/*.py", per-spec = true, astropy = true }
