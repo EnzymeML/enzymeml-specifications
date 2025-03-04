@@ -96,7 +96,7 @@ var jsonTree = (function () {
      * @param Parent {Function} - a parent constructor
      */
     inherits: (function () {
-      var F = function () {};
+      var F = function () { };
 
       return function (Child, Parent) {
         F.prototype = Parent.prototype;
@@ -782,18 +782,18 @@ var jsonTree = (function () {
      * Returns the source json-string (pretty-printed)
      *
      * @param {boolean} isPrettyPrinted - 'true' for pretty-printed string
-     * @returns {string} - for exemple, '{"a":2,"b":3}'
+     * @returns {string} - for example, '{"a":2,"b":3}'
      */
     toSourceJSON: function (isPrettyPrinted) {
       if (!isPrettyPrinted) {
         return JSON.stringify(this.sourceJSONObj);
       }
 
-      var DELIMETER = "[%^$#$%^%]",
-        jsonStr = JSON.stringify(this.sourceJSONObj, null, DELIMETER);
+      var DELIMITER = "[%^$#$%^%]",
+        jsonStr = JSON.stringify(this.sourceJSONObj, null, DELIMITER);
 
       jsonStr = jsonStr.split("\n").join("<br />");
-      jsonStr = jsonStr.split(DELIMETER).join("&nbsp;&nbsp;&nbsp;&nbsp;");
+      jsonStr = jsonStr.split(DELIMITER).join("&nbsp;&nbsp;&nbsp;&nbsp;");
 
       return jsonStr;
     },
