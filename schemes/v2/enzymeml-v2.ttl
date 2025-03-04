@@ -180,6 +180,28 @@ enzml:ReactionShape
         sh:maxCount 1 ;
     ];
 
+enzml:ReactionElementShape
+    a sh:NodeShape ;
+    sh:targetClass md:ReactionElement ;
+
+    sh:property [
+        sh:path schema:identifier ;
+        sh:datatype xsd:string ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+    ];
+
+enzml:EquationShape
+    a sh:NodeShape ;
+    sh:targetClass md:Equation ;
+
+    sh:property [
+        sh:path schema:identifier ;
+        sh:datatype xsd:string ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+    ];
+
 enzml:VariableShape
     a sh:NodeShape ;
     sh:targetClass md:Variable ;

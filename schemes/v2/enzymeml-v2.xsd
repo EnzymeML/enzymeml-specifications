@@ -448,6 +448,14 @@
     <!-- Equation Definition -->
     <xs:complexType name="EquationType">
         <xs:sequence>
+            <xs:element name="species_id" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>
+                        Internal identifier to a species defined in the EnzymeMLDocument,
+                        given it is a rate equation.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
             <xs:element name="equation" type="xs:string">
                 <xs:annotation>
                     <xs:documentation>
@@ -459,14 +467,6 @@
                 <xs:annotation>
                     <xs:documentation>
                         Type of the equation.
-                    </xs:documentation>
-                </xs:annotation>
-            </xs:element>
-            <xs:element name="species_id" type="xs:string">
-                <xs:annotation>
-                    <xs:documentation>
-                        Internal identifier to a species defined in the EnzymeMLDocument,
-                        given it is a rate equation.
                     </xs:documentation>
                 </xs:annotation>
             </xs:element>
@@ -557,14 +557,14 @@
                     </xs:documentation>
                 </xs:annotation>
             </xs:element>
-            <xs:element name="upper" type="xs:float">
+            <xs:element name="upper_bound" type="xs:float">
                 <xs:annotation>
                     <xs:documentation>
                         Upper bound of the estimated parameter.
                     </xs:documentation>
                 </xs:annotation>
             </xs:element>
-            <xs:element name="lower" type="xs:float">
+            <xs:element name="lower_bound" type="xs:float">
                 <xs:annotation>
                     <xs:documentation>
                         Lower bound of the estimated parameter.
