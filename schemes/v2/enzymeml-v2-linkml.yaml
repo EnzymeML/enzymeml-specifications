@@ -1,6 +1,6 @@
 id: enzml
-name: EnzymeML
-title: EnzymeML
+name: EnzymeML V2
+title: EnzymeML V2
 prefixes:
   schema: https://schema.org/
   OBO: http://purl.obolibrary.org/obo/
@@ -227,6 +227,7 @@ classes:
     attributes:
       species_id:
         description: Internal identifier to either a protein or reactant defined in the EnzymeMLDocument.
+        slot_uri: schema:identifier
         identifier: true
         required: true
       stoichiometry:
@@ -236,6 +237,11 @@ classes:
   Equation:
     description: This object describes an equation that can be used to model the kinetics of a reaction. There are different types of equations that can be used to model the kinetics of a reaction. The equation can be an ordinary differential equation, a rate law or assignment rule.
     attributes:
+      species_id:
+        description: Internal identifier to a species defined in the EnzymeMLDocument, given it is a rate equation.
+        slot_uri: schema:identifier
+        identifier: true
+        required: true
       equation:
         description: Mathematical expression of the equation.
         required: true
@@ -243,9 +249,6 @@ classes:
         description: Type of the equation.
         required: true
         range: EquationType
-      species_id:
-        description: Internal identifier to a species defined in the EnzymeMLDocument, given it is a rate equation.
-        identifier: true
       variables:
         description: List of variables that are part of the equation
         range: Variable
@@ -256,6 +259,7 @@ classes:
       id:
         description: Unique identifier of the variable.
         slot_uri: schema:identifier
+        identifier: true
         required: true
       name:
         description: Name of the variable.
@@ -286,10 +290,10 @@ classes:
       initial_value:
         description: Initial value that was used for the parameter estimation.
         range: float
-      upper:
+      upper_bound:
         description: Upper bound of the estimated parameter.
         range: float
-      lower:
+      lower_bound:
         description: Lower bound of the estimated parameter.
         range: float
       stderr:

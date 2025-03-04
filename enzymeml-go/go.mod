@@ -1,3 +1,3 @@
-module github.com/enzymeml/enzymeml-specifications/enzymeml-go
+module enzymeml
 
 go 1.23.5

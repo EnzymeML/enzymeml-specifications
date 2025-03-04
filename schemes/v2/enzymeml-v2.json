@@ -247,7 +247,8 @@
         "species_id": {
           "title": "species_id",
           "type": "string",
-          "description": "Internal identifier to a species defined in the EnzymeMLDocument, given it is a rate equation."
+          "description": "Internal identifier to a species defined in the EnzymeMLDocument, given it is a rate equation.",
+          "$term": "https://schema.org/identifier"
         },
         "variables": {
           "title": "variables",
@@ -259,6 +260,7 @@
         }
       },
       "required": [
+        "species_id",
         "equation",
         "equation_type"
       ],
@@ -414,8 +416,8 @@
           "type": "number",
           "description": "Initial value that was used for the parameter estimation."
         },
-        "lower": {
-          "title": "lower",
+        "lower_bound": {
+          "title": "lower_bound",
           "type": "number",
           "description": "Lower bound of the estimated parameter."
         },
@@ -439,8 +441,8 @@
           "description": "Unit of the estimated parameter.",
           "$ref": "#/$defs/UnitDefinition"
         },
-        "upper": {
-          "title": "upper",
+        "upper_bound": {
+          "title": "upper_bound",
           "type": "number",
           "description": "Upper bound of the estimated parameter."
         },
@@ -581,7 +583,7 @@
           "title": "species_id",
           "type": "string",
           "description": "Internal identifier to either a protein or reactant defined in the EnzymeMLDocument.",
-          "schema": "identifier"
+          "$term": "https://schema.org/identifier"
         },
         "stoichiometry": {
           "title": "stoichiometry",

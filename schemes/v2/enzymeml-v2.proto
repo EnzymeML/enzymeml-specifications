@@ -11,9 +11,9 @@
 
 syntax = "proto3";
 
-package enzymeml;
+package enzymeml v2;
 //
-// EnzymeML Enum definitions
+// EnzymeML V2 Enum definitions
 //
 enum EquationType {
   ASSIGNMENT = 0; // assignment
@@ -68,7 +68,7 @@ enum UnitType {
 
 
 //
-// EnzymeML Message definitions
+// EnzymeML V2 Message definitions
 //
 // OneOf type definitions for attributes with multiple types
 message EnzymeMLDocument {
@@ -204,13 +204,13 @@ message ReactionElement {
 }
 
 message Equation {
-  // Mathematical expression of the equation.
-  string equation = 1;
-  // Type of the equation.
-  EquationType equation_type = 2;
   // Internal identifier to a species defined in the EnzymeMLDocument,
   // given it is a rate equation.
-  optional string species_id = 3;
+  string species_id = 1;
+  // Mathematical expression of the equation.
+  string equation = 2;
+  // Type of the equation.
+  EquationType equation_type = 3;
   // List of variables that are part of the equation
   repeated Variable variables = 4;
 }
@@ -238,9 +238,9 @@ message Parameter {
   // Initial value that was used for the parameter estimation.
   optional double initial_value = 6;
   // Upper bound of the estimated parameter.
-  optional double upper = 7;
+  optional double upper_bound = 7;
   // Lower bound of the estimated parameter.
-  optional double lower = 8;
+  optional double lower_bound = 8;
   // Standard error of the estimated parameter.
   optional double stderr = 9;
   // Specifies if this parameter is constant

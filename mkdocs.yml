@@ -5,7 +5,7 @@ edit_uri: edit/main/docs/
 theme:
   logo: img/enzml_logo.png
   name: material
-  custom_dir: overrides
+  custom_dir: docs/overrides
 
   font:
     text: Open Sans
@@ -20,6 +20,7 @@ theme:
     - navigation.top
     - navigation.tracking
     - toc.follow
+    - toc.integrate
     - search.suggest
     - content.action.edit
     - content.code.copy
@@ -40,7 +41,6 @@ theme:
         name: Switch to light mode
 nav:
   - Home: index.md
-  - Use cases: use_cases.md
   - Team: team.md
   - Publications: publications.md
   - "EnzymeML Data Model":

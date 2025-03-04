@@ -137,6 +137,20 @@ enzml:Reaction {
         ]
     };
 }
+enzml:ReactionElement {
+    schema:identifier xsd:string {
+        shex:annotation [
+            shex:label "species_id"
+        ]
+    };
+}
+enzml:Equation {
+    schema:identifier xsd:string {
+        shex:annotation [
+            shex:label "species_id"
+        ]
+    };
+}
 enzml:Variable {
     schema:identifier xsd:string {
         shex:annotation [
