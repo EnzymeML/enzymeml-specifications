@@ -7,10 +7,10 @@ hide:
 <div class="container">
   <div class="instructions">
     <p>
-      The Validation Tool is designed to help you ensure your EnzymeML document is correct and consistent according to predefined rules and standards. It performs two main functions: schema validation and consistency checks.
+      Upload an EnzymeML JSON file to check its validity. The Schema Validator checks if the EnzymeML Document conforms to the EnzymeML Schema. The Consistency Checker checks if the EnzymeML Document aligns with best practices. Warnings and Errors from the Consistency Checker are intended to communicate potential issues that may affect the interoperability of the document.
     </p>
     <p>
-      For this, upload your EnzymeML JSON file using the file input below. The tool will then display the results of the validation and consistency checks.
+      Upload an EnzymeML JSON file using the file input below.
     </p>
     <label for="file-input" class="upload-label">Choose File</label>
     <input type="file" id="file-input" class="upload-input" />
