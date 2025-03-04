@@ -8,7 +8,7 @@
 
 # Union type definitions
 
-# EnzymeML Type definitions
+# EnzymeML V2 Type definitions
 type EnzymeMLDocument {
   name: String!
   references: [String]
@@ -85,9 +85,9 @@ type ReactionElement {
 }
 
 type Equation {
+  species_id: String!
   equation: String!
   equation_type: EquationType!
-  species_id: String
   variables: [Variable]
 }
 
@@ -104,8 +104,8 @@ type Parameter {
   value: Float
   unit: UnitDefinition
   initial_value: Float
-  upper: Float
-  lower: Float
+  upper_bound: Float
+  lower_bound: Float
   stderr: Float
   constant: Boolean
 }
@@ -145,7 +145,7 @@ type BaseUnit {
   scale: Float
 }
 
-# EnzymeML Enum definitions
+# EnzymeML V2 Enum definitions
 enum EquationType {
   ASSIGNMENT # assignment
   INITIAL_ASSIGNMENT # initialAssignment
@@ -204,21 +204,18 @@ enum UnitType {
 type Query {
 
   # EnzymeMLDocument queries
-  enzymemldocument(id: ID!): EnzymeMLDocument
   allEnzymeMLDocuments: [EnzymeMLDocument]
   enzymemldocumentByName(name: String): [EnzymeMLDocument]
   enzymemldocumentByCreated(created: String): [EnzymeMLDocument]
   enzymemldocumentByModified(modified: String): [EnzymeMLDocument]
 
   # Creator queries
-  creator(id: ID!): Creator
   allCreators: [Creator]
   creatorByGiven_name(given_name: String): [Creator]
   creatorByFamily_name(family_name: String): [Creator]
   creatorByMail(mail: String): [Creator]
 
   # Vessel queries
-  vessel(id: ID!): Vessel
   allVessels: [Vessel]
   vesselById(id: String): [Vessel]
   vesselByName(name: String): [Vessel]
@@ -226,7 +223,6 @@ type Query {
   vesselByConstant(constant: Boolean): [Vessel]
 
   # Protein queries
-  protein(id: ID!): Protein
   allProteins: [Protein]
   proteinById(id: String): [Protein]
   proteinByName(name: String): [Protein]
@@ -238,7 +234,6 @@ type Query {
   proteinByOrganism_tax_id(organism_tax_id: String): [Protein]
 
   # Complex queries
-  complex(id: ID!): Complex
   allComplexs: [Complex]
   complexById(id: String): [Complex]
   complexByName(name: String): [Complex]
@@ -246,7 +241,6 @@ type Query {
   complexByVessel_id(vessel_id: String): [Complex]
 
   # SmallMolecule queries
-  smallmolecule(id: ID!): SmallMolecule
   allSmallMolecules: [SmallMolecule]
   smallmoleculeById(id: String): [SmallMolecule]
   smallmoleculeByName(name: String): [SmallMolecule]
@@ -257,47 +251,41 @@ type Query {
   smallmoleculeByInchikey(inchikey: String): [SmallMolecule]
 
   # Reaction queries
-  reaction(id: ID!): Reaction
   allReactions: [Reaction]
   reactionById(id: String): [Reaction]
   reactionByName(name: String): [Reaction]
   reactionByReversible(reversible: Boolean): [Reaction]
 
   # ReactionElement queries
-  reactionelement(id: ID!): ReactionElement
   allReactionElements: [ReactionElement]
   reactionelementBySpecies_id(species_id: String): [ReactionElement]
   reactionelementByStoichiometry(stoichiometry: Float): [ReactionElement]
 
   # Equation queries
-  equation(id: ID!): Equation
   allEquations: [Equation]
+  equationBySpecies_id(species_id: String): [Equation]
   equationByEquation(equation: String): [Equation]
   equationByEquation_type(equation_type: EquationType): [Equation]
-  equationBySpecies_id(species_id: String): [Equation]
 
   # Variable queries
-  variable(id: ID!): Variable
   allVariables: [Variable]
   variableById(id: String): [Variable]
   variableByName(name: String): [Variable]
   variableBySymbol(symbol: String): [Variable]
 
   # Parameter queries
-  parameter(id: ID!): Parameter
   allParameters: [Parameter]
   parameterById(id: String): [Parameter]
   parameterByName(name: String): [Parameter]
   parameterBySymbol(symbol: String): [Parameter]
   parameterByValue(value: Float): [Parameter]
   parameterByInitial_value(initial_value: Float): [Parameter]
-  parameterByUpper(upper: Float): [Parameter]
-  parameterByLower(lower: Float): [Parameter]
+  parameterByUpper_bound(upper_bound: Float): [Parameter]
+  parameterByLower_bound(lower_bound: Float): [Parameter]
   parameterByStderr(stderr: Float): [Parameter]
   parameterByConstant(constant: Boolean): [Parameter]
 
   # Measurement queries
-  measurement(id: ID!): Measurement
   allMeasurements: [Measurement]
   measurementById(id: String): [Measurement]
   measurementByName(name: String): [Measurement]
@@ -306,7 +294,6 @@ type Query {
   measurementByTemperature(temperature: Float): [Measurement]
 
   # MeasurementData queries
-  measurementdata(id: ID!): MeasurementData
   allMeasurementDatas: [MeasurementData]
   measurementdataBySpecies_id(species_id: String): [MeasurementData]
   measurementdataByInitial(initial: Float): [MeasurementData]
@@ -315,13 +302,11 @@ type Query {
   measurementdataByIs_simulated(is_simulated: Boolean): [MeasurementData]
 
   # UnitDefinition queries
-  unitdefinition(id: ID!): UnitDefinition
   allUnitDefinitions: [UnitDefinition]
   unitdefinitionById(id: String): [UnitDefinition]
   unitdefinitionByName(name: String): [UnitDefinition]
 
   # BaseUnit queries
-  baseunit(id: ID!): BaseUnit
   allBaseUnits: [BaseUnit]
   baseunitByKind(kind: UnitType): [BaseUnit]
   baseunitByExponent(exponent: Int): [BaseUnit]

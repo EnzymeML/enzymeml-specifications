@@ -1,0 +1,107 @@
+{
+    "name": "menten",
+    "parameters": [
+        {
+            "id": "vmax",
+            "symbol": "vmax",
+            "name": "vmax",
+            "value": 7.0,
+            "unit": {
+                "id": "mmol / l / s",
+                "name": "mmol / l / s"
+            }
+        },
+        {
+            "id": "km",
+            "symbol": "km",
+            "name": "km",
+            "value": 100.0,
+            "unit": {
+                "id": "mmol / l",
+                "name": "mmol / l"
+            }
+        }
+    ],
+    "measurements": [
+        {
+            "id": "m1",
+            "name": "m1",
+            "species_data": [
+                {
+                    "species_id": "substrate",
+                    "initial": 120.0,
+                    "data_unit": {
+                        "id": "mmol / l",
+                        "name": "mmol / l"
+                    },
+                    "time_unit": {
+                        "id": "s",
+                        "name": "s"
+                    },
+                    "data_type": "concentration",
+                    "is_simulated": false
+                },
+                {
+                    "species_id": "product",
+                    "initial": 0.0,
+                    "data_unit": {
+                        "id": "mmol / l",
+                        "name": "mmol / l"
+                    },
+                    "time_unit": {
+                        "id": "s",
+                        "name": "s"
+                    },
+                    "data_type": "concentration",
+                    "is_simulated": false
+                }
+            ]
+        },
+        {
+            "id": "m2",
+            "name": "m2",
+            "species_data": [
+                {
+                    "species_id": "substrate",
+                    "initial": 500.0,
+                    "data_unit": {
+                        "id": "mmol / l",
+                        "name": "mmol / l"
+                    },
+                    "time_unit": {
+                        "id": "s",
+                        "name": "s"
+                    },
+                    "data_type": "concentration",
+                    "is_simulated": false
+                },
+                {
+                    "species_id": "product",
+                    "initial": 0.0,
+                    "data_unit": {
+                        "id": "mmol / l",
+                        "name": "mmol / l"
+                    },
+                    "time_unit": {
+                        "id": "s",
+                        "name": "s"
+                    },
+                    "data_type": "concentration",
+                    "is_simulated": false
+                }
+            ]
+        }
+    ],
+    "equations": [
+        {
+            "species_id": "substrate",
+            "equation": "-vmax * substrate / (km + substrate)",
+            "equation_type": "ode"
+        },
+        {
+            "species_id": "product",
+            "equation": "vmax * substrate / (km + substrate)",
+            "equation_type": "ode"
+        }
+    ]
+}
