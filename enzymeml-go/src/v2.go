@@ -1,347 +1,276 @@
-// Package enzymeml contains Go struct definitions with JSON serialization.
+// Package enzymeml v2 contains Go struct definitions with JSON serialization.
 //
 // WARNING: This is an auto-generated file.
 // Do not edit directly - any changes will be overwritten.
 
-package enzymeml
-
+package enzymeml_v2
 
 //
 // Type definitions
 //
 
-// EnzymeMLDocument This is the root object that composes all objects found in an EnzymeML
-// document. It also includes general metadata such as the name of
-// the document, when it was created/modified, and references to
-// publications, databases, and arbitrary links to the web.
+// EnzymeMLDocument
+//
+// This is the root object that composes all objects found in an EnzymeML document.
+// It also includes general metadata such as the name of the document, when
+// it was created/modified, and references to publications, databases, and
+// arbitrary links to the web.
 type EnzymeMLDocument struct {
-        // Title of the EnzymeML Document.
-        Name string `json:"name"`
-        // Contains references to publications, databases, and arbitrary links to
-        // the web.
-        References []string `json:"references,omitempty"`
-        // Date the EnzymeML document was created.
-        Created string `json:"created,omitempty"`
-        // Date the EnzymeML document was modified.
-        Modified string `json:"modified,omitempty"`
-        // Contains all authors that are part of the experiment.
-        Creators []Creator `json:"creators,omitempty"`
-        // Contains all vessels that are part of the experiment.
-        Vessels []Vessel `json:"vessels,omitempty"`
-        // Contains all proteins that are part of the experiment.
-        Proteins []Protein `json:"proteins,omitempty"`
-        // Contains all complexes that are part of the experiment.
-        Complexes []Complex `json:"complexes,omitempty"`
-        // Contains all reactants that are part of the experiment.
-        Small_molecules []SmallMolecule `json:"small_molecules,omitempty"`
-        // Dictionary mapping from reaction IDs to reaction-describing objects.
-        Reactions []Reaction `json:"reactions,omitempty"`
-        // Contains measurements that describe outcomes of an experiment.
-        Measurements []Measurement `json:"measurements,omitempty"`
-        // Contains ordinary differential equations that describe the kinetic
-        // model.
-        Equations []Equation `json:"equations,omitempty"`
-        // List of parameters that are part of the equation
-        Parameters []Parameter `json:"parameters,omitempty"`
+	ID             *uint           `json:"id,omitempty" xml:"id,attr,omitempty" gorm:"primaryKey,autoIncrement"`
+	Name           string          `json:"name" xml:"name" `
+	References     []string        `json:"references,omitempty" xml:"references,omitempty" `
+	Created        string          `json:"created,omitempty" xml:"created,omitempty" `
+	Modified       string          `json:"modified,omitempty" xml:"modified,omitempty" `
+	Creators       []Creator       `json:"creators,omitempty" xml:"creators,omitempty" gorm:"many2many:enzymemldocument_creators;"`
+	Vessels        []Vessel        `json:"vessels,omitempty" xml:"vessels,omitempty" gorm:"many2many:enzymemldocument_vessels;"`
+	Proteins       []Protein       `json:"proteins,omitempty" xml:"proteins,omitempty" gorm:"many2many:enzymemldocument_proteins;"`
+	Complexes      []Complex       `json:"complexes,omitempty" xml:"complexes,omitempty" gorm:"many2many:enzymemldocument_complexes;"`
+	SmallMolecules []SmallMolecule `json:"small_molecules,omitempty" xml:"small_molecules,omitempty" gorm:"many2many:enzymemldocument_small_molecules;"`
+	Reactions      []Reaction      `json:"reactions,omitempty" xml:"reactions,omitempty" gorm:"many2many:enzymemldocument_reactions;"`
+	Measurements   []Measurement   `json:"measurements,omitempty" xml:"measurements,omitempty" gorm:"many2many:enzymemldocument_measurements;"`
+	Equations      []Equation      `json:"equations,omitempty" xml:"equations,omitempty" gorm:"many2many:enzymemldocument_equations;"`
+	Parameters     []Parameter     `json:"parameters,omitempty" xml:"parameters,omitempty" gorm:"many2many:enzymemldocument_parameters;"`
 }
 
-// Creator The creator object contains all information about authors that
-// contributed to the resulting document.
+// Creator
+//
+// The creator object contains all information about authors that contributed to
+// the resulting document.
 type Creator struct {
-        // Given name of the author or contributor.
-        Given_name string `json:"given_name"`
-        // Family name of the author or contributor.
-        Family_name string `json:"family_name"`
-        // Email address of the author or contributor.
-        Mail string `json:"mail"`
+	ID         *uint  `json:"id,omitempty" xml:"id,attr,omitempty" gorm:"primaryKey,autoIncrement"`
+	GivenName  string `json:"given_name" xml:"given_name" `
+	FamilyName string `json:"family_name" xml:"family_name" `
+	Mail       string `json:"mail" xml:"mail" `
 }
 
-// Vessel This object describes vessels in which the experiment has been carried
-// out. These can include any type of vessel used in biocatalytic
-// experiments.
+// Vessel
+//
+// This object describes vessels in which the experiment has been carried out.
+// These can include any type of vessel used in biocatalytic experiments.
 type Vessel struct {
-        // Unique identifier of the vessel.
-        Id string `json:"id"`
-        // Name of the used vessel.
-        Name string `json:"name"`
-        // Volumetric value of the vessel.
-        Volume float64 `json:"volume"`
-        // Volumetric unit of the vessel.
-        Unit UnitDefinition `json:"unit"`
-        // Whether the volume of the vessel is constant or not.
-        Constant bool `json:"constant"`
+	Id       string         `json:"id" xml:"id" gorm:"primaryKey"`
+	Name     string         `json:"name" xml:"name" `
+	Volume   float64        `json:"volume" xml:"volume" `
+	Unit     UnitDefinition `json:"unit" xml:"unit" `
+	Constant bool           `json:"constant" xml:"constant" `
 }
 
-// Protein This object describes the proteins that were used or formed throughout
-// the experiment.
+// Protein
+//
+// This object describes the proteins that were used or formed throughout the
+// experiment.
 type Protein struct {
-        // Unique internal identifier of the protein.
-        Id string `json:"id"`
-        Name string `json:"name"`
-        Constant bool `json:"constant"`
-        // Amino acid sequence of the protein
-        Sequence string `json:"sequence,omitempty"`
-        // Unique identifier of the vessel this protein has been used in.
-        Vessel_id string `json:"vessel_id,omitempty"`
-        // EC number of the protein.
-        Ecnumber string `json:"ecnumber,omitempty"`
-        // Organism the protein was expressed in.
-        Organism string `json:"organism,omitempty"`
-        // Taxonomy identifier of the expression host.
-        Organism_tax_id string `json:"organism_tax_id,omitempty"`
-        // Array of references to publications, database entries, etc. that
-        // describe the protein.
-        References []string `json:"references,omitempty"`
+	Id            string   `json:"id" xml:"id" gorm:"primaryKey"`
+	Name          string   `json:"name" xml:"name" `
+	Constant      bool     `json:"constant" xml:"constant" `
+	Sequence      string   `json:"sequence,omitempty" xml:"sequence,omitempty" `
+	VesselId      string   `json:"vessel_id,omitempty" xml:"vessel_id,omitempty" `
+	Ecnumber      string   `json:"ecnumber,omitempty" xml:"ecnumber,omitempty" `
+	Organism      string   `json:"organism,omitempty" xml:"organism,omitempty" `
+	OrganismTaxId string   `json:"organism_tax_id,omitempty" xml:"organism_tax_id,omitempty" `
+	References    []string `json:"references,omitempty" xml:"references,omitempty" `
 }
 
-// Complex This object describes complexes made of reactants and/or proteins that
-// were used or produced in the course of the experiment.
+// Complex
+//
+// This object describes complexes made of reactants and/or proteins that were used
+// or produced in the course of the experiment.
 type Complex struct {
-        // Unique identifier of the complex.
-        Id string `json:"id"`
-        Name string `json:"name"`
-        Constant bool `json:"constant"`
-        // Unique identifier of the vessel this complex has been used in.
-        Vessel_id string `json:"vessel_id,omitempty"`
-        // Array of IDs the complex contains
-        Participants []string `json:"participants,omitempty"`
+	Id           string   `json:"id" xml:"id" gorm:"primaryKey"`
+	Name         string   `json:"name" xml:"name" `
+	Constant     bool     `json:"constant" xml:"constant" `
+	VesselId     string   `json:"vessel_id,omitempty" xml:"vessel_id,omitempty" `
+	Participants []string `json:"participants,omitempty" xml:"participants,omitempty" `
 }
 
-// SmallMolecule This object describes the reactants that were used or produced in the
-// course of the experiment.
+// SmallMolecule
+//
+// This object describes the reactants that were used or produced in the course of
+// the experiment.
 type SmallMolecule struct {
-        // Unique identifier of the small molecule.
-        Id string `json:"id"`
-        Name string `json:"name"`
-        Constant bool `json:"constant"`
-        // Unique identifier of the vessel this small molecule has been used in.
-        Vessel_id string `json:"vessel_id,omitempty"`
-        // Canonical Simplified Molecular-Input Line-Entry System (SMILES)
-        // encoding of the reactant.
-        Canonical_smiles string `json:"canonical_smiles,omitempty"`
-        // International Chemical Identifier (InChI) encoding of the reactant.
-        Inchi string `json:"inchi,omitempty"`
-        // Hashed International Chemical Identifier (InChIKey) encoding of the
-        // reactant.
-        Inchikey string `json:"inchikey,omitempty"`
-        // Array of references to publications, database entries, etc. that
-        // describe the reactant.
-        References []string `json:"references,omitempty"`
+	Id              string   `json:"id" xml:"id" gorm:"primaryKey"`
+	Name            string   `json:"name" xml:"name" `
+	Constant        bool     `json:"constant" xml:"constant" `
+	VesselId        string   `json:"vessel_id,omitempty" xml:"vessel_id,omitempty" `
+	CanonicalSmiles string   `json:"canonical_smiles,omitempty" xml:"canonical_smiles,omitempty" `
+	Inchi           string   `json:"inchi,omitempty" xml:"inchi,omitempty" `
+	Inchikey        string   `json:"inchikey,omitempty" xml:"inchikey,omitempty" `
+	References      []string `json:"references,omitempty" xml:"references,omitempty" `
 }
 
-// Reaction This object describes a chemical or enzymatic reaction that was
-// investigated in the course of the experiment. All species used
-// within this object need to be part of the data model.
+// Reaction
+//
+// This object describes a chemical or enzymatic reaction that was investigated in
+// the course of the experiment. All species used within this object need to be
+// part of the data model.
 type Reaction struct {
-        // Unique identifier of the reaction.
-        Id string `json:"id"`
-        // Name of the reaction.
-        Name string `json:"name"`
-        // Whether the reaction is reversible or irreversible
-        Reversible bool `json:"reversible"`
-        // Mathematical expression of the reaction.
-        Kinetic_law Equation `json:"kinetic_law,omitempty"`
-        // List of reaction elements that are part of the reaction.
-        Species []ReactionElement `json:"species,omitempty"`
-        // List of reaction elements that are not part of the reaction but
-        // influence it.
-        Modifiers []string `json:"modifiers,omitempty"`
+	Id         string            `json:"id" xml:"id" gorm:"primaryKey"`
+	Name       string            `json:"name" xml:"name" `
+	Reversible bool              `json:"reversible" xml:"reversible" `
+	KineticLaw Equation          `json:"kinetic_law,omitempty" xml:"kinetic_law,omitempty" `
+	Species    []ReactionElement `json:"species,omitempty" xml:"species,omitempty" gorm:"many2many:reaction_species;"`
+	Modifiers  []string          `json:"modifiers,omitempty" xml:"modifiers,omitempty" `
 }
 
-// ReactionElement This object is part of the Reaction object and describes either an
-// educt, product or modifier. The latter includes buffers, counter-
-// ions as well as proteins/enzymes.
+// ReactionElement
+//
+// This object is part of the Reaction object and describes either an educt,
+// product or modifier. The latter includes buffers, counter-ions as well as
+// proteins/enzymes.
 type ReactionElement struct {
-        // Internal identifier to either a protein or reactant defined in the
-        // EnzymeMLDocument.
-        Species_id string `json:"species_id"`
-        // Float number representing the associated stoichiometry.
-        Stoichiometry float64 `json:"stoichiometry"`
+	ID            *uint   `json:"id,omitempty" xml:"id,attr,omitempty" gorm:"primaryKey,autoIncrement"`
+	SpeciesId     string  `json:"species_id" xml:"species_id" `
+	Stoichiometry float64 `json:"stoichiometry" xml:"stoichiometry" `
 }
 
-// Equation This object describes an equation that can be used to model the
-// kinetics of a reaction. There are different types of equations
-// that can be used to model the kinetics of a reaction. The equation
-// can be an ordinary differential equation, a rate law or assignment
-// rule.
+// Equation
+//
+// This object describes an equation that can be used to model the kinetics of a
+// reaction. There are different types of equations that can be used to model
+// the kinetics of a reaction. The equation can be an ordinary differential
+// equation, a rate law or assignment rule.
 type Equation struct {
-        // Mathematical expression of the equation.
-        Equation string `json:"equation"`
-        // Type of the equation.
-        Equation_type EquationType `json:"equation_type"`
-        // Internal identifier to a species defined in the EnzymeMLDocument,
-        // given it is a rate equation.
-        Species_id string `json:"species_id,omitempty"`
-        // List of variables that are part of the equation
-        Variables []Variable `json:"variables,omitempty"`
+	ID           *uint        `json:"id,omitempty" xml:"id,attr,omitempty" gorm:"primaryKey,autoIncrement"`
+	SpeciesId    string       `json:"species_id" xml:"species_id" `
+	Equation     string       `json:"equation" xml:"equation" `
+	EquationType EquationType `json:"equation_type" xml:"equation_type" `
+	Variables    []Variable   `json:"variables,omitempty" xml:"variables,omitempty" gorm:"many2many:equation_variables;"`
 }
 
-// Variable This object describes a variable that is part of an equation.
+// Variable
+//
+// This object describes a variable that is part of an equation.
 type Variable struct {
-        // Unique identifier of the variable.
-        Id string `json:"id"`
-        // Name of the variable.
-        Name string `json:"name"`
-        // Symbol of the variable.
-        Symbol string `json:"symbol"`
+	Id     string `json:"id" xml:"id" gorm:"primaryKey"`
+	Name   string `json:"name" xml:"name" `
+	Symbol string `json:"symbol" xml:"symbol" `
 }
 
-// Parameter This object describes the parameters of the kinetic model and can
-// include all estimated values.
+// Parameter
+//
+// This object describes the parameters of the kinetic model and can include all
+// estimated values.
 type Parameter struct {
-        // Unique identifier of the parameter.
-        Id string `json:"id"`
-        // Name of the parameter.
-        Name string `json:"name"`
-        // Symbol of the parameter.
-        Symbol string `json:"symbol"`
-        // Numerical value of the estimated parameter.
-        Value float64 `json:"value,omitempty"`
-        // Unit of the estimated parameter.
-        Unit UnitDefinition `json:"unit,omitempty"`
-        // Initial value that was used for the parameter estimation.
-        Initial_value float64 `json:"initial_value,omitempty"`
-        // Upper bound of the estimated parameter.
-        Upper float64 `json:"upper,omitempty"`
-        // Lower bound of the estimated parameter.
-        Lower float64 `json:"lower,omitempty"`
-        // Standard error of the estimated parameter.
-        Stderr float64 `json:"stderr,omitempty"`
-        // Specifies if this parameter is constant
-        Constant bool `json:"constant,omitempty"`
+	Id           string         `json:"id" xml:"id" gorm:"primaryKey"`
+	Name         string         `json:"name" xml:"name" `
+	Symbol       string         `json:"symbol" xml:"symbol" `
+	Value        float64        `json:"value,omitempty" xml:"value,omitempty" `
+	Unit         UnitDefinition `json:"unit,omitempty" xml:"unit,omitempty" `
+	InitialValue float64        `json:"initial_value,omitempty" xml:"initial_value,omitempty" `
+	UpperBound   float64        `json:"upper_bound,omitempty" xml:"upper_bound,omitempty" `
+	LowerBound   float64        `json:"lower_bound,omitempty" xml:"lower_bound,omitempty" `
+	Stderr       float64        `json:"stderr,omitempty" xml:"stderr,omitempty" `
+	Constant     bool           `json:"constant,omitempty" xml:"constant,omitempty" `
 }
 
-// Measurement This object describes the result of a measurement, which includes time
-// course data of any type defined in DataTypes. It includes initial
-// concentrations of all species used in a single measurement.
+// Measurement
+//
+// This object describes the result of a measurement, which includes time course
+// data of any type defined in DataTypes. It includes initial concentrations of
+// all species used in a single measurement.
 type Measurement struct {
-        // Unique identifier of the measurement.
-        Id string `json:"id"`
-        // Name of the measurement
-        Name string `json:"name"`
-        // Measurement data of all species that were part of the measurement. A
-        // species can refer to a protein, complex, or small molecule.
-        Species_data []MeasurementData `json:"species_data,omitempty"`
-        // User-defined group ID to signal relationships between measurements.
-        Group_id string `json:"group_id,omitempty"`
-        // PH value of the measurement.
-        Ph float64 `json:"ph,omitempty"`
-        // Temperature of the measurement.
-        Temperature float64 `json:"temperature,omitempty"`
-        // Unit of the temperature of the measurement.
-        Temperature_unit UnitDefinition `json:"temperature_unit,omitempty"`
+	Id              string            `json:"id" xml:"id" gorm:"primaryKey"`
+	Name            string            `json:"name" xml:"name" `
+	SpeciesData     []MeasurementData `json:"species_data,omitempty" xml:"species_data,omitempty" gorm:"many2many:measurement_species_data;"`
+	GroupId         string            `json:"group_id,omitempty" xml:"group_id,omitempty" `
+	Ph              float64           `json:"ph,omitempty" xml:"ph,omitempty" `
+	Temperature     float64           `json:"temperature,omitempty" xml:"temperature,omitempty" `
+	TemperatureUnit UnitDefinition    `json:"temperature_unit,omitempty" xml:"temperature_unit,omitempty" `
 }
 
-// MeasurementData This object describes a single entity of a measurement, which
-// corresponds to one species. It also holds replicates that contain
-// time course data.
+// MeasurementData
+//
+// This object describes a single entity of a measurement, which corresponds to one
+// species. It also holds replicates that contain time course data.
 type MeasurementData struct {
-        // The identifier for the described reactant.
-        Species_id string `json:"species_id"`
-        // Initial amount of the measurement data. This must be the same as the
-        // first data point in the array.
-        Initial float64 `json:"initial"`
-        // SI unit of the data that was measured.
-        Data_unit UnitDefinition `json:"data_unit"`
-        // Type of data that was measured (e.g. concentration)
-        Data_type DataTypes `json:"data_type"`
-        // Amount of the reactant before the measurement. This field should be
-        // used for specifying the prepared amount of a species in
-        // the reaction mix. Not to be confused with , specifying the
-        // concentration at the first data point from the array.
-        Prepared float64 `json:"prepared,omitempty"`
-        // Data that was measured.
-        Data []float64 `json:"data,omitempty"`
-        // Time steps of the replicate.
-        Time []float64 `json:"time,omitempty"`
-        // Time unit of the replicate.
-        Time_unit UnitDefinition `json:"time_unit,omitempty"`
-        // Whether or not the data has been generated by simulation.
-        Is_simulated bool `json:"is_simulated"`
+	ID          *uint          `json:"id,omitempty" xml:"id,attr,omitempty" gorm:"primaryKey,autoIncrement"`
+	SpeciesId   string         `json:"species_id" xml:"species_id" `
+	Initial     float64        `json:"initial" xml:"initial" `
+	DataUnit    UnitDefinition `json:"data_unit" xml:"data_unit" `
+	DataType    DataTypes      `json:"data_type" xml:"data_type" `
+	Prepared    float64        `json:"prepared,omitempty" xml:"prepared,omitempty" `
+	Data        []float64      `json:"data,omitempty" xml:"data,omitempty" `
+	Time        []float64      `json:"time,omitempty" xml:"time,omitempty" `
+	TimeUnit    UnitDefinition `json:"time_unit,omitempty" xml:"time_unit,omitempty" `
+	IsSimulated bool           `json:"is_simulated" xml:"is_simulated" `
 }
 
-// UnitDefinition Represents a unit definition that is based on the SI unit system.
+// UnitDefinition
+//
+// Represents a unit definition that is based on the SI unit system.
 type UnitDefinition struct {
-        // Unique identifier of the unit definition.
-        Id string `json:"id,omitempty"`
-        // Common name of the unit definition.
-        Name string `json:"name,omitempty"`
-        // Base units that define the unit.
-        Base_units []BaseUnit `json:"base_units,omitempty"`
+	Id        string     `json:"id,omitempty" xml:"id,attr,omitempty" gorm:"primaryKey"`
+	Name      string     `json:"name,omitempty" xml:"name,attr,omitempty" `
+	BaseUnits []BaseUnit `json:"base_units,omitempty" xml:"base_units,omitempty" gorm:"many2many:unitdefinition_base_units;"`
 }
 
-// BaseUnit Represents a base unit in the unit definition.
+// BaseUnit
+//
+// Represents a base unit in the unit definition.
 type BaseUnit struct {
-        // Kind of the base unit (e.g., meter, kilogram, second).
-        Kind UnitType `json:"kind"`
-        // Exponent of the base unit in the unit definition.
-        Exponent int64 `json:"exponent"`
-        // Multiplier of the base unit in the unit definition.
-        Multiplier float64 `json:"multiplier,omitempty"`
-        // Scale of the base unit in the unit definition.
-        Scale float64 `json:"scale,omitempty"`
+	ID         *uint    `json:"id,omitempty" xml:"id,attr,omitempty" gorm:"primaryKey,autoIncrement"`
+	Kind       UnitType `json:"kind" xml:"kind,attr" `
+	Exponent   int64    `json:"exponent" xml:"exponent,attr" `
+	Multiplier float64  `json:"multiplier,omitempty" xml:"multiplier,attr,omitempty" `
+	Scale      float64  `json:"scale,omitempty" xml:"scale,attr,omitempty" `
 }
 
-//
 // Enum definitions
-//
 type EquationType string
 
 const (
-    EquationTypeASSIGNMENT EquationType = "assignment"
-    EquationTypeINITIAL_ASSIGNMENT EquationType = "initialAssignment"
-    EquationTypeODE EquationType = "ode"
-    EquationTypeRATE_LAW EquationType = "rateLaw"
+	ASSIGNMENT         EquationType = "assignment"
+	INITIAL_ASSIGNMENT EquationType = "initialAssignment"
+	ODE                EquationType = "ode"
+	RATE_LAW           EquationType = "rateLaw"
 )
+
 type DataTypes string
 
 const (
-    DataTypesABSORBANCE DataTypes = "http://purl.allotrope.org/ontologies/quality#AFQ_0000061"
-    DataTypesCONCENTRATION DataTypes = "http://purl.obolibrary.org/obo/PATO_0000033"
-    DataTypesCONVERSION DataTypes = "http://purl.allotrope.org/ontologies/quality#AFQ_0000226"
-    DataTypesFLUORESCENCE DataTypes = "http://purl.obolibrary.org/obo/PATO_0000018"
-    DataTypesPEAK_AREA DataTypes = "http://purl.allotrope.org/ontologies/result#AFR_0001073"
-    DataTypesTRANSMITTANCE DataTypes = "http://purl.allotrope.org/ontologies/result#AFR_0002261"
+	ABSORBANCE    DataTypes = "http://purl.allotrope.org/ontologies/quality#AFQ_0000061"
+	CONCENTRATION DataTypes = "http://purl.obolibrary.org/obo/PATO_0000033"
+	CONVERSION    DataTypes = "http://purl.allotrope.org/ontologies/quality#AFQ_0000226"
+	FLUORESCENCE  DataTypes = "http://purl.obolibrary.org/obo/PATO_0000018"
+	PEAK_AREA     DataTypes = "http://purl.allotrope.org/ontologies/result#AFR_0001073"
+	TRANSMITTANCE DataTypes = "http://purl.allotrope.org/ontologies/result#AFR_0002261"
 )
+
 type UnitType string
 
 const (
-    UnitTypeAMPERE UnitType = "ampere"
-    UnitTypeAVOGADRO UnitType = "avogadro"
-    UnitTypeBECQUEREL UnitType = "becquerel"
-    UnitTypeCANDELA UnitType = "candela"
-    UnitTypeCELSIUS UnitType = "celsius"
-    UnitTypeCOULOMB UnitType = "coulomb"
-    UnitTypeDIMENSIONLESS UnitType = "dimensionless"
-    UnitTypeFARAD UnitType = "farad"
-    UnitTypeGRAM UnitType = "gram"
-    UnitTypeGRAY UnitType = "gray"
-    UnitTypeHENRY UnitType = "henry"
-    UnitTypeHERTZ UnitType = "hertz"
-    UnitTypeITEM UnitType = "item"
-    UnitTypeJOULE UnitType = "joule"
-    UnitTypeKATAL UnitType = "katal"
-    UnitTypeKELVIN UnitType = "kelvin"
-    UnitTypeKILOGRAM UnitType = "kilogram"
-    UnitTypeLITRE UnitType = "litre"
-    UnitTypeLUMEN UnitType = "lumen"
-    UnitTypeLUX UnitType = "lux"
-    UnitTypeMETRE UnitType = "metre"
-    UnitTypeMOLE UnitType = "mole"
-    UnitTypeNEWTON UnitType = "newton"
-    UnitTypeOHM UnitType = "ohm"
-    UnitTypePASCAL UnitType = "pascal"
-    UnitTypeRADIAN UnitType = "radian"
-    UnitTypeSECOND UnitType = "second"
-    UnitTypeSIEMENS UnitType = "siemens"
-    UnitTypeSIEVERT UnitType = "sievert"
-    UnitTypeSTERADIAN UnitType = "steradian"
-    UnitTypeTESLA UnitType = "tesla"
-    UnitTypeVOLT UnitType = "volt"
-    UnitTypeWATT UnitType = "watt"
-    UnitTypeWEBER UnitType = "weber"
+	AMPERE        UnitType = "ampere"
+	AVOGADRO      UnitType = "avogadro"
+	BECQUEREL     UnitType = "becquerel"
+	CANDELA       UnitType = "candela"
+	CELSIUS       UnitType = "celsius"
+	COULOMB       UnitType = "coulomb"
+	DIMENSIONLESS UnitType = "dimensionless"
+	FARAD         UnitType = "farad"
+	GRAM          UnitType = "gram"
+	GRAY          UnitType = "gray"
+	HENRY         UnitType = "henry"
+	HERTZ         UnitType = "hertz"
+	ITEM          UnitType = "item"
+	JOULE         UnitType = "joule"
+	KATAL         UnitType = "katal"
+	KELVIN        UnitType = "kelvin"
+	KILOGRAM      UnitType = "kilogram"
+	LITRE         UnitType = "litre"
+	LUMEN         UnitType = "lumen"
+	LUX           UnitType = "lux"
+	METRE         UnitType = "metre"
+	MOLE          UnitType = "mole"
+	NEWTON        UnitType = "newton"
+	OHM           UnitType = "ohm"
+	PASCAL        UnitType = "pascal"
+	RADIAN        UnitType = "radian"
+	SECOND        UnitType = "second"
+	SIEMENS       UnitType = "siemens"
+	SIEVERT       UnitType = "sievert"
+	STERADIAN     UnitType = "steradian"
+	TESLA         UnitType = "tesla"
+	VOLT          UnitType = "volt"
+	WATT          UnitType = "watt"
+	WEBER         UnitType = "weber"
 )
-
-//
-// Type definitions for attributes with multiple types
-//
