@@ -5,6 +5,7 @@ Welcome to the Go implementation of EnzymeML - a comprehensive data exchange for
 ## Overview
 
 EnzymeML Go implements the complete EnzymeML v2 specification, enabling you to:
+
 - Document enzymatic experiments in a standardized format
 - Capture reaction conditions and measurements
 - Define kinetic models and parameters
@@ -27,15 +28,15 @@ In this example, we create a new EnzymeML document and marshal it to JSON.
 package main
 
 import (
-	"github.com/enzymeml/enzymeml-specifications/enzymeml-go"
+    enzymeml_v2 "github.com/enzymeml/enzymeml-specifications/enzymeml-go"
 )
 
 func main() {
     // Create a new EnzymeML document
-    doc := enzymeml.EnzymeMLDocument{
+    doc := enzymeml_v2.EnzymeMLDocument{
         Name: "My Experiment",
         Created: "2024-01-01",
-        Creators: []enzymeml.Creator{
+        Creators: []enzymeml_v2.Creator{
             {
                 Given_name:  "John",
                 Family_name: "Doe", 
@@ -51,13 +52,10 @@ func main() {
     }
 
     // Unmarshal from JSON
-    var newDoc enzymeml.EnzymeMLDocument
+    var newDoc enzymeml_v2.EnzymeMLDocument
     err = json.Unmarshal(jsonData, &newDoc)
     if err != nil {
         panic(err)
     }
 }
 ```
-
-
-
