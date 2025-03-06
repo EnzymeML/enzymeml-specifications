@@ -612,6 +612,11 @@ Base.@kwdef mutable struct EnzymeMLDocument
     modified::Union{String, Nothing} = nothing
 
     """
+    EnzymeML version.
+    """
+    version::Union{String, Nothing} = nothing
+
+    """
     Contains descriptions of all authors that are part of the experiment.
     """
     creators::Union{Vector{

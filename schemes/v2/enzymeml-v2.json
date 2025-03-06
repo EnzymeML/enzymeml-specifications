@@ -97,6 +97,11 @@
         "$ref": "#/$defs/SmallMolecule"
       }
     },
+    "version": {
+      "title": "version",
+      "type": "string",
+      "description": "EnzymeML version."
+    },
     "vessels": {
       "title": "vessels",
       "type": "array",

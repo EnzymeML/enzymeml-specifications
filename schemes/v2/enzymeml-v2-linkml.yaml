@@ -23,6 +23,8 @@ classes:
       modified:
         description: Date the EnzymeML Document was modified.
         slot_uri: schema:dateModified
+      version:
+        description: EnzymeML version.
       creators:
         description: Contains descriptions of all authors that are part of the experiment.
         slot_uri: schema:creator
