@@ -13,6 +13,7 @@ type EnzymeMLDocument {
   name: String!
   created: String
   modified: String
+  version: String
   creators: [Creator]
   vessels: [Vessel]
   proteins: [Protein]
@@ -208,6 +209,7 @@ type Query {
   enzymemldocumentByName(name: String): [EnzymeMLDocument]
   enzymemldocumentByCreated(created: String): [EnzymeMLDocument]
   enzymemldocumentByModified(modified: String): [EnzymeMLDocument]
+  enzymemldocumentByVersion(version: String): [EnzymeMLDocument]
 
   # Creator queries
   allCreators: [Creator]

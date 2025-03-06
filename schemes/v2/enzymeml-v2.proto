@@ -78,34 +78,36 @@ message EnzymeMLDocument {
   optional string created = 2;
   // Date the EnzymeML Document was modified.
   optional string modified = 3;
+  // EnzymeML version.
+  optional string version = 4;
   // Contains descriptions of all authors that are part of the experiment.
-  repeated Creator creators = 4;
+  repeated Creator creators = 5;
   // Contains descriptions of all vessels that are part of the experiment.
-  repeated Vessel vessels = 5;
+  repeated Vessel vessels = 6;
   // Contains descriptions of all proteins that are part of the experiment
   // that may be referenced in reactions, measurements, and equations.
-  repeated Protein proteins = 6;
+  repeated Protein proteins = 7;
   // Contains descriptions of all complexes that are part of the experiment
   // that may be referenced in reactions, measurements, and equations.
-  repeated Complex complexes = 7;
+  repeated Complex complexes = 8;
   // Contains descriptions of all reactants that are part of the experiment
   // that may be referenced in reactions, measurements, and equations.
-  repeated SmallMolecule small_molecules = 8;
+  repeated SmallMolecule small_molecules = 9;
   // Contains descriptions of all reactions that are part of the
   // experiment.
-  repeated Reaction reactions = 9;
+  repeated Reaction reactions = 10;
   // Contains descriptions of all measurements that are part of the
   // experiment.
-  repeated Measurement measurements = 10;
+  repeated Measurement measurements = 11;
   // Contains descriptions of all equations that are part of the
   // experiment.
-  repeated Equation equations = 11;
+  repeated Equation equations = 12;
   // Contains descriptions of all parameters that are part of the
   // experiment and may be used in equations.
-  repeated Parameter parameters = 12;
+  repeated Parameter parameters = 13;
   // Contains references to publications, databases, and arbitrary links to
   // the web.
-  repeated string references = 13;
+  repeated string references = 14;
 }
 
 message Creator {
