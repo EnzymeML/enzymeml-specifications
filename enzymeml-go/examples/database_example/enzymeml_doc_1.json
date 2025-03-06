@@ -1,0 +1,106 @@
+{
+    "id": 1,
+    "name": "Example EnzymeML Document",
+    "creators": [
+        {
+            "id": 1,
+            "given_name": "John",
+            "family_name": "Doe",
+            "mail": "john.doe@example.com"
+        }
+    ],
+    "vessels": [
+        {
+            "id": "vessel1",
+            "name": "Reaction Vessel 1",
+            "volume": 1,
+            "UnitID": "litre",
+            "unit": {
+                "id": "litre",
+                "name": "litre",
+                "base_units": [
+                    {
+                        "id": 1,
+                        "kind": "litre",
+                        "exponent": 1,
+                        "multiplier": 1
+                    }
+                ]
+            },
+            "constant": false
+        }
+    ],
+    "proteins": [
+        {
+            "id": "protein1",
+            "name": "Example Enzyme",
+            "constant": false,
+            "vessel_id": "vessel1",
+            "ecnumber": "1.1.1.1"
+        }
+    ],
+    "small_molecules": [
+        {
+            "id": "product1",
+            "name": "Example Product",
+            "constant": false,
+            "vessel_id": "vessel1"
+        },
+        {
+            "id": "substrate1",
+            "name": "Example Substrate",
+            "constant": false,
+            "vessel_id": "vessel1"
+        }
+    ],
+    "reactions": [
+        {
+            "id": "reaction1",
+            "name": "Example Reaction",
+            "reversible": false,
+            "KineticLawID": "",
+            "kinetic_law": {
+                "id": 0,
+                "species_id": "",
+                "equation": "",
+                "equation_type": ""
+            },
+            "species": [
+                {
+                    "id": 1,
+                    "species_id": "substrate1",
+                    "stoichiometry": -1
+                },
+                {
+                    "id": 2,
+                    "species_id": "product1",
+                    "stoichiometry": 1
+                }
+            ],
+            "modifiers": [
+                "protein1"
+            ]
+        }
+    ],
+    "measurements": [
+        {
+            "id": "measurement1",
+            "name": "Example Measurement",
+            "ph": 7,
+            "temperature": 298.15,
+            "TemperatureUnitID": "kelvin",
+            "temperature_unit": {
+                "id": "kelvin",
+                "name": "kelvin",
+                "base_units": [
+                    {
+                        "id": 2,
+                        "kind": "kelvin",
+                        "exponent": 1,
+                        "multiplier": 1
+                    }
+                ]
+            }
+        }
+    ]
+}
