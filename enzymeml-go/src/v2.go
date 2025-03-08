@@ -19,7 +19,7 @@ package enzymeml_v2
 // including reaction vessels, proteins, complexes, small molecules, reactions,
 // measurements, equations, and parameters.
 type EnzymeMLDocument struct {
-	Id             int64           `json:"id" gorm:"primaryKey;autoIncrement"`
+	Id             int64           `json:"-" gorm:"primaryKey;autoIncrement"`
 	Name           string          `json:"name" `
 	Created        string          `json:"created,omitempty" `
 	Modified       string          `json:"modified,omitempty" `
@@ -43,7 +43,7 @@ type EnzymeMLDocument struct {
 // allowing proper attribution and enabling communication with the document's
 // creators.
 type Creator struct {
-	Id         int64  `json:"id" gorm:"primaryKey;autoIncrement"`
+	Id         int64  `json:"-" gorm:"primaryKey;autoIncrement"`
 	GivenName  string `json:"given_name" `
 	FamilyName string `json:"family_name" `
 	Mail       string `json:"mail" `
@@ -132,7 +132,7 @@ type Reaction struct {
 // is a reactant and positive values indicate that the species is a product of
 // the reaction.
 type ReactionElement struct {
-	Id            int64   `json:"id" gorm:"primaryKey;autoIncrement"`
+	Id            int64   `json:"-" gorm:"primaryKey;autoIncrement"`
 	SpeciesId     string  `json:"species_id" `
 	Stoichiometry float64 `json:"stoichiometry" `
 }
@@ -142,7 +142,7 @@ type ReactionElement struct {
 // The Equation object describes a mathematical equation used to model parts of a
 // reaction system.
 type Equation struct {
-	Id           int64        `json:"id" gorm:"primaryKey;autoIncrement"`
+	Id           int64        `json:"-" gorm:"primaryKey;autoIncrement"`
 	SpeciesId    string       `json:"species_id" `
 	Equation     string       `json:"equation" `
 	EquationType EquationType `json:"equation_type" `
@@ -207,7 +207,7 @@ type Measurement struct {
 // data points over time. Endpoint data is treated as a time course data point
 // with only one data point.
 type MeasurementData struct {
-	Id          int64   `json:"id" gorm:"primaryKey;autoIncrement"`
+	Id          int64   `json:"-" gorm:"primaryKey;autoIncrement"`
 	SpeciesId   string  `json:"species_id" `
 	Initial     float64 `json:"initial" `
 	DataUnitID  int64
@@ -234,7 +234,7 @@ type UnitDefinition struct {
 //
 // Represents a base unit in the unit definition.
 type BaseUnit struct {
-	Id         int64    `json:"id" gorm:"primaryKey;autoIncrement"`
+	Id         int64    `json:"-" gorm:"primaryKey;autoIncrement"`
 	Kind       UnitType `json:"kind" `
 	Exponent   int64    `json:"exponent" `
 	Multiplier float64  `json:"multiplier,omitempty" `
