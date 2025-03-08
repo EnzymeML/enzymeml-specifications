@@ -55,10 +55,10 @@ type Creator struct {
 // reaction vessels, microplates, or bioreactors. It captures key properties
 // like volume and whether the volume remains constant during the experiment.
 type Vessel struct {
-	Id       string  `json:"id" gorm:"primaryKey"`
-	Name     string  `json:"name" `
-	Volume   float64 `json:"volume" `
-	UnitID   string
+	Id       string         `json:"id" gorm:"primaryKey"`
+	Name     string         `json:"name" `
+	Volume   float64        `json:"volume" `
+	UnitID   string         `json:"-"`
 	Unit     UnitDefinition `json:"unit" gorm:"foreignKey:UnitID;"`
 	Constant bool           `json:"constant" `
 }
@@ -114,10 +114,10 @@ type SmallMolecule struct {
 // The Reaction object represents a chemical or enzymatic reaction and holds the
 // different species and modifiers that are part of the reaction.
 type Reaction struct {
-	Id           string `json:"id" gorm:"primaryKey"`
-	Name         string `json:"name" `
-	Reversible   bool   `json:"reversible" `
-	KineticLawID string
+	Id           string            `json:"id" gorm:"primaryKey"`
+	Name         string            `json:"name" `
+	Reversible   bool              `json:"reversible" `
+	KineticLawID string            `json:"-"`
 	KineticLaw   Equation          `json:"kinetic_law,omitempty" gorm:"foreignKey:KineticLawID;"`
 	Species      []ReactionElement `json:"species,omitempty" gorm:"many2many:reaction_species;"`
 	Modifiers    []string          `json:"modifiers,omitempty" gorm:"serializer:json;"`
@@ -168,11 +168,11 @@ type Variable struct {
 // constants, binding constants, or other numerical values that appear in rate
 // equations or other mathematical expressions.
 type Parameter struct {
-	Id           string  `json:"id" gorm:"primaryKey"`
-	Name         string  `json:"name" `
-	Symbol       string  `json:"symbol" `
-	Value        float64 `json:"value,omitempty" `
-	UnitID       string
+	Id           string         `json:"id" gorm:"primaryKey"`
+	Name         string         `json:"name" `
+	Symbol       string         `json:"symbol" `
+	Value        float64        `json:"value,omitempty" `
+	UnitID       string         `json:"-"`
 	Unit         UnitDefinition `json:"unit,omitempty" gorm:"foreignKey:UnitID;"`
 	InitialValue float64        `json:"initial_value,omitempty" `
 	UpperBound   float64        `json:"upper_bound,omitempty" `
@@ -195,8 +195,8 @@ type Measurement struct {
 	GroupId           string            `json:"group_id,omitempty" `
 	Ph                float64           `json:"ph,omitempty" `
 	Temperature       float64           `json:"temperature,omitempty" `
-	TemperatureUnitID string
-	TemperatureUnit   UnitDefinition `json:"temperature_unit,omitempty" gorm:"foreignKey:TemperatureUnitID;"`
+	TemperatureUnitID string            `json:"-"`
+	TemperatureUnit   UnitDefinition    `json:"temperature_unit,omitempty" gorm:"foreignKey:TemperatureUnitID;"`
 }
 
 // MeasurementData
@@ -207,16 +207,16 @@ type Measurement struct {
 // data points over time. Endpoint data is treated as a time course data point
 // with only one data point.
 type MeasurementData struct {
-	Id          int64   `json:"-" gorm:"primaryKey;autoIncrement"`
-	SpeciesId   string  `json:"species_id" `
-	Initial     float64 `json:"initial" `
-	DataUnitID  int64
+	Id          int64          `json:"-" gorm:"primaryKey;autoIncrement"`
+	SpeciesId   string         `json:"species_id" `
+	Initial     float64        `json:"initial" `
+	DataUnitID  int64          `json:"-"`
 	DataUnit    UnitDefinition `json:"data_unit" gorm:"foreignKey:DataUnitID;"`
 	DataType    DataTypes      `json:"data_type" `
 	Prepared    float64        `json:"prepared,omitempty" `
 	Data        []float64      `json:"data,omitempty" gorm:"serializer:json;"`
 	Time        []float64      `json:"time,omitempty" gorm:"serializer:json;"`
-	TimeUnitID  int64
+	TimeUnitID  int64          `json:"-"`
 	TimeUnit    UnitDefinition `json:"time_unit,omitempty" gorm:"foreignKey:TimeUnitID;"`
 	IsSimulated bool           `json:"is_simulated" `
 }
