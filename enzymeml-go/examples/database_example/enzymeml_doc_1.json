@@ -12,7 +12,6 @@
             "id": "vessel1",
             "name": "Reaction Vessel 1",
             "volume": 1,
-            "UnitID": "litre",
             "unit": {
                 "id": "litre",
                 "name": "litre",
@@ -55,7 +54,6 @@
             "id": "reaction1",
             "name": "Example Reaction",
             "reversible": false,
-            "KineticLawID": "",
             "kinetic_law": {
                 "species_id": "",
                 "equation": "",
@@ -82,7 +80,6 @@
             "name": "Example Measurement",
             "ph": 7,
             "temperature": 298.15,
-            "TemperatureUnitID": "kelvin",
             "temperature_unit": {
                 "id": "kelvin",
                 "name": "kelvin",
