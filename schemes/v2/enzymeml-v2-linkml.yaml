@@ -12,6 +12,9 @@ classes:
   EnzymeMLDocument:
     description: The EnzymeMLDocument is the root object that serves as a container for all components of an enzymatic experiment. It includes essential metadata about the document itself, such as its title and creation/modification dates, as well as references to related publications and databases. Additionally, it contains comprehensive information about the experimental setup, including reaction vessels, proteins, complexes, small molecules, reactions, measurements, equations, and parameters.
     tree_root: true
+    slot_usage:
+      version:
+        pattern: '"^(\d+)\.\d+$"'
     attributes:
       name:
         description: Title of the EnzymeML Document.
