@@ -109,7 +109,7 @@ classes:
         range: boolean
   Protein:
     description: The Protein object represents enzymes and other proteins involved in the experiment.
-    class_uri: schema:Protein
+    class_uri: OBO:PR_000000001
     attributes:
       id:
         description: Identifier of the protein, such as a UniProt ID, or a custom identifier.
@@ -226,7 +226,7 @@ classes:
         identifier: true
         multivalued: true
   ReactionElement:
-    description: This object is part of the  object and describes a species (SmallMolecule, Protein, Complex) participating in the reaction. THE TYPE OF THE REACTION ELEMENT IS SPECIFIED IN THE TYPE FIELD. The stochiometry is of the species is specified in the  field, whereas negative values indicate that the species is a reactant and positive values indicate that the species is a product of the reaction.
+    description: This object is part of the  object and describes a species (SmallMolecule, Protein, Complex) participating in the reaction. The stochiometry is of the species is specified in the  field, whereas negative values indicate that the species is a reactant and positive values indicate that the species is a product of the reaction.
     attributes:
       species_id:
         description: Internal identifier to either a protein or reactant defined in the EnzymeML Document.
