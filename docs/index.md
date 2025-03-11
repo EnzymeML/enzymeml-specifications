@@ -88,5 +88,5 @@ For the full specification of an EnzymeML Document, refer to the [EnzymeML Data 
     `species_id: s1`  
     `equation: v_max * s1 / (km + s1)`
 
-    Besides the *id* field, a `SmallMolecule` and `Protein` posess a *reference* field.
+    Besides the *id* field, a `SmallMolecule` and `Protein` possess a *reference* field.
     Its purpose is to reference an database entry in which a `Protein` or `SmallMolecule` is defined. This could be an url to an UniProt or ChEBI entry

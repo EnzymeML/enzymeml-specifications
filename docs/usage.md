@@ -11,7 +11,7 @@ The EnzymeML Suite is available for Windows, macOS, and Linux and can be downloa
 
 ## Python tools
 
-Besides the native APIs, Python tools for directly reading in and processing data from different analytical instruments are available. The tools have in common that thex enable to read in measured data and enble to supplement information on reaction conditians as well as initial concenrtratiosn in a streamlined fashion. Finally, an EnzymeML Document with concenttratio data and information on the initial conditions of all catlysts, substrates and products of an reaction is created.
+Besides the native APIs, Python tools are available for directly reading and processing data from various analytical instruments. These tools share the ability to import measured data and supplement information on reaction conditions and initial concentrations in a streamlined manner. Finally, an EnzymeML document is generated, containing concentration data and details on the initial conditions of all catalysts, substrates, and products of a reaction.
 
 ### Photometric Data
 
@@ -49,5 +49,5 @@ EnzymeML provides native APIs in [Python](https://github.com/EnzymeML/PyEnzyme/t
     `species_id: s1`  
     `equation: v_max * s1 / (km + s1)`
 
-    Besides the *id* field, a `SmallMolecule` and `Protein` posess a *reference* field.
+    Besides the *id* field, a `SmallMolecule` and `Protein` possess a *reference* field.
     Its purpose is to reference an database entry in which a `Protein` or `SmallMolecule` is defined. This could be an url to an UniProt or ChEBI entry
