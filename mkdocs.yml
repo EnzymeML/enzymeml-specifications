@@ -47,10 +47,11 @@ theme:
         name: Switch to light mode
 nav:
   - Home: index.md
-  - Team: team.md
+  - Usage: usage.md
   - Publications: publications.md
   - "EnzymeML Data Model":
       - "Version 2.0": versions/v2.md
+  - "Team": team.md
   - "Validation": validation.md
 
 markdown_extensions:

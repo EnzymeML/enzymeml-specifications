@@ -67,186 +67,26 @@ An EnzymeML Document organizes and contextualizes data of a biocatalytic reactio
 For the full specification of an EnzymeML Document, refer to the [EnzymeML Data Model](versions/v2.md).
 
 
-## How to use EnzymeML?
+## FAQ
 
-EnzymeML can be used in different ways, ranging from a desktop application to a set of native APIs:
+??? question "Is EnzymeML a database?"
+    No. EnzymeML is an exchange format. But the EnzymeML Data Model can be used as a blueprint to setup a local data base. 
 
-### EnzymeML Suite
+??? question "How to define a solvent or buffer"
+    A solvent or buffer in a reaction can be defined in two ways. Either it is treated as a single `SmallMolecule` from a simplified perspective, or all `SmallMolecule` components of the buffer are defined separately and grouped together as a `Complex`.
 
-The EnzymeML Suite is a desktop application for creating, editing, and visualizing EnzymeML Documents. Via the sidebar, different elements of an EnzymeML Document can be added and edited.
-![EnzymeML Suite](img/suite.png){ width="75%" }  
-The EnzymeML Suite is available for Windows, macOS, and Linux and can be downloaded from [here](https://github.com/EnzymeML/enzymeml-suite/releases/tag/v0.0.1).
+??? question "How is data from endpoint measurements handled?"
+    Endpoint measurement data is handled in the same way as time-course data. Within an EnzymeML document, endpoint data is treated like time-course data with a single measurement point.  
+    For example, if the concentration of a substrate species with an initial concentration of 200 µM was measured after 30 minutes and 120 µM remained, the `MeasurementData` object should be defined as follows:  
+    `initial: 200`  
+    `time: [0, 30]`  
+    `data: [200, 120]`  
 
+??? question "How to reference a `SmallMolecule` or `Protein` from ?"
+    Both, a `SmallMolecule` and `Protein` share the fields *id* and *reference*. The *id* serves as an internal identifier, which allows to reference a `SmallMolecule` or `Protein` in `MeasurementData`, within a `Complex`, or within an `Equation` via the *species_id* field.  
+    For example if a substrate `SmallMolecule` is defined with the id *s1*, it can be referenced in an `Equation`:  
+    `species_id: s1`  
+    `equation: v_max * s1 / (km + s1)`
 
-### Native APIs
-
-EnzymeML provides native APIs in Python, TypeScript, Rust, and Go. These APIs allow to read and write EnzymeML Documents programmatically in different programming languages.
-
-??? example "EnzymeML API Examples"
-
-    === "`pyenzyme`"
-
-        ```python
-        from pyenzyme.v2 import (
-            EnzymeMLDocument, Protein, SmallMolecule, 
-            UnitDefinition, BaseUnit, UnitType
-        )
-
-        # Create a new EnzymeML document
-        doc = EnzymeMLDocument(
-            name="Example Document",
-            created="2024-03-20",
-            creators=[]
-        )
-
-        # Add an enzyme
-        enzyme = doc.add_to_proteins(
-            id="P13006",
-            name="Glucose Oxidase",
-            constant=True,
-            sequence="MKLLLPVL...",  # Full sequence here
-            ecnumber="1.1.3.4"
-        )
-
-        # Add glucose as substrate
-        glucose = doc.add_to_small_molecules(
-            id="50-99-7", 
-            name="D-Glucose",
-            constant=False,
-            canonical_smiles="C([C@@H]1[C@H]([C@@H]([C@H](C(O1)O)O)O)O)O"
-        )
-        ```
-
-    === "`enzymeml-ts`"
-
-        ```typescript
-        import { 
-            EnzymeMLDocument, Protein, SmallMolecule,
-            UnitDefinition, BaseUnit, UnitType 
-        } from 'enzymeml-ts';
-
-        // Create a new EnzymeML document
-        const doc: EnzymeMLDocument = {
-            name: "Example Document",
-            created: "2024-03-20",
-            creators: [],
-            proteins: [],
-            small_molecules: [],
-            references: []
-        };
-
-        // Add an enzyme
-        const enzyme: Protein = {
-            id: "P13006",
-            name: "Glucose Oxidase",
-            constant: true,
-            sequence: "MKLLLPVL...", // Full sequence here
-            ecnumber: "1.1.3.4"
-        };
-        doc.proteins.push(enzyme);
-
-        // Add glucose as substrate
-        const glucose: SmallMolecule = {
-            id: "50-99-7",
-            name: "D-Glucose",
-            constant: false,
-            canonical_smiles: "C([C@@H]1[C@H]([C@@H]([C@H](C(O1)O)O)O)O)O"
-        };
-        doc.small_molecules.push(glucose);
-        ```
-
-    === "`enzymeml-rs`"
-
-        ```rust
-        use enzymeml::versions::v2::{
-            EnzymeMLDocument, Protein, SmallMolecule,
-            UnitDefinition, BaseUnit, UnitType
-        };
-
-        // Create a new EnzymeML document
-        let mut doc = EnzymeMLDocument {
-            name: String::from("Example Document"),
-            created: Some(String::from("2024-03-20")),
-            creators: None,
-            proteins: Some(Vec::new()),
-            small_molecules: Some(Vec::new()),
-            references: None,
-            ..Default::default()
-        };
-
-        // Add an enzyme
-        let enzyme = Protein {
-            id: String::from("P13006"),
-            name: String::from("Glucose Oxidase"),
-            constant: true,
-            sequence: Some(String::from("MKLLLPVL...")), // Full sequence here
-            ecnumber: Some(String::from("1.1.3.4")),
-            ..Default::default()
-        };
-        doc.proteins.as_mut().unwrap().push(enzyme);
-
-        // Add glucose as substrate
-        let glucose = SmallMolecule {
-            id: String::from("50-99-7"),
-            name: String::from("D-Glucose"),
-            constant: false,
-            canonical_smiles: Some(String::from(
-                "C([C@@H]1[C@H]([C@@H]([C@H](C(O1)O)O)O)O)O"
-            )),
-            ..Default::default()
-        };
-        doc.small_molecules.as_mut().unwrap().push(glucose);
-        ```
-
-    === "`enzymeml-go`"
-
-        ```go
-        package main
-
-        import "github.com/enzymeml/enzymeml-go"
-
-        func main() {
-            // Create a new EnzymeML document
-            doc := enzymeml.EnzymeMLDocument{
-                Name:    "Example Document",
-                Created: "2024-03-20",
-            }
-
-            // Add an enzyme
-            enzyme := enzymeml.Protein{
-                Id:       "P13006",
-                Name:     "Glucose Oxidase",
-                Constant: true,
-                Sequence: "MKLLLPVL...", // Full sequence here
-                Ecnumber: "1.1.3.4",
-            }
-            doc.Proteins = append(doc.Proteins, enzyme)
-
-            // Add glucose as substrate
-            glucose := enzymeml.SmallMolecule{
-                Id:              "50-99-7",
-                Name:            "D-Glucose",
-                Constant:        false,
-                Canonical_smiles: "C([C@@H]1[C@H]([C@@H]([C@H](C(O1)O)O)O)O)O",
-            }
-            doc.Small_molecules = append(doc.Small_molecules, glucose)
-        }
-        ```
-
-
-### Python tools
-
-Besides the native APIs, Python tools for directly reading in and processing data from different analytical instruments are available.
-
-#### 🔬 Photometric Data
-
-The [MTPHandler](https://fairchemistry.github.io/MTPHandler/) Python library streamlines the processing of photometric data from plate readers. It enables reading, processing, and exporting data from a variety of plate reader formats, blank correction, and concentration calculation in a scalable way.
-
-#### 🌈 Chromatographic Data
-
-The [Chromatopy](https://fairchemistry.github.io/Chromatopy) Python library streamlines the processing of chromatographic time-course data. It enables reading, processing, and exporting data from a variety of chromatographic instruments, assignment of retention times to molecules, and concentration calculation in a scalable way.
-
-#### 🧲 NMR Data
-
-The [NMRPy](https://nmrpy.readthedocs.io/en/latest/) Python library streamlines the processing of NMR time-course data.
-
+    Besides the *id* field, a `SmallMolecule` and `Protein` posess a *reference* field.
+    Its purpose is to reference an database entry in which a `Protein` or `SmallMolecule` is defined. This could be an url to an UniProt or ChEBI entry
