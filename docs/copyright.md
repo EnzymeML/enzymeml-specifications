@@ -1,4 +1,20 @@
 # Disclaimer
+
+## Legal Notice
+
+Prof. Dr. Jürgen Pleiss  
+Institute of Biochemistry  
+University of Stuttgart  
+Allmandring 31  
+70569 Stuttgart  
+Germany
+
+webmaster@enzymeml.org
+
+The University of Stuttgart is a public sector entity:  
+[https://www.uni-stuttgart.de/en/legal-notice/](https://www.uni-stuttgart.de/en/legal-notice/)
+
+
 ## Content of the Online Offering
 The author assumes no liability for the timeliness, accuracy, completeness, or quality of the information provided. Any liability claims against the author relating to material or non-material damages caused by the use or non-use of the presented information, or by the use of incorrect or incomplete information, are generally excluded unless there is demonstrable intentional or grossly negligent fault on the part of the author. All offers are non-binding and without obligation. The author expressly reserves the right to change, supplement, delete, or temporarily or permanently discontinue parts of the pages or the entire offering without prior notice.
 
