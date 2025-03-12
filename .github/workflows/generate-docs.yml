@@ -1,0 +1,36 @@
+name: Deploy Docs
+
+on:
+  push:
+    branches:
+      - master
+      - main
+
+permissions:
+  contents: write
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v4
+        with:
+          python-version: 3.x
+      - uses: actions/cache@v2
+        with:
+          path: .cache
+          key: ${{ github.ref }}
+
+      - run: pip install mkdocs-material mkdocs-jupyter mkdocs-plotly-plugin mkdocstrings-python
+      
+      # Create CNAME file inside site/ before deployment
+      - name: Create CNAME file
+        run: |
+          echo "realenzymeml.org" > docs/CNAME
+
+      - name: Build MkDocs site
+        run: mkdocs build
+
+      - name: Deploy MkDocs site
+        run: mkdocs gh-deploy --force
