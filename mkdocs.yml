@@ -1,6 +1,6 @@
 repo_url: https://github.com/EnzymeML/enzymeml-specifications
 site_name: EnzymeML
-site_url: https://enzymeml.org
+site_url: https://realenzymeml.org
 edit_uri: edit/main/docs/
 extra_javascript:
   - js/treeviewer.js
