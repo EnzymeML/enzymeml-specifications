@@ -22,7 +22,7 @@ jobs:
           path: .cache
           key: ${{ github.ref }}
 
-      - run: pip install mkdocs-material mkdocs-jupyter mkdocs-plotly-plugin mkdocstrings-python
+      - run: pip install mkdocs-material mkdocs-jupyter mkdocs-plotly-plugin mkdocstrings-python mkdocs-plugin-inline-svg
       
       # Create CNAME file inside site/ before deployment
       - name: Create CNAME file
