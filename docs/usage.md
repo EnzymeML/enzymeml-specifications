@@ -33,6 +33,9 @@ EnzymeML provides native APIs in [Python](https://github.com/EnzymeML/PyEnzyme/t
 
 ## FAQ
 
+??? question "Is EnzymeML a database?"
+    No. EnzymeML is an exchange format. But the EnzymeML Data Model can be used as a blueprint to setup a local data base. 
+
 ??? question "How to define a solvent or buffer"
     A solvent or buffer in a reaction can be defined in two ways. Either it is treated as a single `SmallMolecule` from a simplified perspective, or all `SmallMolecule` components of the buffer are defined separately and grouped together as a `Complex`.
 
