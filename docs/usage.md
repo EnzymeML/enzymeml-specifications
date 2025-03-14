@@ -23,7 +23,7 @@ The [Chromatopy](https://fairchemistry.github.io/chromatopy/) Python library str
 
 ### NMR Data
 
-The [NMRPy](https://nmrpy.readthedocs.io/en/latest/) Python library streamlines the processing of NMR time-course data.
+The [NMRPy](https://nmrpy.readthedocs.io/en/latest/) Python library streamlines the processing of NMR time-course data. It allows for FAIR and reproducible workflows starting from the raw output of NMR spectrometers from Bruker, Varian, and more. Either interactive widgets or scripts can be used to (pre-)process the NMR spectra and prepare them for downstream analyses of the time courses collected. Features include apodisation, zero-filling, Fourier transformation, phase correction, peak picking, deconvolution, baseline correction, and more. NMRpy is integrated with EnzymeML, allowing to parse existing EnzymeML documents to assign species to picked peaks, prepare new Measurement objects, calculate concentrations from deconvoluted integrals, and return the updated EnzymeML document. The NMR data and metadata, including instrument and measurement parameters, as well as all processing steps performed, can be saved to standardized data exchange formats like JSON or XML to allow for full re-analysis.
 
 
 ## Native APIs
