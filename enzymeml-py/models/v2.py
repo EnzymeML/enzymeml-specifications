@@ -111,9 +111,9 @@ class EnzymeMLDocument(BaseModel):
     )  # type: ignore
 
     name: str
-    created: Optional[str] = Field(default=None)
-    modified: Optional[str] = Field(default=None)
-    version: str = 2.0
+    created: Optional[Optional[str]] = Field(default=None)
+    modified: Optional[Optional[str]] = Field(default=None)
+    version: Optional[str] = "2.0"
     creators: list[Creator] = Field(default_factory=list)
     vessels: list[Vessel] = Field(default_factory=list)
     proteins: list[Protein] = Field(default_factory=list)
@@ -768,11 +768,11 @@ class Protein(BaseModel):
     id: str
     name: str
     constant: bool = True
-    sequence: Optional[str] = Field(default=None)
-    vessel_id: Optional[str] = Field(default=None)
-    ecnumber: Optional[str] = Field(default=None)
-    organism: Optional[str] = Field(default=None)
-    organism_tax_id: Optional[str] = Field(default=None)
+    sequence: Optional[Optional[str]] = Field(default=None)
+    vessel_id: Optional[Optional[str]] = Field(default=None)
+    ecnumber: Optional[Optional[str]] = Field(default=None)
+    organism: Optional[Optional[str]] = Field(default=None)
+    organism_tax_id: Optional[Optional[str]] = Field(default=None)
     references: list[str] = Field(default_factory=list)
 
     # JSON-LD fields
@@ -885,7 +885,7 @@ class Complex(BaseModel):
     id: str
     name: str
     constant: bool = False
-    vessel_id: Optional[str] = Field(default=None)
+    vessel_id: Optional[Optional[str]] = Field(default=None)
     participants: list[str] = Field(default_factory=list)
 
     # JSON-LD fields
@@ -994,10 +994,10 @@ class SmallMolecule(BaseModel):
     id: str
     name: str
     constant: bool = False
-    vessel_id: Optional[str] = Field(default=None)
-    canonical_smiles: Optional[str] = Field(default=None)
-    inchi: Optional[str] = Field(default=None)
-    inchikey: Optional[str] = Field(default=None)
+    vessel_id: Optional[Optional[str]] = Field(default=None)
+    canonical_smiles: Optional[Optional[str]] = Field(default=None)
+    inchi: Optional[Optional[str]] = Field(default=None)
+    inchikey: Optional[Optional[str]] = Field(default=None)
     references: list[str] = Field(default_factory=list)
 
     # JSON-LD fields
@@ -1107,7 +1107,7 @@ class Reaction(BaseModel):
     id: str
     name: str
     reversible: bool = False
-    kinetic_law: Optional[Equation] = Field(default=None)
+    kinetic_law: Optional[Optional[Equation]] = Field(default=None)
     species: list[ReactionElement] = Field(default_factory=list)
     modifiers: list[str] = Field(default_factory=list)
 
@@ -1564,13 +1564,13 @@ class Parameter(BaseModel):
     id: str
     name: str
     symbol: str
-    value: Optional[float] = Field(default=None)
-    unit: Optional[UnitDefinitionAnnot] = Field(default=None)
-    initial_value: Optional[float] = Field(default=None)
-    upper_bound: Optional[float] = Field(default=None)
-    lower_bound: Optional[float] = Field(default=None)
-    stderr: Optional[float] = Field(default=None)
-    constant: bool = True
+    value: Optional[Optional[float]] = Field(default=None)
+    unit: Optional[Optional[UnitDefinitionAnnot]] = Field(default=None)
+    initial_value: Optional[Optional[float]] = Field(default=None)
+    upper_bound: Optional[Optional[float]] = Field(default=None)
+    lower_bound: Optional[Optional[float]] = Field(default=None)
+    stderr: Optional[Optional[float]] = Field(default=None)
+    constant: Optional[bool] = True
 
     # JSON-LD fields
     ld_id: str = Field(
@@ -1670,10 +1670,10 @@ class Measurement(BaseModel):
     id: str
     name: str
     species_data: list[MeasurementData] = Field(default_factory=list)
-    group_id: Optional[str] = Field(default=None)
-    ph: Optional[float] = Field(default=None)
-    temperature: Optional[float] = Field(default=None)
-    temperature_unit: Optional[UnitDefinitionAnnot] = Field(default=None)
+    group_id: Optional[Optional[str]] = Field(default=None)
+    ph: Optional[Optional[float]] = Field(default=None)
+    temperature: Optional[Optional[float]] = Field(default=None)
+    temperature_unit: Optional[Optional[UnitDefinitionAnnot]] = Field(default=None)
 
     # JSON-LD fields
     ld_id: str = Field(
@@ -1821,10 +1821,10 @@ class MeasurementData(BaseModel):
     initial: float
     data_unit: UnitDefinitionAnnot
     data_type: DataTypes
-    prepared: Optional[float] = Field(default=None)
+    prepared: Optional[Optional[float]] = Field(default=None)
     data: list[float] = Field(default_factory=list)
     time: list[float] = Field(default_factory=list)
-    time_unit: Optional[UnitDefinitionAnnot] = Field(default=None)
+    time_unit: Optional[Optional[UnitDefinitionAnnot]] = Field(default=None)
     is_simulated: bool = False
 
     # JSON-LD fields

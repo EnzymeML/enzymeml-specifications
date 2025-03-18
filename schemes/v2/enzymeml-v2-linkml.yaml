@@ -2,8 +2,8 @@ id: enzml
 name: EnzymeML V2
 title: EnzymeML V2
 prefixes:
-  schema: https://schema.org/
   OBO: http://purl.obolibrary.org/obo/
+  schema: https://schema.org/
 default_prefix: enzml
 default_range: string
 imports:
