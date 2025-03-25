@@ -23,11 +23,6 @@ jobs:
           key: ${{ github.ref }}
 
       - run: pip install mkdocs-material mkdocs-jupyter mkdocs-plotly-plugin mkdocstrings-python mkdocs-plugin-inline-svg
-      
-      # Create CNAME file inside site/ before deployment
-      - name: Create CNAME file
-        run: |
-          echo "realenzymeml.org" > docs/CNAME
 
       - name: Build MkDocs site
         run: mkdocs build
