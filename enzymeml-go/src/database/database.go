@@ -104,7 +104,8 @@ func (m *DBManager) GetEnzymeMLDocumentByID(id uint) (*enzymeml_v2.EnzymeMLDocum
 		Preload("Complexes").
 		Preload("SmallMolecules").
 		Preload("Reactions.KineticLaw.Variables").
-		Preload("Reactions.Species").
+		Preload("Reactions.Reactants").
+		Preload("Reactions.Products").
 		Preload("Measurements.SpeciesData.DataUnit.BaseUnits").
 		Preload("Measurements.SpeciesData.TimeUnit.BaseUnits").
 		Preload("Measurements.TemperatureUnit.BaseUnits").
@@ -126,7 +127,8 @@ func (m *DBManager) GetAllEnzymeMLDocuments() ([]enzymeml_v2.EnzymeMLDocument, e
 		Preload("Complexes").
 		Preload("SmallMolecules").
 		Preload("Reactions.KineticLaw.Variables").
-		Preload("Reactions.Species").
+		Preload("Reactions.Reactants").
+		Preload("Reactions.Products").
 		Preload("Measurements.SpeciesData.DataUnit.BaseUnits").
 		Preload("Measurements.SpeciesData.TimeUnit.BaseUnits").
 		Preload("Measurements.TemperatureUnit.BaseUnits").
@@ -148,7 +150,8 @@ func (m *DBManager) GetEnzymeMLDocuments(limit int) ([]enzymeml_v2.EnzymeMLDocum
 		Preload("Complexes").
 		Preload("SmallMolecules").
 		Preload("Reactions.KineticLaw.Variables").
-		Preload("Reactions.Species").
+		Preload("Reactions.Reactants").
+		Preload("Reactions.Products").
 		Preload("Measurements.SpeciesData.DataUnit.BaseUnits").
 		Preload("Measurements.SpeciesData.TimeUnit.BaseUnits").
 		Preload("Measurements.TemperatureUnit.BaseUnits").
@@ -340,7 +343,10 @@ func (m *DBManager) SaveReaction(reaction *enzymeml_v2.Reaction) error {
 // GetReactionByID retrieves a Reaction by its ID, including kinetic law and species information
 func (m *DBManager) GetReactionByID(id uint) (*enzymeml_v2.Reaction, error) {
 	var reaction enzymeml_v2.Reaction
-	if err := m.db.Preload("KineticLaw.Variables").Preload("Species").First(&reaction, id).Error; err != nil {
+	if err := m.db.Preload("KineticLaw.Variables").
+		Preload("Reactants").
+		Preload("Products").
+		First(&reaction, id).Error; err != nil {
 		return nil, err
 	}
 	return &reaction, nil

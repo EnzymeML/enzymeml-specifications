@@ -11,10 +11,10 @@
 # EnzymeML V2 Type definitions
 type EnzymeMLDocument {
   name: String!
-  created: String
-  modified: String
-  creators: [Creator]
-  vessels: [Vessel]
+  created: String!
+  modified: String!
+  creators: [Creator]!
+  vessels: [Vessel]!
   proteins: [Protein]
   complexes: [Complex]
   small_molecules: [SmallMolecule]
@@ -75,7 +75,8 @@ type Reaction {
   name: String!
   reversible: Boolean!
   kinetic_law: Equation
-  species: [ReactionElement]
+  reactants: [ReactionElement]
+  products: [ReactionElement]
   modifiers: [String]
 }
 
@@ -122,14 +123,14 @@ type Measurement {
 
 type MeasurementData {
   species_id: String!
-  initial: Float!
-  data_unit: UnitDefinition!
-  data_type: DataTypes!
   prepared: Float
+  initial: Float
+  data_unit: UnitDefinition
   data: [Float]
   time: [Float]
   time_unit: UnitDefinition
-  is_simulated: Boolean!
+  data_type: DataTypes
+  is_simulated: Boolean
 }
 
 type UnitDefinition {
@@ -296,9 +297,9 @@ type Query {
   # MeasurementData queries
   allMeasurementDatas: [MeasurementData]
   measurementdataBySpeciesId(species_id: String): [MeasurementData]
+  measurementdataByPrepared(prepared: Float): [MeasurementData]
   measurementdataByInitial(initial: Float): [MeasurementData]
   measurementdataByDataType(data_type: DataTypes): [MeasurementData]
-  measurementdataByPrepared(prepared: Float): [MeasurementData]
   measurementdataByIsSimulated(is_simulated: Boolean): [MeasurementData]
 
   # UnitDefinition queries

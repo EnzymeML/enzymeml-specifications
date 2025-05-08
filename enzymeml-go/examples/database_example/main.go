@@ -144,11 +144,13 @@ func createExampleEnzymeMLDocument(dbManager *database.DBManager) {
 				Id:         "reaction1",
 				Name:       "Example Reaction",
 				Reversible: false,
-				Species: []enzymeml_v2.ReactionElement{
+				Reactants: []enzymeml_v2.ReactionElement{
 					{
 						SpeciesId:     "substrate1",
-						Stoichiometry: -1,
+						Stoichiometry: 1,
 					},
+				},
+				Products: []enzymeml_v2.ReactionElement{
 					{
 						SpeciesId:     "product1",
 						Stoichiometry: 1,
