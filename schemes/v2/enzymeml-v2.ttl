@@ -18,25 +18,25 @@ enzml:EnzymeMLDocumentShape
     sh:property [
         sh:path schema:dateCreated ;
         sh:datatype xsd:string ;
-        sh:minCount 0 ;
+        sh:minCount 1 ;
         sh:maxCount 1 ;
     ];
     sh:property [
         sh:path schema:dateModified ;
         sh:datatype xsd:string ;
-        sh:minCount 0 ;
+        sh:minCount 1 ;
         sh:maxCount 1 ;
     ];
     sh:property [
         sh:path schema:creator ;
         sh:node md:CreatorShape ;
-        sh:minCount 0 ;
+        sh:minCount 1 ;
     ];
     sh:property [
         sh:path schema:citation ;
         sh:datatype xsd:string ;
         sh:minCount 0 ;
-    ].
+    ]; .
 
 enzml:CreatorShape
     a sh:NodeShape ;
@@ -59,7 +59,7 @@ enzml:CreatorShape
         sh:datatype xsd:string ;
         sh:minCount 1 ;
         sh:maxCount 1 ;
-    ].
+    ]; .
 
 enzml:VesselShape
     a sh:NodeShape ;
@@ -82,7 +82,7 @@ enzml:VesselShape
         sh:datatype xsd:double ;
         sh:minCount 1 ;
         sh:maxCount 1 ;
-    ];
+    ]; .
 
 enzml:ProteinShape
     a sh:NodeShape ;
@@ -122,7 +122,7 @@ enzml:ProteinShape
         sh:path schema:citation ;
         sh:datatype xsd:string ;
         sh:minCount 0 ;
-    ].
+    ]; .
 
 enzml:ComplexShape
     a sh:NodeShape ;
@@ -145,7 +145,7 @@ enzml:ComplexShape
         sh:datatype xsd:string ;
         sh:minCount 0 ;
         sh:maxCount 1 ;
-    ];
+    ]; .
 
 enzml:SmallMoleculeShape
     a sh:NodeShape ;
@@ -173,7 +173,7 @@ enzml:SmallMoleculeShape
         sh:path schema:citation ;
         sh:datatype xsd:string ;
         sh:minCount 0 ;
-    ].
+    ]; .
 
 enzml:ReactionShape
     a sh:NodeShape ;
@@ -184,7 +184,7 @@ enzml:ReactionShape
         sh:datatype xsd:string ;
         sh:minCount 1 ;
         sh:maxCount 1 ;
-    ];
+    ]; .
 
 enzml:ReactionElementShape
     a sh:NodeShape ;
@@ -195,7 +195,7 @@ enzml:ReactionElementShape
         sh:datatype xsd:string ;
         sh:minCount 1 ;
         sh:maxCount 1 ;
-    ];
+    ]; .
 
 enzml:EquationShape
     a sh:NodeShape ;
@@ -206,7 +206,7 @@ enzml:EquationShape
         sh:datatype xsd:string ;
         sh:minCount 1 ;
         sh:maxCount 1 ;
-    ];
+    ]; .
 
 enzml:VariableShape
     a sh:NodeShape ;
@@ -217,7 +217,7 @@ enzml:VariableShape
         sh:datatype xsd:string ;
         sh:minCount 1 ;
         sh:maxCount 1 ;
-    ];
+    ]; .
 
 enzml:ParameterShape
     a sh:NodeShape ;
@@ -228,7 +228,7 @@ enzml:ParameterShape
         sh:datatype xsd:string ;
         sh:minCount 1 ;
         sh:maxCount 1 ;
-    ];
+    ]; .
 
 enzml:MeasurementShape
     a sh:NodeShape ;
@@ -239,4 +239,4 @@ enzml:MeasurementShape
         sh:datatype xsd:string ;
         sh:minCount 1 ;
         sh:maxCount 1 ;
-    ];
+    ]; .

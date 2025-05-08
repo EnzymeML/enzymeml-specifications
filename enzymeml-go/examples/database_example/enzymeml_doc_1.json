@@ -1,5 +1,7 @@
 {
     "name": "Example EnzymeML Document",
+    "created": "",
+    "modified": "",
     "creators": [
         {
             "given_name": "John",
@@ -59,11 +61,13 @@
                 "equation": "",
                 "equation_type": ""
             },
-            "species": [
+            "reactants": [
                 {
                     "species_id": "substrate1",
-                    "stoichiometry": -1
-                },
+                    "stoichiometry": 1
+                }
+            ],
+            "products": [
                 {
                     "species_id": "product1",
                     "stoichiometry": 1

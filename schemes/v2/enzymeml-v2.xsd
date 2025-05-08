@@ -50,7 +50,7 @@
                 </xs:annotation>
                 <xs:complexType>
                     <xs:sequence>
-                        <xs:element name="Creator" type="CreatorType" maxOccurs="unbounded"/>
+                        <xs:element name="Creator" type="CreatorType" maxOccurs="unbounded" minOccurs="1"/>
                     </xs:sequence>
                 </xs:complexType>
             </xs:element>
@@ -62,7 +62,7 @@
                 </xs:annotation>
                 <xs:complexType>
                     <xs:sequence>
-                        <xs:element name="Vessel" type="VesselType" maxOccurs="unbounded"/>
+                        <xs:element name="Vessel" type="VesselType" maxOccurs="unbounded" minOccurs="1"/>
                     </xs:sequence>
                 </xs:complexType>
             </xs:element>
@@ -452,10 +452,22 @@
                     </xs:documentation>
                 </xs:annotation>
             </xs:element>
-            <xs:element name="species">
+            <xs:element name="reactants">
                 <xs:annotation>
                     <xs:documentation>
-                        List of reaction elements that are part of the reaction.
+                        List of reactants that are part of the reaction.
+                    </xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="ReactionElement" type="ReactionElementType" maxOccurs="unbounded"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="products">
+                <xs:annotation>
+                    <xs:documentation>
+                        List of products that are part of the reaction.
                     </xs:documentation>
                 </xs:annotation>
                 <xs:complexType>
@@ -486,13 +498,10 @@
                     </xs:documentation>
                 </xs:annotation>
             </xs:element>
-            <xs:element name="stoichiometry" type="xs:float">
+            <xs:element name="stoichiometry" type="xs:float" default="1.0">
                 <xs:annotation>
                     <xs:documentation>
-                        Float number representing the associated stoichiometry. Negative
-                        values indicate that the species is a reactant
-                        and positive values indicate that the species
-                        is a product of the reaction.
+                        Float number representing the associated stoichiometry.
                     </xs:documentation>
                 </xs:annotation>
             </xs:element>
@@ -717,6 +726,18 @@
                     </xs:documentation>
                 </xs:annotation>
             </xs:element>
+            <xs:element name="prepared" type="xs:float">
+                <xs:annotation>
+                    <xs:documentation>
+                        Amount of the the species before starting the measurement. This field
+                        can be used for specifying the prepared amount
+                        of a species in the reaction mix. Not to be
+                        confused with , specifying the concentration
+                        of a species at the first data point from
+                        the array.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
             <xs:element name="initial" type="xs:float">
                 <xs:annotation>
                     <xs:documentation>
@@ -729,25 +750,6 @@
                 <xs:annotation>
                     <xs:documentation>
                         SI unit of the data that was measured.
-                    </xs:documentation>
-                </xs:annotation>
-            </xs:element>
-            <xs:element name="data_type" type="DataTypesType">
-                <xs:annotation>
-                    <xs:documentation>
-                        Type of data that was measured (e.g. concentration, absorbance, etc.)
-                    </xs:documentation>
-                </xs:annotation>
-            </xs:element>
-            <xs:element name="prepared" type="xs:float">
-                <xs:annotation>
-                    <xs:documentation>
-                        Amount of the the species before starting the measurement. This field
-                        can be used for specifying the prepared amount
-                        of a species in the reaction mix. Not to be
-                        confused with , specifying the concentration
-                        of a species at the first data point from
-                        the array.
                     </xs:documentation>
                 </xs:annotation>
             </xs:element>
@@ -769,6 +771,13 @@
                 <xs:annotation>
                     <xs:documentation>
                         Unit of the time points of the .
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="data_type" type="DataTypesType">
+                <xs:annotation>
+                    <xs:documentation>
+                        Type of data that was measured (e.g. concentration, absorbance, etc.)
                     </xs:documentation>
                 </xs:annotation>
             </xs:element>

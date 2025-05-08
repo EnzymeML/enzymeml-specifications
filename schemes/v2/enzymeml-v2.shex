@@ -9,17 +9,17 @@ enzml:EnzymeMLDocument {
             shex:label "name"
         ]
     };
-    schema:dateCreated xsd:string? {
+    schema:dateCreated xsd:string {
         shex:annotation [
             shex:label "created"
         ]
     };
-    schema:dateModified xsd:string? {
+    schema:dateModified xsd:string {
         shex:annotation [
             shex:label "modified"
         ]
     };
-    schema:creator @enzml:Creator* {
+    schema:creator @enzml:Creator+ {
         shex:annotation [
             shex:label "creators"
         ]
