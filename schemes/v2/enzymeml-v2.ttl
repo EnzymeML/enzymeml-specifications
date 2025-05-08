@@ -1,8 +1,8 @@
 @prefix sh: <http://www.w3.org/ns/shacl#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 @prefix enzml: <http://www.enzymeml.org/v2/> .
-@prefix schema: <https://schema.org/> .
 @prefix OBO: <http://purl.obolibrary.org/obo/> .
+@prefix schema: <https://schema.org/> .
 
 
 enzml:EnzymeMLDocumentShape
@@ -189,6 +189,17 @@ enzml:ReactionShape
 enzml:ReactionElementShape
     a sh:NodeShape ;
     sh:targetClass md:ReactionElement ;
+
+    sh:property [
+        sh:path schema:identifier ;
+        sh:datatype xsd:string ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+    ]; .
+
+enzml:ModifierElementShape
+    a sh:NodeShape ;
+    sh:targetClass md:ModifierElement ;
 
     sh:property [
         sh:path schema:identifier ;

@@ -2,8 +2,8 @@ id: enzml
 name: EnzymeML V2
 title: EnzymeML V2
 prefixes:
-  OBO: http://purl.obolibrary.org/obo/
   schema: https://schema.org/
+  OBO: http://purl.obolibrary.org/obo/
 default_prefix: enzml
 default_range: string
 imports:
@@ -12,6 +12,9 @@ classes:
   EnzymeMLDocument:
     description: The EnzymeMLDocument is the root object that serves as a container for all components of an enzymatic experiment. It includes essential metadata about the document itself, such as its title and creation/modification dates, as well as references to related publications and databases. Additionally, it contains comprehensive information about the experimental setup, including reaction vessels, proteins, complexes, small molecules, reactions, measurements, equations, and parameters.
     tree_root: true
+    slot_usage:
+      version:
+        pattern: '"^(\d+)\.\d+$"'
     attributes:
       name:
         description: Title of the EnzymeML Document.
@@ -25,6 +28,11 @@ classes:
         description: Date the EnzymeML Document was modified.
         slot_uri: schema:dateModified
         required: true
+      version:
+        description: The version of the EnzymeML Document.
+        required: true
+      description:
+        description: Description of the EnzymeML Document.
       creators:
         description: Contains descriptions of all authors that are part of the experiment.
         slot_uri: schema:creator
@@ -198,6 +206,9 @@ classes:
         description: International Chemical Identifier (InChI) encoding of the small molecule.
       inchikey:
         description: Hashed International Chemical Identifier (InChIKey) encoding of the small molecule.
+      synonymous_names:
+        description: List of synonymous names for the small molecule.
+        multivalued: true
       references:
         description: List of references to publications, database entries, etc. that describe or reference the small molecule.
         slot_uri: schema:citation
@@ -231,7 +242,7 @@ classes:
         multivalued: true
       modifiers:
         description: List of reaction elements that are not part of the reaction but influence it.
-        identifier: true
+        range: ModifierElement
         multivalued: true
   ReactionElement:
     description: This object is part of the  object and describes a species (SmallMolecule, Protein, Complex) participating in the reaction. The stochiometry is of the species is specified in the  field, whereas negative values indicate that the species is a reactant and positive values indicate that the species is a product of the reaction.
@@ -245,6 +256,18 @@ classes:
         description: Float number representing the associated stoichiometry.
         required: true
         range: float
+  ModifierElement:
+    description: The ModifierElement object represents a species that is not part of the reaction but influences it.
+    attributes:
+      species_id:
+        description: Internal identifier to either a protein or reactant defined in the EnzymeML Document.
+        slot_uri: schema:identifier
+        identifier: true
+        required: true
+      role:
+        description: Role of the modifier in the reaction.
+        required: true
+        range: ModifierRole
   Equation:
     description: The Equation object describes a mathematical equation used to model parts of a reaction system.
     attributes:
@@ -404,6 +427,29 @@ classes:
         description: Scale of the base unit in the unit definition.
         range: float
 enums:
+  ModifierRole:
+    permissible_values:
+      ACTIVATOR:
+        meaning: activator
+        description: activator
+      ADDITIVE:
+        meaning: additive
+        description: additive
+      BIOCATALYST:
+        meaning: biocatalyst
+        description: biocatalyst
+      BUFFER:
+        meaning: buffer
+        description: buffer
+      CATALYST:
+        meaning: catalyst
+        description: catalyst
+      INHIBITOR:
+        meaning: inhibitor
+        description: inhibitor
+      SOLVENT:
+        meaning: solvent
+        description: solvent
   EquationType:
     permissible_values:
       ASSIGNMENT:
@@ -423,6 +469,9 @@ enums:
       ABSORBANCE:
         meaning: absorbance
         description: absorbance
+      AMOUNT:
+        meaning: amount
+        description: amount
       CONCENTRATION:
         meaning: concentration
         description: concentration
@@ -438,6 +487,12 @@ enums:
       TRANSMITTANCE:
         meaning: transmittance
         description: transmittance
+      TURNOVER:
+        meaning: turnover
+        description: turnover
+      YIELD:
+        meaning: yield
+        description: yield
   UnitType:
     permissible_values:
       AMPERE:

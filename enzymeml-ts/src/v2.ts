@@ -60,6 +60,12 @@ export const EnzymeMLDocumentSchema = z.lazy(() => JsonLdSchema.extend({
   modified: z.string().describe(`
     Date the EnzymeML Document was modified.
   `),
+  version: z.string().describe(`
+    The version of the EnzymeML Document.
+  `),
+  description: z.string().nullable().describe(`
+    Description of the EnzymeML Document.
+  `),
   creators: z.array(CreatorSchema).describe(`
     Contains descriptions of all authors that are part of the experiment.
   `),
@@ -238,6 +244,9 @@ export const SmallMoleculeSchema = z.lazy(() => JsonLdSchema.extend({
     Hashed International Chemical Identifier (InChIKey) encoding of the
     small molecule.
   `),
+  synonymous_names: z.array(z.string()).describe(`
+    List of synonymous names for the small molecule.
+  `),
   references: z.array(z.string()).describe(`
     List of references to publications, database entries, etc. that
     describe or reference the small molecule.
@@ -268,7 +277,7 @@ export const ReactionSchema = z.lazy(() => JsonLdSchema.extend({
   products: z.array(ReactionElementSchema).describe(`
     List of products that are part of the reaction.
   `),
-  modifiers: z.array(z.string()).describe(`
+  modifiers: z.array(ModifierElementSchema).describe(`
     List of reaction elements that are not part of the reaction but
     influence it.
   `),
@@ -293,6 +302,20 @@ export const ReactionElementSchema = z.lazy(() => JsonLdSchema.extend({
 }));
 
 export type ReactionElement = z.infer<typeof ReactionElementSchema>;
+
+// The ModifierElement object represents a species that is not part of
+// the reaction but influences it.
+export const ModifierElementSchema = z.lazy(() => JsonLdSchema.extend({
+  species_id: z.string().describe(`
+    Internal identifier to either a protein or reactant defined in the
+    EnzymeML Document.
+  `),
+  role: ModifierRoleSchema.describe(`
+    Role of the modifier in the reaction.
+  `),
+}));
+
+export type ModifierElement = z.infer<typeof ModifierElementSchema>;
 
 // The Equation object describes a mathematical equation used to model
 // parts of a reaction system.
@@ -486,6 +509,18 @@ export const BaseUnitSchema = z.lazy(() => JsonLdSchema.extend({
 export type BaseUnit = z.infer<typeof BaseUnitSchema>;
 
 // EnzymeML V2 Enum definitions
+export enum ModifierRole {
+  ACTIVATOR = 'activator',
+  ADDITIVE = 'additive',
+  BIOCATALYST = 'biocatalyst',
+  BUFFER = 'buffer',
+  CATALYST = 'catalyst',
+  INHIBITOR = 'inhibitor',
+  SOLVENT = 'solvent',
+}
+
+export const ModifierRoleSchema = z.nativeEnum(ModifierRole);
+
 export enum EquationType {
   ASSIGNMENT = 'assignment',
   INITIAL_ASSIGNMENT = 'initialAssignment',
@@ -497,11 +532,14 @@ export const EquationTypeSchema = z.nativeEnum(EquationType);
 
 export enum DataTypes {
   ABSORBANCE = 'absorbance',
+  AMOUNT = 'amount',
   CONCENTRATION = 'concentration',
   CONVERSION = 'conversion',
   FLUORESCENCE = 'fluorescence',
   PEAK_AREA = 'peakarea',
   TRANSMITTANCE = 'transmittance',
+  TURNOVER = 'turnover',
+  YIELD = 'yield',
 }
 
 export const DataTypesSchema = z.nativeEnum(DataTypes);

@@ -10,6 +10,7 @@
     <xs:element name="SmallMolecule" type="SmallMoleculeType"/>
     <xs:element name="Reaction" type="ReactionType"/>
     <xs:element name="ReactionElement" type="ReactionElementType"/>
+    <xs:element name="ModifierElement" type="ModifierElementType"/>
     <xs:element name="Equation" type="EquationType"/>
     <xs:element name="Variable" type="VariableType"/>
     <xs:element name="Parameter" type="ParameterType"/>
@@ -39,6 +40,20 @@
                 <xs:annotation>
                     <xs:documentation>
                         Date the EnzymeML Document was modified.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="version" type="xs:string" default="2.0">
+                <xs:annotation>
+                    <xs:documentation>
+                        The version of the EnzymeML Document.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="description" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>
+                        Description of the EnzymeML Document.
                     </xs:documentation>
                 </xs:annotation>
             </xs:element>
@@ -410,6 +425,13 @@
                     </xs:documentation>
                 </xs:annotation>
             </xs:element>
+            <xs:element name="synonymous_names" type="xs:string"  maxOccurs="unbounded">
+                <xs:annotation>
+                    <xs:documentation>
+                        List of synonymous names for the small molecule.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
             <xs:element name="references" type="xs:string"  maxOccurs="unbounded">
                 <xs:annotation>
                     <xs:documentation>
@@ -476,13 +498,18 @@
                     </xs:sequence>
                 </xs:complexType>
             </xs:element>
-            <xs:element name="modifiers" type="xs:string"  maxOccurs="unbounded">
+            <xs:element name="modifiers">
                 <xs:annotation>
                     <xs:documentation>
                         List of reaction elements that are not part of the reaction but
                         influence it.
                     </xs:documentation>
                 </xs:annotation>
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="ModifierElement" type="ModifierElementType" maxOccurs="unbounded"/>
+                    </xs:sequence>
+                </xs:complexType>
             </xs:element>
         </xs:sequence>
     </xs:complexType>
@@ -502,6 +529,27 @@
                 <xs:annotation>
                     <xs:documentation>
                         Float number representing the associated stoichiometry.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+
+    <!-- ModifierElement Definition -->
+    <xs:complexType name="ModifierElementType">
+        <xs:sequence>
+            <xs:element name="species_id" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>
+                        Internal identifier to either a protein or reactant defined in the
+                        EnzymeML Document.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="role" type="ModifierRoleType">
+                <xs:annotation>
+                    <xs:documentation>
+                        Role of the modifier in the reaction.
                     </xs:documentation>
                 </xs:annotation>
             </xs:element>
@@ -856,6 +904,18 @@
         </xs:attribute>
     </xs:complexType>
 
+    <!-- Enum ModifierRole Definition -->
+    <xs:simpleType name="ModifierRoleType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="activator"/>
+            <xs:enumeration value="additive"/>
+            <xs:enumeration value="biocatalyst"/>
+            <xs:enumeration value="buffer"/>
+            <xs:enumeration value="catalyst"/>
+            <xs:enumeration value="inhibitor"/>
+            <xs:enumeration value="solvent"/>
+        </xs:restriction>
+    </xs:simpleType>
     <!-- Enum EquationType Definition -->
     <xs:simpleType name="EquationTypeType">
         <xs:restriction base="xs:string">
@@ -869,11 +929,14 @@
     <xs:simpleType name="DataTypesType">
         <xs:restriction base="xs:string">
             <xs:enumeration value="absorbance"/>
+            <xs:enumeration value="amount"/>
             <xs:enumeration value="concentration"/>
             <xs:enumeration value="conversion"/>
             <xs:enumeration value="fluorescence"/>
             <xs:enumeration value="peakarea"/>
             <xs:enumeration value="transmittance"/>
+            <xs:enumeration value="turnover"/>
+            <xs:enumeration value="yield"/>
         </xs:restriction>
     </xs:simpleType>
     <!-- Enum UnitType Definition -->

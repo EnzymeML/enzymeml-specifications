@@ -156,7 +156,12 @@ func createExampleEnzymeMLDocument(dbManager *database.DBManager) {
 						Stoichiometry: 1,
 					},
 				},
-				Modifiers: []string{"protein1"},
+				Modifiers: []enzymeml_v2.ModifierElement{
+					{
+						SpeciesId: "protein1",
+						Role:      enzymeml_v2.CATALYST,
+					},
+				},
 			},
 		},
 		// Define measurement conditions

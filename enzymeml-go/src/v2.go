@@ -23,6 +23,8 @@ type EnzymeMLDocument struct {
 	Name           string          `json:"name" `
 	Created        string          `json:"created" `
 	Modified       string          `json:"modified" `
+	Version        string          `json:"version" `
+	Description    string          `json:"description,omitempty" `
 	Creators       []Creator       `json:"creators" gorm:"many2many:enzymemldocument_creators;"`
 	Vessels        []Vessel        `json:"vessels" gorm:"many2many:enzymemldocument_vessels;"`
 	Proteins       []Protein       `json:"proteins,omitempty" gorm:"many2many:enzymemldocument_proteins;"`
@@ -106,6 +108,7 @@ type SmallMolecule struct {
 	CanonicalSmiles string   `json:"canonical_smiles,omitempty" `
 	Inchi           string   `json:"inchi,omitempty" `
 	Inchikey        string   `json:"inchikey,omitempty" `
+	SynonymousNames []string `json:"synonymous_names,omitempty" gorm:"serializer:json;"`
 	References      []string `json:"references,omitempty" gorm:"serializer:json;"`
 }
 
@@ -121,7 +124,7 @@ type Reaction struct {
 	KineticLaw   Equation          `json:"kinetic_law,omitempty" gorm:"foreignKey:KineticLawID;"`
 	Reactants    []ReactionElement `json:"reactants,omitempty" gorm:"many2many:reaction_reactants;"`
 	Products     []ReactionElement `json:"products,omitempty" gorm:"many2many:reaction_products;"`
-	Modifiers    []string          `json:"modifiers,omitempty" gorm:"serializer:json;"`
+	Modifiers    []ModifierElement `json:"modifiers,omitempty" gorm:"many2many:reaction_modifiers;"`
 }
 
 // ReactionElement
@@ -135,6 +138,16 @@ type ReactionElement struct {
 	Id            int64   `json:"-" gorm:"primaryKey;autoIncrement"`
 	SpeciesId     string  `json:"species_id" `
 	Stoichiometry float64 `json:"stoichiometry" `
+}
+
+// ModifierElement
+//
+// The ModifierElement object represents a species that is not part of the reaction
+// but influences it.
+type ModifierElement struct {
+	Id        int64        `json:"-" gorm:"primaryKey;autoIncrement"`
+	SpeciesId string       `json:"species_id" `
+	Role      ModifierRole `json:"role" `
 }
 
 // Equation
@@ -242,6 +255,18 @@ type BaseUnit struct {
 }
 
 // Enum definitions
+type ModifierRole string
+
+const (
+	ACTIVATOR   ModifierRole = "activator"
+	ADDITIVE    ModifierRole = "additive"
+	BIOCATALYST ModifierRole = "biocatalyst"
+	BUFFER      ModifierRole = "buffer"
+	CATALYST    ModifierRole = "catalyst"
+	INHIBITOR   ModifierRole = "inhibitor"
+	SOLVENT     ModifierRole = "solvent"
+)
+
 type EquationType string
 
 const (
@@ -255,11 +280,14 @@ type DataTypes string
 
 const (
 	ABSORBANCE    DataTypes = "absorbance"
+	AMOUNT        DataTypes = "amount"
 	CONCENTRATION DataTypes = "concentration"
 	CONVERSION    DataTypes = "conversion"
 	FLUORESCENCE  DataTypes = "fluorescence"
 	PEAK_AREA     DataTypes = "peakarea"
 	TRANSMITTANCE DataTypes = "transmittance"
+	TURNOVER      DataTypes = "turnover"
+	YIELD         DataTypes = "yield"
 )
 
 type UnitType string

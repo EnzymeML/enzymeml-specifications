@@ -28,6 +28,11 @@
         "$ref": "#/$defs/Creator"
       }
     },
+    "description": {
+      "title": "description",
+      "type": "string",
+      "description": "Description of the EnzymeML Document."
+    },
     "equations": {
       "title": "equations",
       "type": "array",
@@ -96,6 +101,12 @@
       "items": {
         "$ref": "#/$defs/SmallMolecule"
       }
+    },
+    "version": {
+      "title": "version",
+      "type": "string",
+      "description": "The version of the EnzymeML Document.",
+      "pattern": "\"^(\\d+)\\.\\d+$\""
     },
     "vessels": {
       "title": "vessels",
@@ -220,11 +231,14 @@
       "type": "string",
       "enum": [
         "absorbance",
+        "amount",
         "concentration",
         "conversion",
         "fluorescence",
         "peakarea",
-        "transmittance"
+        "transmittance",
+        "turnover",
+        "yield"
       ]
     },
     "Equation": {
@@ -299,8 +313,8 @@
           "title": "ph",
           "type": "number",
           "description": "pH value of the measurement.",
-          "minimum": 0.0,
-          "maximum": 14.0
+          "maximum": 14.0,
+          "minimum": 0.0
         },
         "species_data": {
           "title": "species_data",
@@ -392,6 +406,42 @@
         "species_id"
       ],
       "additionalProperties": false
+    },
+    "ModifierElement": {
+      "title": "ModifierElement",
+      "type": "object",
+      "description": "The ModifierElement object represents a species that is not part of the reaction but influences it.",
+      "properties": {
+        "role": {
+          "title": "role",
+          "description": "Role of the modifier in the reaction.",
+          "$ref": "#/$defs/ModifierRole"
+        },
+        "species_id": {
+          "title": "species_id",
+          "type": "string",
+          "description": "Internal identifier to either a protein or reactant defined in the EnzymeML Document.",
+          "$term": "https://schema.org/identifier"
+        }
+      },
+      "required": [
+        "species_id",
+        "role"
+      ],
+      "additionalProperties": false
+    },
+    "ModifierRole": {
+      "title": "ModifierRole",
+      "type": "string",
+      "enum": [
+        "activator",
+        "additive",
+        "biocatalyst",
+        "buffer",
+        "catalyst",
+        "inhibitor",
+        "solvent"
+      ]
     },
     "Parameter": {
       "title": "Parameter",
@@ -549,7 +599,7 @@
           "type": "array",
           "description": "List of reaction elements that are not part of the reaction but influence it.",
           "items": {
-            "type": "string"
+            "$ref": "#/$defs/ModifierElement"
           }
         },
         "name": {
@@ -655,6 +705,14 @@
           "type": "array",
           "description": "List of references to publications, database entries, etc. that describe or reference the small molecule.",
           "$term": "https://schema.org/citation",
+          "items": {
+            "type": "string"
+          }
+        },
+        "synonymous_names": {
+          "title": "synonymous_names",
+          "type": "array",
+          "description": "List of synonymous names for the small molecule.",
           "items": {
             "type": "string"
           }
@@ -819,6 +877,7 @@
     "name",
     "created",
     "modified",
+    "version",
     "creators",
     "vessels"
   ],

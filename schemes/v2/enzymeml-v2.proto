@@ -15,6 +15,15 @@ package enzymeml v2;
 //
 // EnzymeML V2 Enum definitions
 //
+enum ModifierRole {
+  ACTIVATOR = 0; // activator
+  ADDITIVE = 1; // additive
+  BIOCATALYST = 2; // biocatalyst
+  BUFFER = 3; // buffer
+  CATALYST = 4; // catalyst
+  INHIBITOR = 5; // inhibitor
+  SOLVENT = 6; // solvent
+}
 enum EquationType {
   ASSIGNMENT = 0; // assignment
   INITIAL_ASSIGNMENT = 1; // initialAssignment
@@ -23,11 +32,14 @@ enum EquationType {
 }
 enum DataTypes {
   ABSORBANCE = 0; // absorbance
-  CONCENTRATION = 1; // concentration
-  CONVERSION = 2; // conversion
-  FLUORESCENCE = 3; // fluorescence
-  PEAK_AREA = 4; // peakarea
-  TRANSMITTANCE = 5; // transmittance
+  AMOUNT = 1; // amount
+  CONCENTRATION = 2; // concentration
+  CONVERSION = 3; // conversion
+  FLUORESCENCE = 4; // fluorescence
+  PEAK_AREA = 5; // peakarea
+  TRANSMITTANCE = 6; // transmittance
+  TURNOVER = 7; // turnover
+  YIELD = 8; // yield
 }
 enum UnitType {
   AMPERE = 0; // ampere
@@ -78,34 +90,38 @@ message EnzymeMLDocument {
   string created = 2;
   // Date the EnzymeML Document was modified.
   string modified = 3;
+  // The version of the EnzymeML Document.
+  string version = 4;
+  // Description of the EnzymeML Document.
+  optional string description = 5;
   // Contains descriptions of all authors that are part of the experiment.
-  repeatedCreator creators = 4;
+  repeatedCreator creators = 6;
   // Contains descriptions of all vessels that are part of the experiment.
-  repeatedVessel vessels = 5;
+  repeatedVessel vessels = 7;
   // Contains descriptions of all proteins that are part of the experiment
   // that may be referenced in reactions, measurements, and equations.
-  repeated Protein proteins = 6;
+  repeated Protein proteins = 8;
   // Contains descriptions of all complexes that are part of the experiment
   // that may be referenced in reactions, measurements, and equations.
-  repeated Complex complexes = 7;
+  repeated Complex complexes = 9;
   // Contains descriptions of all reactants that are part of the experiment
   // that may be referenced in reactions, measurements, and equations.
-  repeated SmallMolecule small_molecules = 8;
+  repeated SmallMolecule small_molecules = 10;
   // Contains descriptions of all reactions that are part of the
   // experiment.
-  repeated Reaction reactions = 9;
+  repeated Reaction reactions = 11;
   // Contains descriptions of all measurements that are part of the
   // experiment.
-  repeated Measurement measurements = 10;
+  repeated Measurement measurements = 12;
   // Contains descriptions of all equations that are part of the
   // experiment.
-  repeated Equation equations = 11;
+  repeated Equation equations = 13;
   // Contains descriptions of all parameters that are part of the
   // experiment and may be used in equations.
-  repeated Parameter parameters = 12;
+  repeated Parameter parameters = 14;
   // Contains references to publications, databases, and arbitrary links to
   // the web.
-  repeated string references = 13;
+  repeated string references = 15;
 }
 
 message Creator {
@@ -188,9 +204,11 @@ message SmallMolecule {
   // Hashed International Chemical Identifier (InChIKey) encoding of the
   // small molecule.
   optional string inchikey = 7;
+  // List of synonymous names for the small molecule.
+  repeated string synonymous_names = 8;
   // List of references to publications, database entries, etc. that
   // describe or reference the small molecule.
-  repeated string references = 8;
+  repeated string references = 9;
 }
 
 message Reaction {
@@ -208,7 +226,7 @@ message Reaction {
   repeated ReactionElement products = 6;
   // List of reaction elements that are not part of the reaction but
   // influence it.
-  repeated string modifiers = 7;
+  repeated ModifierElement modifiers = 7;
 }
 
 message ReactionElement {
@@ -217,6 +235,14 @@ message ReactionElement {
   string species_id = 1;
   // Float number representing the associated stoichiometry.
   double stoichiometry = 2;
+}
+
+message ModifierElement {
+  // Internal identifier to either a protein or reactant defined in the
+  // EnzymeML Document.
+  string species_id = 1;
+  // Role of the modifier in the reaction.
+  ModifierRole role = 2;
 }
 
 message Equation {

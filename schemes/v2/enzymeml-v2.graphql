@@ -13,6 +13,8 @@ type EnzymeMLDocument {
   name: String!
   created: String!
   modified: String!
+  version: String!
+  description: String
   creators: [Creator]!
   vessels: [Vessel]!
   proteins: [Protein]
@@ -67,6 +69,7 @@ type SmallMolecule {
   canonical_smiles: String
   inchi: String
   inchikey: String
+  synonymous_names: [String]
   references: [String]
 }
 
@@ -77,12 +80,17 @@ type Reaction {
   kinetic_law: Equation
   reactants: [ReactionElement]
   products: [ReactionElement]
-  modifiers: [String]
+  modifiers: [ModifierElement]
 }
 
 type ReactionElement {
   species_id: String!
   stoichiometry: Float!
+}
+
+type ModifierElement {
+  species_id: String!
+  role: ModifierRole!
 }
 
 type Equation {
@@ -147,6 +155,16 @@ type BaseUnit {
 }
 
 # EnzymeML V2 Enum definitions
+enum ModifierRole {
+  ACTIVATOR # activator
+  ADDITIVE # additive
+  BIOCATALYST # biocatalyst
+  BUFFER # buffer
+  CATALYST # catalyst
+  INHIBITOR # inhibitor
+  SOLVENT # solvent
+}
+
 enum EquationType {
   ASSIGNMENT # assignment
   INITIAL_ASSIGNMENT # initialAssignment
@@ -156,11 +174,14 @@ enum EquationType {
 
 enum DataTypes {
   ABSORBANCE # absorbance
+  AMOUNT # amount
   CONCENTRATION # concentration
   CONVERSION # conversion
   FLUORESCENCE # fluorescence
   PEAK_AREA # peakarea
   TRANSMITTANCE # transmittance
+  TURNOVER # turnover
+  YIELD # yield
 }
 
 enum UnitType {
@@ -209,6 +230,8 @@ type Query {
   enzymemldocumentByName(name: String): [EnzymeMLDocument]
   enzymemldocumentByCreated(created: String): [EnzymeMLDocument]
   enzymemldocumentByModified(modified: String): [EnzymeMLDocument]
+  enzymemldocumentByVersion(version: String): [EnzymeMLDocument]
+  enzymemldocumentByDescription(description: String): [EnzymeMLDocument]
 
   # Creator queries
   allCreators: [Creator]
@@ -261,6 +284,11 @@ type Query {
   allReactionElements: [ReactionElement]
   reactionelementBySpeciesId(species_id: String): [ReactionElement]
   reactionelementByStoichiometry(stoichiometry: Float): [ReactionElement]
+
+  # ModifierElement queries
+  allModifierElements: [ModifierElement]
+  modifierelementBySpeciesId(species_id: String): [ModifierElement]
+  modifierelementByRole(role: ModifierRole): [ModifierElement]
 
   # Equation queries
   allEquations: [Equation]

@@ -2,6 +2,7 @@
     "name": "Example EnzymeML Document",
     "created": "",
     "modified": "",
+    "version": "",
     "creators": [
         {
             "given_name": "John",
@@ -56,11 +57,6 @@
             "id": "reaction1",
             "name": "Example Reaction",
             "reversible": false,
-            "kinetic_law": {
-                "species_id": "",
-                "equation": "",
-                "equation_type": ""
-            },
             "reactants": [
                 {
                     "species_id": "substrate1",
@@ -72,9 +68,6 @@
                     "species_id": "product1",
                     "stoichiometry": 1
                 }
-            ],
-            "modifiers": [
-                "protein1"
             ]
         }
     ],
