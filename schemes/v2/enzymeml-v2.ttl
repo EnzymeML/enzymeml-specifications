@@ -18,13 +18,13 @@ enzml:EnzymeMLDocumentShape
     sh:property [
         sh:path schema:dateCreated ;
         sh:datatype xsd:string ;
-        sh:minCount 1 ;
+        sh:minCount 0 ;
         sh:maxCount 1 ;
     ];
     sh:property [
         sh:path schema:dateModified ;
         sh:datatype xsd:string ;
-        sh:minCount 1 ;
+        sh:minCount 0 ;
         sh:maxCount 1 ;
     ];
     sh:property [

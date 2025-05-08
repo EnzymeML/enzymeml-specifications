@@ -11,10 +11,10 @@
 # EnzymeML V2 Type definitions
 type EnzymeMLDocument {
   name: String!
-  created: String!
-  modified: String!
   version: String!
   description: String
+  created: String
+  modified: String
   creators: [Creator]!
   vessels: [Vessel]!
   proteins: [Protein]
@@ -228,10 +228,10 @@ type Query {
   # EnzymeMLDocument queries
   allEnzymeMLDocuments: [EnzymeMLDocument]
   enzymemldocumentByName(name: String): [EnzymeMLDocument]
-  enzymemldocumentByCreated(created: String): [EnzymeMLDocument]
-  enzymemldocumentByModified(modified: String): [EnzymeMLDocument]
   enzymemldocumentByVersion(version: String): [EnzymeMLDocument]
   enzymemldocumentByDescription(description: String): [EnzymeMLDocument]
+  enzymemldocumentByCreated(created: String): [EnzymeMLDocument]
+  enzymemldocumentByModified(modified: String): [EnzymeMLDocument]
 
   # Creator queries
   allCreators: [Creator]

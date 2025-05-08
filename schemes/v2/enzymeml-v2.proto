@@ -86,14 +86,14 @@ enum UnitType {
 message EnzymeMLDocument {
   // Title of the EnzymeML Document.
   string name = 1;
-  // Date the EnzymeML Document was created.
-  string created = 2;
-  // Date the EnzymeML Document was modified.
-  string modified = 3;
   // The version of the EnzymeML Document.
-  string version = 4;
+  string version = 2;
   // Description of the EnzymeML Document.
-  optional string description = 5;
+  optional string description = 3;
+  // Date the EnzymeML Document was created.
+  optional string created = 4;
+  // Date the EnzymeML Document was modified.
+  optional string modified = 5;
   // Contains descriptions of all authors that are part of the experiment.
   repeatedCreator creators = 6;
   // Contains descriptions of all vessels that are part of the experiment.

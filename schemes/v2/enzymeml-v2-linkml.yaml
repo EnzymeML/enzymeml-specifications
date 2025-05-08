@@ -20,19 +20,17 @@ classes:
         description: Title of the EnzymeML Document.
         slot_uri: schema:title
         required: true
-      created:
-        description: Date the EnzymeML Document was created.
-        slot_uri: schema:dateCreated
-        required: true
-      modified:
-        description: Date the EnzymeML Document was modified.
-        slot_uri: schema:dateModified
-        required: true
       version:
         description: The version of the EnzymeML Document.
         required: true
       description:
         description: Description of the EnzymeML Document.
+      created:
+        description: Date the EnzymeML Document was created.
+        slot_uri: schema:dateCreated
+      modified:
+        description: Date the EnzymeML Document was modified.
+        slot_uri: schema:dateModified
       creators:
         description: Contains descriptions of all authors that are part of the experiment.
         slot_uri: schema:creator

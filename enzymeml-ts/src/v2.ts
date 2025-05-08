@@ -54,17 +54,17 @@ export const EnzymeMLDocumentSchema = z.lazy(() => JsonLdSchema.extend({
   name: z.string().describe(`
     Title of the EnzymeML Document.
   `),
-  created: z.string().describe(`
-    Date the EnzymeML Document was created.
-  `),
-  modified: z.string().describe(`
-    Date the EnzymeML Document was modified.
-  `),
   version: z.string().describe(`
     The version of the EnzymeML Document.
   `),
   description: z.string().nullable().describe(`
     Description of the EnzymeML Document.
+  `),
+  created: z.string().nullable().describe(`
+    Date the EnzymeML Document was created.
+  `),
+  modified: z.string().nullable().describe(`
+    Date the EnzymeML Document was modified.
   `),
   creators: z.array(CreatorSchema).describe(`
     Contains descriptions of all authors that are part of the experiment.

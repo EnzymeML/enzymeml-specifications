@@ -9,12 +9,12 @@ enzml:EnzymeMLDocument {
             shex:label "name"
         ]
     };
-    schema:dateCreated xsd:string {
+    schema:dateCreated xsd:string? {
         shex:annotation [
             shex:label "created"
         ]
     };
-    schema:dateModified xsd:string {
+    schema:dateModified xsd:string? {
         shex:annotation [
             shex:label "modified"
         ]

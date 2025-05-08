@@ -21,10 +21,10 @@ package enzymeml_v2
 type EnzymeMLDocument struct {
 	Id             int64           `json:"-" gorm:"primaryKey;autoIncrement"`
 	Name           string          `json:"name" `
-	Created        string          `json:"created" `
-	Modified       string          `json:"modified" `
 	Version        string          `json:"version" `
 	Description    string          `json:"description,omitempty" `
+	Created        string          `json:"created,omitempty" `
+	Modified       string          `json:"modified,omitempty" `
 	Creators       []Creator       `json:"creators" gorm:"many2many:enzymemldocument_creators;"`
 	Vessels        []Vessel        `json:"vessels" gorm:"many2many:enzymemldocument_vessels;"`
 	Proteins       []Protein       `json:"proteins,omitempty" gorm:"many2many:enzymemldocument_proteins;"`
