@@ -4,7 +4,7 @@
 import init, {
   validate_by_schema,
   check_consistency,
-} from "https://unpkg.com/enzymeml-validator@0.1.0/enzymeml-validator.js";
+} from "https://unpkg.com/enzymeml-validator@0.1.2/enzymeml-validator.js";
 
 console.log("Loading WASM module...");
 
