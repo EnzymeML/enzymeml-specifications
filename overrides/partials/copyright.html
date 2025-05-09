@@ -1,0 +1,14 @@
+<!-- Copyright and theme information -->
+<div class="md-copyright" style="display: flex; flex-direction: column; align-items: flex-start; text-align: left;">
+    <div><a href="{{ 'copyright' | url }}">Legal Note</a></div>
+    <div>© 2025 The EnzymeML Team</div>
+
+    {% if not config.extra.generator == false %}
+    <div>
+        Made with
+        <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+            Material for MkDocs
+        </a>
+    </div>
+    {% endif %}
+</div>
