@@ -27,5 +27,8 @@ jobs:
       - name: Build MkDocs site
         run: mkdocs build
 
+      - name: Add CNAME file
+        run: echo 'enzymeml.org' > site/CNAME
+
       - name: Deploy MkDocs site
         run: mkdocs gh-deploy --force
