@@ -1,5 +1,3 @@
-
-
 # EnzymeML Specifications
 
 This repository contains all available schema definitions and programming APIs of the EnzymeML format.
@@ -9,7 +7,9 @@ EnzymeML is a data exchange format that supports the comprehensive documentation
 Please refer to the [EnzymeML Website](https://enzymeml.org) for a detailed overview of EnzymeML and how to get started.
 
 ## EnzymeML Schemas
+
 This repository contains the formal definition of an EnzymeML Document in the following schema definitions
+
 - [`markdown`](specifications/v2.md)
 - [`linkml`](schemes/v2/enzymeml-v2-linkml.yaml)
 - [`graphql`](schemes/v2/enzymeml-v2.graphql)
@@ -20,9 +20,17 @@ This repository contains the formal definition of an EnzymeML Document in the fo
 - [`xsd`](schemes/v2/enzymeml-v2.xsd)
 
 ## EnzymeML APIs
+
 Besides schema definitions, EnzymeML-APIs in the following programming languages are available:
+
 - [`Python` (pyenzyme)](https://github.com/EnzymeML/PyEnzyme)
 - [`Rust` (enzymeml-rs)](https://github.com/EnzymeML/enzymeml-rs)
-- [`GO` (enzymeml-go)](enzymeml-go)
-- [`Julia` (enzymeml-jl)](enzymeml-jl)
-- [`TypeScript` (enzymeml-ts)](enzymeml-ts)
+- [`GO` (enzymeml-go)](https://github.com/EnzymeML/enzymeml-go)
+- [`Julia` (enzymeml-jl)](https://github.com/EnzymeML/EnzymeML.jl)
+- [`TypeScript` (enzymeml-ts)](https://github.com/EnzymeML/enzymeml-ts)
+
+---
+
+<div align="center">
+<strong>Made with ❤️ by the EnzymeML Team</strong>
+</div>

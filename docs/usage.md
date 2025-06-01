@@ -8,7 +8,6 @@ The EnzymeML Suite is a desktop application for creating, editing, and visualizi
 ![EnzymeML Suite](img/suite.png){ width="75%" }  
 The EnzymeML Suite is available for Windows, macOS, and Linux and can be downloaded from [here](https://github.com/EnzymeML/enzymeml-suite/releases/tag/v0.0.1).
 
-
 ## Python tools
 
 Besides the native APIs, Python tools are available for directly reading and processing data from various analytical instruments. These tools share the ability to import measured data and supplement information on reaction conditions and initial concentrations in a streamlined manner. Finally, an EnzymeML document is generated, containing concentration data and details on the initial conditions of all catalysts, substrates, and products of a reaction.
@@ -25,11 +24,17 @@ The [Chromatopy](https://fairchemistry.github.io/chromatopy/) Python library str
 
 The [NMRPy](https://nmrpy.readthedocs.io/en/latest/) Python library streamlines the processing of NMR time-course data. It allows for FAIR and reproducible workflows starting from the raw output of NMR spectrometers from Bruker, Varian, and more. Either interactive widgets or scripts can be used to (pre-)process the NMR spectra and prepare them for downstream analyses of the time courses collected. Features include apodisation, zero-filling, Fourier transformation, phase correction, peak picking, deconvolution, baseline correction, and more. NMRpy is integrated with EnzymeML, allowing to parse existing EnzymeML documents to assign species to picked peaks, prepare new Measurement objects, calculate concentrations from deconvoluted integrals, and return the updated EnzymeML document. The NMR data and metadata, including instrument and measurement parameters, as well as all processing steps performed, can be saved to standardized data exchange formats like JSON or XML to allow for full re-analysis.
 
-
 ## Native APIs
 
-EnzymeML provides native APIs in [Python](https://github.com/EnzymeML/PyEnzyme/tree/v2-migration), [Julia](https://github.com/EnzymeML/enzymeml-specifications/tree/main/enzymeml-jl), [TypeScript](https://github.com/EnzymeML/enzymeml-specifications/tree/main/enzymeml-ts), [Rust](https://github.com/EnzymeML/enzymeml-rs), and [Go](https://github.com/EnzymeML/enzymeml-specifications/tree/main/enzymeml-go). These APIs allow to read and write EnzymeML Documents programmatically in different programming languages.
+EnzymeML provides a broad range of native APIs in different programming languages.
 
+* [Python](https://github.com/EnzymeML/PyEnzyme/tree/v2-migration)
+* [Rust](https://github.com/EnzymeML/enzymeml-rs)
+* [Go](https://github.com/EnzymeML/enzymeml-go)
+* [TypeScript](https://github.com/EnzymeML/enzymeml-ts)
+* [Julia](https://github.com/EnzymeML/EnzymeML.jl)
+
+These APIs allow to read and write EnzymeML Documents programmatically and ship with additional features native to the programming language, such as modelling, database integration, and more.
 
 ## FAQ
 
