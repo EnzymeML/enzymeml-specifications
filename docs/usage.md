@@ -18,7 +18,7 @@ The [MTPHandler](https://fairchemistry.github.io/MTPHandler/) Python library str
 
 ### Chromatographic Data
 
-The [Chromatopy](https://fairchemistry.github.io/chromatopy/) Python library streamlines the processing of chromatographic time-course data. It enables reading, processing, and exporting data from a variety of chromatographic instruments, assignment of retention times to molecules, and concentration calculation in a scalable way.
+The [Chromhandler](https://fairchemistry.github.io/Chromhandler/) Python library streamlines the processing of chromatographic time-course data. It enables reading, processing, and exporting data from a variety of chromatographic instruments, assignment of retention times to molecules, and concentration calculation in a scalable way.
 
 ### NMR Data
 
