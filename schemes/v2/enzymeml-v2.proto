@@ -286,10 +286,13 @@ message Parameter {
   // Lower bound for the parameter value that was used for the parameter
   // estimation
   optional double lower_bound = 8;
+  // Whether this parameter should be varied or not in the context of an
+  // optimization.
+  optional boolean fit = 9;
   // Standard error of the estimated parameter.
-  optional double stderr = 9;
+  optional double stderr = 10;
   // Specifies if this parameter is constant. Default is True.
-  optional boolean constant = 10;
+  optional boolean constant = 11;
 }
 
 message Measurement {

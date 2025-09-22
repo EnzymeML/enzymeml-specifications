@@ -115,6 +115,7 @@ type Parameter {
   initial_value: Float
   upper_bound: Float
   lower_bound: Float
+  fit: Boolean
   stderr: Float
   constant: Boolean
 }
@@ -311,6 +312,7 @@ type Query {
   parameterByInitialValue(initial_value: Float): [Parameter]
   parameterByUpperBound(upper_bound: Float): [Parameter]
   parameterByLowerBound(lower_bound: Float): [Parameter]
+  parameterByFit(fit: Boolean): [Parameter]
   parameterByStderr(stderr: Float): [Parameter]
   parameterByConstant(constant: Boolean): [Parameter]
 

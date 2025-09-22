@@ -685,6 +685,14 @@
                     </xs:documentation>
                 </xs:annotation>
             </xs:element>
+            <xs:element name="fit" type="xs:boolean" default="true">
+                <xs:annotation>
+                    <xs:documentation>
+                        Whether this parameter should be varied or not in the context of an
+                        optimization.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
             <xs:element name="stderr" type="xs:float">
                 <xs:annotation>
                     <xs:documentation>

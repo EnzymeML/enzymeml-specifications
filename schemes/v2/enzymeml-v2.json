@@ -130,6 +130,7 @@
         },
         "kind": {
           "title": "kind",
+          "type": "string",
           "description": "Kind of the base unit (e.g., meter, kilogram, second).",
           "$ref": "#/$defs/UnitType"
         },
@@ -253,6 +254,7 @@
         },
         "equation_type": {
           "title": "equation_type",
+          "type": "string",
           "description": "Type of the equation.",
           "$ref": "#/$defs/EquationType"
         },
@@ -357,6 +359,7 @@
         },
         "data_type": {
           "title": "data_type",
+          "type": "string",
           "description": "Type of data that was measured (e.g. concentration, absorbance, etc.)",
           "$ref": "#/$defs/DataTypes"
         },
@@ -414,6 +417,7 @@
       "properties": {
         "role": {
           "title": "role",
+          "type": "string",
           "description": "Role of the modifier in the reaction.",
           "$ref": "#/$defs/ModifierRole"
         },
@@ -453,6 +457,12 @@
           "type": "boolean",
           "default": true,
           "description": "Specifies if this parameter is constant. Default is True."
+        },
+        "fit": {
+          "title": "fit",
+          "type": "boolean",
+          "default": true,
+          "description": "Whether this parameter should be varied or not in the context of an optimization."
         },
         "id": {
           "title": "id",
@@ -640,7 +650,7 @@
     "ReactionElement": {
       "title": "ReactionElement",
       "type": "object",
-      "description": "This object is part of the  object and describes a species (SmallMolecule, Protein, Complex) participating in the reaction. The stochiometry is of the species is specified in the  field, whereas negative values indicate that the species is a reactant and positive values indicate that the species is a product of the reaction.",
+      "description": "This object is part of the object and describes a species (SmallMolecule, Protein, Complex) participating in the reaction. The stochiometry is of the species is specified in the field, whereas negative values indicate that the species is a reactant and positive values indicate that the species is a product of the reaction.",
       "properties": {
         "species_id": {
           "title": "species_id",
