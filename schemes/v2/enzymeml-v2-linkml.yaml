@@ -1,5 +1,5 @@
 id: enzml
-name: EnzymeML V2
+name: EnzymeML-V2
 title: EnzymeML V2
 prefixes:
   OBO: http://purl.obolibrary.org/obo/
@@ -78,7 +78,6 @@ classes:
   Creator:
     description: The Creator object represents an individual author or contributor who has participated in creating or modifying the EnzymeML Document. It captures essential personal information such as their name and contact details, allowing proper attribution and enabling communication with the document's creators.
     class_uri: schema:person
-    is_a: schema:person
     attributes:
       given_name:
         description: Given name of the author or contributor.
@@ -95,7 +94,6 @@ classes:
   Vessel:
     description: The Vessel object represents containers used to conduct experiments, such as reaction vessels, microplates, or bioreactors. It captures key properties like volume and whether the volume remains constant during the experiment.
     class_uri: OBO:OBI_0400081
-    is_a: OBO:OBI_0400081
     attributes:
       id:
         description: Unique identifier of the vessel.
@@ -122,7 +120,6 @@ classes:
   Protein:
     description: The Protein object represents enzymes and other proteins involved in the experiment.
     class_uri: OBO:PR_000000001
-    is_a: OBO:PR_000000001
     attributes:
       id:
         description: Identifier of the protein, such as a UniProt ID, or a custom identifier.
