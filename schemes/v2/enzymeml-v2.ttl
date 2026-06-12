@@ -2,252 +2,805 @@
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 @prefix enzml: <http://www.enzymeml.org/v2/> .
 @prefix OBO: <http://purl.obolibrary.org/obo/> .
+@prefix om: <http://www.ontology-of-units-of-measure.org/resource/om-2/> .
+@prefix qudt: <http://qudt.org/schema/qudt#/> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#/> .
 @prefix schema: <https://schema.org/> .
+@prefix unit: <http://qudt.org/vocab/unit#/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#/> .
 
+#########################################################
+# SHACL Shapes
+#########################################################
 
-enzml:EnzymeMLDocumentShape
+enzml:EnzymeMlDocumentShape
     a sh:NodeShape ;
-    sh:targetClass md:EnzymeMLDocument ;
-
+    sh:targetClass enzml:EnzymeMlDocument ;
     sh:property [
-        sh:path schema:title ;
+        sh:path EnzymeMlDocument:version ;
         sh:datatype xsd:string ;
         sh:minCount 1 ;
         sh:maxCount 1 ;
-    ];
+        sh:description "The version of the EnzymeML Document." ;
+    ] ;
     sh:property [
-        sh:path schema:dateCreated ;
+        sh:path EnzymeMlDocument:description ;
         sh:datatype xsd:string ;
         sh:minCount 0 ;
         sh:maxCount 1 ;
-    ];
+        sh:description "Description of the EnzymeML Document." ;
+    ] ;
     sh:property [
-        sh:path schema:dateModified ;
+        sh:or (
+            [ sh:path EnzymeMlDocument:name ]
+            [ sh:path schema:title ]
+        ) ;
         sh:datatype xsd:string ;
-        sh:minCount 0 ;
-        sh:maxCount 1 ;
-    ];
-    sh:property [
-        sh:path schema:creator ;
-        sh:node md:CreatorShape ;
         sh:minCount 1 ;
-    ];
+        sh:maxCount 1 ;
+        sh:description "Title of the EnzymeML Document." ;
+    ] ;
     sh:property [
-        sh:path schema:citation ;
+        sh:or (
+            [ sh:path EnzymeMlDocument:created ]
+            [ sh:path schema:dateCreated ]
+        ) ;
         sh:datatype xsd:string ;
         sh:minCount 0 ;
-    ]; .
+        sh:maxCount 1 ;
+        sh:description "Date the EnzymeML Document was created." ;
+    ] ;
+    sh:property [
+        sh:or (
+            [ sh:path EnzymeMlDocument:modified ]
+            [ sh:path schema:dateModified ]
+        ) ;
+        sh:datatype xsd:string ;
+        sh:minCount 0 ;
+        sh:maxCount 1 ;
+        sh:description "Date the EnzymeML Document was modified." ;
+    ] ;
+    sh:property [
+        sh:or (
+            [ sh:path EnzymeMlDocument:creators ]
+            [ sh:path schema:creator ]
+        ) ;
+        sh:node enzml:CreatorShape ;
+        sh:minCount 1 ;
+        sh:description "Contains descriptions of all authors that are part of the experiment." ;
+    ] ;
+    sh:property [
+        sh:path EnzymeMlDocument:vessels ;
+        sh:node enzml:VesselShape ;
+        sh:minCount 1 ;
+        sh:description "Contains descriptions of all vessels that are part of the experiment." ;
+    ] ;
+    sh:property [
+        sh:path EnzymeMlDocument:proteins ;
+        sh:node enzml:ProteinShape ;
+        sh:minCount 0 ;
+        sh:description "Contains descriptions of all proteins that are part of the experiment that may be referenced in reactions, measurements, and equations." ;
+    ] ;
+    sh:property [
+        sh:path EnzymeMlDocument:complexes ;
+        sh:node enzml:ComplexShape ;
+        sh:minCount 0 ;
+        sh:description "Contains descriptions of all complexes that are part of the experiment that may be referenced in reactions, measurements, and equations." ;
+    ] ;
+    sh:property [
+        sh:path EnzymeMlDocument:small_molecules ;
+        sh:node enzml:SmallMoleculeShape ;
+        sh:minCount 0 ;
+        sh:description "Contains descriptions of all reactants that are part of the experiment that may be referenced in reactions, measurements, and equations." ;
+    ] ;
+    sh:property [
+        sh:path EnzymeMlDocument:reactions ;
+        sh:node enzml:ReactionShape ;
+        sh:minCount 0 ;
+        sh:description "Contains descriptions of all reactions that are part of the experiment." ;
+    ] ;
+    sh:property [
+        sh:path EnzymeMlDocument:measurements ;
+        sh:node enzml:MeasurementShape ;
+        sh:minCount 0 ;
+        sh:description "Contains descriptions of all measurements that are part of the experiment." ;
+    ] ;
+    sh:property [
+        sh:path EnzymeMlDocument:equations ;
+        sh:node enzml:EquationShape ;
+        sh:minCount 0 ;
+        sh:description "Contains descriptions of all equations that are part of the experiment." ;
+    ] ;
+    sh:property [
+        sh:path EnzymeMlDocument:parameters ;
+        sh:node enzml:ParameterShape ;
+        sh:minCount 0 ;
+        sh:description "Contains descriptions of all parameters that are part of the experiment and may be used in equations." ;
+    ] ;
+    sh:property [
+        sh:or (
+            [ sh:path EnzymeMlDocument:references ]
+            [ sh:path schema:citation ]
+        ) ;
+        sh:datatype xsd:string ;
+        sh:minCount 0 ;
+        sh:description "Contains references to publications, databases, and arbitrary links to the web." ;
+    ] ;
+.
 
 enzml:CreatorShape
     a sh:NodeShape ;
-    sh:targetClass md:Creator ;
-
+    sh:targetClass enzml:Creator ;
     sh:property [
-        sh:path schema:givenName ;
+        sh:or (
+            [ sh:path Creator:given_name ]
+            [ sh:path schema:givenName ]
+        ) ;
         sh:datatype xsd:string ;
         sh:minCount 1 ;
         sh:maxCount 1 ;
-    ];
+        sh:description "Given name of the author or contributor." ;
+    ] ;
     sh:property [
-        sh:path schema:familyName ;
+        sh:or (
+            [ sh:path Creator:family_name ]
+            [ sh:path schema:familyName ]
+        ) ;
         sh:datatype xsd:string ;
         sh:minCount 1 ;
         sh:maxCount 1 ;
-    ];
+        sh:description "Family name of the author or contributor." ;
+    ] ;
     sh:property [
-        sh:path schema:email ;
+        sh:or (
+            [ sh:path Creator:mail ]
+            [ sh:path schema:email ]
+        ) ;
         sh:datatype xsd:string ;
         sh:minCount 1 ;
         sh:maxCount 1 ;
-    ]; .
+        sh:description "Email address of the author or contributor." ;
+    ] ;
+.
 
 enzml:VesselShape
     a sh:NodeShape ;
-    sh:targetClass md:Vessel ;
-
+    sh:targetClass enzml:Vessel ;
     sh:property [
-        sh:path schema:identifier ;
+        sh:or (
+            [ sh:path Vessel:id ]
+            [ sh:path schema:identifier ]
+        ) ;
         sh:datatype xsd:string ;
         sh:minCount 1 ;
         sh:maxCount 1 ;
-    ];
+        sh:description "Unique identifier of the vessel." ;
+    ] ;
     sh:property [
-        sh:path schema:name ;
+        sh:or (
+            [ sh:path Vessel:name ]
+            [ sh:path schema:name ]
+        ) ;
         sh:datatype xsd:string ;
         sh:minCount 1 ;
         sh:maxCount 1 ;
-    ];
+        sh:description "Name of the used vessel." ;
+    ] ;
     sh:property [
-        sh:path OBO:OBI_0002139 ;
-        sh:datatype xsd:double ;
+        sh:or (
+            [ sh:path Vessel:volume ]
+            [ sh:path OBO:OBI_0002139 ]
+        ) ;
+        sh:datatype xsd:decimal ;
         sh:minCount 1 ;
         sh:maxCount 1 ;
-    ]; .
+        sh:description "Volumetric value of the vessel." ;
+    ] ;
+    sh:property [
+        sh:path Vessel:unit ;
+        sh:node enzml:UnitDefinitionShape ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:description "Volumetric unit of the vessel." ;
+    ] ;
+    sh:property [
+        sh:path Vessel:constant ;
+        sh:datatype xsd:boolean ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:description "Whether the volume of the vessel is constant or not. Default is True." ;
+    ] ;
+.
 
 enzml:ProteinShape
     a sh:NodeShape ;
-    sh:targetClass md:Protein ;
-
+    sh:targetClass enzml:Protein ;
     sh:property [
-        sh:path schema:identifier ;
+        sh:or (
+            [ sh:path Protein:id ]
+            [ sh:path schema:identifier ]
+        ) ;
         sh:datatype xsd:string ;
         sh:minCount 1 ;
         sh:maxCount 1 ;
-    ];
+        sh:description "Identifier of the protein, such as a UniProt ID, or a custom identifier." ;
+    ] ;
     sh:property [
-        sh:path schema:name ;
+        sh:or (
+            [ sh:path Protein:name ]
+            [ sh:path schema:name ]
+        ) ;
         sh:datatype xsd:string ;
         sh:minCount 1 ;
         sh:maxCount 1 ;
-    ];
+        sh:description "Name of the protein." ;
+    ] ;
     sh:property [
-        sh:path OBO:GSSO_007262 ;
+        sh:path Protein:constant ;
+        sh:datatype xsd:boolean ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:description "Whether the concentration of the protein is constant through the experiment or not. Default is True." ;
+    ] ;
+    sh:property [
+        sh:or (
+            [ sh:path Protein:sequence ]
+            [ sh:path OBO:GSSO_007262 ]
+        ) ;
         sh:datatype xsd:string ;
         sh:minCount 0 ;
         sh:maxCount 1 ;
-    ];
+        sh:description "Amino acid sequence of the protein" ;
+    ] ;
     sh:property [
-        sh:path schema:identifier ;
+        sh:or (
+            [ sh:path Protein:vessel_id ]
+            [ sh:path schema:identifier ]
+        ) ;
         sh:datatype xsd:string ;
         sh:minCount 0 ;
         sh:maxCount 1 ;
-    ];
+        sh:description "Identifier of the vessel this protein has been applied to." ;
+    ] ;
     sh:property [
-        sh:path OBO:OBI_0100026 ;
+        sh:path Protein:ecnumber ;
         sh:datatype xsd:string ;
         sh:minCount 0 ;
         sh:maxCount 1 ;
-    ];
+        sh:description "EC number of the protein." ;
+    ] ;
     sh:property [
-        sh:path schema:citation ;
+        sh:or (
+            [ sh:path Protein:organism ]
+            [ sh:path OBO:OBI_0100026 ]
+        ) ;
         sh:datatype xsd:string ;
         sh:minCount 0 ;
-    ]; .
+        sh:maxCount 1 ;
+        sh:description "Expression host organism of the protein." ;
+    ] ;
+    sh:property [
+        sh:path Protein:organism_tax_id ;
+        sh:datatype xsd:string ;
+        sh:minCount 0 ;
+        sh:maxCount 1 ;
+        sh:description "Taxonomy identifier of the expression host." ;
+    ] ;
+    sh:property [
+        sh:or (
+            [ sh:path Protein:references ]
+            [ sh:path schema:citation ]
+        ) ;
+        sh:datatype xsd:string ;
+        sh:minCount 0 ;
+        sh:description "List of references to publications, database entries, etc. that describe or reference the protein." ;
+    ] ;
+.
 
 enzml:ComplexShape
     a sh:NodeShape ;
-    sh:targetClass md:Complex ;
-
+    sh:targetClass enzml:Complex ;
     sh:property [
-        sh:path schema:identifier ;
+        sh:or (
+            [ sh:path Complex:id ]
+            [ sh:path schema:identifier ]
+        ) ;
         sh:datatype xsd:string ;
         sh:minCount 1 ;
         sh:maxCount 1 ;
-    ];
+        sh:description "Unique identifier of the complex." ;
+    ] ;
     sh:property [
-        sh:path schema:name ;
+        sh:or (
+            [ sh:path Complex:name ]
+            [ sh:path schema:name ]
+        ) ;
         sh:datatype xsd:string ;
         sh:minCount 1 ;
         sh:maxCount 1 ;
-    ];
+        sh:description "Name of the complex." ;
+    ] ;
     sh:property [
-        sh:path schema:identifier ;
+        sh:path Complex:constant ;
+        sh:datatype xsd:boolean ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:description "Whether the concentration of the complex is constant through the experiment or not. Default is False." ;
+    ] ;
+    sh:property [
+        sh:or (
+            [ sh:path Complex:vessel_id ]
+            [ sh:path schema:identifier ]
+        ) ;
         sh:datatype xsd:string ;
         sh:minCount 0 ;
         sh:maxCount 1 ;
-    ]; .
+        sh:description "Unique identifier of the vessel this complex has been used in." ;
+    ] ;
+    sh:property [
+        sh:path Complex:participants ;
+        sh:datatype xsd:string ;
+        sh:minCount 0 ;
+        sh:description "Array of IDs the complex contains" ;
+    ] ;
+.
 
 enzml:SmallMoleculeShape
     a sh:NodeShape ;
-    sh:targetClass md:SmallMolecule ;
-
+    sh:targetClass enzml:SmallMolecule ;
     sh:property [
-        sh:path schema:identifier ;
+        sh:or (
+            [ sh:path SmallMolecule:id ]
+            [ sh:path schema:identifier ]
+        ) ;
         sh:datatype xsd:string ;
         sh:minCount 1 ;
         sh:maxCount 1 ;
-    ];
+        sh:description "Identifier of the small molecule, such as a Pubchem ID, ChEBI ID, or a custom identifier." ;
+    ] ;
     sh:property [
-        sh:path schema:name ;
+        sh:or (
+            [ sh:path SmallMolecule:name ]
+            [ sh:path schema:name ]
+        ) ;
         sh:datatype xsd:string ;
         sh:minCount 1 ;
         sh:maxCount 1 ;
-    ];
+        sh:description "Name of the small molecule." ;
+    ] ;
     sh:property [
-        sh:path schema:identifier ;
+        sh:path SmallMolecule:constant ;
+        sh:datatype xsd:boolean ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:description "Whether the concentration of the small molecule is constant through the experiment or not. Default is False." ;
+    ] ;
+    sh:property [
+        sh:or (
+            [ sh:path SmallMolecule:vessel_id ]
+            [ sh:path schema:identifier ]
+        ) ;
         sh:datatype xsd:string ;
         sh:minCount 0 ;
         sh:maxCount 1 ;
-    ];
+        sh:description "Identifier of the vessel this small molecule has been used in." ;
+    ] ;
     sh:property [
-        sh:path schema:citation ;
+        sh:path SmallMolecule:canonical_smiles ;
         sh:datatype xsd:string ;
         sh:minCount 0 ;
-    ]; .
+        sh:maxCount 1 ;
+        sh:description "Canonical Simplified Molecular-Input Line-Entry System (SMILES) encoding of the small molecule." ;
+    ] ;
+    sh:property [
+        sh:path SmallMolecule:inchi ;
+        sh:datatype xsd:string ;
+        sh:minCount 0 ;
+        sh:maxCount 1 ;
+        sh:description "International Chemical Identifier (InChI) encoding of the small molecule." ;
+    ] ;
+    sh:property [
+        sh:path SmallMolecule:inchikey ;
+        sh:datatype xsd:string ;
+        sh:minCount 0 ;
+        sh:maxCount 1 ;
+        sh:description "Hashed International Chemical Identifier (InChIKey) encoding of the small molecule." ;
+    ] ;
+    sh:property [
+        sh:path SmallMolecule:synonymous_names ;
+        sh:datatype xsd:string ;
+        sh:minCount 0 ;
+        sh:description "List of synonymous names for the small molecule." ;
+    ] ;
+    sh:property [
+        sh:or (
+            [ sh:path SmallMolecule:references ]
+            [ sh:path schema:citation ]
+        ) ;
+        sh:datatype xsd:string ;
+        sh:minCount 0 ;
+        sh:description "List of references to publications, database entries, etc. that describe or reference the small molecule." ;
+    ] ;
+.
 
 enzml:ReactionShape
     a sh:NodeShape ;
-    sh:targetClass md:Reaction ;
-
+    sh:targetClass enzml:Reaction ;
     sh:property [
-        sh:path schema:identifier ;
+        sh:or (
+            [ sh:path Reaction:id ]
+            [ sh:path schema:identifier ]
+        ) ;
         sh:datatype xsd:string ;
         sh:minCount 1 ;
         sh:maxCount 1 ;
-    ]; .
+        sh:description "Unique identifier of the reaction." ;
+    ] ;
+    sh:property [
+        sh:path Reaction:name ;
+        sh:datatype xsd:string ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:description "Name of the reaction." ;
+    ] ;
+    sh:property [
+        sh:path Reaction:reversible ;
+        sh:datatype xsd:boolean ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:description "Whether the reaction is reversible or irreversible. Default is False." ;
+    ] ;
+    sh:property [
+        sh:path Reaction:kinetic_law ;
+        sh:node enzml:EquationShape ;
+        sh:minCount 0 ;
+        sh:maxCount 1 ;
+        sh:description "Mathematical expression of the reaction." ;
+    ] ;
+    sh:property [
+        sh:path Reaction:reactants ;
+        sh:node enzml:ReactionElementShape ;
+        sh:minCount 0 ;
+        sh:description "List of reactants that are part of the reaction." ;
+    ] ;
+    sh:property [
+        sh:path Reaction:products ;
+        sh:node enzml:ReactionElementShape ;
+        sh:minCount 0 ;
+        sh:description "List of products that are part of the reaction." ;
+    ] ;
+    sh:property [
+        sh:path Reaction:modifiers ;
+        sh:node enzml:ModifierElementShape ;
+        sh:minCount 0 ;
+        sh:description "List of reaction elements that are not part of the reaction but influence it." ;
+    ] ;
+.
 
 enzml:ReactionElementShape
     a sh:NodeShape ;
-    sh:targetClass md:ReactionElement ;
-
+    sh:targetClass enzml:ReactionElement ;
     sh:property [
-        sh:path schema:identifier ;
+        sh:or (
+            [ sh:path ReactionElement:species_id ]
+            [ sh:path schema:identifier ]
+        ) ;
         sh:datatype xsd:string ;
         sh:minCount 1 ;
         sh:maxCount 1 ;
-    ]; .
+        sh:description "Internal identifier to either a protein or reactant defined in the EnzymeML Document." ;
+    ] ;
+    sh:property [
+        sh:path ReactionElement:stoichiometry ;
+        sh:datatype xsd:decimal ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:description "Float number representing the associated stoichiometry." ;
+    ] ;
+.
 
 enzml:ModifierElementShape
     a sh:NodeShape ;
-    sh:targetClass md:ModifierElement ;
-
+    sh:targetClass enzml:ModifierElement ;
     sh:property [
-        sh:path schema:identifier ;
+        sh:or (
+            [ sh:path ModifierElement:species_id ]
+            [ sh:path schema:identifier ]
+        ) ;
         sh:datatype xsd:string ;
         sh:minCount 1 ;
         sh:maxCount 1 ;
-    ]; .
+        sh:description "Internal identifier to either a protein or reactant defined in the EnzymeML Document." ;
+    ] ;
+    sh:property [
+        sh:path ModifierElement:role ;
+        sh:class enzml:ModifierRole ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:description "Role of the modifier in the reaction." ;
+    ] ;
+.
 
 enzml:EquationShape
     a sh:NodeShape ;
-    sh:targetClass md:Equation ;
-
+    sh:targetClass enzml:Equation ;
     sh:property [
-        sh:path schema:identifier ;
+        sh:or (
+            [ sh:path Equation:species_id ]
+            [ sh:path schema:identifier ]
+        ) ;
         sh:datatype xsd:string ;
         sh:minCount 1 ;
         sh:maxCount 1 ;
-    ]; .
+        sh:description "Identifier of a defined species (SmallMolecule, Protein, Complex). Represents the left hand side of the equation." ;
+    ] ;
+    sh:property [
+        sh:path Equation:equation ;
+        sh:datatype xsd:string ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:description "Mathematical expression of the equation. Represents the right hand side of the equation." ;
+    ] ;
+    sh:property [
+        sh:path Equation:equation_type ;
+        sh:class enzml:EquationType ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:description "Type of the equation." ;
+    ] ;
+    sh:property [
+        sh:path Equation:variables ;
+        sh:node enzml:VariableShape ;
+        sh:minCount 0 ;
+        sh:description "List of variables that are part of the equation" ;
+    ] ;
+.
 
 enzml:VariableShape
     a sh:NodeShape ;
-    sh:targetClass md:Variable ;
-
+    sh:targetClass enzml:Variable ;
     sh:property [
-        sh:path schema:identifier ;
+        sh:or (
+            [ sh:path Variable:id ]
+            [ sh:path schema:identifier ]
+        ) ;
         sh:datatype xsd:string ;
         sh:minCount 1 ;
         sh:maxCount 1 ;
-    ]; .
+        sh:description "Identifier of the variable." ;
+    ] ;
+    sh:property [
+        sh:path Variable:name ;
+        sh:datatype xsd:string ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:description "Name of the variable." ;
+    ] ;
+    sh:property [
+        sh:path Variable:symbol ;
+        sh:datatype xsd:string ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:description "Equation symbol of the variable." ;
+    ] ;
+.
 
 enzml:ParameterShape
     a sh:NodeShape ;
-    sh:targetClass md:Parameter ;
-
+    sh:targetClass enzml:Parameter ;
     sh:property [
-        sh:path schema:identifier ;
+        sh:or (
+            [ sh:path Parameter:id ]
+            [ sh:path schema:identifier ]
+        ) ;
         sh:datatype xsd:string ;
         sh:minCount 1 ;
         sh:maxCount 1 ;
-    ]; .
+        sh:description "Identifier of the parameter." ;
+    ] ;
+    sh:property [
+        sh:path Parameter:name ;
+        sh:datatype xsd:string ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:description "Name of the parameter." ;
+    ] ;
+    sh:property [
+        sh:path Parameter:symbol ;
+        sh:datatype xsd:string ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:description "Equation symbol of the parameter." ;
+    ] ;
+    sh:property [
+        sh:path Parameter:value ;
+        sh:datatype xsd:decimal ;
+        sh:minCount 0 ;
+        sh:maxCount 1 ;
+        sh:description "Numerical value of the estimated parameter." ;
+    ] ;
+    sh:property [
+        sh:path Parameter:unit ;
+        sh:node enzml:UnitDefinitionShape ;
+        sh:minCount 0 ;
+        sh:maxCount 1 ;
+        sh:description "Unit of the estimated parameter." ;
+    ] ;
+    sh:property [
+        sh:path Parameter:initial_value ;
+        sh:datatype xsd:decimal ;
+        sh:minCount 0 ;
+        sh:maxCount 1 ;
+        sh:description "Initial value that was used for the parameter estimation." ;
+    ] ;
+    sh:property [
+        sh:path Parameter:upper_bound ;
+        sh:datatype xsd:decimal ;
+        sh:minCount 0 ;
+        sh:maxCount 1 ;
+        sh:description "Upper bound for the parameter value that was used for the parameter estimation" ;
+    ] ;
+    sh:property [
+        sh:path Parameter:lower_bound ;
+        sh:datatype xsd:decimal ;
+        sh:minCount 0 ;
+        sh:maxCount 1 ;
+        sh:description "Lower bound for the parameter value that was used for the parameter estimation" ;
+    ] ;
+    sh:property [
+        sh:path Parameter:fit ;
+        sh:datatype xsd:boolean ;
+        sh:minCount 0 ;
+        sh:maxCount 1 ;
+        sh:description "Whether this parameter should be varied or not in the context of an optimization." ;
+    ] ;
+    sh:property [
+        sh:path Parameter:stderr ;
+        sh:datatype xsd:decimal ;
+        sh:minCount 0 ;
+        sh:maxCount 1 ;
+        sh:description "Standard error of the estimated parameter." ;
+    ] ;
+    sh:property [
+        sh:path Parameter:constant ;
+        sh:datatype xsd:boolean ;
+        sh:minCount 0 ;
+        sh:maxCount 1 ;
+        sh:description "Specifies if this parameter is constant. Default is True." ;
+    ] ;
+.
 
 enzml:MeasurementShape
     a sh:NodeShape ;
-    sh:targetClass md:Measurement ;
-
+    sh:targetClass enzml:Measurement ;
     sh:property [
-        sh:path schema:identifier ;
+        sh:or (
+            [ sh:path Measurement:id ]
+            [ sh:path schema:identifier ]
+        ) ;
         sh:datatype xsd:string ;
         sh:minCount 1 ;
         sh:maxCount 1 ;
-    ]; .
+        sh:description "Unique identifier of the measurement." ;
+    ] ;
+    sh:property [
+        sh:path Measurement:name ;
+        sh:datatype xsd:string ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:description "Name of the measurement" ;
+    ] ;
+    sh:property [
+        sh:path Measurement:species_data ;
+        sh:datatype MeasurementData ;
+        sh:minCount 0 ;
+        sh:description "Measurement data of all species that were part of the measurement. A species refers to a Protein, Complex, or SmallMolecule." ;
+    ] ;
+    sh:property [
+        sh:path Measurement:group_id ;
+        sh:datatype xsd:string ;
+        sh:minCount 0 ;
+        sh:maxCount 1 ;
+        sh:description "User-defined group ID to signal relationships between measurements." ;
+    ] ;
+    sh:property [
+        sh:path Measurement:ph ;
+        sh:datatype xsd:decimal ;
+        sh:minCount 0 ;
+        sh:maxCount 1 ;
+        sh:description "pH value of the measurement." ;
+    ] ;
+    sh:property [
+        sh:path Measurement:temperature ;
+        sh:datatype xsd:decimal ;
+        sh:minCount 0 ;
+        sh:maxCount 1 ;
+        sh:description "Temperature of the measurement." ;
+    ] ;
+    sh:property [
+        sh:path Measurement:temperature_unit ;
+        sh:node enzml:UnitDefinitionShape ;
+        sh:minCount 0 ;
+        sh:maxCount 1 ;
+        sh:description "Unit of the temperature of the measurement." ;
+    ] ;
+.
+
+enzml:UnitDefinitionShape
+    a sh:NodeShape ;
+    sh:targetClass enzml:UnitDefinition ;
+    sh:property [
+        sh:or (
+            [ sh:path UnitDefinition:id ]
+            [ sh:path schema:identifier ]
+        ) ;
+        sh:datatype xsd:string ;
+        sh:minCount 0 ;
+        sh:maxCount 1 ;
+        sh:description "Unique identifier of the unit definition." ;
+    ] ;
+    sh:property [
+        sh:or (
+            [ sh:path UnitDefinition:name ]
+            [ sh:path rdfs:label ]
+        ) ;
+        sh:datatype xsd:string ;
+        sh:minCount 0 ;
+        sh:maxCount 1 ;
+        sh:description "Common or human-readable name of the unit definition." ;
+    ] ;
+    sh:property [
+        sh:or (
+            [ sh:path UnitDefinition:base_units ]
+            [ sh:path qudt:factorUnit ]
+        ) ;
+        sh:node enzml:BaseUnitShape ;
+        sh:minCount 0 ;
+        sh:description "Base or factor units that define this unit." ;
+    ] ;
+.
+
+enzml:BaseUnitShape
+    a sh:NodeShape ;
+    sh:targetClass enzml:BaseUnit ;
+    sh:property [
+        sh:or (
+            [ sh:path BaseUnit:kind ]
+            [ sh:path qudt:unit ]
+        ) ;
+        sh:class enzml:UnitType ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:description "Kind of the base unit (e.g., meter, kilogram, second)." ;
+    ] ;
+    sh:property [
+        sh:or (
+            [ sh:path BaseUnit:exponent ]
+            [ sh:path qudt:exponent ]
+        ) ;
+        sh:datatype xsd:integer ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:description "Exponent of the base unit in the unit definition." ;
+    ] ;
+    sh:property [
+        sh:or (
+            [ sh:path BaseUnit:multiplier ]
+            [ sh:path qudt:multiplier ]
+        ) ;
+        sh:datatype xsd:decimal ;
+        sh:minCount 0 ;
+        sh:maxCount 1 ;
+        sh:description "Multiplier applied to the base unit." ;
+    ] ;
+    sh:property [
+        sh:or (
+            [ sh:path BaseUnit:scale ]
+            [ sh:path qudt:scale ]
+        ) ;
+        sh:datatype xsd:decimal ;
+        sh:minCount 0 ;
+        sh:maxCount 1 ;
+        sh:description "Power-of-ten scale applied to the base unit." ;
+    ] ;
+.
