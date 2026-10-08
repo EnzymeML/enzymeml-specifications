@@ -1,0 +1,67 @@
+---
+// EnzymeML JSON validator: schema validation + consistency checks (WASM, loaded on first upload).
+// Styles and script are bundled by Astro and only shipped on pages that use this component.
+import './validator/treeviewer.css';
+import './validator/validation.css';
+---
+
+<div class="container not-content">
+	<div class="instructions">
+		<p>
+			The Validation Tool is designed to help you ensure your EnzymeML document is correct and consistent
+			according to predefined rules and standards. It performs two main functions:
+		</p>
+		<ul>
+			<li><strong>Schema Validation:</strong><br />Checks if the JSON structure matches the EnzymeML schema.</li>
+			<li><strong>Consistency Checks:</strong><br />Checks if the JSON is consistent with the EnzymeML specification.</li>
+		</ul>
+		<p>
+			For this, upload your EnzymeML JSON file using the file input below. The tool will then display the results
+			of the validation and consistency checks.
+		</p>
+		<label for="file-input" class="upload-label">Choose File</label>
+		<input type="file" id="file-input" class="upload-input" accept=".json,application/json" />
+
+		<div class="responsive-wrapper">
+			<div id="json-content-wrapper">
+				<h3>JSON Content</h3>
+				<div id="json-content"></div>
+			</div>
+		</div>
+	</div>
+
+	<div class="result-container">
+		<div class="tabs">
+			<button id="tab-validation" class="tab tab-active" type="button">
+				<div class="tab-heading">
+					<p>Schema Validation</p>
+					<p id="valid-errors"></p>
+				</div>
+			</button>
+			<button id="tab-consistency" class="tab" type="button">
+				<div class="tab-heading">
+					<p>Consistency Checks</p>
+					<p id="cons-errors"></p>
+				</div>
+			</button>
+		</div>
+		<div id="validation" class="results results-active"></div>
+		<div id="consistency" class="results"></div>
+	</div>
+</div>
+
+<script>
+	import validationPipeline from './validator/validation.js';
+
+	const panes = { validation: 'tab-validation', consistency: 'tab-consistency' };
+	function show(active: keyof typeof panes) {
+		for (const [pane, tab] of Object.entries(panes)) {
+			document.getElementById(pane)!.classList.toggle('results-active', pane === active);
+			document.getElementById(tab)!.classList.toggle('tab-active', pane === active);
+		}
+	}
+
+	document.getElementById('file-input')!.addEventListener('change', validationPipeline);
+	document.getElementById('tab-validation')!.addEventListener('click', () => show('validation'));
+	document.getElementById('tab-consistency')!.addEventListener('click', () => show('consistency'));
+</script>

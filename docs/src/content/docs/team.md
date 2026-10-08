@@ -1,4 +1,6 @@
-# Team
+---
+title: Team
+---
 
 ## Developers
 
@@ -36,4 +38,4 @@
 - EU COST Action COZYME:  
 [Pan-European network on computational redesign of enzymes](https://www.cost.eu/actions/CA21162/)
 
-![EnzymeML Logo](img/logo_funding.png)
+![EnzymeML Logo](/img/logo_funding.png)

@@ -14,7 +14,7 @@
 /* Styles for the container of the tree (e.g. fonts, margins etc.) */
 .jsontree_tree {
     margin-left: 30px;
-    font-family: "PT Mono", monospace;
+    font-family: var(--sl-font-mono);
     font-size: 16px;
 }
 
@@ -40,8 +40,8 @@
 .jsontree_label {
     font-weight: normal;
     vertical-align: top;
-    background-color: var(--md-code-bg-color);
-    font-family: "PT Mono", monospace;
+    background-color: var(--sl-color-bg-inline-code);
+    font-family: var(--sl-font-mono);
     padding: 1px 8px 1px 8px;
     border-radius: 4px;
     position: relative;
@@ -66,19 +66,19 @@
     display: inline;
 }
 .jsontree_value_null {
-    color: var(--md-code-hl-special-color);
+    color: var(--sl-color-purple);
     font-weight: bold;
 }
 .jsontree_value_string {
-    color: var(--md-code-hl-string-color);
+    color: var(--sl-color-green);
     font-weight: bold;
 }
 .jsontree_value_number {
-    color: var(--md-code-hl-keyword-color);
+    color: var(--sl-color-blue);
     font-weight: bold;
 }
 .jsontree_value_boolean {
-    color: var(--md-code-hl-number-color);
+    color: var(--sl-color-orange);
     font-weight: bold;
 }
 

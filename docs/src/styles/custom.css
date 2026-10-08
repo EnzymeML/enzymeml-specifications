@@ -1,0 +1,106 @@
+/* EnzymeML palette (from the former MkDocs theme): navy #1D2E5B, red #E71A4B, rose #ECB7B7 */
+:root {
+	--sl-font: 'Open Sans', system-ui, sans-serif;
+	--enzml-navy: #1d2e5b;
+}
+
+/* Dark mode (Starlight default) */
+:root {
+	--sl-color-accent-low: #4a0f1e;
+	--sl-color-accent: #e71a4b;
+	--sl-color-accent-high: #f2567b;
+	--sl-color-bg-nav: var(--enzml-navy);
+}
+
+/* Light mode */
+:root[data-theme='light'] {
+	--sl-color-accent-low: #f8dde3;
+	--sl-color-accent: #e71a4b;
+	--sl-color-accent-high: #a5102f;
+	--sl-color-bg-nav: var(--enzml-navy);
+}
+
+/* Navy app bar with light text, as on the old site */
+.header {
+	--sl-color-white: #fff;
+	--sl-color-gray-1: #eef0f5;
+	--sl-color-gray-2: #d5d9e4;
+	--sl-color-gray-5: #3a4a75;
+	--sl-color-text-accent: #fff;
+	border-bottom-color: var(--enzml-navy);
+}
+.site-title {
+	font-weight: 700;
+}
+.header site-search button {
+	background-color: rgb(255 255 255 / 0.12);
+	border-color: transparent;
+	color: #fff;
+}
+.header site-search kbd {
+	background-color: rgb(255 255 255 / 0.15);
+	color: #fff;
+}
+
+/* Home: the wordmark logo is the visual title; keep the <h1> for screen readers only */
+.hero h1 {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	overflow: hidden;
+	clip-path: inset(50%);
+	white-space: nowrap;
+}
+
+/* Links red in both modes, like the old site */
+.sl-markdown-content a:not(:where(.not-content *)) {
+	color: var(--sl-color-accent);
+}
+.sl-markdown-content a:not(:where(.not-content *)):has(> code:only-child) {
+	text-decoration: none;
+}
+.sl-markdown-content a > code {
+	color: var(--sl-color-accent);
+}
+
+/* <details> as boxes, like the former Material admonition-style FAQ / "Graph" blocks */
+.sl-markdown-content details {
+	border: 1px solid var(--sl-color-gray-5);
+	border-inline-start: 4px solid var(--sl-color-accent);
+	border-radius: 0.3rem;
+	padding: 0.5rem 0.9rem;
+}
+.sl-markdown-content details[open] > summary {
+	margin-bottom: 0.5rem;
+}
+
+/* Home page "grid cards" (formerly Material grid cards) */
+.grid-cards {
+	display: grid;
+	grid-template-columns: 1fr;
+	gap: 1rem;
+}
+@media (min-width: 50rem) {
+	.grid-cards {
+		grid-template-columns: repeat(2, 1fr);
+	}
+}
+.grid-cards .card {
+	padding: 0.8rem 1rem;
+	border: 1px solid var(--sl-color-hairline);
+	border-radius: 0.3rem;
+	margin: 0;
+}
+.grid-cards .card:hover {
+	border-color: transparent;
+	box-shadow: var(--sl-shadow-md);
+}
+.grid-cards .card > * {
+	margin-top: 0.6rem;
+}
+.grid-cards .card img {
+	margin: 0 0.8rem 0.4rem 0;
+}
+.grid-cards .card hr {
+	margin-block: 0.4rem;
+}

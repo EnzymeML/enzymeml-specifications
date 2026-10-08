@@ -1,0 +1,19 @@
+---
+import Default from '@astrojs/starlight/components/Footer.astro';
+---
+
+<Default><slot /></Default>
+<p class="site-footer">
+	<a href="/copyright/">Legal Note</a> · © {new Date().getFullYear()} The EnzymeML Team
+</p>
+
+<style>
+	.site-footer {
+		margin-top: 1.5rem;
+		font-size: var(--sl-text-xs);
+		color: var(--sl-color-gray-3);
+	}
+	.site-footer a {
+		color: inherit;
+	}
+</style>

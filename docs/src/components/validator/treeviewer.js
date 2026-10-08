@@ -7,6 +7,10 @@
  */
 
 var jsonTree = (function () {
+  /* EnzymeML: escape uploaded keys/values before they go into innerHTML */
+  function esc(str) {
+    return String(str).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+  }
   /* ---------- Utilities ---------- */
   var utils = {
     /*
@@ -220,14 +224,14 @@ var jsonTree = (function () {
           '\
                     <span class="jsontree_label-wrapper">\
                         <span class="jsontree_label">"' +
-          label +
+          esc(label) +
           '"</span> : \
                     </span>\
                     <span class="jsontree_value-wrapper">\
                         <span class="jsontree_value jsontree_value_' +
           self.type +
           '">' +
-          val +
+          esc(val) +
           "</span>" +
           (!isLast ? "," : "") +
           "</span>";
@@ -466,7 +470,7 @@ var jsonTree = (function () {
                             <span class="jsontree_label">' +
             '<span class="jsontree_expand-button"></span>' +
             '"' +
-            label +
+            esc(label) +
             '"</span> : \
                         </span>' +
             str;
@@ -835,3 +839,5 @@ var jsonTree = (function () {
     },
   };
 })();
+
+export default jsonTree;

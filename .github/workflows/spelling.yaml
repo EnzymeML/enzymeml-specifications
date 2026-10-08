@@ -22,8 +22,7 @@ jobs:
       - name: Codespell
         uses: codespell-project/actions-codespell@v2
         with:
-          path: 'docs'
-          exclude_file: docs/overrides/partials/mycontent.html
+          path: 'docs/src'
           ignore_words_list: Varian
       - name: Codespell
         uses: codespell-project/actions-codespell@v2

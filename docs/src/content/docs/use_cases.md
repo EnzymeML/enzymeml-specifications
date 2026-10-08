@@ -1,4 +1,6 @@
-# Use Cases
+---
+title: Use Cases
+---
 
 ## coming soon 🚧
 

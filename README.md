@@ -29,6 +29,16 @@ Besides schema definitions, EnzymeML-APIs in the following programming languages
 - [`Julia` (enzymeml-jl)](https://github.com/EnzymeML/EnzymeML.jl)
 - [`TypeScript` (enzymeml-ts)](https://github.com/EnzymeML/enzymeml-ts)
 
+## Website
+
+[enzymeml.org](https://enzymeml.org) is built from [`docs/`](docs) with [Astro Starlight](https://starlight.astro.build) and deployed to GitHub Pages on every push to `main`.
+
+```bash
+cd docs && pnpm install && pnpm dev
+```
+
+Pages live in `docs/src/content/docs/`. The data model page (`/versions/v2/`) is generated: run `md-models pipeline -i gen.toml` after changing `specifications/v2.md`. This writes `docs/versions/v2.md`, which the build converts into the Starlight page. Do not edit the generated page by hand.
+
 ---
 
 <div align="center">

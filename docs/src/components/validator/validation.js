@@ -1,12 +1,17 @@
-/**
- * Import the necessary functions from the wasm_validator module.
- */
-import init, {
-  validate_by_schema,
-  check_consistency,
-} from "https://unpkg.com/enzymeml-validator@0.1.2/enzymeml-validator.js";
+import jsonTree from "./treeviewer.js";
 
-console.log("Loading WASM module...");
+/**
+ * Lazily loads the WASM validator on first use (only on the validation page).
+ */
+const VALIDATOR_URL = "https://unpkg.com/enzymeml-validator@0.1.2/enzymeml-validator.js";
+let validator;
+async function loadValidator() {
+  if (!validator) {
+    validator = await import(/* @vite-ignore */ VALIDATOR_URL);
+    await validator.default();
+  }
+  return validator;
+}
 
 /**
  * Handles the file upload event and triggers the validation pipeline.
@@ -38,9 +43,8 @@ function handleFileRead(event) {
   jsonContentWrapper.style.display = "none";
   jsonContentElement.innerHTML = "";
 
-  // color: var(--md-default-fg-color)
-  let uploadLabel = document.querySelector(".upload-label");
-  uploadLabel.style.color = "var(--md-default-fg-color)";
+    let uploadLabel = document.querySelector(".upload-label");
+  uploadLabel.style.color = "var(--sl-color-text)";
 
   // Add JSON tree to jsonContentElement
   try {
@@ -70,8 +74,8 @@ function handleFileRead(event) {
     const json = JSON.parse(event.target.result);
     processFileContent(json, valResElem, consResElem);
   } catch (error) {
-    document.getElementById("output").textContent =
-      "Error parsing JSON: " + error.message;
+    // the label already shows "Not a JSON file" (see above)
+    return;
   }
 }
 
@@ -82,7 +86,7 @@ function handleFileRead(event) {
  * @param {HTMLElement} consResElem - The HTML element for displaying consistency results.
  */
 function processFileContent(json, valResElem, consResElem) {
-  init().then(() => {
+  loadValidator().then(({ validate_by_schema, check_consistency }) => {
     // Perform a schema validation
     const valRes = validate_by_schema(JSON.stringify(json));
 
@@ -161,6 +165,8 @@ function transformResult(errors) {
  * @returns {string} The HTML string with highlighted text.
  */
 function messageToHTML(message) {
+  // messages can quote values from the uploaded file: escape before highlighting
+  message = message.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
   const regex = /'([^']*)'/g;
   const modifiedStr = message.replace(
     regex,
@@ -188,10 +194,9 @@ function createErrorElement(location, message, severity) {
 
 
   if (severity) {
-    messageElement.innerHTML = messageToHTML(
-      `<strong style="color: ${severity === "Error" ? "red" : "orange"
-      };">${severity}:</strong> ${message}`,
-    );
+    messageElement.innerHTML =
+      `<strong style="color: ${severity === "Error" ? "red" : "orange"};">${severity}:</strong> ` +
+      messageToHTML(message);
   } else {
     messageElement.innerHTML = messageToHTML(message);
   }

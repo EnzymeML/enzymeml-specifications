@@ -1,0 +1,24 @@
+- role: user
+  content: What is the initial rate of a reaction with $V_{max} = 10\,\mu M/s$, $K_m = 50\,\mu M$ and $[S] = 100\,\mu M$?
+- role: tool
+  name: michaelis_menten
+  input:
+    v_max: 10
+    km: 50
+    substrate: 100
+  output:
+    rate: 6.667
+    unit: µM/s
+- role: assistant
+  content: |
+    Using the Michaelis–Menten equation
+
+    $$
+    v = \frac{V_{max}\,[S]}{K_m + [S]} = \frac{10 \cdot 100}{50 + 100} \approx 6.67\,\mu M/s
+    $$
+
+    In PyEnzyme you would store this as an `Equation` of type `rateLaw`:
+
+    ```python
+    equation = "v_max * s1 / (km + s1)"
+    ```

@@ -2,24 +2,43 @@ name: EnzymeML Docs Pipeline
 
 on:
   push:
-    branches:
-      - main
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
-  docs:
-    name: Docs Pipeline
+  build:
+    name: Build (spec conversion + link validation)
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
+      # runs `pnpm run build`: converts docs/versions/*.md, builds the site,
+      # and fails on broken internal links (starlight-links-validator)
+      - name: Install, build, and upload site
+        uses: withastro/action@v6
+        with:
+          path: docs
 
-      - uses: actions/setup-python@v4
-        with:
-          python-version: 3.x
-      - uses: actions/cache@v4
-        with:
-          path: .cache
-          key: ${{ github.ref }}
-      - run: pip install mkdocs-material jupyter nbconvert mkdocs-jupyter mkdocs-plugin-inline-svg
-      - run: mkdocs build
-      - run: mkdocs gh-deploy --force
+  deploy:
+    name: Deploy to GitHub Pages
+    if: github.event_name != 'pull_request'
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy
+        id: deployment
+        uses: actions/deploy-pages@v5

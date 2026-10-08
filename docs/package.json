@@ -1,0 +1,28 @@
+{
+  "name": "enzymeml-website",
+  "type": "module",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "spec": "node scripts/convert-spec.mjs --check",
+    "dev": "pnpm spec && astro dev",
+    "build": "pnpm spec && astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@astrojs/markdown-remark": "^7.3.1",
+    "@astrojs/starlight": "^0.42.5",
+    "@fontsource/open-sans": "^5.3.0",
+    "astro": "^7.3.5",
+    "astro-mermaid": "^2.1.0",
+    "katex": "^0.19.0",
+    "mermaid": "^11.17.2",
+    "rehype-katex": "^7.0.1",
+    "remark-math": "^6.0.0",
+    "sharp": "^0.35.5",
+    "starlight-links-validator": "^0.26.0",
+    "yaml": "^2.9.1"
+  },
+  "packageManager": "pnpm@11.22.0"
+}

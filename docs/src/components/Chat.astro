@@ -1,0 +1,130 @@
+---
+// Renders a chat transcript (user / assistant / tool-call turns) as static HTML.
+// Usage in MDX:  import t from '../../transcripts/x.yaml?raw';  <Chat transcript={t} />
+// `transcript` is YAML or JSON text, or an already-parsed array of turns:
+//   - role: user | assistant      content: markdown
+//   - role: tool                  name: tool name, input: any, output: any
+import { parse } from 'yaml';
+import { markdown } from './chat-markdown';
+
+type Turn =
+	| { role: 'user' | 'assistant'; content: string }
+	| { role: 'tool'; name: string; input?: unknown; output?: unknown };
+
+const { transcript, title } = Astro.props as { transcript: string | Turn[]; title?: string };
+const turns: Turn[] = typeof transcript === 'string' ? parse(transcript) : transcript;
+if (!Array.isArray(turns)) throw new Error('<Chat>: transcript must be a list of turns');
+
+const md = await markdown;
+const render = async (s: string) => (await md.render(s)).code;
+const show = (v: unknown) => (typeof v === 'string' ? v : JSON.stringify(v, null, 2));
+
+const rendered = await Promise.all(
+	turns.map(async (t) => {
+		if (t.role === 'tool') return t;
+		if (t.role !== 'user' && t.role !== 'assistant') throw new Error(`<Chat>: unknown role "${(t as any).role}"`);
+		return { ...t, html: await render(t.content ?? '') };
+	})
+);
+---
+
+<figure class="chat not-content" aria-label={title ?? 'Chat transcript'}>
+	{title && <figcaption>{title}</figcaption>}
+	{
+		rendered.map((t) =>
+			t.role === 'tool' ? (
+				<details class="turn tool">
+					<summary>
+						Tool call: <code>{t.name}</code>
+					</summary>
+					{t.input !== undefined && (
+						<>
+							<div class="label">Input</div>
+							<pre>{show(t.input)}</pre>
+						</>
+					)}
+					{t.output !== undefined && (
+						<>
+							<div class="label">Output</div>
+							<pre>{show(t.output)}</pre>
+						</>
+					)}
+				</details>
+			) : (
+				<div class={`turn ${t.role}`}>
+					<div class="label">{t.role === 'user' ? 'User' : 'Assistant'}</div>
+					<div class="body sl-markdown-content" set:html={t.html} />
+				</div>
+			)
+		)
+	}
+</figure>
+
+<style>
+	.chat {
+		display: flex;
+		flex-direction: column;
+		gap: 0.75rem;
+		margin-block: 1.5rem;
+	}
+	figcaption {
+		font-weight: 600;
+		color: var(--sl-color-white);
+	}
+	.turn {
+		max-width: 85%;
+		padding: 0.6rem 0.9rem;
+		border-radius: 0.75rem;
+		border: 1px solid var(--sl-color-hairline);
+	}
+	.user {
+		align-self: flex-end;
+		background: var(--sl-color-accent-low);
+	}
+	.assistant {
+		align-self: flex-start;
+		background: var(--sl-color-gray-6);
+	}
+	.tool {
+		align-self: flex-start;
+		font-size: var(--sl-text-sm);
+		background: var(--sl-color-bg-inline-code);
+	}
+	.tool summary {
+		cursor: pointer;
+	}
+	.label {
+		font-size: var(--sl-text-xs);
+		font-weight: 600;
+		text-transform: uppercase;
+		letter-spacing: 0.05em;
+		color: var(--sl-color-gray-3);
+		margin-block: 0.25rem;
+	}
+	pre {
+		overflow-x: auto;
+		margin: 0;
+		padding: 0.5rem;
+		font-family: var(--sl-font-mono);
+		background: var(--sl-color-bg);
+		border-radius: 0.375rem;
+	}
+	.body :global(.shiki),
+	.body :global(.shiki span) {
+		color: var(--shiki-dark);
+		background-color: var(--shiki-dark-bg);
+	}
+	:global([data-theme='light']) .body :global(.shiki),
+	:global([data-theme='light']) .body :global(.shiki span) {
+		color: var(--shiki-light);
+		background-color: var(--shiki-light-bg);
+	}
+	.body :global(.shiki) {
+		padding: 0.5rem 0.75rem;
+		border-radius: 0.375rem;
+		overflow-x: auto;
+	}
+	.body :global(> :first-child) {
+		margin-top: 0;
+	}
+</style>

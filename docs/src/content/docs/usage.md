@@ -1,11 +1,15 @@
-# How to use EnzymeML?
+---
+title: How to use EnzymeML?
+description: Tools for reading and writing EnzymeML documents.
+---
 
 Depending on the use case, EnzymeML provides a range of tools for reading and writing EnzymeML documents. These include [native programming APIs](#native-apis) in various languages, tools for [importing data from analytical device outputs](#python-tools), and high-level [desktop applications](#enzymeml-suite) for managing EnzymeML documents.
 
 ## EnzymeML Suite
 
 The EnzymeML Suite is a desktop application for creating, editing, and visualizing EnzymeML Documents. Via the sidebar, different elements of an EnzymeML Document can be added and edited.
-![EnzymeML Suite](img/suite.png){ width="75%" }  
+<img src="/img/suite.png" alt="EnzymeML Suite" width="75%" />
+
 The EnzymeML Suite is available for Windows, macOS, and Linux and can be downloaded from [here](https://github.com/EnzymeML/enzymeml-suite/releases/tag/v0.0.1).
 
 ## Python tools
@@ -38,24 +42,41 @@ These APIs allow to read and write EnzymeML Documents programmatically and ship 
 
 ## FAQ
 
-??? question "Is EnzymeML a database?"
-    No. EnzymeML is an exchange format. But the EnzymeML Data Model can be used as a blueprint to setup a local data base. 
+<details>
+<summary>Is EnzymeML a database?</summary>
 
-??? question "How to define a solvent or buffer"
-    A solvent or buffer in a reaction can be defined in two ways. Either it is treated as a single `SmallMolecule` from a simplified perspective, or all `SmallMolecule` components of the buffer are defined separately and grouped together as a `Complex`.
+No. EnzymeML is an exchange format. But the EnzymeML Data Model can be used as a blueprint to setup a local data base.
 
-??? question "How is data from endpoint measurements handled?"
-    Endpoint measurement data is handled in the same way as time-course data. Within an EnzymeML document, endpoint data is treated like time-course data with a single measurement point.  
-    For example, if the concentration of a substrate species with an initial concentration of 200 µM was measured after 30 minutes and 120 µM remained, the `MeasurementData` object should be defined as follows:  
-    `initial: 200`  
-    `time: [0, 30]`  
-    `data: [200, 120]`  
+</details>
 
-??? question "How to reference a `SmallMolecule` or `Protein` from ?"
-    Both, a `SmallMolecule` and `Protein` share the fields *id* and *reference*. The *id* serves as an internal identifier, which allows to reference a `SmallMolecule` or `Protein` in `MeasurementData`, within a `Complex`, or within an `Equation` via the *species_id* field.  
-    For example if a substrate `SmallMolecule` is defined with the id *s1*, it can be referenced in an `Equation`:  
-    `species_id: s1`  
-    `equation: v_max * s1 / (km + s1)`
+<details>
+<summary>How to define a solvent or buffer</summary>
 
-    Besides the *id* field, a `SmallMolecule` and `Protein` possess a *reference* field.
-    Its purpose is to reference an database entry in which a `Protein` or `SmallMolecule` is defined. This could be an url to an UniProt or ChEBI entry
+A solvent or buffer in a reaction can be defined in two ways. Either it is treated as a single `SmallMolecule` from a simplified perspective, or all `SmallMolecule` components of the buffer are defined separately and grouped together as a `Complex`.
+
+</details>
+
+<details>
+<summary>How is data from endpoint measurements handled?</summary>
+
+Endpoint measurement data is handled in the same way as time-course data. Within an EnzymeML document, endpoint data is treated like time-course data with a single measurement point.  
+For example, if the concentration of a substrate species with an initial concentration of 200 µM was measured after 30 minutes and 120 µM remained, the `MeasurementData` object should be defined as follows:  
+`initial: 200`  
+`time: [0, 30]`  
+`data: [200, 120]`
+
+</details>
+
+<details>
+<summary>How to reference a <code>SmallMolecule</code> or <code>Protein</code> from ?</summary>
+
+Both, a `SmallMolecule` and `Protein` share the fields *id* and *reference*. The *id* serves as an internal identifier, which allows to reference a `SmallMolecule` or `Protein` in `MeasurementData`, within a `Complex`, or within an `Equation` via the *species_id* field.  
+For example if a substrate `SmallMolecule` is defined with the id *s1*, it can be referenced in an `Equation`:  
+`species_id: s1`  
+`equation: v_max * s1 / (km + s1)`
+
+Besides the *id* field, a `SmallMolecule` and `Protein` possess a *reference* field.
+Its purpose is to reference an database entry in which a `Protein` or `SmallMolecule` is defined. This could be an url to an UniProt or ChEBI entry
+
+</details>
+
