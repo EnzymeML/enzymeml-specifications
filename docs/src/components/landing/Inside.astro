@@ -1,0 +1,202 @@
+---
+import { Icon } from '@astrojs/starlight/components';
+
+// Field names exactly as in specifications/v2.md
+const blocks = [
+	{ name: 'Protein', anchor: 'protein', img: '/img/protein.png', w: 1104, h: 1620, text: 'The enzyme and any other protein in the experiment.', fields: ['sequence', 'ecnumber', 'organism', 'organism_tax_id'] },
+	{ name: 'Small Molecule', anchor: 'smallmolecule', img: '/img/smallmolecule.png', w: 1019, h: 942, text: 'Substrates, products, inhibitors and activators with chemical identifiers.', fields: ['canonical_smiles', 'inchi', 'inchikey'] },
+	{ name: 'Reaction', anchor: 'reaction', img: '/img/reaction.png', w: 1272, h: 1496, text: 'Reactants and products with stoichiometry, modifiers and reversibility.', fields: ['reactants', 'products', 'modifiers', 'reversible'] },
+	{ name: 'Measurement', anchor: 'measurement', img: '/img/measurement.png', w: 1801, h: 1450, text: 'Time-course or endpoint data per species, with reaction conditions.', fields: ['species_data', 'ph', 'temperature'] },
+];
+const more = [
+	{ name: 'Vessel', anchor: 'vessel', text: 'Where the reaction runs: volume and unit' },
+	{ name: 'Complex', anchor: 'complex', text: 'Groups species, e.g. enzyme-substrate or buffer' },
+	{ name: 'Equation', anchor: 'equation', text: 'Rate laws, ODEs and assignments' },
+	{ name: 'Parameter', anchor: 'parameter', text: 'Estimated values, bounds and standard errors' },
+];
+---
+
+<section class="lp-section" aria-labelledby="lp-inside-title">
+	<div class="lp-head lp-reveal">
+		<span class="lp-eyebrow">What's inside</span>
+		<h2 id="lp-inside-title">Everything about a biocatalytic experiment, linked together</h2>
+		<p>
+			An EnzymeML Document connects the catalyst, the molecules, the reaction and the measured data.
+			Species are referenced by their <code>id</code>, so measurements, reactions and equations always
+			point to the same entities.
+		</p>
+	</div>
+
+	<ul class="lp-blocks">
+		{
+			blocks.map((b, i) => (
+				<li class="lp-reveal" style={`--lp-delay:${i * 6}%`}>
+					<a class="lp-block lp-card" href={`/versions/v2/#${b.anchor}`}>
+						<span class="lp-block__icon">
+							<img src={b.img} alt="" width={b.w} height={b.h} loading="lazy" />
+						</span>
+						<span class="lp-block__name">
+							{b.name} <Icon name="right-arrow" size="1.1rem" />
+						</span>
+						<span class="lp-block__text">{b.text}</span>
+						<span class="lp-block__fields">
+							{b.fields.map((f) => <code>{f}</code>)}
+						</span>
+					</a>
+				</li>
+			))
+		}
+	</ul>
+
+	<ul class="lp-more lp-reveal">
+		{
+			more.map((m) => (
+				<li>
+					<a href={`/versions/v2/#${m.anchor}`}>
+						<b>{m.name}</b>
+						<span>{m.text}</span>
+					</a>
+				</li>
+			))
+		}
+	</ul>
+	<p class="lp-inside__foot lp-reveal">
+		<a href="/versions/v2/">Explore the full data model <Icon name="right-arrow" size="1rem" /></a>
+	</p>
+</section>
+
+<style>
+	ul {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+	}
+	.lp-blocks {
+		display: grid;
+		gap: 1rem;
+		grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr));
+	}
+	.lp-blocks li {
+		display: grid;
+	}
+	.lp-block {
+		display: grid;
+		grid-template-rows: auto auto 1fr auto;
+		gap: 0.6rem;
+		padding: 1.5rem 1.35rem 1.35rem;
+		text-decoration: none;
+		color: inherit;
+		transition:
+			transform 0.2s ease,
+			border-color 0.2s ease;
+	}
+	.lp-block:hover {
+		transform: translateY(-3px);
+		border-color: color-mix(in srgb, var(--lp-red) 55%, transparent);
+	}
+	.lp-block__icon {
+		display: grid;
+		place-items: center;
+		width: 3.5rem;
+		height: 3.5rem;
+		margin-bottom: 0.4rem;
+		border-radius: 0.9rem;
+		background: var(--lp-surface-2);
+	}
+	/* the icons contain navy, so keep a light tile in dark mode too */
+	:global(:root:not([data-theme='light'])) .lp-block__icon {
+		background: #e9edf4;
+	}
+	.lp-block__icon img {
+		width: auto;
+		max-width: 2.3rem;
+		max-height: 2.3rem;
+	}
+	.lp-block__name {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.35rem;
+		font-size: var(--sl-text-xl);
+		font-weight: 700;
+		color: var(--lp-text);
+	}
+	.lp-block__name :global(svg) {
+		color: var(--lp-red-text);
+		transition: translate 0.2s ease;
+	}
+	.lp-block:hover .lp-block__name :global(svg) {
+		translate: 3px 0;
+	}
+	.lp-block__text {
+		font-size: var(--sl-text-sm);
+		line-height: 1.55;
+		color: var(--lp-muted);
+	}
+	.lp-block__fields {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.3rem;
+		margin-top: 0.4rem;
+	}
+	.lp-block__fields code {
+		padding: 0.1rem 0.45rem;
+		border-radius: 0.35rem;
+		background: var(--lp-surface-2);
+		border: 1px solid var(--lp-border);
+		font-size: 0.72rem;
+		color: var(--lp-muted);
+	}
+
+	.lp-more {
+		display: grid;
+		gap: 0.75rem;
+		grid-template-columns: repeat(auto-fit, minmax(min(100%, 13rem), 1fr));
+		margin-top: 1rem;
+	}
+	.lp-more a {
+		display: grid;
+		align-content: start;
+		gap: 0.15rem;
+		height: 100%;
+		box-sizing: border-box;
+		padding: 0.8rem 1rem;
+		border-radius: 0.8rem;
+		border: 1px dashed var(--lp-border);
+		text-decoration: none;
+		color: inherit;
+	}
+	.lp-more a:hover {
+		border-style: solid;
+		border-color: color-mix(in srgb, var(--lp-red) 55%, transparent);
+	}
+	.lp-more b {
+		color: var(--lp-text);
+	}
+	.lp-more span {
+		font-size: var(--sl-text-sm);
+		color: var(--lp-muted);
+	}
+	.lp-inside__foot {
+		margin: 1.75rem 0 0;
+	}
+	.lp-inside__foot a {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.35rem;
+		font-weight: 600;
+		color: var(--lp-red-text);
+		text-decoration: none;
+	}
+	.lp-inside__foot a:hover {
+		text-decoration: underline;
+	}
+	@media (prefers-reduced-motion: reduce) {
+		.lp-block,
+		.lp-block__name :global(svg) {
+			transition: none;
+		}
+		.lp-block:hover {
+			transform: none;
+		}
+	}
+</style>

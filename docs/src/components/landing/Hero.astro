@@ -1,0 +1,389 @@
+---
+// Overrides Starlight's <Hero> (see astro.config.mjs). Only the home page uses a hero;
+// any other page that sets `hero` still gets Starlight's default.
+import Default from '@astrojs/starlight/components/Hero.astro';
+import { LinkButton } from '@astrojs/starlight/components';
+import wordmarkSvg from '../../assets/enzymeml.svg?raw';
+
+const isHome = Astro.url.pathname === '/';
+// Navy text of the wordmark follows the theme; the coloured mark keeps its colours.
+const wordmark = wordmarkSvg
+	.replace(/<\?xml[^>]*>|<!--[\s\S]*?-->/g, '')
+	.replace(/#273470/g, 'currentColor')
+	.replace('<svg', '<svg class="lp-wordmark" role="img" aria-label="EnzymeML"');
+
+// Excerpt of an EnzymeML v2 document (field names as in specifications/v2.md; values from the usage FAQ)
+const json = `{
+  "version": "2.0",
+  "name": "My enzyme assay",
+  "small_molecules": [{
+    "id": "s1",
+    "name": "Substrate"
+  }],
+  "measurements": [{
+    "id": "m1",
+    "species_data": [{
+      "species_id": "s1",
+      "time": [0, 30],
+      "data": [200, 120]
+    }]
+  }],
+  "equations": [{
+    "species_id": "s1",
+    "equation": "v_max * s1 / (km + s1)"
+  }]
+}`;
+// Minimal JSON highlighter: keys, strings, numbers (no HTML-special chars in the excerpt)
+const code = json.replace(/("[^"]*")(\s*:)?|(\d+)/g, (_, str, colon, num) =>
+	str ? `<span class="${colon ? 'k' : 's'}">${str}</span>${colon ?? ''}` : `<span class="n">${num}</span>`
+);
+---
+
+{
+	isHome ? (
+		<section class="lp-hero" aria-labelledby="_top">
+			<div class="lp-hero__copy">
+				<Fragment set:html={wordmark} />
+				<h1 id="_top" data-page-title>
+					EnzymeML is a standardised data exchange format for biocatalytic reaction data.
+				</h1>
+				<p class="lp-hero__lead">
+					One structured document for reaction conditions, time-course measurements, kinetic models
+					and estimated parameters, ready to move between lab instruments, modelling tools and
+					databases.
+				</p>
+				<div class="lp-hero__actions">
+					<LinkButton href="/usage/" icon="right-arrow">Get started</LinkButton>
+					<LinkButton href="/versions/v2/" variant="secondary">Data model</LinkButton>
+					<LinkButton href="/validation/" variant="minimal" icon="approve-check" iconPlacement="start">
+						Validate a document
+					</LinkButton>
+					<LinkButton
+						href="https://github.com/EnzymeML"
+						variant="minimal"
+						icon="github"
+						iconPlacement="start"
+					>
+						GitHub
+					</LinkButton>
+				</div>
+			</div>
+
+			<div class="lp-hero__visual" aria-hidden="true">
+				<div class="lp-layer lp-layer--glow" />
+				<div class="lp-layer lp-layer--doc">
+					<div class="lp-doc lp-card">
+						<div class="lp-doc__bar">
+							<span />
+							<span />
+							<span />
+							<b>experiment.json</b>
+						</div>
+						<pre class="lp-doc__code"><code set:html={code} /></pre>
+					</div>
+				</div>
+				<div class="lp-layer lp-layer--chart">
+					<div class="lp-chart lp-card">
+						<svg viewBox="0 0 160 90" role="presentation">
+							<path class="lp-chart__axis" d="M14 6v70h140" />
+							<path class="lp-chart__fit" d="M14 14C44 34 70 50 100 58S140 66 154 67" />
+							<path class="lp-chart__fit lp-chart__fit--p" d="M14 76C44 56 70 40 100 32S140 24 154 23" />
+							<g class="lp-chart__pts">
+								<circle cx="14" cy="14" r="3" />
+								<circle cx="40" cy="31" r="3" />
+								<circle cx="68" cy="47" r="3" />
+								<circle cx="100" cy="58" r="3" />
+								<circle cx="130" cy="64" r="3" />
+							</g>
+							<g class="lp-chart__pts lp-chart__pts--p">
+								<circle cx="14" cy="76" r="3" />
+								<circle cx="40" cy="59" r="3" />
+								<circle cx="68" cy="43" r="3" />
+								<circle cx="100" cy="32" r="3" />
+								<circle cx="130" cy="26" r="3" />
+							</g>
+						</svg>
+						<span>Measurement</span>
+					</div>
+				</div>
+				<div class="lp-layer lp-layer--chips">
+					<img class="lp-chip lp-chip--protein" src="/img/protein.png" alt="" width="36" height="53" />
+					<img class="lp-chip lp-chip--mol" src="/img/smallmolecule.png" alt="" width="44" height="41" />
+					<img class="lp-chip lp-chip--rxn" src="/img/reaction.png" alt="" width="44" height="52" />
+				</div>
+			</div>
+		</section>
+	) : (
+		<Default />
+	)
+}
+
+<style>
+	.lp-hero {
+		overflow-x: clip; /* the glow layer bleeds sideways */
+		display: grid;
+		gap: 2.5rem;
+		align-items: center;
+		padding-block: clamp(1.5rem, 5vw, 4.5rem) clamp(2.5rem, 6vw, 5rem);
+	}
+	@media (min-width: 60rem) {
+		.lp-hero {
+			grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+			gap: 3rem;
+		}
+	}
+
+	.lp-hero__copy :global(.lp-wordmark) {
+		display: block;
+		width: min(15rem, 62%);
+		height: auto;
+		color: #273470;
+		margin-bottom: 1.75rem;
+	}
+	:global(:root:not([data-theme='light'])) .lp-hero__copy :global(.lp-wordmark) {
+		color: #fff;
+	}
+	h1 {
+		margin: 0;
+		font-size: clamp(2rem, 1.25rem + 3.4vw, 3.5rem);
+		line-height: 1.08;
+		font-weight: 700;
+		letter-spacing: -0.025em;
+		color: var(--sl-color-white);
+		text-wrap: balance;
+	}
+	.lp-hero__lead {
+		margin: 1.25rem 0 0;
+		max-width: 36rem;
+		font-size: clamp(1.05rem, 1rem + 0.3vw, 1.2rem);
+		line-height: 1.6;
+		color: var(--lp-muted);
+		text-wrap: pretty;
+	}
+	.lp-hero__actions {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: 0.75rem 1rem;
+		margin-top: 2rem;
+	}
+	.lp-hero__actions :global(.sl-link-button) {
+		margin: 0;
+	}
+
+	/* ---------- Layered visual ---------- */
+	.lp-hero__visual {
+		position: relative;
+		min-height: 31rem;
+		isolation: isolate;
+	}
+	.lp-layer {
+		position: absolute;
+	}
+	.lp-layer--glow {
+		inset: -10% -20% -10% -5%;
+		z-index: -1;
+		background:
+			radial-gradient(40% 45% at 70% 30%, rgb(231 26 75 / 0.32), transparent 70%),
+			radial-gradient(45% 50% at 30% 75%, rgb(84 130 147 / 0.38), transparent 70%);
+		filter: blur(10px);
+		--lp-shift: 3rem;
+	}
+	.lp-layer--doc {
+		inset: 0 0.5rem auto auto;
+		width: min(68%, 24rem);
+		--lp-shift: -2.5rem;
+	}
+	.lp-layer--chart {
+		left: 0;
+		top: 52%;
+		width: min(34%, 12rem);
+		z-index: 2;
+		--lp-shift: -6rem;
+	}
+	.lp-layer--chips {
+		inset: 0;
+		z-index: 3;
+		pointer-events: none;
+		--lp-shift: -9rem;
+	}
+
+	.lp-doc {
+		overflow: hidden;
+		transform: perspective(1200px) rotateY(-8deg) rotateX(3deg);
+		transform-origin: right center;
+	}
+	.lp-doc__bar {
+		display: flex;
+		align-items: center;
+		gap: 0.4rem;
+		padding: 0.6rem 0.9rem;
+		border-bottom: 1px solid var(--lp-border);
+		background: var(--lp-surface-2);
+		font-size: var(--sl-text-xs);
+		color: var(--lp-muted);
+	}
+	.lp-doc__bar span {
+		width: 0.6rem;
+		height: 0.6rem;
+		border-radius: 50%;
+		background: var(--lp-border);
+	}
+	.lp-doc__bar span:first-child {
+		background: var(--lp-red);
+	}
+	.lp-doc__bar b {
+		margin-left: 0.5rem;
+		font-weight: 600;
+	}
+	.lp-doc__code {
+		margin: 0;
+		padding: 1rem 1.1rem 1.2rem;
+		font-family: var(--__sl-font-mono, ui-monospace, SFMono-Regular, Menlo, monospace);
+		font-size: 0.78rem;
+		line-height: 1.6;
+		color: var(--lp-muted);
+		white-space: pre;
+		overflow: hidden;
+		background: none;
+		border: 0;
+	}
+	.lp-doc__code code {
+		font-size: inherit;
+		background: none;
+		padding: 0;
+		white-space: inherit;
+		color: inherit;
+	}
+	.lp-doc__code :global(.k) {
+		color: #8cc0d2;
+	}
+	.lp-doc__code :global(.s) {
+		color: #f59ab1;
+	}
+	.lp-doc__code :global(.n) {
+		color: #e6bd6a;
+	}
+	:global(:root[data-theme='light']) .lp-doc__code :global(.k) {
+		color: #2d6577;
+	}
+	:global(:root[data-theme='light']) .lp-doc__code :global(.s) {
+		color: #b30f3c;
+	}
+	:global(:root[data-theme='light']) .lp-doc__code :global(.n) {
+		color: #8a5a00;
+	}
+
+	.lp-chart {
+		padding: 0.75rem 0.85rem 0.6rem;
+		transform: rotate(-3deg);
+	}
+	.lp-chart svg {
+		display: block;
+		width: 100%;
+		height: auto;
+	}
+	.lp-chart span {
+		display: block;
+		margin-top: 0.35rem;
+		font-size: 0.7rem;
+		color: var(--lp-muted);
+	}
+	.lp-chart__axis {
+		fill: none;
+		stroke: var(--lp-muted);
+		stroke-width: 1.2;
+		opacity: 0.6;
+	}
+	.lp-chart__fit {
+		fill: none;
+		stroke: var(--lp-red);
+		stroke-width: 2;
+		stroke-linecap: round;
+	}
+	.lp-chart__fit--p {
+		stroke: var(--lp-teal);
+	}
+	.lp-chart__pts {
+		fill: var(--lp-surface);
+		stroke: var(--lp-red);
+		stroke-width: 1.6;
+	}
+	.lp-chart__pts--p {
+		stroke: var(--lp-teal);
+	}
+
+	.lp-chip {
+		position: absolute;
+		box-sizing: content-box;
+		height: auto;
+		padding: 0.7rem;
+		border-radius: 0.9rem;
+		background: var(--lp-surface);
+		border: 1px solid var(--lp-border);
+		box-shadow: var(--lp-shadow);
+	}
+	.lp-chip--protein {
+		width: 1.6rem;
+		top: 1.5rem;
+		left: 16%;
+		rotate: -8deg;
+	}
+	.lp-chip--mol {
+		width: 2.2rem;
+		top: 30%;
+		left: 2%;
+		rotate: 6deg;
+	}
+	.lp-chip--rxn {
+		width: 2.1rem;
+		top: -1.5rem;
+		right: 0.75rem;
+		rotate: 8deg;
+	}
+
+	/* Phones: just the document card with two chips on its corners */
+	@media (max-width: 40rem) {
+		.lp-hero__visual {
+			min-height: 0;
+			margin-top: 1rem;
+		}
+		.lp-layer--doc {
+			position: relative;
+			width: 100%;
+		}
+		.lp-doc {
+			transform: none;
+		}
+		.lp-doc__code {
+			font-size: 0.7rem;
+		}
+		.lp-layer--chart,
+		.lp-chip--mol {
+			display: none;
+		}
+		.lp-chip--protein {
+			top: -1.5rem;
+			left: auto;
+			right: 4.5rem;
+		}
+		.lp-chip--rxn {
+			top: auto;
+			bottom: -1.25rem;
+			right: 1rem;
+		}
+	}
+
+	/* Parallax: layers drift at different speeds while the page scrolls past the hero */
+	@supports (animation-timeline: scroll()) {
+		@media screen and (prefers-reduced-motion: no-preference) {
+			.lp-layer {
+				animation-name: lp-drift;
+				animation-timing-function: linear;
+				animation-fill-mode: both;
+				animation-timeline: scroll(root);
+				animation-range: 0 100vh;
+			}
+		}
+	}
+</style>

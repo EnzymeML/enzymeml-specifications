@@ -1,0 +1,229 @@
+---
+import { Icon } from '@astrojs/starlight/components';
+
+const citation =
+	'Lauterbach S, Dienhart H, Range J, Malzacher S, Spöring JD, Rother D, Pinto MF, Martins P, Lagerman CE, Bommarius AS, Høst AV, Woodley JM, Ngubane S, Kudanga T, Bergmann FT, Rohwer JM, Iglezakis D, Weidemann A, Wittig U, Kettner C, Swainston N, Schnell S, Pleiss J (2023). EnzymeML: seamless data flow and modeling of enzymatic data. Nat Methods 20: 400–402. https://doi.org/10.1038/s41592-022-01763-1';
+
+const papers = [
+	{ journal: 'Nat Catal 2024', title: 'The STRENDA Biocatalysis Guidelines for cataloguing metadata', href: 'https://www.nature.com/articles/s41929-024-01261-x' },
+	{ journal: 'FEBS J 2022', title: 'EnzymeML: a data exchange format for biocatalysis and enzymology', href: 'https://febs.onlinelibrary.wiley.com/doi/full/10.1111/febs.16318' },
+	{ journal: 'Processes 2024', title: 'Fluent integration of laboratory data into biocatalytic process simulation using EnzymeML, DWSIM, and ontologies', href: 'https://www.mdpi.com/2227-9717/12/3/597' },
+];
+---
+
+<section class="lp-section" aria-labelledby="lp-cite-title">
+	<div class="lp-head lp-reveal">
+		<span class="lp-eyebrow">Peer-reviewed</span>
+		<h2 id="lp-cite-title">Cite EnzymeML</h2>
+		<p>If EnzymeML supports your research, please cite the Nature Methods paper.</p>
+	</div>
+
+	<div class="lp-cite">
+		<figure class="lp-cite__primary lp-card lp-reveal">
+			<span class="lp-cite__journal">Nature Methods · 2023</span>
+			<blockquote>
+				<p class="lp-cite__title">EnzymeML: seamless data flow and modeling of enzymatic data</p>
+				<p class="lp-cite__text" id="lp-citation">{citation}</p>
+			</blockquote>
+			<figcaption class="lp-cite__actions">
+				<button type="button" class="lp-cite__copy" data-copy-target="lp-citation">
+					<Icon name="document" size="1rem" />
+					<span>Copy citation</span>
+				</button>
+				<a href="https://doi.org/10.1038/s41592-022-01763-1">
+					DOI 10.1038/s41592-022-01763-1 <Icon name="external" size="0.9rem" />
+				</a>
+			</figcaption>
+		</figure>
+
+		<div class="lp-cite__more lp-reveal">
+			<h3>Further reading</h3>
+			<ul>
+				{
+					papers.map((p) => (
+						<li>
+							<a href={p.href}>
+								<span>{p.journal}</span>
+								{p.title}
+							</a>
+						</li>
+					))
+				}
+			</ul>
+			<a class="lp-cite__all" href="/publications/">All publications <Icon name="right-arrow" size="1rem" /></a>
+		</div>
+	</div>
+
+	<div class="lp-funding lp-reveal">
+		<h3>Funded by</h3>
+		<a href="/team/" class="lp-funding__strip">
+			<img
+				src="/img/logo_funding.png"
+				alt="Funders: SimTech Cluster of Excellence EXC 2075, DFG Research Unit FOR 5596, CRC 1333, DFG Research Unit FOR 5730 (DESMOL2PRO) and EU COST Action COZYME"
+				width="2454"
+				height="314"
+				loading="lazy"
+			/>
+		</a>
+	</div>
+</section>
+
+<script>
+	for (const button of document.querySelectorAll<HTMLButtonElement>('[data-copy-target]')) {
+		button.addEventListener('click', async () => {
+			const text = document.getElementById(button.dataset.copyTarget!)?.textContent ?? '';
+			const label = button.querySelector('span')!;
+			try {
+				await navigator.clipboard.writeText(text);
+				label.textContent = 'Copied';
+			} catch {
+				label.textContent = 'Copy failed';
+			}
+			setTimeout(() => (label.textContent = 'Copy citation'), 2000);
+		});
+	}
+</script>
+
+<style>
+	.lp-cite {
+		display: grid;
+		gap: 1.5rem 3rem;
+	}
+	@media (min-width: 60rem) {
+		.lp-cite {
+			grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+		}
+	}
+	.lp-cite__primary {
+		position: relative;
+		margin: 0;
+		padding: clamp(1.4rem, 4vw, 2.25rem);
+		overflow: hidden;
+		border-top: 4px solid var(--lp-red);
+	}
+	.lp-cite__journal {
+		font-size: var(--sl-text-xs);
+		font-weight: 700;
+		letter-spacing: 0.08em;
+		text-transform: uppercase;
+		color: var(--lp-red-text);
+	}
+	blockquote {
+		margin: 0.6rem 0 0;
+		padding: 0;
+		border: 0;
+	}
+	.lp-cite__title {
+		margin: 0;
+		font-size: var(--sl-text-2xl);
+		line-height: 1.25;
+		font-weight: 700;
+		color: var(--lp-text);
+	}
+	.lp-cite__text {
+		margin: 1rem 0 0;
+		font-size: var(--sl-text-sm);
+		line-height: 1.6;
+		color: var(--lp-muted);
+		overflow-wrap: anywhere;
+	}
+	.lp-cite__actions {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: 0.75rem 1.25rem;
+		margin-top: 1.5rem;
+	}
+	.lp-cite__actions a {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.3rem;
+		font-size: var(--sl-text-sm);
+		color: var(--lp-red-text);
+		overflow-wrap: anywhere;
+	}
+	.lp-cite__copy {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.4rem;
+		padding: 0.45rem 1rem;
+		border: 1px solid var(--lp-border);
+		border-radius: 999px;
+		background: var(--lp-surface-2);
+		color: var(--lp-text);
+		font: inherit;
+		font-size: var(--sl-text-sm);
+		font-weight: 600;
+		cursor: pointer;
+	}
+	.lp-cite__copy:hover {
+		border-color: var(--lp-red-text);
+	}
+
+	.lp-cite__more h3,
+	.lp-funding h3 {
+		margin: 0 0 0.9rem;
+		font-size: var(--sl-text-sm);
+		font-weight: 700;
+		letter-spacing: 0.06em;
+		text-transform: uppercase;
+		color: var(--lp-muted);
+	}
+	.lp-cite__more ul {
+		margin: 0;
+		padding: 0;
+		list-style: none;
+		border-top: 1px solid var(--lp-border);
+	}
+	.lp-cite__more li a {
+		display: grid;
+		gap: 0.2rem;
+		padding: 0.9rem 0;
+		border-bottom: 1px solid var(--lp-border);
+		color: var(--lp-text);
+		font-weight: 600;
+		line-height: 1.4;
+		text-decoration: none;
+	}
+	.lp-cite__more li a:hover {
+		color: var(--lp-red-text);
+	}
+	.lp-cite__more li span {
+		font-size: var(--sl-text-xs);
+		font-weight: 700;
+		letter-spacing: 0.04em;
+		text-transform: uppercase;
+		color: var(--lp-muted);
+	}
+	.lp-cite__all {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.3rem;
+		margin-top: 1rem;
+		font-weight: 600;
+		color: var(--lp-red-text);
+		text-decoration: none;
+	}
+	.lp-cite__all:hover {
+		text-decoration: underline;
+	}
+
+	.lp-funding {
+		margin-top: clamp(3rem, 6vw, 4.5rem);
+		text-align: center;
+	}
+	.lp-funding__strip {
+		display: block;
+		padding: clamp(0.75rem, 3vw, 1.5rem) clamp(0.75rem, 3vw, 2rem);
+		border-radius: var(--lp-radius);
+		background: #fff;
+		border: 1px solid var(--lp-border);
+	}
+	.lp-funding__strip img {
+		display: block;
+		width: 100%;
+		height: auto;
+		margin-inline: auto;
+		max-width: 60rem;
+	}
+</style>

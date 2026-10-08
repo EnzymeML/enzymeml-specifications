@@ -42,16 +42,6 @@
 	color: #fff;
 }
 
-/* Home: the wordmark logo is the visual title; keep the <h1> for screen readers only */
-.hero h1 {
-	position: absolute;
-	width: 1px;
-	height: 1px;
-	overflow: hidden;
-	clip-path: inset(50%);
-	white-space: nowrap;
-}
-
 /* Links red in both modes, like the old site */
 .sl-markdown-content a:not(:where(.not-content *)) {
 	color: var(--sl-color-accent);
@@ -72,35 +62,4 @@
 }
 .sl-markdown-content details[open] > summary {
 	margin-bottom: 0.5rem;
-}
-
-/* Home page "grid cards" (formerly Material grid cards) */
-.grid-cards {
-	display: grid;
-	grid-template-columns: 1fr;
-	gap: 1rem;
-}
-@media (min-width: 50rem) {
-	.grid-cards {
-		grid-template-columns: repeat(2, 1fr);
-	}
-}
-.grid-cards .card {
-	padding: 0.8rem 1rem;
-	border: 1px solid var(--sl-color-hairline);
-	border-radius: 0.3rem;
-	margin: 0;
-}
-.grid-cards .card:hover {
-	border-color: transparent;
-	box-shadow: var(--sl-shadow-md);
-}
-.grid-cards .card > * {
-	margin-top: 0.6rem;
-}
-.grid-cards .card img {
-	margin: 0 0.8rem 0.4rem 0;
-}
-.grid-cards .card hr {
-	margin-block: 0.4rem;
 }

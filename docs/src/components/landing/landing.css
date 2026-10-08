@@ -1,0 +1,131 @@
+/* Landing page (home) only: imported from src/content/docs/index.mdx.
+   Every selector is prefixed .lp- so nothing leaks into the docs pages. */
+
+:root {
+	--lp-red: #e71a4b;
+	--lp-red-text: #f2567b; /* AA on dark backgrounds */
+	--lp-rose: #ecb7b7;
+	--lp-navy: #1d2e5b;
+	--lp-teal: #548293;
+	--lp-magenta: #ce0a7b;
+	--lp-text: var(--sl-color-white);
+	--lp-muted: var(--sl-color-gray-2);
+	--lp-surface: #1f2230;
+	--lp-surface-2: #262a3a;
+	--lp-border: rgb(255 255 255 / 0.09);
+	--lp-band: #141826;
+	--lp-shadow: 0 1px 2px rgb(0 0 0 / 0.3), 0 12px 32px -12px rgb(0 0 0 / 0.55);
+	--lp-radius: 1rem;
+}
+:root[data-theme='light'] {
+	--lp-red-text: #c8103d; /* AA on white */
+	--lp-muted: var(--sl-color-gray-3);
+	--lp-surface: #ffffff;
+	--lp-surface-2: #f4f5f9;
+	--lp-border: rgb(29 46 91 / 0.12);
+	--lp-band: #f3f4f8;
+	--lp-shadow: 0 1px 2px rgb(29 46 91 / 0.06), 0 12px 32px -14px rgb(29 46 91 / 0.25);
+}
+
+/* ---------- Section scaffold ---------- */
+.lp-section {
+	position: relative;
+	padding-block: clamp(3.5rem, 8vw, 6.5rem);
+}
+/* Full-bleed band background without horizontal overflow */
+.lp-band {
+	background: var(--lp-band);
+	box-shadow: 0 0 0 100vmax var(--lp-band);
+	clip-path: inset(0 -100vmax);
+}
+.lp-head {
+	max-width: 44rem;
+	margin-bottom: clamp(2rem, 5vw, 3.5rem);
+}
+.lp-head--center {
+	margin-inline: auto;
+	text-align: center;
+}
+.lp-eyebrow {
+	display: inline-block;
+	margin: 0 0 0.75rem;
+	font-size: var(--sl-text-xs);
+	font-weight: 700;
+	letter-spacing: 0.12em;
+	text-transform: uppercase;
+	color: var(--lp-red-text);
+}
+.lp-head h2 {
+	margin: 0;
+	font-size: clamp(1.75rem, 1.2rem + 2.2vw, 2.75rem);
+	line-height: 1.15;
+	font-weight: 700;
+	letter-spacing: -0.015em;
+	color: var(--lp-text);
+	text-wrap: balance;
+}
+.lp-head p {
+	margin: 1rem 0 0;
+	font-size: var(--sl-text-lg);
+	line-height: 1.6;
+	color: var(--lp-muted);
+	text-wrap: pretty;
+}
+.lp-card {
+	background: var(--lp-surface);
+	border: 1px solid var(--lp-border);
+	border-radius: var(--lp-radius);
+	box-shadow: var(--lp-shadow);
+}
+.lp-section a:focus-visible,
+.lp-section button:focus-visible {
+	outline: 2px solid var(--lp-red);
+	outline-offset: 3px;
+}
+.lp-section code {
+	font-size: 0.85em;
+}
+
+/* ---------- Motion: scroll-driven, progressive enhancement ----------
+   Without support (or with reduced motion) everything is static and visible. */
+@keyframes lp-reveal {
+	from {
+		opacity: 0;
+		transform: translate3d(var(--lp-from-x, 0), var(--lp-from-y, 2rem), 0) scale(var(--lp-from-s, 1));
+	}
+}
+@keyframes lp-drift {
+	to {
+		transform: translate3d(0, var(--lp-shift, -4rem), 0);
+	}
+}
+@keyframes lp-flow {
+	to {
+		transform: translateX(1.25rem);
+	}
+}
+@keyframes lp-flow-y {
+	to {
+		transform: translateY(1.25rem);
+	}
+}
+
+@supports (animation-timeline: view()) {
+	@media screen and (prefers-reduced-motion: no-preference) {
+		.lp-reveal {
+			animation-name: lp-reveal;
+			animation-timing-function: linear;
+			animation-fill-mode: both;
+			animation-timeline: view();
+			animation-range: entry 0% entry calc(70% + var(--lp-delay, 0%));
+		}
+		/* Parallax layers inside a section: drift while the section crosses the viewport */
+		.lp-parallax {
+			animation-name: lp-drift;
+			animation-timing-function: linear;
+			animation-fill-mode: both;
+			animation-timeline: view();
+			animation-range: cover;
+		}
+	}
+}

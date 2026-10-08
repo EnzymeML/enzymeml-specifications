@@ -1,0 +1,242 @@
+---
+import { Icon } from '@astrojs/starlight/components';
+
+const tools = [
+	{ name: 'MTPHandler', kind: 'Photometric data', href: 'https://fairchemistry.github.io/MTPHandler/', text: 'Reads plate reader formats, applies blank correction and calculates concentrations at scale.' },
+	{ name: 'Chromhandler', kind: 'Chromatographic data', href: 'https://fairchemistry.github.io/Chromhandler/', text: 'Processes chromatographic time courses, assigns retention times to molecules and calculates concentrations.' },
+	{ name: 'NMRPy', kind: 'NMR data', href: 'https://nmrpy.readthedocs.io/en/latest/', text: 'FAIR, reproducible processing of NMR time courses, from raw spectra to concentrations in an EnzymeML Document.' },
+];
+const apis = [
+	{ name: 'Python', icon: 'seti:python', href: 'https://github.com/EnzymeML/PyEnzyme' },
+	{ name: 'Rust', icon: 'seti:rust', href: 'https://github.com/EnzymeML/enzymeml-rs' },
+	{ name: 'Go', icon: 'seti:go', href: 'https://github.com/EnzymeML/enzymeml-go' },
+	{ name: 'TypeScript', icon: 'seti:typescript', href: 'https://github.com/EnzymeML/enzymeml-ts' },
+	{ name: 'Julia', icon: 'seti:julia', href: 'https://github.com/EnzymeML/EnzymeML.jl' },
+] as const;
+---
+
+<section class="lp-section" aria-labelledby="lp-eco-title">
+	<div class="lp-head lp-reveal">
+		<span class="lp-eyebrow">Ecosystem</span>
+		<h2 id="lp-eco-title">Tools that speak EnzymeML</h2>
+		<p>From a desktop app for the bench to instrument parsers and native libraries for your pipelines.</p>
+	</div>
+
+	<div class="lp-eco">
+		<article class="lp-eco__suite lp-card lp-reveal">
+			<div class="lp-eco__suite-copy">
+				<span class="lp-eco__kind"><Icon name="laptop" size="1rem" /> Desktop application</span>
+				<h3>EnzymeML Suite</h3>
+				<p>
+					Create, edit and visualise EnzymeML Documents without writing code. Available for Windows, macOS
+					and Linux.
+				</p>
+				<a class="lp-eco__link" href="https://github.com/EnzymeML/enzymeml-suite/releases/tag/v0.0.1">
+					Download <Icon name="external" size="0.95rem" />
+				</a>
+			</div>
+			<div class="lp-eco__shot">
+				<img
+					class="lp-parallax"
+					src="/img/suite.png"
+					alt="EnzymeML Suite editing a small molecule, with a PubChem search and the structure preview"
+					width="1801"
+					height="1450"
+					loading="lazy"
+				/>
+			</div>
+		</article>
+
+		{
+			tools.map((t, i) => (
+				<article class="lp-eco__tool lp-card lp-reveal" style={`--lp-delay:${i * 6}%`}>
+					<span class="lp-eco__kind">{t.kind}</span>
+					<h3>
+						<a href={t.href}>{t.name}</a>
+					</h3>
+					<p>{t.text}</p>
+				</article>
+			))
+		}
+
+		<article class="lp-eco__tool lp-eco__validator lp-card lp-reveal">
+			<span class="lp-eco__kind"><Icon name="approve-check" size="1rem" /> In the browser</span>
+			<h3>
+				<a href="/validation/">Validator</a>
+			</h3>
+			<p>Check a JSON document against the schema and for internal consistency. Nothing to install.</p>
+		</article>
+
+		<article class="lp-eco__tool lp-eco__apis lp-card lp-reveal">
+			<span class="lp-eco__kind"><Icon name="document" size="1rem" /> Native APIs</span>
+			<h3>Read and write in your language</h3>
+			<ul>
+				{
+					apis.map((a) => (
+						<li>
+							<a href={a.href}>
+								<Icon name={a.icon} size="1.1rem" />
+								{a.name}
+							</a>
+						</li>
+					))
+				}
+			</ul>
+		</article>
+	</div>
+</section>
+
+<style>
+	.lp-eco {
+		display: grid;
+		gap: 1rem;
+	}
+	@media (min-width: 50rem) {
+		.lp-eco {
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+		}
+		.lp-eco__suite,
+		.lp-eco__apis {
+			grid-column: 1 / -1;
+		}
+	}
+	@media (min-width: 64rem) {
+		.lp-eco {
+			grid-template-columns: repeat(3, minmax(0, 1fr));
+		}
+		.lp-eco__apis {
+			grid-column: span 2;
+		}
+	}
+
+	.lp-eco h3 {
+		margin: 0.35rem 0 0.4rem;
+		font-size: var(--sl-text-xl);
+		font-weight: 700;
+		color: var(--lp-text);
+	}
+	.lp-eco h3 a {
+		color: inherit;
+		text-decoration: none;
+	}
+	.lp-eco h3 a::after {
+		content: ' \2197';
+		font-size: 0.8em;
+		color: var(--lp-red-text);
+	}
+	.lp-eco__validator h3 a::after {
+		content: ' \2192';
+	}
+	.lp-eco h3 a:hover {
+		color: var(--lp-red-text);
+	}
+	.lp-eco p {
+		margin: 0;
+		font-size: var(--sl-text-sm);
+		line-height: 1.6;
+		color: var(--lp-muted);
+	}
+	.lp-eco__kind {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.35rem;
+		font-size: var(--sl-text-xs);
+		font-weight: 700;
+		letter-spacing: 0.06em;
+		text-transform: uppercase;
+		color: var(--lp-red-text);
+	}
+
+	.lp-eco__suite {
+		display: grid;
+		overflow: hidden;
+	}
+	@media (min-width: 50rem) {
+		.lp-eco__suite {
+			grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+		}
+	}
+	.lp-eco__suite-copy {
+		align-self: center;
+		padding: clamp(1.5rem, 4vw, 2.5rem);
+	}
+	.lp-eco__suite h3 {
+		font-size: var(--sl-text-3xl);
+	}
+	.lp-eco__suite p {
+		font-size: var(--sl-text-base);
+	}
+	.lp-eco__link {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.4rem;
+		margin-top: 1.25rem;
+		padding: 0.45rem 1.1rem;
+		border-radius: 999px;
+		background: var(--lp-red);
+		color: #fff;
+		font-size: var(--sl-text-sm);
+		font-weight: 600;
+		text-decoration: none;
+	}
+	.lp-eco__link:hover {
+		background: #c8103d;
+	}
+	.lp-eco__shot {
+		position: relative;
+		min-height: 14rem;
+		padding: 1.5rem 0 0 1.5rem;
+		background:
+			radial-gradient(70% 80% at 80% 20%, color-mix(in srgb, var(--lp-teal) 35%, transparent), transparent 70%),
+			linear-gradient(135deg, var(--lp-navy), #2a3f78);
+		overflow: hidden;
+	}
+	.lp-eco__shot img {
+		display: block;
+		width: 100%;
+		height: auto;
+		border-radius: 0.6rem 0 0 0;
+		box-shadow: 0 20px 50px -15px rgb(0 0 0 / 0.6);
+		/* extends below the clip box so the upward drift never shows a gap */
+		margin-bottom: -2.5rem;
+		--lp-shift: -2.5rem;
+	}
+	@media (min-width: 50rem) {
+		.lp-eco__shot {
+			max-height: 27rem;
+			padding: 2.5rem 0 0 2.5rem;
+		}
+		.lp-eco__shot img {
+			width: 112%;
+			max-width: none;
+		}
+	}
+
+	.lp-eco__tool {
+		padding: 1.4rem 1.35rem;
+	}
+	.lp-eco__apis ul {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.5rem;
+		margin: 0.6rem 0 0;
+		padding: 0;
+		list-style: none;
+	}
+	.lp-eco__apis a {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.4rem;
+		padding: 0.4rem 0.85rem;
+		border-radius: 999px;
+		border: 1px solid var(--lp-border);
+		background: var(--lp-surface-2);
+		color: var(--lp-text);
+		font-size: var(--sl-text-sm);
+		font-weight: 600;
+		text-decoration: none;
+	}
+	.lp-eco__apis a:hover {
+		border-color: var(--lp-red-text);
+	}
+</style>

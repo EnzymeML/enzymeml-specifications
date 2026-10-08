@@ -43,6 +43,8 @@ export default defineConfig({
 			],
 			components: {
 				Footer: './src/components/Footer.astro',
+				// Home page landing hero; falls back to the default hero elsewhere
+				Hero: './src/components/landing/Hero.astro',
 			},
 			plugins: [starlightLinksValidator()],
 			sidebar: [

@@ -1,0 +1,301 @@
+---
+import { Icon } from '@astrojs/starlight/components';
+
+const sources = [
+	{ device: 'Plate reader', tool: 'MTPHandler', href: 'https://fairchemistry.github.io/MTPHandler/', note: 'Photometric data, blank correction, concentrations' },
+	{ device: 'Chromatography', tool: 'Chromhandler', href: 'https://fairchemistry.github.io/Chromhandler/', note: 'Time-course chromatograms, retention-time assignment' },
+	{ device: 'NMR spectrometer', tool: 'NMRPy', href: 'https://nmrpy.readthedocs.io/en/latest/', note: 'Bruker and Varian spectra, peak picking, deconvolution' },
+	{ device: 'Manual entry', tool: 'EnzymeML Suite', href: 'https://github.com/EnzymeML/enzymeml-suite/releases/tag/v0.0.1', note: 'Desktop app for creating and editing documents' },
+];
+const targets = [
+	{ icon: 'analytics', title: 'Kinetic modelling', note: 'Rate laws, ODEs and fitted parameters travel with the data; export to SBML or PEtab with PyEnzyme.' },
+	{ icon: 'database', title: 'Databases', note: 'The data model doubles as a blueprint for a local database; the Go library ships a database layer and REST API.' },
+	{ icon: 'rocket', title: 'Machine learning', note: 'Consistently structured, machine-readable records are the foundation for data-driven models.' },
+] as const;
+const parts = ['Proteins', 'Small molecules', 'Reactions', 'Measurements', 'Equations', 'Parameters'];
+---
+
+<section class="lp-section lp-band lp-flow" aria-labelledby="lp-flow-title">
+	<div class="lp-flow__grid-bg lp-parallax" aria-hidden="true"></div>
+	<div class="lp-head lp-head--center lp-reveal">
+		<span class="lp-eyebrow">From bench to model</span>
+		<h2 id="lp-flow-title">Data flows through one document</h2>
+		<p>
+			Lab data usually ends up scattered across instrument exports and spreadsheets. EnzymeML tools
+			convert those raw outputs into a single, structured document that modelling tools, databases and
+			machine learning pipelines can all read.
+		</p>
+	</div>
+
+	<div class="lp-flow__stage">
+		<div class="lp-flow__col">
+			<h3 class="lp-flow__label"><span>1</span> Capture</h3>
+			<ul>
+				{
+					sources.map((s, i) => (
+						<li class="lp-flow__item lp-card lp-reveal lp-from-left" style={`--lp-delay:${i * 8}%`}>
+							<span class="lp-flow__device">{s.device}</span>
+							<a href={s.href}>{s.tool}</a>
+							<small>{s.note}</small>
+						</li>
+					))
+				}
+			</ul>
+		</div>
+
+		<div class="lp-flow__pipe lp-flow__pipe--in" aria-hidden="true"></div>
+
+		<div class="lp-flow__core lp-reveal">
+			<h3 class="lp-flow__label"><span>2</span> Standardise</h3>
+			<div class="lp-flow__doc lp-card">
+				<img src="/img/enzml_logo.png" alt="" width="64" height="54" />
+				<strong>EnzymeML Document</strong>
+				<ul>{parts.map((p) => <li>{p}</li>)}</ul>
+				<a href="/validation/">Validate in the browser <Icon name="right-arrow" size="1rem" /></a>
+			</div>
+		</div>
+
+		<div class="lp-flow__pipe lp-flow__pipe--out" aria-hidden="true"></div>
+
+		<div class="lp-flow__col">
+			<h3 class="lp-flow__label"><span>3</span> Reuse</h3>
+			<ul>
+				{
+					targets.map((t, i) => (
+						<li class="lp-flow__item lp-flow__item--target lp-card lp-reveal lp-from-right" style={`--lp-delay:${i * 8}%`}>
+							<span class="lp-flow__icon"><Icon name={t.icon} size="1.25rem" /></span>
+							<b>{t.title}</b>
+							<small>{t.note}</small>
+						</li>
+					))
+				}
+			</ul>
+		</div>
+	</div>
+</section>
+
+<style>
+	.lp-flow {
+		overflow: clip;
+	}
+	.lp-flow__grid-bg {
+		position: absolute;
+		inset: -20% 0;
+		z-index: 0;
+		pointer-events: none;
+		background-image: radial-gradient(circle, var(--lp-border) 1.5px, transparent 1.6px);
+		background-size: 1.75rem 1.75rem;
+		mask-image: radial-gradient(60% 55% at 50% 50%, #000 30%, transparent 75%);
+		--lp-shift: -6rem;
+	}
+	.lp-flow > :not(.lp-flow__grid-bg) {
+		position: relative;
+		z-index: 1;
+	}
+
+	.lp-flow__stage {
+		display: grid;
+		gap: 1rem;
+	}
+	@media (min-width: 60rem) {
+		.lp-flow__stage {
+			grid-template-columns: minmax(0, 1fr) 3.5rem minmax(0, 0.9fr) 3.5rem minmax(0, 1fr);
+			gap: 0;
+		}
+	}
+
+	.lp-flow__label {
+		display: flex;
+		align-items: center;
+		gap: 0.6rem;
+		margin: 0 0 0.9rem;
+		font-size: var(--sl-text-sm);
+		font-weight: 700;
+		letter-spacing: 0.06em;
+		text-transform: uppercase;
+		color: var(--lp-text);
+	}
+	.lp-flow__label span {
+		display: grid;
+		place-items: center;
+		width: 1.6rem;
+		height: 1.6rem;
+		border-radius: 50%;
+		background: var(--lp-red);
+		color: #fff;
+		font-size: 0.8rem;
+		letter-spacing: 0;
+	}
+
+	.lp-flow ul {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+	}
+	.lp-flow__col > ul {
+		display: grid;
+		gap: 0.75rem;
+	}
+	.lp-flow__item {
+		display: grid;
+		gap: 0.15rem;
+		padding: 0.85rem 1rem;
+		border-radius: 0.8rem;
+	}
+	.lp-flow__device {
+		font-size: var(--sl-text-xs);
+		font-weight: 700;
+		letter-spacing: 0.05em;
+		text-transform: uppercase;
+		color: var(--lp-muted);
+	}
+	.lp-flow__item a {
+		font-weight: 700;
+		color: var(--lp-text);
+		text-decoration: none;
+	}
+	.lp-flow__item a:hover {
+		color: var(--lp-red-text);
+	}
+	.lp-flow__item small {
+		font-size: var(--sl-text-sm);
+		line-height: 1.45;
+		color: var(--lp-muted);
+	}
+	.lp-flow__item--target {
+		grid-template-columns: auto 1fr;
+		column-gap: 0.75rem;
+		padding-block: 1rem;
+	}
+	.lp-flow__item--target small {
+		grid-column: 2;
+	}
+	.lp-flow__item--target b {
+		color: var(--lp-text);
+	}
+	.lp-flow__icon {
+		grid-row: span 2;
+		display: grid;
+		place-items: center;
+		width: 2.4rem;
+		height: 2.4rem;
+		border-radius: 0.7rem;
+		background: color-mix(in srgb, var(--lp-teal) 22%, transparent);
+		color: var(--lp-teal);
+	}
+	:global(:root:not([data-theme='light'])) .lp-flow__icon {
+		color: #8cc0d2;
+	}
+
+	.lp-flow__core {
+		display: flex;
+		flex-direction: column;
+	}
+	.lp-flow__core .lp-flow__label {
+		justify-content: center;
+	}
+	.lp-flow__doc {
+		margin-block: auto; /* centre the document card against the side columns */
+	}
+	.lp-flow__doc {
+		display: grid;
+		justify-items: center;
+		gap: 0.75rem;
+		padding: 1.75rem 1.25rem 1.4rem;
+		text-align: center;
+		border: 1px solid color-mix(in srgb, var(--lp-red) 45%, transparent);
+		box-shadow:
+			var(--lp-shadow),
+			0 0 0 6px color-mix(in srgb, var(--lp-red) 10%, transparent),
+			0 20px 60px -20px color-mix(in srgb, var(--lp-red) 45%, transparent);
+	}
+	.lp-flow__doc img {
+		width: 3.5rem;
+		height: auto;
+	}
+	.lp-flow__doc strong {
+		font-size: var(--sl-text-xl);
+		color: var(--lp-text);
+	}
+	.lp-flow__doc ul {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: center;
+		gap: 0.35rem;
+	}
+	.lp-flow__doc li {
+		padding: 0.15rem 0.55rem;
+		border-radius: 999px;
+		background: var(--lp-surface-2);
+		border: 1px solid var(--lp-border);
+		font-size: var(--sl-text-xs);
+		color: var(--lp-muted);
+	}
+	.lp-flow__doc a {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.3rem;
+		font-size: var(--sl-text-sm);
+		font-weight: 600;
+		color: var(--lp-red-text);
+		text-decoration: none;
+	}
+	.lp-flow__doc a:hover {
+		text-decoration: underline;
+	}
+
+	/* Connectors: dotted "data stream" lines (the dots layer is translated, not repainted) */
+	.lp-flow__pipe {
+		position: relative;
+		overflow: hidden;
+		justify-self: center;
+		width: 3px;
+		height: 2.5rem;
+		opacity: 0.85;
+	}
+	.lp-flow__pipe::before {
+		content: '';
+		position: absolute;
+		inset: -1.25rem 0 0;
+		background-image: radial-gradient(circle, var(--lp-red) 1.5px, transparent 1.7px);
+		background-size: 3px 0.625rem;
+	}
+	@media (min-width: 60rem) {
+		.lp-flow__pipe {
+			align-self: center;
+			width: 100%;
+			height: 3px;
+			margin-top: 2.5rem; /* offsets the column labels */
+		}
+		.lp-flow__pipe::before {
+			inset: 0 0 0 -1.25rem;
+			background-size: 0.625rem 3px;
+		}
+	}
+	@media screen and (prefers-reduced-motion: no-preference) {
+		.lp-flow__pipe::before {
+			animation: lp-flow-y 0.8s linear infinite;
+		}
+		@media (min-width: 60rem) {
+			.lp-flow__pipe::before {
+				animation-name: lp-flow;
+			}
+		}
+	}
+
+	/* Direction of the reveal on wide screens: sources from the left, targets from the right */
+	@media (min-width: 60rem) {
+		.lp-from-left {
+			--lp-from-x: -3rem;
+			--lp-from-y: 0;
+		}
+		.lp-from-right {
+			--lp-from-x: 3rem;
+			--lp-from-y: 0;
+		}
+		.lp-flow__core {
+			--lp-from-s: 0.88;
+			--lp-from-y: 0;
+		}
+	}
+</style>

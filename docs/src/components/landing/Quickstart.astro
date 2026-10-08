@@ -1,0 +1,109 @@
+---
+import { Code, Tabs, TabItem } from '@astrojs/starlight/components';
+
+// Only APIs verified against the published packages (PyPI pyenzyme, npm enzymeml, Go module proxy).
+const python = `import pyenzyme as pe
+
+doc = pe.read_enzymeml("experiment.json")
+print(doc.name, len(doc.measurements))
+
+pe.write_enzymeml(doc, "copy.json")`;
+
+const typescript = `import { readFileSync } from "node:fs";
+import { EnzymeMLDocumentSchema } from "enzymeml";
+
+const json = JSON.parse(readFileSync("experiment.json", "utf8"));
+const result = EnzymeMLDocumentSchema.safeParse(json);
+
+if (result.success) console.log(result.data.name);
+else console.error(result.error.issues);`;
+
+const go = `package main
+
+import (
+	"encoding/json"
+	"fmt"
+	"os"
+
+	enzymeml "github.com/EnzymeML/enzymeml-go/src"
+)
+
+func main() {
+	raw, err := os.ReadFile("experiment.json")
+	if err != nil {
+		panic(err)
+	}
+	var doc enzymeml.EnzymeMLDocument
+	if err := json.Unmarshal(raw, &doc); err != nil {
+		panic(err)
+	}
+	fmt.Println(doc.Name, len(doc.Measurements))
+}`;
+---
+
+<section class="lp-section lp-band" aria-labelledby="lp-qs-title">
+	<div class="lp-qs">
+		<div class="lp-head lp-reveal">
+			<span class="lp-eyebrow">Quickstart</span>
+			<h2 id="lp-qs-title">Read a document in a few lines</h2>
+			<p>
+				Native libraries read and write EnzymeML Documents and add language-specific extras such as
+				database fetchers, modelling and SBML export.
+			</p>
+			<p class="lp-qs__more">
+				Also available:{' '}<a href="https://github.com/EnzymeML/enzymeml-rs">Rust</a>{' '}and{' '}
+				<a href="https://github.com/EnzymeML/EnzymeML.jl">Julia</a>. See{' '}<a href="/usage/">Usage</a>{' '}for
+				all tools.
+			</p>
+		</div>
+
+		<div class="lp-qs__tabs lp-reveal">
+			<Tabs syncKey="enzymeml-lang">
+				<TabItem label="Python" icon="seti:python">
+					<Code code="pip install pyenzyme" lang="sh" title="Install" />
+					<Code code={python} lang="python" title="read.py" />
+				</TabItem>
+				<TabItem label="TypeScript" icon="seti:typescript">
+					<Code code="npm install enzymeml" lang="sh" title="Install" />
+					<Code code={typescript} lang="ts" title="read.ts" />
+				</TabItem>
+				<TabItem label="Go" icon="seti:go">
+					<Code code="go get github.com/EnzymeML/enzymeml-go" lang="sh" title="Install" />
+					<Code code={go} lang="go" title="main.go" />
+				</TabItem>
+			</Tabs>
+		</div>
+	</div>
+</section>
+
+<style>
+	.lp-qs {
+		display: grid;
+		gap: 1rem 3rem;
+		align-items: start;
+	}
+	@media (min-width: 60rem) {
+		.lp-qs {
+			grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+		}
+		.lp-qs .lp-head {
+			position: sticky;
+			top: calc(var(--sl-nav-height) + 2rem);
+		}
+	}
+	.lp-qs__more {
+		font-size: var(--sl-text-base) !important;
+	}
+	.lp-qs__more a {
+		color: var(--lp-red-text);
+	}
+	.lp-qs__tabs {
+		min-width: 0;
+	}
+	.lp-qs__tabs :global(.expressive-code + .expressive-code) {
+		margin-top: 1rem;
+	}
+	.lp-qs__tabs :global(starlight-tabs .tablist-wrapper) {
+		overflow-x: auto;
+	}
+</style>

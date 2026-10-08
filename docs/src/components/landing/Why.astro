@@ -1,0 +1,64 @@
+---
+import { Icon } from '@astrojs/starlight/components';
+
+const reasons = [
+	{ icon: 'puzzle', title: 'Standardised', text: 'All data of a biocatalytic reaction in one consistent structure, independent of the experimental setup.' },
+	{ icon: 'open-book', title: 'STRENDA inside', text: 'Built on the Systems Biology Markup Language (SBML) and extended with the STRENDA Guidelines.' },
+	{ icon: 'random', title: 'Interoperable', text: 'Share reaction data across scientists, tools and databases, and integrate diverse datasets.' },
+	{ icon: 'setting', title: 'Automatable', text: 'A fixed format lets processing run without manual steps, reducing errors and saving time.' },
+	{ icon: 'star', title: 'FAIR by design', text: 'Makes enzymatic data findable, accessible, interoperable and reusable.' },
+	{ icon: 'analytics', title: 'ML-ready', text: 'No data, no AI party: structured data is the foundation for machine learning.' },
+] as const;
+---
+
+<section class="lp-section lp-band" aria-labelledby="lp-why-title">
+	<div class="lp-head lp-head--center lp-reveal">
+		<span class="lp-eyebrow">Why EnzymeML</span>
+		<h2 id="lp-why-title">Data that outlives the experiment</h2>
+	</div>
+	<ul class="lp-why">
+		{
+			reasons.map((r, i) => (
+				<li class="lp-reveal" style={`--lp-delay:${(i % 3) * 6}%`}>
+					<span class="lp-why__icon">
+						<Icon name={r.icon} size="1.35rem" />
+					</span>
+					<h3>{r.title}</h3>
+					<p>{r.text}</p>
+				</li>
+			))
+		}
+	</ul>
+</section>
+
+<style>
+	.lp-why {
+		display: grid;
+		gap: 2rem 2.5rem;
+		grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+	.lp-why__icon {
+		display: grid;
+		place-items: center;
+		width: 2.75rem;
+		height: 2.75rem;
+		border-radius: 0.8rem;
+		background: color-mix(in srgb, var(--lp-red) 14%, transparent);
+		color: var(--lp-red-text);
+	}
+	h3 {
+		margin: 0.9rem 0 0.35rem;
+		font-size: var(--sl-text-lg);
+		font-weight: 700;
+		color: var(--lp-text);
+	}
+	p {
+		margin: 0;
+		font-size: var(--sl-text-sm);
+		line-height: 1.6;
+		color: var(--lp-muted);
+	}
+</style>
