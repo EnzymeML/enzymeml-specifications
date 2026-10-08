@@ -1,0 +1,185 @@
+---
+// Learning path graph for /learn/: a chain of steps that branches into one card per analytical method.
+// Reuses the landing page tokens, cards and connector animation (landing.css).
+import './landing/landing.css';
+
+const steps = [
+	{ href: '/learn/how-it-works/', title: 'How agentic data science works', note: 'You, the model, the agent; tools and skills' },
+	{ href: '/learn/requirements/', title: 'Requirements', note: 'Computer, accounts, permission to use AI' },
+	{ href: '/learn/setup/', title: 'One-time setup', note: 'GitHub, Claude, git, uv, Claude Code' },
+	{ href: '/learn/new-project/', title: 'Start a new project', note: 'From the template to a private repository' },
+];
+const methods = [
+	{ href: '/learn/methods/chromatography/', title: 'Chromatographic data', note: 'GC / HPLC', tool: 'Chromhandler' },
+	{ href: '/learn/methods/plate-reader/', title: 'Plate reader data', note: 'Absorbance / fluorescence', tool: 'MTPHandler' },
+	{ href: '/learn/methods/nmr/', title: 'NMR data', note: 'Time-course spectra', tool: 'NMRPy' },
+];
+---
+
+<nav class="lpath not-content" aria-label="Learning path">
+	<ol class="lpath__steps">
+		{
+			steps.map((s) => (
+				<li>
+					<a class="lpath__card lp-card lp-reveal" href={s.href}>
+						<b>{s.title}</b>
+						<small>{s.note}</small>
+					</a>
+					<div class="lpath__pipe lpath__pipe--down" aria-hidden="true" />
+				</li>
+			))
+		}
+	</ol>
+
+	<div class="lpath__branch">
+		<div class="lpath__pipe lpath__pipe--left" aria-hidden="true" />
+		<div class="lpath__pipe lpath__pipe--right" aria-hidden="true" />
+		<ul class="lpath__methods" aria-label="Analyse your data: pick your method">
+			{
+				methods.map((m, i) => (
+					<li>
+						<div class="lpath__pipe lpath__pipe--down" aria-hidden="true" />
+						<a class="lpath__card lp-card lp-reveal" href={m.href} style={`--lp-delay:${i * 8}%`}>
+							<b>{m.title}</b>
+							<small>{m.note}</small>
+							<span class="lpath__tool">{m.tool}</span>
+						</a>
+					</li>
+				))
+			}
+		</ul>
+	</div>
+</nav>
+
+<style>
+	.lpath {
+		--pipe-dots: radial-gradient(circle, var(--lp-red) 1.5px, transparent 1.7px);
+		--pipe-len: 1.75rem;
+		margin-block: 1.5rem 2rem;
+	}
+	/* zero-specificity reset so the component rules below win */
+	:where(.lpath) ol,
+	:where(.lpath) ul {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+	}
+	.lpath__steps {
+		max-width: 30rem;
+		margin-inline: auto;
+	}
+
+	.lpath__card {
+		display: flex;
+		flex-direction: column;
+		gap: 0.15rem;
+		padding: 0.85rem 1.1rem;
+		border-radius: 0.8rem;
+		color: var(--lp-text);
+		text-decoration: none;
+		transition: border-color 0.2s;
+	}
+	.lpath__card:hover {
+		border-color: color-mix(in srgb, var(--lp-red) 55%, transparent);
+	}
+	.lpath__card:focus-visible {
+		outline: 2px solid var(--lp-red);
+		outline-offset: 3px;
+	}
+	.lpath__card b {
+		line-height: 1.3;
+	}
+	.lpath__card small {
+		font-size: var(--sl-text-sm);
+		color: var(--lp-muted);
+	}
+	.lpath__tool {
+		align-self: flex-start;
+		margin-top: 0.5rem;
+		padding: 0.1rem 0.55rem;
+		border-radius: 999px;
+		background: var(--lp-surface-2);
+		border: 1px solid var(--lp-border);
+		font-size: var(--sl-text-xs);
+		color: var(--lp-muted);
+	}
+
+	/* ---------- Connectors: dotted "data stream" flowing from box to box ----------
+	   The dots sit on an oversized ::before layer that is translated, not repainted. */
+	.lpath__pipe {
+		position: relative;
+		overflow: hidden;
+	}
+	.lpath__pipe::before {
+		content: '';
+		position: absolute;
+		background-image: var(--pipe-dots);
+	}
+	.lpath__pipe--down {
+		width: 3px;
+		height: var(--pipe-len);
+		margin-inline: auto;
+	}
+	.lpath__pipe--down::before {
+		inset: -1.25rem 0 0;
+		background-size: 3px 0.625rem;
+	}
+	/* horizontal bar (wide screens only): two halves flowing outwards from the centre */
+	.lpath__pipe--left,
+	.lpath__pipe--right {
+		display: none;
+	}
+	.lpath__methods {
+		display: grid;
+	}
+
+	@media (min-width: 40rem) {
+		.lpath__branch {
+			--col-half: calc((100% - 1.5rem) / 6); /* centre of an outer column */
+			position: relative;
+		}
+		.lpath__methods {
+			grid-template-columns: repeat(3, minmax(0, 1fr));
+			column-gap: 0.75rem;
+		}
+		.lpath__methods li {
+			display: flex;
+			flex-direction: column;
+		}
+		.lpath__methods .lpath__card {
+			flex: 1;
+		}
+		.lpath__pipe--left,
+		.lpath__pipe--right {
+			display: block;
+			position: absolute;
+			top: 0;
+			height: 3px;
+		}
+		.lpath__pipe--left {
+			left: calc(var(--col-half) - 1.5px);
+			right: 50%;
+		}
+		.lpath__pipe--right {
+			left: 50%;
+			right: calc(var(--col-half) - 1.5px);
+		}
+		.lpath__pipe--left::before,
+		.lpath__pipe--right::before {
+			inset: 0 -1.25rem;
+			background-size: 0.625rem 3px;
+		}
+	}
+
+	@media screen and (prefers-reduced-motion: no-preference) {
+		.lpath__pipe--down::before {
+			animation: lp-flow-y 0.8s linear infinite;
+		}
+		.lpath__pipe--right::before {
+			animation: lp-flow 0.8s linear infinite;
+		}
+		.lpath__pipe--left::before {
+			animation: lp-flow 0.8s linear infinite reverse;
+		}
+	}
+</style>

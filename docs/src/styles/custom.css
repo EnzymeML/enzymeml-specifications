@@ -63,3 +63,10 @@
 .sl-markdown-content details[open] > summary {
 	margin-bottom: 0.5rem;
 }
+
+/* Nested sidebar groups (e.g. Learn → "5. Analyse your data") look like page links, not top-level headings */
+.sidebar-content ul ul summary .large {
+	font-weight: 400;
+	font-size: var(--sl-text-sm);
+	color: var(--sl-color-gray-2);
+}

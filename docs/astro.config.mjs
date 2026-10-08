@@ -57,7 +57,21 @@ export default defineConfig({
 				},
 				{ label: 'Team', slug: 'team' },
 				{ label: 'Validation', slug: 'validation' },
-				{ label: 'Learn', items: [{ autogenerate: { directory: 'learn' } }] },
+				{
+					label: 'Learn',
+					items: [
+						{ label: 'Start here', slug: 'learn' },
+						'learn/how-it-works',
+						'learn/requirements',
+						'learn/setup',
+						'learn/new-project',
+						{
+							label: '5. Analyse your data',
+							items: ['learn/methods/chromatography', 'learn/methods/plate-reader', 'learn/methods/nmr'],
+						},
+						'learn/glossary',
+					],
+				},
 			],
 		}),
 	],
