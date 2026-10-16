@@ -1,0 +1,17 @@
+:root {
+    --md-primary-fg-color: #1D2E5B;
+    --md-primary-fg-color--light: #ECB7B7;
+    --md-accent-fg-color: #E71A4B;
+    --md-primary-fg-color--dark: #E71A4B;
+    --md-typeset-a-color: #E71A4B;
+}
+
+.md-typeset h1:first-child {
+    display: none;
+}
+
+/* Dark Mode */
+[data-md-color-scheme="slate"] {
+    --md-typeset-a-color: #E71A4B;
+    /* Link color in Dark Mode */
+}
