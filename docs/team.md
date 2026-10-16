@@ -2,20 +2,21 @@
 
 ## Developers
 
-- [Jan Range](https://www.ibc.uni-stuttgart.de/institut/team/Range/)
-- [Max Häussler](https://www.ibc.uni-stuttgart.de/institut/team/Giess/)
-- [Torsten Giess](https://www.ibc.uni-stuttgart.de/institut/team/Giess-00001/)
-- [Sascha Gabriel](https://www.ibc.uni-stuttgart.de/institut/team/Gabriel-00002/)
+- [Torsten Giess](https://ekvv.uni-bielefeld.de/pers_publ/publ/PersonDetail.jsp?personId=776655790) (Bielefeld University)
+- [Max Häussler](https://www.pharmchem.uni-freiburg.de/de/andexer/copy_of_andexer_mitarbeiter) (University of Freiburg)
+- [Sascha Gabriel](https://www.ibc.uni-stuttgart.de/institut/team/Gabriel-00002/) (University of Stuttgart)
 
 ## Scientific Coordinators
 
-- [Jürgen Pleiss](https://www.ibc.uni-stuttgart.de/en/institute/team/Pleiss-00001/) (University of Stuttgart) 
+- [Katrin Rosenthal](https://ekvv.uni-bielefeld.de/pers_publ/publ/PersonDetail.jsp?personId=661048543&lang=EN) (Bielefeld University)
+- [Jürgen Pleiss](https://www.ibc.uni-stuttgart.de/en/institute/team/Pleiss-00003/) (University of Stuttgart) 
 - Frank Bergmann (University of Heidelberg)
 - Carsten Kettner (Beilstein-Institut, Frankfurt)
-- Santiago Schnell (University of Notre Dame)
+- Santiago Schnell (Dartmouth College)
 
 ## Former Developers
 
+- Jan Range
 - Stephan Malzacher
 - Benjamin Hadzovic
 - Simone Lauterbach
